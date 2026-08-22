@@ -285,12 +285,8 @@ function allAvailableAgents() {
   return base.concat(extras);
 }
 
-function openPromptStudio() {
-  loadCustomAgents();
+function populateAgentDropdown(selectedId) {
   const sel = $('#agentSelect');
-  const dSel = $('#targetDrawerSelect');
-
-  // Populate agents
   sel.innerHTML = '';
   allAvailableAgents().forEach(c => {
     const opt = document.createElement('option');
@@ -303,6 +299,23 @@ function openPromptStudio() {
   customOpt.textContent = '+ Custom / New Agent…';
   sel.appendChild(customOpt);
 
+  if (selectedId && ($(`option[value="${selectedId}"]`, sel) || selectedId === '_custom')) {
+    sel.value = selectedId;
+  }
+}
+
+function openPromptStudio() {
+  loadCustomAgents();
+  const dSel = $('#targetDrawerSelect');
+
+  let savedAgent = 'gemini';
+  try {
+    const lastAg = localStorage.getItem(LS_PROMPT_AGENT);
+    if (lastAg) savedAgent = lastAg;
+  } catch (e) {}
+
+  populateAgentDropdown(savedAgent);
+
   // Populate drawers
   dSel.innerHTML = '<option value="all">Any Drawer (General Expansion)</option>';
   LIB.sections.forEach(sec => {
@@ -313,10 +326,7 @@ function openPromptStudio() {
     dSel.appendChild(opt);
   });
 
-  // Restore saved choices
   try {
-    const lastAg = localStorage.getItem(LS_PROMPT_AGENT);
-    if (lastAg && ($(`option[value="${lastAg}"]`, sel) || lastAg === '_custom')) sel.value = lastAg;
     const lastDr = localStorage.getItem(LS_PROMPT_DRAWER);
     if (lastDr && $(`option[value="${lastDr}"]`, dSel)) dSel.value = lastDr;
   } catch (e) {}
@@ -329,11 +339,15 @@ function closePromptStudio() {
   $('#promptOverlay').hidden = true;
 }
 
-function updatePromptStudio() {
+function updatePromptStudio(focusCustom = false) {
   const sel = $('#agentSelect');
   const dSel = $('#targetDrawerSelect');
   const isCustom = sel.value === '_custom';
   $('#customNameField').hidden = !isCustom;
+
+  if (isCustom && focusCustom) {
+    setTimeout(() => $('#customAgentName').focus(), 50);
+  }
 
   let agentName = '';
   let agentColor = '#818cf8';
@@ -387,20 +401,28 @@ async function copyPromptStudio(btn) {
   const dSel = $('#targetDrawerSelect');
   const text = $('#promptPreviewText').value;
 
+  let chosenId = sel.value;
+
   if (sel.value === '_custom') {
     const name = $('#customAgentName').value.trim();
     const color = $('#agentColorPicker').value;
     if (name) {
       const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
-      if (!customAgents.some(a => a.id === id)) {
+      chosenId = id;
+      const existingIdx = customAgents.findIndex(a => a.id === id);
+      if (existingIdx >= 0) {
+        customAgents[existingIdx].color = color;
+        customAgents[existingIdx].name = name;
+      } else {
         customAgents.push({ id, name, color });
-        saveCustomAgents();
       }
+      saveCustomAgents();
+      populateAgentDropdown(id);
     }
   }
 
   try {
-    localStorage.setItem(LS_PROMPT_AGENT, sel.value);
+    localStorage.setItem(LS_PROMPT_AGENT, chosenId);
     localStorage.setItem(LS_PROMPT_DRAWER, dSel.value);
   } catch (e) {}
 
@@ -1404,10 +1426,10 @@ function init() {
   $('#promptOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closePromptStudio();
   });
-  $('#agentSelect').addEventListener('change', updatePromptStudio);
-  $('#customAgentName').addEventListener('input', updatePromptStudio);
-  $('#agentColorPicker').addEventListener('input', updatePromptStudio);
-  $('#targetDrawerSelect').addEventListener('change', updatePromptStudio);
+  $('#agentSelect').addEventListener('change', () => updatePromptStudio(true));
+  $('#customAgentName').addEventListener('input', () => updatePromptStudio(false));
+  $('#agentColorPicker').addEventListener('input', () => updatePromptStudio(false));
+  $('#targetDrawerSelect').addEventListener('change', () => updatePromptStudio(false));
 
   $('#exportFavsBtn').addEventListener('click', exportFavorites);
   $('#exportStyleGuideBtn').addEventListener('click', ev => exportAgentStyleGuide(ev.currentTarget));
