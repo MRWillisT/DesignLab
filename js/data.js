@@ -34,7 +34,8 @@ window.DESIGN_LAB = {
     { id: "deepseek", name: "DeepSeek", color: "#3b82f6" },
     // reserved for the local user's saved variants — agents must not sign with it
     { id: "me",       name: "My Variants", color: "#f472b6" },
-    { id: "mimo-2-5", name: "Mimo 2.5",    color: "#04ff00" }
+    { id: "mimo-2-5", name: "Mimo 2.5",    color: "#04ff00" },
+    { id: "nemotron", name: "Nemotron", color: "#f97316" }
   ],
 
   /* ----------------------------------------------------------
@@ -565,6 +566,16 @@ window.DESIGN_LAB = {
     },
 
     {
+      id: "TO5",
+      section: "toggles",
+      name: "Slide Switch",
+      description: "Horizontally sliding binary toggle — track moves fully left or right on press, distinct from pivot-style knobs.",
+      creator: "nemotron",
+      tags: ["toggle","switch","slide","binary"],
+      code: "<style>\n  .kto5-wrapper{display:inline-flex;align-items:center;gap:8px}\n  .kto5-track{position:relative;width:56px;height:28px;background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid rgba(255,255,255,.08);border-radius:9999px;cursor:pointer;user-select:none}\n  .kto5-knob{position:absolute;top:2px;left:2px;width:24px;height:24px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.4);transition:transform .15s ease;will-change:transform}\n  .kto5-wrapper:has(.kto5-knob.right){transform:translateX(28px)}\n  .kto5-wrapper:has(.kto5-knob.right) .kto5-knob{left:auto;right:2px}\n  @media (prefers-reduced-motion:reduce){.kto5-knob{transition:none}}\n</style>\n<div class=\"kto5-wrapper\" tabindex=\"0\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle setting\">\n  <div class=\"kto5-track\"><div class=\"kto5-knob\right\"></div></div>\n</div>"
+    },
+
+    {
       id: "SL3",
       section: "sliders",
       name: "Glow-Thumb Slider",
@@ -627,6 +638,16 @@ window.DESIGN_LAB = {
     },
 
     {
+      id: "FO5",
+      section: "forms",
+      name: "Range Preview Input",
+      description: "Number input with live gradient fill visualizing the numeric value range.",
+      creator: "nemotron",
+      tags: ["form","input","range","visual"],
+      code: "<style>\n  .kfo5-wrap{position:relative;width:min(100%,200px);margin:0 auto}\n  .kfo5-in{width:100;background:#0d0f13;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 14px;color:#e2e8f0;font-size:13px;outline:none;transition:border-color .15s ease}\n  .kfo5-in:focus{border-color:#f97316}\n  .kfo5-fill{position:absolute;inset:0;background:linear-gradient(135deg,var(--kfo5-color,#f97316) 0%,transparent 50%);border-radius:8px;pointer-events:none;opacity:0.4}\n</style>\n<div class=\"kfo5-wrap\">\n  <input class=\"kfo5-in\" type=\"number\" value=\"72\" min=\"0\" max=\"100\" style=\"accent-color:#f97316\">\n  <div class=\"kfo5-fill\"></div>\n  <label class=\"kfo5-lbl\" style=\"position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#64748b;font-size:11px;\">Value</label>\n</div>"
+    },
+
+    {
       id: "LO1",
       section: "loaders",
       name: "Aurora Wave Shimmer",
@@ -667,6 +688,16 @@ window.DESIGN_LAB = {
     },
 
     {
+      id: "LO5",
+      section: "loaders",
+      name: "Bounce Pulse Loader",
+      description: "Two dots bounce rhythmically toward each other and apart — rhythmic feedback for async operations.",
+      creator: "nemotron",
+      tags: ["loader","bounce","rhythm","feedback"],
+      code: "<style>\n  @keyframes klo5-bounce{0%,100%{transform:translateX(100%)}50%{transform:translateX(-100%)}}\n  .klo5-wrap{display:inline-flex;gap:24px}\n  .klo5-dot{width:12px;height:12px;border-radius:50;background:var(--klo5-color,#f97316);box-shadow:0 0 8px var(--klo5-color,#f97316);animation:klo5-bounce 1.5s ease-in-out infinite}\n  .klo5-dot.left{animation-delay:0s}\n  .klo5-dot.right{animation-delay:.75s}\n  @media (prefers-reduced-motion:reduce){.klo5-dot{animation:none}}\n</style>\n<div class=\"klo5-wrap\">\n  <div class=\"klo5-dot left\"></div>\n  <div class=\"klo5-dot right\"></div>\n</div>"
+    },
+
+    {
       id: "AL1",
       section: "alerts",
       name: "Frosted Glass Pill Toast",
@@ -693,7 +724,17 @@ window.DESIGN_LAB = {
       description: "Dark carbon surface with electric cyan accent edge and indicator dot.",
       creator: "gemini",
       tags: ["alert","cyber","neon","notification","cyan"],
-      code: "<style>\n  .kal3-box{display:flex;align-items:center;gap:10px;background:#090d16;border:1px solid #38bdf8;border-left-width:4px;border-radius:6px;padding:8px 12px;box-shadow:0 0 14px rgba(56,189,248,0.25)}\n  .kal3-dot{width:8px;height:8px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8}\n  .kal3-title{font-size:12px;font-weight:600;color:#e0f2fe}\n</style>\n<div class=\"kal3-box\">\n  <i class=\"kal3-dot\"></i>\n  <span class=\"kal3-title\">Audio Track Rendered (0:15)</span>\n</div>"
+      code: "<style>\n  .kal3-box{display:flex;align-items:center;gap:10px;background:#090d16;border:1px solid #38bdf8;border-left-width:4px;border-radius:6px;padding:8px 12px;box-shadow:0 0 14px rgba(56,189,248,0.25)}\n  .kal3-dot{width:8px;height:8px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8}\n  .kal3-title{font-size:12px;font-weight:600;color:#e0f2fe}\n</style>\n<div class=\"kal3-box\">\n  <i class=\"kal3-dot\"></i>\n  <span class=\"kal3-title\">Audio Track Rendered (0:15)\n</span>\n</div>"
+    },
+
+    {
+      id: "AL4",
+      section: "alerts",
+      name: "Dismissible Status Alert",
+      description: "Closeable warning alert with progress bar — dismiss (×) or collapse, distinct from transient toasts.",
+      creator: "nemotron",
+      tags: ["alert","dismissible","warning","progress"],
+      code: "<style>\n  .kla4-alert{position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 14px;color:#e2e8f0;cursor default}\n  .kla4-alert[kind=\"warning\"]{border-color:var(--kla4-accent,#f97316)}\n  .kla4-alert[kind=\"success\"]{border-color:var(--kla4-accent,#10b981)}\n  .kla4-head{display:flex;align-items:center;gap:8px;gap:8px;margin-bottom:6px}\n  .kla4-title{font-weight:600;font-size:12px}\n  .kla4-close{position:absolute;right:10px;top:10px;width:18px;height:18px;border:none;border-radius:50%;background:transparent;color:#64748b;font-size:14px;cursor:pointer;transition:opacity .15s ease}\n  .kla4-close:hover{opacity:1}\n  .kla4-progress{position:absolute;bottom:0;left:0;height:2px;background:var(--kla4-accent,#f97316);border-radius:2px;opacity:0;transition:opacity .2s ease;animation:kla4-progress 3s linear forwards}\n  .kla4-alert[kind=\"warning\"] .kla4-progress{background:var(--kla4-accent,#f97316)}\n  .kla4-alert[kind=\"success\"] .kla4-progress{background:var(--kla4-accent,#10b981)}\n  @keyframes kla4-progress{to{width:100%}}\n  @media (prefers-reduced-motion:reduce){.kla4-progress{animation:none;opacity:0}}\n</style>\n<div class=\"kla4-alert\" kind=\"warning\">\n  <div class=\"kla4-head\">\n    <div>\n      <span class=\"kla4-title\">Download Complete</span>\n    </div>\n    <button class=\"kla4-close\">✕</button>\n  </div>\n  <p style=\"font-size:11px;color:#94a3b8;line-height:1.4;\">Your file is ready and saved to assets. <span style=\"color:#f97316\">12.7 MB</span> transferred.</p>\n  <div class=\"kla4-progress\"></div>\n</div>"
     },
 
     {
@@ -754,6 +795,16 @@ window.DESIGN_LAB = {
       creator: "gemini",
       tags: ["navigation","tabs","underline","glow","cyan"],
       code: "<style>\n  .kna4-tabs{display:inline-flex;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:2px}\n  .kna4-tab{font-size:12px;font-weight:600;color:#64748b;padding:6px 2px;position:relative;cursor:pointer}\n  .kna4-tab.is-on{color:#38bdf8}\n  .kna4-tab.is-on::after{content:\"\";position:absolute;left:0;bottom:-3px;width:100%;height:2px;background:#38bdf8;box-shadow:0 0 8px #38bdf8;border-radius:1px}\n</style>\n<div class=\"kna4-tabs\">\n  <span class=\"kna4-tab is-on\">Specs</span>\n  <span class=\"kna4-tab\">Code</span>\n  <span class=\"kna4-tab\">Exports</span>\n</div>"
+    },
+
+    {
+      id: "NA5",
+      section: "navigation",
+      name: "Vertical Step Nav",
+      description: "Vertical navigation stack with step indicators — each item shows progress number and reveals action on hover, ideal for multi-step workflows.",
+      creator: "nemotron",
+      tags: ["navigation","vertical","step","workflow"],
+      code: "<style>\n  .kna5-nav{display:flex;flex-direction:column;gap:8px;width:140px}\n  .kna5-item{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,.04);color:#cbd5e1;cursor:pointer;transition:background .15s ease}\n  .kna5-item:hover,.kna5-item.is-active{background:rgba(255,255,255,.08);color:#e2e8f0}\n  .kna5-step{flex-shrink:0;width:24px;height:24px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#64748b;min-width:24px;min-height:24px}\n  .kna5-item:hover .kna5-step,.kna5-item.is-active .kna5-step{background:var(--kna5-accent,#f97316);border-color:#f97316;color:#fff}\n  @media (prefers-reduced-motion:reduce){.kna5-item{transition:none}}\n</style>\n<nav class=\"kna5-nav\">\n  <div class=\"kna5-item is-active\">\n    <span class=\"kna5-step\">1</span>\n    <span>Project Setup</span>\n  </div>\n  <div class=\"kna5-item\">\n    <span class=\"kna5-step\">2</span>\n    <span>Design Review</span>\n  </div>\n  <div class=\"kna5-item\">\n    <span class=\"kna5-step\">3</span>\n    <span>Export Prep</span>\n  </div>\n  <div class=\"kna5-item\">\n    <span class=\"kna5-step\">4</span>\n    <span>Publish</span>\n  </div>\n</nav>"
     },
 
     {
@@ -835,6 +886,19 @@ window.DESIGN_LAB = {
         { type: "color", label: "Ring Color", varName: "--ba5-color", default: "#04ff00" },
       ],
       code: "<style>\n  @keyframes kba5-fill{from{stroke-dashoffset:126}}\n  .kba5-ring{animation:kba5-fill 1.8s ease-out forwards;transform:rotate(-90deg);transform-origin:center}\n  @media (prefers-reduced-motion:reduce){.kba5-ring{animation:none}}\n</style>\n<svg width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" style=\"cursor:pointer;filter:drop-shadow(0 0 6px var(--ba5-color,#04ff00))\">\n  <circle cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"rgba(255,255,255,0.08)\" stroke-width=\"5\" />\n  <circle class=\"kba5-ring\" cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"var(--ba5-color,#04ff00)\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-dasharray=\"126\" stroke-dashoffset=\"38\" />\n  <text x=\"24\" y=\"28\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"12\" font-weight=\"700\">70</text>\n</svg>"
+    },
+
+    {
+      id: "BA6",
+      section: "badges",
+      name: "Progress Tracker Badge",
+      description: "Multi-step progress badge — each step activates with distinct silhouette, shows numeric state, and reveals detail on hover.",
+      creator: "nemotron",
+      tags: ["badge","progress","tracker","multi-step"],
+      tweaks: [
+        { type: "color", label: "Accent Color", varName: "--ba6-color", default: "#f97316" },
+      ],
+      code: "<style>\n  @keyframes kba6-step-on{0%{background:var(--ba6-color,#f97316);transform:scale(1)}50%{transform:scale(1.12)}100%{background:var(--ba6-color,#f97316);transform:scale(1)}}\n  .kba6-badge{display:inline-flex;flex-direction:column;align-items:center;width:56px;padding:6px 0;gap:6px;cursor:pointer}\n  .kba6-ring{width:32px;height:32px;border-radius:50%;border:2px solid var(--ba6-color,#f97316);display:flex;align-items:center;justify-content:center}\n  .kba6-step{width:8px;height:8px;border-radius:50%;background:var(--ba6-color,#f97316);margin:2px auto;animation:kba6-step-on 1.5s ease-in-out infinite;box-shadow:0 0 10px var(--ba6-color,#f97316)}\n  .kba6-label{font-size:10px;font-weight:700;color:var(--ba6-color,#f97316);letter-spacing:.04em}\n  .kba6-desc{font-size:8px;color:#64748b;text-align:center;margin-top:2px}\n  @media (prefers-reduced-motion:reduce){.kba6-step{animation:none}}\n</style>\n<div class=\"kba6-badge\">\n  <div class=\"kba6-ring\"><div class=\"kba6-step\"></div></div>\n  <span class=\"kba6-label\">3/5</span>\n  <span class=\"kba6-desc\">Active steps</span>\n</div>"
     },
 
     {
@@ -945,6 +1009,19 @@ window.DESIGN_LAB = {
       code: "<style>\n  .ksn-wrap{display:flex;flex-direction:column;gap:4px;width:200px}\n  .ksn-bar{position:relative;height:24px;display:flex;align-items:center}\n  .ksn-line{position:absolute;left:0;right:0;height:2px;background:rgba(255,255,255,0.08);border-radius:1px}\n  .ksn-notch{position:absolute;width:2px;height:10px;background:rgba(255,255,255,0.18);border-radius:1px;transform:translateX(-1px);top:7px}\n  .ksn-curr{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(255,255,255,0.6);top:6px;transform:translateX(-6px);transition:left .2s ease,box-shadow .2s ease;cursor:pointer}\n  .ksn-curr:hover{box-shadow:0 0 14px rgba(255,255,255,.9)}\n  .ksn-labels{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,0.3);padding:0 2px;letter-spacing:.04em;font-weight:600}\n  @media (prefers-reduced-motion:reduce){.ksn-curr{transition:none}}\n</style>\n<div class=\"ksn-wrap\">\n  <div class=\"ksn-bar\">\n    <div class=\"ksn-line\"></div>\n    <div class=\"ksn-notch\" style=\"left:0%\"></div>\n    <div class=\"ksn-notch\" style=\"left:25%\"></div>\n    <div class=\"ksn-notch\" style=\"left:50%\"></div>\n    <div class=\"ksn-notch\" style=\"left:75%\"></div>\n    <div class=\"ksn-notch\" style=\"left:100%\"></div>\n    <div class=\"ksn-curr\" style=\"left:75%\"></div>\n  </div>\n  <div class=\"ksn-labels\"><span>Draft</span><span>HD</span><span>4K</span><span>8K</span><span>Cinema</span></div>\n</div>"
     },
 
+    {
+      id: "SL7",
+      section: "sliders",
+      name: "Dual-Range Track",
+      description: "Two independent thumbs select a min-max range — for selecting price bands, date ranges, or value bands simultaneously.",
+      creator: "nemotron",
+      tags: ["slider","range","dual","dual-handle"],
+      tweaks: [
+        { type: "color", label: "Thumb Color", varName: "--sl7-color", default: "#f97316" },
+      ],
+      code: "<style>\n  .ksl7-wrap{position:relative;width:300px}\n  .ksl7-track{position:relative;height:8px;background:rgba(255,255,255,.08);border-radius:4px;cursor:pointer}\n  .ksl7-thumb{position:absolute;width:18px;height:18px;background:var(--sl7-color,#f97316);border-radius:50%;border:3px solid #fff;box-shadow:0 0 8px var(--sl7-color,#f97316);cursor:pointer;transform:translateX(-50%);transition:left .15s ease,box-shadow .15s ease}\n  .ksl7-thumb.right{left:100%;transform:translateX(-100%)}\n  .ksl7-thumb:hover{box-shadow:0 0 12px var(--sl7-color,#f97316)}\n  @media (prefers-reduced-motion:reduce){.ksl7-thumb{transition:none}}\n</style>\n<div class=\"ksl7-wrap\">\n  <input type=\"range\" min=\"0\" max=\"200\" value=\"150\" style=\"-webkit-appearance:none;width:300px;height:0;cursor:pointer\"><div class=\"ksl7-track\"><div class=\"ksl7-thumb\right\"></div><div class=\"ksl7-thumb left\"></div></div>\n</div>"
+    },
+
     /* ---- Mimo 2.5 additions: Cards, Modals ---- */
 
     {
@@ -984,6 +1061,16 @@ window.DESIGN_LAB = {
         { type: "color", label: "Accent", varName: "--ca6-accent", default: "#ec4899" },
       ],
       code: "<style>\n  .kca6-card{display:flex;align-items:center;gap:12px;background:#141720;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px;width:220px;box-shadow:0 8px 24px -8px rgba(0,0,0,0.6)}\n  .kca6-art{width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,var(--ca6-accent,#ec4899),#8b5cf6);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 12px rgba(236,72,153,0.3)}\n  .kca6-info{flex:1;min-width:0}\n  .kca6-title{font-size:12px;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n  .kca6-artist{font-size:10px;color:#64748b;margin-top:1px}\n  .kca6-prog{height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:6px;position:relative}\n  .kca6-fill{height:100%;width:45%;background:var(--ca6-accent,#ec4899);border-radius:2px}\n  .kca6-btn{width:30px;height:30px;border-radius:50%;background:var(--ca6-accent,#ec4899);border:none;color:#fff;font-size:12px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:opacity .15s ease}\n  .kca6-btn:hover{opacity:.85}\n  @media (prefers-reduced-motion:reduce){.kca6-btn{transition:none}}\n</style>\n<div class=\"kca6-card\">\n  <div class=\"kca6-art\">♫</div>\n  <div class=\"kca6-info\">\n    <div class=\"kca6-title\">Midnight Synth</div>\n    <div class=\"kca6-artist\">Neon Pulse</div>\n    <div class=\"kca6-prog\"><div class=\"kca6-fill\"></div></div>\n  </div>\n  <button type=\"button\" class=\"kca6-btn\">▶</button>\n</div>"
+    },
+
+    {
+      id: "CA7",
+      section: "cards",
+      name: "Flipping Concept Card",
+      description: "Dual-sided card that flips on hover — front shows summary, back reveals detailed content with reversed layout.",
+      creator: "nemotron",
+      tags: ["card","flip","hover","dual-sided"],
+      code: "<style>\n  .kca7-card{width:220px;perspective:1000px;transition:transform .4s ease;transform-style:preserve-3d}\n  .kca7-card:hover{transform:rotateY(-180deg)}\n  .kca7-front,.kca7-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:12px;padding:20px;box-shadow:0 8px 24px -6px rgba(0,0,0,.6)}\n  .kca7-front{background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid rgba(255,255,255,.08)}\n  .kca7-back{background:linear-gradient(135deg,#1e293b,#0f172a);transform:rotateY(180deg)}\n  .kca7-back{border-top:3px solid var(--kca7-accent,#f97316)}\n</style>\n<div class=\"kca7-card\">\n  <div class=\"kca7-front\">\n    <div style=\"display:flex;justify-content:space-between;align-items:end;\">\n      <h3 style=\"font-size:13px;font-weight:600;color:#f8fafc;\">Concept Card</h3>\n      <span style=\"font-size:10px;color:#64748b\">hover to flip</span>\n    </div>\n    <p style=\"margin:10px 0 0;color:#94a3b8;font-size:11px;\">Tap the card to reveal details</p>\n  </div>\n  <div class=\"kca7-back\">\n    <p style=\"color:#cbd5e1;font-size:11px;line-height:1.5;\">This card\'s back side contains additional information that was hidden on the front. The flip animation is purely CSS-driven using transform and perspective, respecting the performance law.</p>\n    <button style=\"margin:10px 0;padding:6px 12px;border:none;border-radius:6px;background:var(--kca7-accent,#f97316);color:#fff;font-size:11px;font-weight:600;cursor:pointer\">Close</button>\n  </div>\n</div>"
     },
 
     {
