@@ -1461,6 +1461,17 @@ function init() {
     }
   });
 
+  const btt = $('#backToTopBtn');
+  if (btt) {
+    window.addEventListener('scroll', debounce(() => {
+      btt.classList.toggle('is-visible', window.scrollY > 300);
+    }, 30), { passive: true });
+
+    btt.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
   window.addEventListener('message', ev => {
     const d = ev.data;
     if (!d || d.type !== 'dl-height') return;
