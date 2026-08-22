@@ -945,6 +945,86 @@ window.DESIGN_LAB = {
       code: "<style>\n  .ksn-wrap{display:flex;flex-direction:column;gap:4px;width:200px}\n  .ksn-bar{position:relative;height:24px;display:flex;align-items:center}\n  .ksn-line{position:absolute;left:0;right:0;height:2px;background:rgba(255,255,255,0.08);border-radius:1px}\n  .ksn-notch{position:absolute;width:2px;height:10px;background:rgba(255,255,255,0.18);border-radius:1px;transform:translateX(-1px);top:7px}\n  .ksn-curr{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(255,255,255,0.6);top:6px;transform:translateX(-6px);transition:left .2s ease,box-shadow .2s ease;cursor:pointer}\n  .ksn-curr:hover{box-shadow:0 0 14px rgba(255,255,255,.9)}\n  .ksn-labels{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,0.3);padding:0 2px;letter-spacing:.04em;font-weight:600}\n  @media (prefers-reduced-motion:reduce){.ksn-curr{transition:none}}\n</style>\n<div class=\"ksn-wrap\">\n  <div class=\"ksn-bar\">\n    <div class=\"ksn-line\"></div>\n    <div class=\"ksn-notch\" style=\"left:0%\"></div>\n    <div class=\"ksn-notch\" style=\"left:25%\"></div>\n    <div class=\"ksn-notch\" style=\"left:50%\"></div>\n    <div class=\"ksn-notch\" style=\"left:75%\"></div>\n    <div class=\"ksn-notch\" style=\"left:100%\"></div>\n    <div class=\"ksn-curr\" style=\"left:75%\"></div>\n  </div>\n  <div class=\"ksn-labels\"><span>Draft</span><span>HD</span><span>4K</span><span>8K</span><span>Cinema</span></div>\n</div>"
     },
 
+    /* ---- Mimo 2.5 additions: Cards, Modals ---- */
+
+    {
+      id: "CA4",
+      section: "cards",
+      name: "Pricing Tier Card",
+      description: "Highlighted plan card with featured gradient border, price readout, and vertical feature checklist.",
+      creator: "mimo-2-5",
+      tags: ["card","pricing","tier","plan","cta"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--ca4-accent", default: "#8b5cf6" },
+      ],
+      code: "<style>\n  .kca4-card{background:#141720;border:1px solid rgba(255,255,255,0.1);border-top:2px solid var(--ca4-accent,#8b5cf6);border-radius:12px;padding:16px;width:200px;box-shadow:0 8px 24px -8px rgba(0,0,0,0.6)}\n  .kca4-tag{display:inline-block;padding:2px 8px;border-radius:9999px;font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--ca4-accent,#8b5cf6);background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);margin-bottom:10px}\n  .kca4-price{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.02em}\n  .kca4-price span{font-size:11px;font-weight:500;color:#64748b}\n  .kca4-feats{margin:12px 0 14px;font-size:11px;color:#94a3b8;line-height:1.8}\n  .kca4-btn{width:100%;padding:8px;border-radius:8px;border:none;background:var(--ca4-accent,#8b5cf6);color:#fff;font-size:11px;font-weight:700;cursor:pointer;transition:opacity .15s ease}\n  .kca4-btn:hover{opacity:.88}\n  @media (prefers-reduced-motion:reduce){.kca4-btn{transition:none}}\n</style>\n<div class=\"kca4-card\">\n  <div class=\"kca4-tag\">PRO</div>\n  <div class=\"kca4-price\">$29<span>/mo</span></div>\n  <div class=\"kca4-feats\">✓ Unlimited renders<br>✓ Priority queue<br>✓ 4K export</div>\n  <button type=\"button\" class=\"kca4-btn\">Upgrade Now</button>\n</div>"
+    },
+
+    {
+      id: "CA5",
+      section: "cards",
+      name: "Weather Widget",
+      description: "Temperature display with condition glyph and horizontal forecast row — compact daily glance.",
+      creator: "mimo-2-5",
+      tags: ["card","weather","widget","temperature","forecast"],
+      tweaks: [
+        { type: "color", label: "Sky Tint", varName: "--ca5-sky", default: "#38bdf8" },
+      ],
+      code: "<style>\n  .kca5-card{background:linear-gradient(160deg,rgba(15,23,42,0.9),rgba(30,58,138,0.6));border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:16px;width:200px;box-shadow:0 8px 24px -8px rgba(0,0,0,0.6)}\n  .kca5-now{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}\n  .kca5-temp{font-size:32px;font-weight:800;color:#fff;letter-spacing:-.03em}\n  .kca5-icon{font-size:28px;line-height:1}\n  .kca5-cond{font-size:11px;color:var(--ca5-sky,#38bdf8);font-weight:500}\n  .kca5-row{display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.08);padding-top:10px}\n  .kca5-day{text-align:center;font-size:9px;color:#64748b}\n  .kca5-day b{display:block;font-size:10px;color:#e2e8f0;margin-top:2px;font-weight:600}\n</style>\n<div class=\"kca5-card\">\n  <div class=\"kca5-now\">\n    <div><div class=\"kca5-temp\">72°</div><div class=\"kca5-cond\">Partly Cloudy</div></div>\n    <div class=\"kca5-icon\">⛅</div>\n  </div>\n  <div class=\"kca5-row\">\n    <div class=\"kca5-day\">Mon<b>68°</b></div>\n    <div class=\"kca5-day\">Tue<b>71°</b></div>\n    <div class=\"kca5-day\">Wed<b>65°</b></div>\n    <div class=\"kca5-day\">Thu<b>73°</b></div>\n    <div class=\"kca5-day\">Fri<b>70°</b></div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "CA6",
+      section: "cards",
+      name: "Music Track Card",
+      description: "Album art placeholder, track info, and inline transport controls — compact now-playing surface.",
+      creator: "mimo-2-5",
+      tags: ["card","music","track","player","now-playing"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--ca6-accent", default: "#ec4899" },
+      ],
+      code: "<style>\n  .kca6-card{display:flex;align-items:center;gap:12px;background:#141720;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px;width:220px;box-shadow:0 8px 24px -8px rgba(0,0,0,0.6)}\n  .kca6-art{width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,var(--ca6-accent,#ec4899),#8b5cf6);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 12px rgba(236,72,153,0.3)}\n  .kca6-info{flex:1;min-width:0}\n  .kca6-title{font-size:12px;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n  .kca6-artist{font-size:10px;color:#64748b;margin-top:1px}\n  .kca6-prog{height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:6px;position:relative}\n  .kca6-fill{height:100%;width:45%;background:var(--ca6-accent,#ec4899);border-radius:2px}\n  .kca6-btn{width:30px;height:30px;border-radius:50%;background:var(--ca6-accent,#ec4899);border:none;color:#fff;font-size:12px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:opacity .15s ease}\n  .kca6-btn:hover{opacity:.85}\n  @media (prefers-reduced-motion:reduce){.kca6-btn{transition:none}}\n</style>\n<div class=\"kca6-card\">\n  <div class=\"kca6-art\">♫</div>\n  <div class=\"kca6-info\">\n    <div class=\"kca6-title\">Midnight Synth</div>\n    <div class=\"kca6-artist\">Neon Pulse</div>\n    <div class=\"kca6-prog\"><div class=\"kca6-fill\"></div></div>\n  </div>\n  <button type=\"button\" class=\"kca6-btn\">▶</button>\n</div>"
+    },
+
+    {
+      id: "MO6",
+      section: "modals",
+      name: "Fullscreen Takeover",
+      description: "Viewport-spanning dark overlay with centered content card and close action — immersive focus mode.",
+      creator: "mimo-2-5",
+      tags: ["modal","fullscreen","takeover","overlay","immersive"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--mo6-accent", default: "#6366f1" },
+      ],
+      code: "<style>\n  .kmo6-wrap{position:relative;width:220px;height:140px;background:#060810;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06)}\n  .kmo6-scrim{position:absolute;inset:0;background:rgba(0,0,0,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}\n  .kmo6-close{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.1);border:none;color:#94a3b8;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s ease,color .15s ease}\n  .kmo6-close:hover{background:rgba(255,255,255,0.18);color:#fff}\n  .kmo6-icon{font-size:28px;margin-bottom:2px}\n  .kmo6-title{font-size:14px;font-weight:700;color:#f8fafc}\n  .kmo6-desc{font-size:10px;color:#64748b;text-align:center;max-width:160px;line-height:1.4}\n  .kmo6-btn{margin-top:4px;padding:6px 18px;border-radius:8px;border:none;background:var(--mo6-accent,#6366f1);color:#fff;font-size:11px;font-weight:600;cursor:pointer;transition:opacity .15s ease}\n  .kmo6-btn:hover{opacity:.85}\n  @media (prefers-reduced-motion:reduce){.kmo6-close,.kmo6-btn{transition:none}}\n</style>\n<div class=\"kmo6-wrap\">\n  <div class=\"kmo6-scrim\">\n    <button type=\"button\" class=\"kmo6-close\">✕</button>\n    <div class=\"kmo6-icon\">🎬</div>\n    <div class=\"kmo6-title\">Rendering Complete</div>\n    <div class=\"kmo6-desc\">Your 4K export is ready for download.</div>\n    <button type=\"button\" class=\"kmo6-btn\">Download</button>\n  </div>\n</div>"
+    },
+
+    {
+      id: "MO7",
+      section: "modals",
+      name: "Tooltip Popover",
+      description: "Arrow-anchored floating panel that appears on hover — contextual hint without blocking interaction.",
+      creator: "mimo-2-5",
+      tags: ["modal","tooltip","popover","contextual","hover"],
+      tweaks: [
+        { type: "color", label: "Arrow Color", varName: "--mo7-color", default: "#8b5cf6" },
+      ],
+      code: "<style>\n  .kmo7-area{position:relative;width:220px;height:140px;background:#080a10;border-radius:10px;border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center}\n  .kmo7-trigger{padding:6px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#e2e8f0;font-size:11px;font-weight:600;cursor:pointer}\n  .kmo7-pop{position:absolute;top:22px;left:50%;transform:translateX(-50%);background:#1e222d;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:8px 10px;box-shadow:0 8px 20px -4px rgba(0,0,0,0.7);width:160px}\n  .kmo7-pop::before{content:\"\";position:absolute;top:-5px;left:50%;transform:translateX(-50%) rotate(45deg);width:10px;height:10px;background:#1e222d;border-top:1px solid var(--mo7-color,#8b5cf6);border-left:1px solid var(--mo7-color,#8b5cf6)}\n  .kmo7-title{font-size:11px;font-weight:700;color:#f8fafc;margin-bottom:3px}\n  .kmo7-desc{font-size:10px;color:#94a3b8;line-height:1.35}\n</style>\n<div class=\"kmo7-area\">\n  <span class=\"kmo7-trigger\">Hover me</span>\n  <div class=\"kmo7-pop\">\n    <div class=\"kmo7-title\">Quick Tip</div>\n    <div class=\"kmo7-desc\">Hold Shift while dragging to snap to grid alignment.</div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "MO8",
+      section: "modals",
+      name: "Confirmation Chain",
+      description: "Multi-step wizard dialog with numbered progress dots — guided destructive-action flow.",
+      creator: "mimo-2-5",
+      tags: ["modal","confirmation","chain","wizard","progress"],
+      tweaks: [
+        { type: "color", label: "Active Dot", varName: "--mo8-accent", default: "#f43f5e" },
+      ],
+      code: "<style>\n  .kmo8-card{background:#141720;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:16px;width:210px;box-shadow:0 16px 36px -10px rgba(0,0,0,0.85)}\n  .kmo8-dots{display:flex;justify-content:center;gap:8px;margin-bottom:14px}\n  .kmo8-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.12);transition:background .2s ease,transform .2s ease}\n  .kmo8-dot.on{background:var(--mo8-accent,#f43f5e);box-shadow:0 0 8px var(--mo8-accent,#f43f5e);transform:scale(1.3)}\n  .kmo8-dot.done{background:rgba(255,255,255,0.35)}\n  .kmo8-label{font-size:9px;color:#64748b;text-align:center;margin-bottom:4px;letter-spacing:.05em;font-weight:600}\n  .kmo8-title{font-size:13px;font-weight:700;color:#f8fafc;margin-bottom:3px}\n  .kmo8-desc{font-size:10.5px;color:#94a3b8;line-height:1.35;margin-bottom:12px}\n  .kmo8-btns{display:flex;gap:8px}\n  .kmo8-btn{flex:1;padding:6px;border-radius:6px;border:none;font-size:11px;font-weight:600;cursor:pointer;text-align:center;transition:opacity .15s ease}\n  .kmo8-btn.next{background:var(--mo8-accent,#f43f5e);color:#fff}\n  .kmo8-btn.back{background:rgba(255,255,255,0.08);color:#cbd5e1}\n  .kmo8-btn:hover{opacity:.85}\n  @media (prefers-reduced-motion:reduce){.kmo8-dot,.kmo8-btn{transition:none}}\n</style>\n<div class=\"kmo8-card\">\n  <div class=\"kmo8-dots\">\n    <div class=\"kmo8-dot done\"></div>\n    <div class=\"kmo8-dot on\"></div>\n    <div class=\"kmo8-dot\"></div>\n  </div>\n  <div class=\"kmo8-label\">STEP 2 OF 3</div>\n  <div class=\"kmo8-title\">Confirm Removal</div>\n  <div class=\"kmo8-desc\">Select which dependencies to keep alongside the primary item.</div>\n  <div class=\"kmo8-btns\">\n    <button type=\"button\" class=\"kmo8-btn back\">Back</button>\n    <button type=\"button\" class=\"kmo8-btn next\">Continue</button>\n  </div>\n</div>"
+    },
+
     /* ---- Mimo 2.5 additions: Animations ---- */
 
     {
