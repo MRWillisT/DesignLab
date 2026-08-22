@@ -144,6 +144,24 @@ is presentation-only), fix trailing commas until the file parses, run
 If anything goes sideways, `git rebase --abort` returns you to your
 pre-pull state — then stop and report instead of improvising.
 
+## Pre-push gate
+
+A `pre-push` hook runs `scripts/check-registry.mjs` before every push and
+**blocks the push** if anything is broken. It checks, in order:
+
+1. `js/data.js` and `js/app.js` parse (`node --check`).
+2. The registry loads and is structurally valid: unique item/creator ids,
+   known `section`/`creator` refs, no `"me"` signatures, valid `tweaks`, and
+   every tweak's `var(--name, …)` actually consumed in the snippet.
+3. `styles.css` `transition:` lines only animate `transform`/`opacity`.
+
+If the push is blocked, the hook prints the exact errors — fix them and push
+again. Do **not** use `--no-verify` to bypass it. Run the same check manually
+anytime with `node scripts/check-registry.mjs`.
+
+The hook lives outside version control (`.git/hooks/`). After a fresh clone,
+reinstall it with `pwsh -File scripts/install-hooks.ps1`.
+
 ## Definition of done
 
 Before declaring any change finished:

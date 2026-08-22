@@ -1,0 +1,129 @@
+import { readFileSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import vm from 'node:vm';
+
+const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const DATA_PATH = join(ROOT, 'js', 'data.js');
+const APP_PATH = join(ROOT, 'js', 'app.js');
+const STYLES_PATH = join(ROOT, 'styles.css');
+
+const errors = [];
+const warnings = [];
+
+function fail(msg) { errors.push(msg); }
+function warn(msg) { warnings.push(msg); }
+
+// 1. Syntax check both JS files (catches the "Mimo" class of failure).
+for (const file of [DATA_PATH, APP_PATH]) {
+  const r = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
+  if (r.status !== 0) {
+    fail(`Syntax error in ${file.replace(ROOT + '\\', '')}:\n${r.stderr.trim()}`);
+  }
+}
+
+// 2. Load the registry in a sandbox to validate structure.
+let LIB = null;
+try {
+  const source = readFileSync(DATA_PATH, 'utf8');
+  const sandbox = { window: {}, console };
+  vm.createContext(sandbox);
+  vm.runInContext(source, sandbox, { filename: 'js/data.js' });
+  LIB = sandbox.window.DESIGN_LAB;
+} catch (e) {
+  fail(`Could not evaluate js/data.js: ${e.message}`);
+}
+
+if (LIB) {
+  if (!LIB || typeof LIB !== 'object') {
+    fail('window.DESIGN_LAB is missing.');
+  } else {
+    const creators = Array.isArray(LIB.creators) ? LIB.creators : [];
+    const sections = Array.isArray(LIB.sections) ? LIB.sections : [];
+    const items = Array.isArray(LIB.items) ? LIB.items : [];
+
+    const creatorIds = new Set();
+    for (const c of creators) {
+      if (!c || !c.id) { fail('A creator entry is missing an id.'); continue; }
+      if (creatorIds.has(c.id)) fail(`Duplicate creator id "${c.id}".`);
+      creatorIds.add(c.id);
+    }
+
+    const sectionById = new Map();
+    const sectionCodes = new Set();
+    for (const s of sections) {
+      if (!s || !s.id) { fail('A section entry is missing an id.'); continue; }
+      if (sectionById.has(s.id)) fail(`Duplicate section id "${s.id}".`);
+      if (s.code && sectionCodes.has(s.code)) fail(`Duplicate section code "${s.code}".`);
+      if (s.code) sectionCodes.add(s.code);
+      sectionById.set(s.id, s);
+    }
+
+    const seenIds = new Set();
+    for (const item of items) {
+      if (!item || typeof item !== 'object') { fail('An items[] entry is not an object.'); continue; }
+      const label = item.id ? `#${item.id}` : '<unnamed>';
+
+      if (typeof item.id !== 'string' || !item.id.trim()) fail(`${label}: missing id`);
+      else if (seenIds.has(item.id)) fail(`${label}: duplicate item id`);
+      else seenIds.add(item.id);
+
+      if (typeof item.name !== 'string' || !item.name.trim()) fail(`${label}: missing name`);
+      if (typeof item.description !== 'string' || !item.description.trim()) warn(`${label}: missing description`);
+      if (typeof item.code !== 'string' || !item.code.trim()) fail(`${label}: missing code`);
+      if (typeof item.creator !== 'string' || !item.creator.trim()) fail(`${label}: missing creator`);
+      else if (item.creator === 'me') fail(`${label}: signed as reserved id "me"`);
+      else if (creatorIds.size && !creatorIds.has(item.creator)) fail(`${label}: unknown creator "${item.creator}"`);
+
+      if (!sectionById.has(item.section)) fail(`${label}: unknown section "${item.section}"`);
+      else {
+        const sec = sectionById.get(item.section);
+        if (sec.code && typeof item.id === 'string' && !item.id.startsWith(sec.code)) {
+          warn(`${label}: id should start with section code "${sec.code}"`);
+        }
+      }
+
+      if (item.tags !== undefined && !Array.isArray(item.tags)) fail(`${label}: tags must be an array`);
+      if (item.tweaks !== undefined) {
+        if (!Array.isArray(item.tweaks)) fail(`${label}: tweaks must be an array`);
+        else item.tweaks.forEach((t, i) => {
+          const tl = `${label} tweaks[${i}]`;
+          if (!t || typeof t.varName !== 'string' || !t.varName.startsWith('--')) fail(`${tl}: needs varName starting with --`);
+          else if (t.type !== 'color' && t.type !== 'range') fail(`${tl}: type must be color or range`);
+          else if (t.default === undefined || t.default === null) fail(`${tl}: needs default`);
+          else if (t.type === 'range' && !(Number(t.max) > Number(t.min))) fail(`${tl}: range needs max > min`);
+          else if (typeof item.code === 'string' && !item.code.includes(`var(${t.varName}`)) fail(`${tl}: ${t.varName} never consumed via var(--name, …)`);
+        });
+      }
+    }
+  }
+}
+
+// 3. Performance-law gate on the app stylesheet (transition must only animate transform/opacity).
+try {
+  const css = readFileSync(STYLES_PATH, 'utf8');
+  const re = /transition\s*:\s*([^;]+);/gi;
+  let m;
+  while ((m = re.exec(css)) !== null) {
+    const props = m[1]
+      .split(',')
+      .map(p => p.trim().split(/\s+/)[0])
+      .filter(p => p && p !== 'none' && p !== 'transform' && p !== 'opacity');
+    if (props.length) fail(`styles.css: transition animates "${props.join(', ')}" (only transform/opacity allowed).`);
+  }
+} catch (e) {
+  fail(`Could not read styles.css: ${e.message}`);
+}
+
+// 4. Report.
+if (warnings.length) {
+  console.log('Warnings:');
+  warnings.forEach(w => console.log('  ⚠ ' + w));
+}
+if (errors.length) {
+  console.error('\n' + errors.length + ' error(s) — push blocked:');
+  errors.forEach(e => console.error('  ✖ ' + e));
+  process.exit(1);
+}
+console.log(`Registry OK — ${LIB ? LIB.items.length : 0} items, no errors.`);
