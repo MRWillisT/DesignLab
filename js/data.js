@@ -1077,8 +1077,59 @@ window.DESIGN_LAB = {
         { type: "color", label: "Bar Color", varName: "--an5-color", default: "#8b5cf6" },
       ],
       code: "<style>\n  @keyframes kan5-wave{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}\n  .kan5-bar{width:4px;border-radius:2px;background:var(--an5-color,#8b5cf6);transform-origin:center;animation:kan5-wave 1.2s ease-in-out infinite}\n  .kan5-bar:nth-child(1){animation-delay:0s}\n  .kan5-bar:nth-child(2){animation-delay:.08s}\n  .kan5-bar:nth-child(3){animation-delay:.16s}\n  .kan5-bar:nth-child(4){animation-delay:.24s}\n  .kan5-bar:nth-child(5){animation-delay:.32s}\n  .kan5-bar:nth-child(6){animation-delay:.4s}\n  .kan5-bar:nth-child(7){animation-delay:.48s}\n  .kan5-bar:nth-child(8){animation-delay:.56s}\n  .kan5-bar:nth-child(9){animation-delay:.64s}\n  .kan5-bar:nth-child(10){animation-delay:.72s}\n  .kan5-bar:nth-child(11){animation-delay:.8s}\n  .kan5-bar:nth-child(12){animation-delay:.88s}\n  @media (prefers-reduced-motion:reduce){.kan5-bar{animation:none;transform:scaleY(1)}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:200px;height:60px\">\n  <div style=\"display:flex;align-items:center;gap:5px;height:40px\">\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n  </div>\n</div>"
-    }
+    },
 
+    {
+      id: "AN6",
+      section: "animations",
+      name: "Quantum Lattice",
+      description: "Floating node matrix with cross-phase geometric oscillation and pulsing connecting energy ripples.",
+      creator: "gemini",
+      tags: ["animation", "quantum", "matrix", "lattice", "grid", "pulse"],
+      tweaks: [
+        { type: "color", label: "Lattice Accent", varName: "--an6-accent", default: "#818cf8" }
+      ],
+      code: "<style>\n  @keyframes kan6-float-1{0%,100%{transform:translateY(0px) scale(1);opacity:.9}50%{transform:translateY(-8px) scale(1.15);opacity:1}}\n  @keyframes kan6-float-2{0%,100%{transform:translateY(0px) scale(1.15);opacity:1}50%{transform:translateY(8px) scale(.85);opacity:.65}}\n  @keyframes kan6-pulse-ring{0%{transform:scale(.6);opacity:.8}100%{transform:scale(2.2);opacity:0}}\n  .kan6-grid{display:grid;grid-template-columns:repeat(3,20px);grid-gap:12px;position:relative}\n  .kan6-node{width:20px;height:20px;border-radius:6px;background:var(--an6-accent,#818cf8);position:relative;box-shadow:0 0 12px color-mix(in srgb,var(--an6-accent,#818cf8) 60%,transparent)}\n  .kan6-node:nth-child(odd){animation:kan6-float-1 2.4s ease-in-out infinite}\n  .kan6-node:nth-child(even){animation:kan6-float-2 2.4s ease-in-out infinite}\n  .kan6-node:nth-child(1){animation-delay:0s}\n  .kan6-node:nth-child(2){animation-delay:.2s}\n  .kan6-node:nth-child(3){animation-delay:.4s}\n  .kan6-node:nth-child(4){animation-delay:.6s}\n  .kan6-node:nth-child(5){animation-delay:.8s}\n  .kan6-node:nth-child(6){animation-delay:1s}\n  .kan6-node:nth-child(7){animation-delay:1.2s}\n  .kan6-node:nth-child(8){animation-delay:1.4s}\n  .kan6-node:nth-child(9){animation-delay:1.6s}\n  .kan6-ripple{position:absolute;inset:-4px;border:1.5px solid var(--an6-accent,#818cf8);border-radius:8px;animation:kan6-pulse-ring 2s ease-out infinite;pointer-events:none}\n  @media (prefers-reduced-motion:reduce){.kan6-node,.kan6-ripple{animation:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%\">\n  <div class=\"kan6-grid\">\n    <div class=\"kan6-node\"><span class=\"kan6-ripple\"></span></div>\n    <div class=\"kan6-node\"></div>\n    <div class=\"kan6-node\"><span class=\"kan6-ripple\" style=\"animation-delay:.7s\"></span></div>\n    <div class=\"kan6-node\"></div>\n    <div class=\"kan6-node\"><span class=\"kan6-ripple\" style=\"animation-delay:1.4s\"></span></div>\n    <div class=\"kan6-node\"></div>\n    <div class=\"kan6-node\"><span class=\"kan6-ripple\" style=\"animation-delay:.35s\"></span></div>\n    <div class=\"kan6-node\"></div>\n    <div class=\"kan6-node\"><span class=\"kan6-ripple\" style=\"animation-delay:1.05s\"></span></div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "AN7",
+      section: "animations",
+      name: "Tesseract Wireframe",
+      description: "Nested 3D geometric cubes counter-rotating through perspective dimensions with a glowing singularity core.",
+      creator: "gemini",
+      tags: ["animation", "tesseract", "3d", "cube", "geometry", "isometric"],
+      tweaks: [
+        { type: "color", label: "Wireframe Color", varName: "--an7-color", default: "#22d3ee" }
+      ],
+      code: "<style>\n  @keyframes kan7-spin-outer{0%{transform:rotateX(45deg) rotateY(45deg) rotateZ(0deg)}100%{transform:rotateX(45deg) rotateY(45deg) rotateZ(360deg)}}\n  @keyframes kan7-spin-inner{0%{transform:rotateX(-35deg) rotateY(35deg) rotateZ(360deg)}100%{transform:rotateX(-35deg) rotateY(35deg) rotateZ(0deg)}}\n  .kan7-stage{perspective:500px;display:flex;align-items:center;justify-content:center;width:64px;height:64px;position:relative}\n  .kan7-outer{position:absolute;width:44px;height:44px;border:1.5px solid var(--an7-color,#22d3ee);border-radius:7px;transform-style:preserve-3d;box-shadow:0 0 14px color-mix(in srgb,var(--an7-color,#22d3ee) 40%,transparent);animation:kan7-spin-outer 6s linear infinite}\n  .kan7-inner{position:absolute;width:24px;height:24px;border:1.5px dashed color-mix(in srgb,var(--an7-color,#22d3ee) 75%,white);border-radius:4px;transform-style:preserve-3d;animation:kan7-spin-inner 3.5s linear infinite}\n  .kan7-core{position:absolute;width:6px;height:6px;background:#fff;border-radius:50%;box-shadow:0 0 8px #fff}\n  @media (prefers-reduced-motion:reduce){.kan7-outer,.kan7-inner{animation:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%\">\n  <div class=\"kan7-stage\">\n    <div class=\"kan7-outer\"></div>\n    <div class=\"kan7-inner\"></div>\n    <div class=\"kan7-core\"></div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "AN8",
+      section: "animations",
+      name: "Sonar Ping",
+      description: "Tactical rotating radar sweep with expanding sonar echo wave rings and transient target blips.",
+      creator: "gemini",
+      tags: ["animation", "radar", "sonar", "sweep", "echo", "ping"],
+      tweaks: [
+        { type: "color", label: "Sonar Beam", varName: "--an8-beam", default: "#10b981" }
+      ],
+      code: "<style>\n  @keyframes kan8-radar-sweep{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}\n  @keyframes kan8-sonar-echo{0%{transform:scale(.2);opacity:.9}80%{opacity:.4}100%{transform:scale(2.4);opacity:0}}\n  @keyframes kan8-blip-fade{0%,100%{opacity:.1;transform:scale(.8)}30%{opacity:1;transform:scale(1.3)}60%{opacity:.2;transform:scale(.9)}}\n  .kan8-scope{position:relative;width:62px;height:62px;border-radius:50%;border:1px solid color-mix(in srgb,var(--an8-beam,#10b981) 30%,transparent);background:radial-gradient(circle,color-mix(in srgb,var(--an8-beam,#10b981) 8%,transparent) 0%,transparent 70%);display:flex;align-items:center;justify-content:center;overflow:hidden}\n  .kan8-sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,color-mix(in srgb,var(--an8-beam,#10b981) 50%,transparent) 0deg,transparent 65deg,transparent 360deg);animation:kan8-radar-sweep 3s linear infinite;transform-origin:center}\n  .kan8-wave{position:absolute;width:28px;height:28px;border:1px solid var(--an8-beam,#10b981);border-radius:50%;animation:kan8-sonar-echo 2.8s ease-out infinite;pointer-events:none}\n  .kan8-blip{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--an8-beam,#10b981);box-shadow:0 0 6px var(--an8-beam,#10b981);animation:kan8-blip-fade 3s ease-in-out infinite}\n  @media (prefers-reduced-motion:reduce){.kan8-sweep,.kan8-wave,.kan8-blip{animation:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%\">\n  <div class=\"kan8-scope\">\n    <div class=\"kan8-sweep\"></div>\n    <div class=\"kan8-wave\"></div>\n    <div class=\"kan8-wave\" style=\"animation-delay:1.4s\"></div>\n    <div class=\"kan8-blip\" style=\"top:14px;right:16px;animation-delay:.8s\"></div>\n    <div class=\"kan8-blip\" style=\"bottom:18px;left:14px;animation-delay:2.1s\"></div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "AN9",
+      section: "animations",
+      name: "Liquid Pendulum",
+      description: "Harmonic pendulum with natural physics ease curve and a pulsing chromatic fluid bob.",
+      creator: "gemini",
+      tags: ["animation", "pendulum", "physics", "harmonic", "metronome", "glow"],
+      tweaks: [
+        { type: "color", label: "Pendulum Glow", varName: "--an9-glow", default: "#f43f5e" }
+      ],
+      code: "<style>\n  @keyframes kan9-swing{0%{transform:rotate(36deg)}50%{transform:rotate(-36deg)}100%{transform:rotate(36deg)}}\n  @keyframes kan9-glow-pulse{0%,100%{opacity:.7;transform:scale(.95)}50%{opacity:1;transform:scale(1.15)}}\n  .kan9-pendulum{width:3px;height:44px;background:linear-gradient(180deg,rgba(255,255,255,.15) 0%,var(--an9-glow,#f43f5e) 100%);transform-origin:top center;position:relative;animation:kan9-swing 2.2s cubic-bezier(.45,.05,.55,.95) infinite}\n  .kan9-bob{position:absolute;bottom:-7px;left:-6.5px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0%,var(--an9-glow,#f43f5e) 65%,#881337 100%);box-shadow:0 0 14px var(--an9-glow,#f43f5e);animation:kan9-glow-pulse 1.1s ease-in-out infinite}\n  .kan9-pivot{position:absolute;top:-3px;left:-2px;width:7px;height:7px;border-radius:50%;background:#cbd5e1}\n  @media (prefers-reduced-motion:reduce){.kan9-pendulum,.kan9-bob{animation:none;transform:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding-top:4px\">\n  <div class=\"kan9-pendulum\">\n    <div class=\"kan9-pivot\"></div>\n    <div class=\"kan9-bob\"></div>\n  </div>\n</div>"
+    }
 
   ]
 };
