@@ -33,7 +33,8 @@ window.DESIGN_LAB = {
     { id: "chatgpt",  name: "ChatGPT",  color: "#10a37f" },
     { id: "deepseek", name: "DeepSeek", color: "#3b82f6" },
     // reserved for the local user's saved variants — agents must not sign with it
-    { id: "me",       name: "My Variants", color: "#f472b6" }
+    { id: "me",       name: "My Variants", color: "#f472b6" },
+    { id: "mimo-2-5", name: "Mimo 2.5",    color: "#04ff00" }
   ],
 
   /* ----------------------------------------------------------
@@ -793,7 +794,157 @@ window.DESIGN_LAB = {
       creator: "gemini",
       tags: ["effect","glass","specular","prismatic","frosted"],
       code: "<style>\n  .kef2-glass{position:relative;width:190px;height:65px;border-radius:10px;background:rgba(255,255,255,0.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.2);box-shadow:inset 0 1px 0 rgba(255,255,255,0.4),0 8px 20px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center}\n  .kef2-txt{font-size:11px;font-weight:600;color:#fff;text-shadow:0 0 10px rgba(255,255,255,0.5)}\n</style>\n<div class=\"kef2-glass\">\n  <span class=\"kef2-txt\">PRISMATIC GLASS</span>\n</div>"
+    },
+
+    /* ---- Mimo 2.5 additions: Badges, Modals, Effects, Sliders ---- */
+
+    {
+      id: "BA3",
+      section: "badges",
+      name: "Spin Gem",
+      description: "Rotating diamond gem with trailing glow orbit — achievement badge with continuous rotation.",
+      creator: "mimo-2-5",
+      tags: ["badge","gem","spin","rotation"],
+      tweaks: [
+        { type: "color", label: "Gem Color", varName: "--ba3-color", default: "#04ff00" },
+      ],
+      code: "<style>\n  @keyframes kba3-spin{to{transform:translate(-50%,-50%) rotate(405deg)}}\n  .kba3-wrap{position:relative;width:56px;height:56px;display:flex;align-items:center;justify-content:center;cursor:pointer}\n  .kba3-trail{position:absolute;top:50%;left:50%;width:40px;height:40px;border-radius:10px;border:2px solid var(--ba3-color,#04ff00);opacity:.25;animation:kba3-spin 3s linear infinite;transform:translate(-50%,-50%) rotate(45deg)}\n  .kba3-core{transform:rotate(45deg);width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--ba3-color,#04ff00),#065f46);box-shadow:0 0 14px var(--ba3-color,#04ff00);display:flex;align-items:center;justify-content:center;transition:transform .2s ease}\n  .kba3-wrap:hover .kba3-core{transform:rotate(45deg) scale(1.12)}\n  .kba3-inner{transform:rotate(-45deg);color:#fff;font-size:15px;font-weight:800;line-height:1}\n  @media (prefers-reduced-motion:reduce){.kba3-trail{animation:none}}\n</style>\n<div class=\"kba3-wrap\">\n  <div class=\"kba3-trail\"></div>\n  <div class=\"kba3-core\"><span class=\"kba3-inner\">✦</span></div>\n</div>"
+    },
+
+    {
+      id: "BA4",
+      section: "badges",
+      name: "Floating Pill",
+      description: "Animated pill badge that gently bobs up and down — alive, attention-grabbing, non-aggressive.",
+      creator: "mimo-2-5",
+      tags: ["badge","pill","float","animated"],
+      tweaks: [
+        { type: "color", label: "Badge Color", varName: "--ba4-color", default: "#04ff00" },
+      ],
+      code: "<style>\n  @keyframes kba4-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}\n  .kba4-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:9999px;background:rgba(4,255,0,0.1);border:1px solid var(--ba4-color,#04ff00);color:var(--ba4-color,#04ff00);font-size:11px;font-weight:700;letter-spacing:.04em;animation:kba4-float 2.8s ease-in-out infinite;box-shadow:0 4px 14px rgba(4,255,0,0.18);cursor:default;white-space:nowrap}\n  .kba4-pip{width:7px;height:7px;border-radius:50%;background:var(--ba4-color,#04ff00);box-shadow:0 0 6px var(--ba4-color,#04ff00);flex-shrink:0}\n  @media (prefers-reduced-motion:reduce){.kba4-pill{animation:none}}\n</style>\n<span class=\"kba4-pill\">\n  <i class=\"kba4-pip\"></i>NEW\n</span>"
+    },
+
+    {
+      id: "BA5",
+      section: "badges",
+      name: "Circle Gauge",
+      description: "SVG circular progress ring with centered percentage readout — dense information in a compact glyph.",
+      creator: "mimo-2-5",
+      tags: ["badge","gauge","progress","circular"],
+      tweaks: [
+        { type: "color", label: "Ring Color", varName: "--ba5-color", default: "#04ff00" },
+      ],
+      code: "<style>\n  @keyframes kba5-fill{from{stroke-dashoffset:126}}\n  .kba5-ring{animation:kba5-fill 1.8s ease-out forwards;transform:rotate(-90deg);transform-origin:center}\n  @media (prefers-reduced-motion:reduce){.kba5-ring{animation:none}}\n</style>\n<svg width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" style=\"cursor:pointer;filter:drop-shadow(0 0 6px var(--ba5-color,#04ff00))\">\n  <circle cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"rgba(255,255,255,0.08)\" stroke-width=\"5\" />\n  <circle class=\"kba5-ring\" cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"var(--ba5-color,#04ff00)\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-dasharray=\"126\" stroke-dashoffset=\"38\" />\n  <text x=\"24\" y=\"28\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"12\" font-weight=\"700\">70</text>\n</svg>"
+    },
+
+    {
+      id: "MO3",
+      section: "modals",
+      name: "Drawer Sheet",
+      description: "Bottom-anchored slide-up panel with drag handle grip — natural mobile-native action surface.",
+      creator: "mimo-2-5",
+      tags: ["modal","drawer","sheet","bottom","slide-up"],
+      code: "<style>\n  .kmo3-bg{position:relative;width:220px;height:140px;background:#080a10;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.08)}\n  .kmo3-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.6)}\n  .kmo3-sheet{position:absolute;bottom:0;left:0;right:0;background:#141720;border-top:1px solid rgba(255,255,255,0.1);border-radius:12px 12px 0 0;padding:10px 14px 14px}\n  .kmo3-grip{width:32px;height:4px;background:rgba(255,255,255,0.18);border-radius:2px;margin:0 auto 10px;cursor:grab}\n  .kmo3-title{font-size:12px;font-weight:700;color:#f8fafc;margin-bottom:8px}\n  .kmo3-item{font-size:11px;color:#94a3b8;padding:6px 8px;border-radius:6px;display:flex;align-items:center;gap:7px;cursor:pointer;transition:background .15s ease,transform .15s ease}\n  .kmo3-item:hover{background:rgba(255,255,255,0.06);transform:translateX(3px)}\n  @media (prefers-reduced-motion:reduce){.kmo3-item{transition:none}}\n</style>\n<div class=\"kmo3-bg\">\n  <div class=\"kmo3-backdrop\"></div>\n  <div class=\"kmo3-sheet\">\n    <div class=\"kmo3-grip\"></div>\n    <div class=\"kmo3-title\">Share Recording</div>\n    <div class=\"kmo3-item\">📋 Copy Link</div>\n    <div class=\"kmo3-item\">💬 Send as Message</div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "MO4",
+      section: "modals",
+      name: "Lightbox Overlay",
+      description: "Full dark scrim with frosted glass center card and soft accent top border.",
+      creator: "mimo-2-5",
+      tags: ["modal","lightbox","overlay","glass","centered"],
+      tweaks: [
+        { type: "color", label: "Accent Line", varName: "--mo4-accent", default: "#8b5cf6" },
+      ],
+      code: "<style>\n  .kmo4-bg{position:relative;width:220px;height:130px;background:#050710;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.06)}\n  .kmo4-scrim{position:absolute;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px)}\n  .kmo4-card{position:relative;background:rgba(20,23,32,0.95);border:1px solid rgba(255,255,255,0.1);border-top:2px solid var(--mo4-accent,#8b5cf6);border-radius:10px;padding:14px;width:170px;box-shadow:0 20px 50px -10px rgba(0,0,0,0.8)}\n  .kmo4-title{font-size:12px;font-weight:700;color:#f8fafc;margin-bottom:4px}\n  .kmo4-desc{font-size:10.5px;color:#94a3b8;line-height:1.35;margin-bottom:10px}\n  .kmo4-btns{display:flex;gap:6px}\n  .kmo4-btn{flex:1;padding:6px;border-radius:6px;border:none;font-size:11px;font-weight:600;cursor:pointer;text-align:center}\n  .kmo4-btn.primary{background:var(--mo4-accent,#8b5cf6);color:#fff}\n  .kmo4-btn.ghost{background:rgba(255,255,255,0.08);color:#cbd5e1}\n</style>\n<div class=\"kmo4-bg\">\n  <div class=\"kmo4-scrim\"></div>\n  <div class=\"kmo4-card\">\n    <div class=\"kmo4-title\">Delete Specimen?</div>\n    <div class=\"kmo4-desc\">This action cannot be undone.</div>\n    <div class=\"kmo4-btns\">\n      <button type=\"button\" class=\"kmo4-btn ghost\">Cancel</button>\n      <button type=\"button\" class=\"kmo4-btn primary\">Delete</button>\n    </div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "MO5",
+      section: "modals",
+      name: "Toast Stack",
+      description: "Stacked notification toasts that cascade downward — transient multi-event feedback.",
+      creator: "mimo-2-5",
+      tags: ["modal","toast","stack","notification","transient"],
+      code: "<style>\n  @keyframes kmo5-in{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}\n  .kmo5-stack{display:flex;flex-direction:column;gap:6px;width:210px}\n  .kmo5-toast{display:flex;align-items:center;gap:8px;background:#141720;border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 10px;box-shadow:0 8px 20px -6px rgba(0,0,0,0.7);animation:kmo5-in .35s ease-out both;cursor:pointer;transition:opacity .2s ease,transform .2s ease}\n  .kmo5-toast:nth-child(1){animation-delay:0s}\n  .kmo5-toast:nth-child(2){animation-delay:.12s}\n  .kmo5-toast:nth-child(3){animation-delay:.24s}\n  .kmo5-toast:hover{transform:translateX(-3px);opacity:.92}\n  .kmo5-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}\n  .kmo5-msg{font-size:11px;color:#e2e8f0;font-weight:500}\n  @media (prefers-reduced-motion:reduce){.kmo5-toast{animation:none}}\n</style>\n<div class=\"kmo5-stack\">\n  <div class=\"kmo5-toast\"><i class=\"kmo5-dot\" style=\"background:#10b981;box-shadow:0 0 5px #10b981\"></i><span class=\"kmo5-msg\">Export finished</span></div>\n  <div class=\"kmo5-toast\"><i class=\"kmo5-dot\" style=\"background:#38bdf8;box-shadow:0 0 5px #38bdf8\"></i><span class=\"kmo5-msg\">Rendering beat 2/4</span></div>\n  <div class=\"kmo5-toast\"><i class=\"kmo5-dot\" style=\"background:#fbbf24;box-shadow:0 0 5px #fbbf24\"></i><span class=\"kmo5-msg\">Queue position: 3</span></div>\n</div>"
+    },
+
+    {
+      id: "EF3",
+      section: "effects",
+      name: "Aurora Ribbons",
+      description: "Flowing vertical gradient bands that sway left and right — atmospheric sky-glow backdrop.",
+      creator: "mimo-2-5",
+      tags: ["effect","aurora","ribbons","gradient","flowing"],
+      tweaks: [
+        { type: "color", label: "Tint", varName: "--ef3-tint", default: "#00e5a0" },
+      ],
+      code: "<style>\n  @keyframes kef3-sway{0%,100%{transform:translateX(0) scaleY(1)}50%{transform:translateX(10px) scaleY(1.05)}}\n  .kef3-wrap{position:relative;width:190px;height:80px;border-radius:10px;background:#080a10;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.06)}\n  .kef3-band{position:absolute;width:40%;height:100%;border-radius:50%;filter:blur(16px);animation:kef3-sway 4s ease-in-out infinite}\n  .kef3-band:nth-child(1){left:-5%;background:var(--ef3-tint,#00e5a0);opacity:.4;animation-delay:0s}\n  .kef3-band:nth-child(2){left:25%;background:var(--ef3-tint,#00e5a0);mix-blend-mode:screen;opacity:.25;animation-delay:-1.5s;width:35%}\n  .kef3-band:nth-child(3){left:55%;background:#818cf8;opacity:.3;animation-delay:-3s;width:30%}\n  .kef3-lbl{position:relative;z-index:1;font-weight:700;font-size:11px;letter-spacing:.12em;color:#fff;text-shadow:0 0 14px rgba(255,255,255,.3)}\n  @media (prefers-reduced-motion:reduce){.kef3-band{animation:none}}\n</style>\n<div class=\"kef3-wrap\">\n  <div class=\"kef3-band\"></div><div class=\"kef3-band\"></div><div class=\"kef3-band\"></div>\n  <span class=\"kef3-lbl\">AURORA</span>\n</div>"
+    },
+
+    {
+      id: "EF4",
+      section: "effects",
+      name: "Neon Bloom",
+      description: "Deep neon radial glow pulsing behind content — mood-setting ambient light source.",
+      creator: "mimo-2-5",
+      tags: ["effect","neon","bloom","glow","pulsing"],
+      tweaks: [
+        { type: "color", label: "Bloom Color", varName: "--ef4-color", default: "#04ff00" },
+      ],
+      code: "<style>\n  @keyframes kef4-pulse{0%,100%{opacity:.45;transform:scale(1)}50%{opacity:.7;transform:scale(1.08)}}\n  .kef4-box{position:relative;width:190px;height:70px;border-radius:10px;background:#060810;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.06)}\n  .kef4-glow{position:absolute;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,var(--ef4-color,#04ff00) 0%,transparent 70%);animation:kef4-pulse 3s ease-in-out infinite;filter:blur(20px)}\n  .kef4-txt{position:relative;z-index:1;font-weight:700;font-size:11px;letter-spacing:.12em;color:#fff;text-shadow:0 0 18px rgba(255,255,255,.35)}\n  @media (prefers-reduced-motion:reduce){.kef4-glow{animation:none}}\n</style>\n<div class=\"kef4-box\">\n  <div class=\"kef4-glow\"></div>\n  <span class=\"kef4-txt\">NEON BLOOM</span>\n</div>"
+    },
+
+    {
+      id: "EF5",
+      section: "effects",
+      name: "Film Grain",
+      description: "Animated monochromatic noise texture — analog film grain overlay for cinematic warmth.",
+      creator: "mimo-2-5",
+      tags: ["effect","grain","film","noise","cinematic"],
+      tweaks: [
+        { type: "range", label: "Opacity", varName: "--ef5-opacity", min: 3, max: 18, step: 1, unit: "", default: "8" },
+      ],
+      code: "<style>\n  @keyframes kef5-drift{0%{background-position:0 0}100%{background-position:200px 200px}}\n  .kef5-frame{position:relative;width:190px;height:70px;border-radius:10px;background:#181c24;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.06)}\n  .kef5-frame::after{content:\"\";position:absolute;inset:0;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\");opacity:calc(var(--ef5-opacity,8)/100);animation:kef5-drift .6s steps(3) infinite;pointer-events:none;border-radius:inherit}\n  .kef5-lbl{position:relative;z-index:1;font-weight:700;font-size:11px;letter-spacing:.12em;color:#d4d4d8;text-shadow:0 1px 2px rgba(0,0,0,.5)}\n  @media (prefers-reduced-motion:reduce){.kef5-frame::after{animation:none}}\n</style>\n<div class=\"kef5-frame\">\n  <span class=\"kef5-lbl\">FILM GRAIN</span>\n</div>"
+    },
+
+    {
+      id: "SL4",
+      section: "sliders",
+      name: "Tiered Track",
+      description: "Three-segment stepped progress bar — visual hierarchy from faint to vivid as value climbs.",
+      creator: "mimo-2-5",
+      tags: ["slider","progress","tiered","segmented"],
+      tweaks: [
+        { type: "color", label: "Fill Color", varName: "--sl4-color", default: "#04ff00" },
+      ],
+      code: "<style>\n  .kbar4-wrap{display:flex;align-items:center;gap:10px;width:200px}\n  .kbar4-track{display:flex;gap:4px;flex:1;height:10px}\n  .kbar4-seg{flex:1;border-radius:4px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);overflow:hidden;position:relative}\n  .kbar4-fill{position:absolute;inset:0;border-radius:4px;background:var(--sl4-color,#04ff00)}\n  .kbar4-seg:nth-child(1) .kbar4-fill{box-shadow:0 0 10px var(--sl4-color,#04ff00);opacity:1}\n  .kbar4-seg:nth-child(2) .kbar4-fill{box-shadow:0 0 6px var(--sl4-color,#04ff00);opacity:.65}\n  .kbar4-seg:nth-child(3) .kbar4-fill{box-shadow:0 0 3px var(--sl4-color,#04ff00);opacity:.35}\n  .kbar4-val{font-size:12px;font-weight:700;color:var(--sl4-color,#04ff00);font-variant-numeric:tabular-nums;width:28px;text-align:right}\n</style>\n<div class=\"kbar4-wrap\">\n  <div class=\"kbar4-track\">\n    <div class=\"kbar4-seg\"><div class=\"kbar4-fill\"></div></div>\n    <div class=\"kbar4-seg\"><div class=\"kbar4-fill\"></div></div>\n    <div class=\"kbar4-seg\"><div class=\"kbar4-fill\"></div></div>\n  </div>\n  <span class=\"kbar4-val\">3/3</span>\n</div>"
+    },
+
+    {
+      id: "SL5",
+      section: "sliders",
+      name: "Vertical Gauge",
+      description: "Upright range input with glow thumb — natural orientation for intensity, volume, height pickers.",
+      creator: "mimo-2-5",
+      tags: ["slider","vertical","gauge","intensity"],
+      tweaks: [
+        { type: "color", label: "Track Color", varName: "--sl5-color", default: "#04ff00" },
+      ],
+      code: "<style>\n  .kvh-wrap{display:inline-flex;align-items:flex-end;gap:10px;height:100px}\n  .kvh-track{position:relative;width:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;flex-shrink:0}\n  .kvh-fill{position:absolute;bottom:0;left:0;width:100%;height:65%;background:var(--sl5-color,#04ff00);border-radius:3px;box-shadow:0 0 8px var(--sl5-color,#04ff00)}\n  .kvh-val{font-size:11px;font-weight:700;color:var(--sl5-color,#04ff00);font-variant-numeric:tabular-nums;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);line-height:1}\n</style>\n<div class=\"kvh-wrap\">\n  <div class=\"kvh-track\"><div class=\"kvh-fill\"></div></div>\n  <span class=\"kvh-val\">65%</span>\n</div>"
+    },
+
+    {
+      id: "SL6",
+      section: "sliders",
+      name: "Stepped Notch",
+      description: "Horizontal track with engraved notch ticks — precise discrete level selector for quality presets.",
+      creator: "mimo-2-5",
+      tags: ["slider","stepped","notch","discrete","quality"],
+      code: "<style>\n  .ksn-wrap{display:flex;flex-direction:column;gap:4px;width:200px}\n  .ksn-bar{position:relative;height:24px;display:flex;align-items:center}\n  .ksn-line{position:absolute;left:0;right:0;height:2px;background:rgba(255,255,255,0.08);border-radius:1px}\n  .ksn-notch{position:absolute;width:2px;height:10px;background:rgba(255,255,255,0.18);border-radius:1px;transform:translateX(-1px);top:7px}\n  .ksn-curr{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(255,255,255,0.6);top:6px;transform:translateX(-6px);transition:left .2s ease,box-shadow .2s ease;cursor:pointer}\n  .ksn-curr:hover{box-shadow:0 0 14px rgba(255,255,255,.9)}\n  .ksn-labels{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,0.3);padding:0 2px;letter-spacing:.04em;font-weight:600}\n  @media (prefers-reduced-motion:reduce){.ksn-curr{transition:none}}\n</style>\n<div class=\"ksn-wrap\">\n  <div class=\"ksn-bar\">\n    <div class=\"ksn-line\"></div>\n    <div class=\"ksn-notch\" style=\"left:0%\"></div>\n    <div class=\"ksn-notch\" style=\"left:25%\"></div>\n    <div class=\"ksn-notch\" style=\"left:50%\"></div>\n    <div class=\"ksn-notch\" style=\"left:75%\"></div>\n    <div class=\"ksn-notch\" style=\"left:100%\"></div>\n    <div class=\"ksn-curr\" style=\"left:75%\"></div>\n  </div>\n  <div class=\"ksn-labels\"><span>Draft</span><span>HD</span><span>4K</span><span>8K</span><span>Cinema</span></div>\n</div>"
     }
+
 
   ]
 };
