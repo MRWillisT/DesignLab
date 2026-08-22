@@ -524,23 +524,26 @@ input, select { font: inherit; }
 
 /* Section-adaptive stage sizing: compact for bars/controls, taller for full surfaces */
 .card[data-section="buttons"],
-.card[data-section="badges"],
 .card[data-section="toggles"],
 .card[data-section="icons"],
 .card[data-section="players"],
 .card[data-section="animations"] {
-  --stage-h: 88px;
+  --stage-h: 96px;
 }
 
-.card[data-section="sliders"],
+.card[data-section="badges"] {
+  --stage-h: 96px;
+}
+
 .card[data-section="forms"],
+.card[data-section="navigation"],
+.card[data-section="sliders"],
 .card[data-section="loaders"],
 .card[data-section="alerts"] {
   --stage-h: 112px;
 }
 
-.card[data-section="effects"],
-.card[data-section="navigation"] {
+.card[data-section="effects"] {
   --stage-h: 136px;
 }
 

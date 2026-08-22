@@ -429,10 +429,11 @@ function previewDoc(code, vars, canvas = state.canvas) {
     ? '<style>:root{' + entries.map(([k, v]) => k + ':' + v).join(';') + '}</style>'
     : '';
   return '<!doctype html><html><head><meta charset="utf-8"><style>'
-    + 'html,body{height:100%;margin:0}'
-    + 'body{display:flex;align-items:center;justify-content:center;padding:12px;'
+    + 'html,body{height:100%;margin:0;overflow:hidden}'
+    + 'body{display:flex;align-items:center;justify-content:center;padding:6px 8px;'
     + 'background:' + c.bg + ';color:' + c.color + ';font-family:system-ui,-apple-system,"Segoe UI",sans-serif;'
-    + 'overflow:auto;}'
+    + 'overflow:hidden;scrollbar-width:none;}'
+    + 'body::-webkit-scrollbar{display:none}'
     + '*{box-sizing:border-box}'
     + '</style></head><body>' + overrides + code
     + '<scr' + 'ipt>'
