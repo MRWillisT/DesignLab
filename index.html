@@ -156,6 +156,67 @@
     </div>
   </div>
 
+  <div id="promptOverlay" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promptTitle">
+      <header class="modal-head">
+        <div>
+          <h2 id="promptTitle">Dispatch Agent</h2>
+          <p class="modal-sub">customized prompt with automatic identity, chip color, and target drawer</p>
+        </div>
+        <button id="promptClose" class="icon-btn" type="button" aria-label="Close">✕</button>
+      </header>
+      <div class="modal-body">
+        <div class="prompt-config-grid">
+          <label class="config-field">
+            <span class="field-lbl">Agent Identity</span>
+            <select id="agentSelect" class="config-sel" aria-label="Select Agent">
+              <option value="gemini">Gemini</option>
+              <option value="claude">Claude</option>
+              <option value="chatgpt">ChatGPT / OpenAI</option>
+              <option value="deepseek">DeepSeek</option>
+              <option value="ox-alpha">Ox Alpha</option>
+              <option value="_custom">+ Custom / New Agent…</option>
+            </select>
+          </label>
+
+          <label class="config-field" id="customNameField" hidden>
+            <span class="field-lbl">Custom Name</span>
+            <input id="customAgentName" type="text" class="config-input" placeholder="e.g. Mistral" spellcheck="false">
+          </label>
+
+          <label class="config-field">
+            <span class="field-lbl">Credit Chip Color</span>
+            <div class="color-picker-row">
+              <input id="agentColorPicker" type="color" class="color-swatch-input" value="#818cf8">
+              <span id="agentColorHex" class="color-hex-tag">#818cf8</span>
+            </div>
+          </label>
+
+          <label class="config-field">
+            <span class="field-lbl">Target Drawer</span>
+            <select id="targetDrawerSelect" class="config-sel" aria-label="Target Drawer">
+              <option value="all">Any Drawer (General Expansion)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="prompt-preview-wrap">
+          <div class="prompt-preview-head">
+            <span class="field-lbl">Generated Prompt (Zero placeholders)</span>
+            <span id="promptTargetBadge" class="prompt-badge">Auto-filled</span>
+          </div>
+          <textarea id="promptPreviewText" class="import-box prompt-preview-box" readonly spellcheck="false" aria-label="Generated Prompt"></textarea>
+        </div>
+      </div>
+      <footer class="modal-foot">
+        <span class="foot-hint">Paste directly into Claude, Gemini, ChatGPT, or Cursor</span>
+        <span class="foot-spacer"></span>
+        <button id="promptCancel" class="btn" type="button">Cancel</button>
+        <button id="promptCopyRun" class="btn btn-primary" type="button">Copy Prompt</button>
+      </footer>
+    </div>
+  </div>
+
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
   <script src="js/data.js"></script>

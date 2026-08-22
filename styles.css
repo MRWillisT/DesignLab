@@ -1080,6 +1080,99 @@ input, select { font: inherit; }
 .foot-spacer { flex: 1; }
 
 /* ------------------------------------------------------------
+   Agent Prompt Studio Modal
+   ------------------------------------------------------------ */
+
+.prompt-config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.config-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-lbl {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+
+.config-sel, .config-input {
+  background: var(--bg-deep);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  padding: 8px 10px;
+  outline: none;
+}
+
+.config-sel:focus, .config-input:focus {
+  border-color: rgba(240, 167, 60, 0.55);
+}
+
+.color-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.color-swatch-input {
+  width: 38px;
+  height: 34px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: none;
+  cursor: pointer;
+}
+
+.color-swatch-input::-webkit-color-swatch-wrapper { padding: 3px; }
+.color-swatch-input::-webkit-color-swatch { border: none; border-radius: 5px; }
+
+.color-hex-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.prompt-preview-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.prompt-preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.prompt-badge {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.prompt-preview-box {
+  min-height: 180px;
+  font-size: 11px;
+}
+
+/* ------------------------------------------------------------
    Toast
    ------------------------------------------------------------ */
 

@@ -259,13 +259,158 @@ async function copyItemCode(item, btn) {
   }
 }
 
-async function copyAgentPrompt(btn) {
-  const ok = await copyText(AGENT_PROMPT.trim());
-  if (ok) {
-    flashButton(btn, 'Copied ✓');
-    toast('Agent expansion prompt copied — hand it to any agent.');
+const LS_PROMPT_AGENT = 'designlab.prompt_agent.v1';
+const LS_PROMPT_DRAWER = 'designlab.prompt_drawer.v1';
+const LS_CUSTOM_AGENTS = 'designlab.custom_agents.v1';
+
+let customAgents = [];
+
+function loadCustomAgents() {
+  try {
+    const raw = localStorage.getItem(LS_CUSTOM_AGENTS);
+    if (raw) customAgents = JSON.parse(raw);
+  } catch (e) { customAgents = []; }
+}
+
+function saveCustomAgents() {
+  try {
+    localStorage.setItem(LS_CUSTOM_AGENTS, JSON.stringify(customAgents));
+  } catch (e) {}
+}
+
+function allAvailableAgents() {
+  const base = LIB.creators.filter(c => c.id !== ME_ID);
+  const seen = new Set(base.map(c => c.id));
+  const extras = customAgents.filter(c => !seen.has(c.id));
+  return base.concat(extras);
+}
+
+function openPromptStudio() {
+  loadCustomAgents();
+  const sel = $('#agentSelect');
+  const dSel = $('#targetDrawerSelect');
+
+  // Populate agents
+  sel.innerHTML = '';
+  allAvailableAgents().forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.name;
+    sel.appendChild(opt);
+  });
+  const customOpt = document.createElement('option');
+  customOpt.value = '_custom';
+  customOpt.textContent = '+ Custom / New Agent…';
+  sel.appendChild(customOpt);
+
+  // Populate drawers
+  dSel.innerHTML = '<option value="all">Any Drawer (General Expansion)</option>';
+  LIB.sections.forEach(sec => {
+    const opt = document.createElement('option');
+    opt.value = sec.id;
+    const nextId = nextIdFor(sec.id);
+    opt.textContent = `Drawer ${drawerNumber(sec.id)} — ${sec.name} (Next ID: #${nextId})`;
+    dSel.appendChild(opt);
+  });
+
+  // Restore saved choices
+  try {
+    const lastAg = localStorage.getItem(LS_PROMPT_AGENT);
+    if (lastAg && ($(`option[value="${lastAg}"]`, sel) || lastAg === '_custom')) sel.value = lastAg;
+    const lastDr = localStorage.getItem(LS_PROMPT_DRAWER);
+    if (lastDr && $(`option[value="${lastDr}"]`, dSel)) dSel.value = lastDr;
+  } catch (e) {}
+
+  updatePromptStudio();
+  $('#promptOverlay').hidden = false;
+}
+
+function closePromptStudio() {
+  $('#promptOverlay').hidden = true;
+}
+
+function updatePromptStudio() {
+  const sel = $('#agentSelect');
+  const dSel = $('#targetDrawerSelect');
+  const isCustom = sel.value === '_custom';
+  $('#customNameField').hidden = !isCustom;
+
+  let agentName = '';
+  let agentColor = '#818cf8';
+  let agentId = '';
+
+  if (isCustom) {
+    agentName = $('#customAgentName').value.trim() || 'Custom Agent';
+    agentColor = $('#agentColorPicker').value;
+    agentId = agentName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
   } else {
-    toast('Copy blocked by the browser — select and copy manually.');
+    const agent = allAvailableAgents().find(c => c.id === sel.value) || { name: 'Gemini', color: '#818cf8', id: 'gemini' };
+    agentName = agent.name;
+    agentColor = agent.color;
+    agentId = agent.id;
+    $('#agentColorPicker').value = agentColor;
+  }
+  $('#agentColorHex').textContent = agentColor;
+
+  const targetDrawer = dSel.value;
+  let taskText = 'TASK:\nExpand the section (drawer) of the library that I specify with new specimens.';
+  let badgeText = 'General Expansion';
+
+  if (targetDrawer !== 'all') {
+    const sec = sectionOf(targetDrawer);
+    if (sec) {
+      const nextId = nextIdFor(sec.id);
+      badgeText = `${sec.name} · Next: #${nextId}`;
+      taskText = `TARGET DRAWER:\nDrawer ${drawerNumber(sec.id)} — ${sec.name} (Drawer code: "${sec.code}")\n`
+        + `Brief: "${sec.brief}"\n`
+        + `Next free specimen ID to start with: #${nextId}\n\n`
+        + `TASK:\nExpand this specific drawer with 2–4 structurally distinct specimens.`;
+    }
+  }
+
+  $('#promptTargetBadge').textContent = badgeText;
+
+  let prompt = AGENT_PROMPT
+    .replace(/You are \[AGENT NAME\]\. Everything you add to DESIGN LAB appears under a \[COLOR\] credit chip\./g,
+      `You are ${agentName}. Everything you add to DESIGN LAB appears under a ${agentColor} credit chip (creator id: "${agentId}").`)
+    .replace(/FILL-IN SLOTS[\s\S]*?TASK/g, taskText);
+
+  prompt = prompt
+    .replace(/\[AGENT NAME\]/g, agentName)
+    .replace(/\[COLOR\]/g, agentColor);
+
+  $('#promptPreviewText').value = prompt.trim();
+}
+
+async function copyPromptStudio(btn) {
+  const sel = $('#agentSelect');
+  const dSel = $('#targetDrawerSelect');
+  const text = $('#promptPreviewText').value;
+
+  if (sel.value === '_custom') {
+    const name = $('#customAgentName').value.trim();
+    const color = $('#agentColorPicker').value;
+    if (name) {
+      const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
+      if (!customAgents.some(a => a.id === id)) {
+        customAgents.push({ id, name, color });
+        saveCustomAgents();
+      }
+    }
+  }
+
+  try {
+    localStorage.setItem(LS_PROMPT_AGENT, sel.value);
+    localStorage.setItem(LS_PROMPT_DRAWER, dSel.value);
+  } catch (e) {}
+
+  const ok = await copyText(text);
+  if (ok) {
+    if (btn) flashButton(btn, 'Copied ✓');
+    toast('Customized agent prompt copied — ready to paste!');
+    closePromptStudio();
+  } else {
+    toast('Copy blocked by browser — select and copy manually.');
   }
 }
 
@@ -1251,7 +1396,18 @@ function init() {
     saveFilters();
   });
 
-  $('#agentPromptBtn').addEventListener('click', ev => copyAgentPrompt(ev.currentTarget));
+  $('#agentPromptBtn').addEventListener('click', openPromptStudio);
+  $('#promptClose').addEventListener('click', closePromptStudio);
+  $('#promptCancel').addEventListener('click', closePromptStudio);
+  $('#promptCopyRun').addEventListener('click', ev => copyPromptStudio(ev.currentTarget));
+  $('#promptOverlay').addEventListener('click', ev => {
+    if (ev.target === ev.currentTarget) closePromptStudio();
+  });
+  $('#agentSelect').addEventListener('change', updatePromptStudio);
+  $('#customAgentName').addEventListener('input', updatePromptStudio);
+  $('#agentColorPicker').addEventListener('input', updatePromptStudio);
+  $('#targetDrawerSelect').addEventListener('change', updatePromptStudio);
+
   $('#exportFavsBtn').addEventListener('click', exportFavorites);
   $('#exportStyleGuideBtn').addEventListener('click', ev => exportAgentStyleGuide(ev.currentTarget));
   $('#backupAllBtn').addEventListener('click', exportLayer);
@@ -1293,9 +1449,9 @@ function init() {
   });
 
   document.addEventListener('keydown', ev => {
-    if (ev.key === 'Escape' && !$('#importOverlay').hidden) {
-      closeImporter();
-      return;
+    if (ev.key === 'Escape') {
+      if (!$('#importOverlay').hidden) { closeImporter(); return; }
+      if (!$('#promptOverlay').hidden) { closePromptStudio(); return; }
     }
     const tag = document.activeElement ? document.activeElement.tagName : '';
     const typing = tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA';

@@ -29,6 +29,9 @@ window.DESIGN_LAB = {
   creators: [
     { id: "ox-alpha", name: "Ox Alpha", color: "#22d3ee" },
     { id: "gemini",   name: "Gemini",   color: "#818cf8" },
+    { id: "claude",   name: "Claude",   color: "#f97316" },
+    { id: "chatgpt",  name: "ChatGPT",  color: "#10a37f" },
+    { id: "deepseek", name: "DeepSeek", color: "#3b82f6" },
     // reserved for the local user's saved variants — agents must not sign with it
     { id: "me",       name: "My Variants", color: "#f472b6" }
   ],
