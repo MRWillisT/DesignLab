@@ -852,9 +852,14 @@ function populateSectionDropdown() {
   const items = allItems();
   sel.innerHTML = '';
 
+  const optNewest = document.createElement('option');
+  optNewest.value = 'newest';
+  optNewest.textContent = `Newest first (All ${items.length})`;
+  sel.appendChild(optNewest);
+
   const optAll = document.createElement('option');
   optAll.value = 'all';
-  optAll.textContent = `All drawers (${items.length})`;
+  optAll.textContent = `All drawers (Grouped)`;
   sel.appendChild(optAll);
 
   LIB.sections.forEach(sec => {
@@ -865,7 +870,7 @@ function populateSectionDropdown() {
     sel.appendChild(opt);
   });
 
-  sel.value = state.section === 'newest' ? 'all' : state.section;
+  sel.value = state.section;
 }
 
 function populateCreatorDropdown() {
@@ -894,71 +899,6 @@ function populateCreatorDropdown() {
 
 function hasActiveFilters() {
   return !!(state.query.trim() || (state.section !== 'newest' && state.section !== 'all') || state.creator || state.favoritesOnly || state.random);
-}
-
-function afChip(label, opts = {}) {
-  const chip = document.createElement('span');
-  chip.className = 'af-chip' + (opts.accent ? ' is-accent' : '');
-  const text = document.createElement('span');
-  text.textContent = label;
-  chip.appendChild(text);
-  if (opts.onReroll) {
-    const rr = document.createElement('button');
-    rr.type = 'button';
-    rr.className = 'af-reroll';
-    rr.title = 'Roll again';
-    rr.textContent = '↻';
-    rr.addEventListener('click', opts.onReroll);
-    chip.appendChild(rr);
-  }
-  if (opts.onClear) {
-    const x = document.createElement('button');
-    x.type = 'button';
-    x.className = 'af-x';
-    x.title = 'Remove filter';
-    x.setAttribute('aria-label', 'Remove filter: ' + label);
-    x.textContent = '✕';
-    x.addEventListener('click', opts.onClear);
-    chip.appendChild(x);
-  }
-  return chip;
-}
-
-function renderActiveFilters() {
-  const wrap = $('#activeFilters');
-  wrap.textContent = '';
-
-  if (state.query.trim()) {
-    wrap.appendChild(afChip('search “' + state.query.trim() + '”', { onClear: () => setQuery('') }));
-  }
-  if (state.section !== 'newest' && state.section !== 'all') {
-    const sec = sectionOf(state.section);
-    wrap.appendChild(afChip('drawer: ' + ((sec || {}).name || state.section), {
-      onClear: () => { state.section = 'newest'; saveFilters(); render(); }
-    }));
-  }
-  if (state.creator) {
-    const cr = creatorOf(state.creator);
-    wrap.appendChild(afChip('creator: ' + ((cr || {}).name || state.creator), {
-      onClear: () => { state.creator = null; saveFilters(); render(); }
-    }));
-  }
-  if (state.favoritesOnly) {
-    wrap.appendChild(afChip('★ favorites only', {
-      onClear: () => { state.favoritesOnly = false; saveFilters(); syncControlStates(); render(); }
-    }));
-  }
-  if (state.random) {
-    wrap.appendChild(afChip('random mix · ' + RANDOM_PICKS, {
-      accent: true,
-      onReroll: rerollRandom,
-      onClear: exitRandom
-    }));
-  }
-
-  if (wrap.children.length > 1) {
-    wrap.appendChild(afChip('clear all', { accent: true, onClear: clearAllFilters }));
-  }
 }
 
 function syncControlStates() {
@@ -994,7 +934,6 @@ function render() {
 
   populateSectionDropdown();
   populateCreatorDropdown();
-  renderActiveFilters();
   syncControlStates();
 
   const main = $('#library');
