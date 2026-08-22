@@ -51,9 +51,9 @@ body {
 }
 
 .shell {
-  max-width: 1280px;
+  max-width: min(1680px, 97vw);
   margin: 0 auto;
-  padding-inline: clamp(16px, 4vw, 40px);
+  padding-inline: clamp(16px, 2.5vw, 36px);
 }
 
 button { font: inherit; color: inherit; cursor: pointer; }
@@ -67,7 +67,7 @@ input, select { font: inherit; }
    Masthead
    ------------------------------------------------------------ */
 
-.masthead { padding-top: 26px; }
+.masthead { padding-top: 22px; padding-bottom: 12px; }
 
 .masthead-inner {
   display: flex;
@@ -143,21 +143,6 @@ input, select { font: inherit; }
   padding: 1px 5px;
 }
 
-.statline-wrap {
-  margin-top: 16px;
-  padding-bottom: 14px;
-}
-
-.statline {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.06em;
-  color: var(--ink-faint);
-}
-
-.statline b { color: var(--ink-dim); font-weight: 500; }
-
 /* ------------------------------------------------------------
    Buttons
    ------------------------------------------------------------ */
@@ -184,10 +169,27 @@ input, select { font: inherit; }
 
 .btn-ghost { background: transparent; }
 
+.btn-icon {
+  width: 36px;
+  padding: 0;
+  justify-content: center;
+}
+
 .btn[aria-pressed="true"] {
   border-color: rgba(240, 167, 60, 0.65);
   color: var(--accent-bright);
   background: rgba(240, 167, 60, 0.09);
+}
+
+#favToggle[aria-pressed="false"] svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+}
+
+#favToggle[aria-pressed="true"] svg {
+  fill: var(--accent-bright);
+  stroke: var(--accent-bright);
 }
 
 .btn-primary {
@@ -310,6 +312,7 @@ input, select { font: inherit; }
   display: inline-flex;
   align-items: center;
   gap: 7px;
+  margin-left: auto;
 }
 
 .canvas-seg {
@@ -503,6 +506,71 @@ input, select { font: inherit; }
   color: var(--ink-faint);
 }
 
+.carousel-nav-btns {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+}
+
+.carousel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink-dim);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+
+.carousel-btn:hover {
+  border-color: var(--accent);
+  color: var(--ink);
+  transform: scale(1.1);
+}
+
+.carousel-btn:active {
+  transform: scale(0.95);
+}
+
+.carousel-track-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.carousel-track {
+  display: flex;
+  gap: var(--carousel-gap, 14px);
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding-bottom: 6px;
+  padding-top: 2px;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-track .card {
+  flex: 0 0 calc((100% - (var(--carousel-cols, 4) - 1) * var(--carousel-gap, 14px)) / var(--carousel-cols, 4));
+  width: calc((100% - (var(--carousel-cols, 4) - 1) * var(--carousel-gap, 14px)) / var(--carousel-cols, 4));
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--grid-min, 256px), 1fr));
@@ -553,6 +621,66 @@ input, select { font: inherit; }
 .card[data-section="cards"],
 .card[data-section="modals"] {
   --stage-h: 180px;
+}
+
+/* XXS Ultra-Compact Mode: Hides text descriptions, tightens padding, compact stage */
+[data-density="XXS"] .card-desc {
+  display: none !important;
+}
+
+[data-density="XXS"] .card-body {
+  padding: 6px 9px 2px;
+}
+
+[data-density="XXS"] .card-name {
+  font-size: 11.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-density="XXS"] .card-top {
+  padding: 5px 8px 3px;
+}
+
+[data-density="XXS"] .card-id {
+  font-size: 9px;
+}
+
+[data-density="XXS"] .card-foot {
+  padding: 5px 8px 6px;
+}
+
+[data-density="XXS"] .copy-btn {
+  padding: 2px 6px;
+  font-size: 8.5px;
+}
+
+[data-density="XXS"] .credit-chip {
+  font-size: 7.5px;
+  padding: 2px 5px;
+}
+
+[data-density="XXS"] .card {
+  --stage-h: 70px !important;
+}
+
+[data-density="XXS"] .card[data-section="cards"],
+[data-density="XXS"] .card[data-section="modals"] {
+  --stage-h: 110px !important;
+}
+
+[data-density="XXS"] .drawer-carousel-section {
+  margin-bottom: 12px;
+}
+
+[data-density="XXS"] .group-head {
+  margin-top: 10px;
+  margin-bottom: 4px;
+}
+
+[data-density="XXS"] .group-head h2 {
+  font-size: 14px;
 }
 
 /* Elevation is faked with opacity-animated layers so only
@@ -727,15 +855,15 @@ input, select { font: inherit; }
 .credit-chip {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
   padding: 3px 8px;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--chip) 35%, transparent);
-  background: color-mix(in srgb, var(--chip) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--chip) 40%, transparent);
+  background: color-mix(in srgb, var(--chip) 15%, transparent);
   font-family: var(--font-mono);
   font-size: 8.5px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--chip);
   white-space: nowrap;
@@ -1079,6 +1207,43 @@ input, select { font: inherit; }
   font-size: 10.5px;
   line-height: 1.5;
   color: var(--ink-faint);
+}
+
+.export-options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 0 8px;
+}
+
+.export-opt-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.export-opt-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.export-opt-info h3 {
+  margin: 0 0 3px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.export-opt-info p {
+  margin: 0;
+  font-size: 11px;
+  color: var(--ink-dim);
+  line-height: 1.4;
 }
 
 .import-status.is-ok { color: #8fd694; }

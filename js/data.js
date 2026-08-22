@@ -50,13 +50,13 @@ window.DESIGN_LAB = {
     { id: "sliders",     code: "SL", name: "Sliders & Progress",           brief: "Value scrubbers, range inputs, progress indicators." },
     { id: "cards",       code: "CA", name: "Cards & Panels",               brief: "Self-contained surfaces: profiles, tiles, content panels." },
     { id: "navigation",  code: "NA", name: "Navigation",                   brief: "Menus, tab bars, breadcrumbs, paginators." },
-    { id: "badges",      code: "BA", name: "Badges, Chips & Tags",         brief: "Status dots, counters, labels, pills." },
+    { id: "badges",      code: "BA", name: "Badges & Tags",                brief: "Status dots, counters, labels, pills." },
     { id: "alerts",      code: "AL", name: "Alerts & Toasts",              brief: "Inline callouts and transient notifications." },
     { id: "loaders",     code: "LO", name: "Loaders & Skeletons",          brief: "Spinners, shimmer placeholders, waiting states." },
-    { id: "icons",       code: "IC", name: "Icons & Glyph Systems",        brief: "Glyph sets and icon systems with a unified voice." },
+    { id: "icons",       code: "IC", name: "Icons & Glyphs",               brief: "Glyph sets and icon systems with a unified voice." },
     { id: "players",     code: "PL", name: "Media Players",                brief: "Audio/video transport, scrubbing, volume UI." },
     { id: "modals",      code: "MO", name: "Modals & Overlays",            brief: "Dialogs, sheets, popovers, overlay patterns." },
-    { id: "animations",  code: "AN", name: "Animations & Micro-interactions", brief: "Motion demos where the movement IS the design." },
+    { id: "animations",  code: "AN", name: "Animations",                   brief: "Motion demos where the movement IS the design." },
     { id: "effects",     code: "EF", name: "Effects & Styles",             brief: "Reusable visual treatments: glass, grain, glow, gradients." }
   ],
 

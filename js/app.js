@@ -25,20 +25,21 @@ const STAGE_MIN_H = 80;
 const STAGE_MAX_H = 420;
 
 const DENSITY_TIERS = [
-  { label: 'XS', min: '175px' },
-  { label: 'Sm', min: '210px' },
-  { label: 'Med', min: '256px' },
-  { label: 'Lg', min: '320px' }
+  { label: 'XXS', cols: 9, min: '140px' },
+  { label: 'XS',  cols: 7, min: '175px' },
+  { label: 'Sm',  cols: 5, min: '220px' },
+  { label: 'Med', cols: 4, min: '270px' },
+  { label: 'Lg',  cols: 3, min: '340px' }
 ];
 
 const state = {
   query: '',
-  section: 'newest',
+  section: 'all',
   creator: null,
   favoritesOnly: false,
   canvas: 'dark',
-  densityIndex: 2,
-  sort: 'id',
+  densityIndex: 3,
+  sort: 'newest',
   random: false,
   randomSeed: 1,
   renderLimit: RENDER_DEFAULT
@@ -162,10 +163,12 @@ function loadFilters() {
     if (raw) {
       const saved = JSON.parse(raw);
       if (typeof saved.query === 'string') state.query = saved.query;
-      if (saved.section === 'newest' || saved.section === 'all' || sectionOf(saved.section)) state.section = saved.section;
+      if (saved.section && sectionOf(saved.section)) state.section = saved.section;
+      else state.section = 'all';
       if (!saved.creator || creatorOf(saved.creator)) state.creator = saved.creator || null;
       state.favoritesOnly = !!saved.favoritesOnly;
-      if (['id', 'newest', 'name', 'creator'].includes(saved.sort)) state.sort = saved.sort;
+      if (saved.sort === 'creator') state.sort = 'creator';
+      else state.sort = 'newest';
     }
     const c = localStorage.getItem(LS_CANVAS);
     if (['dark', 'light', 'neutral'].includes(c)) state.canvas = c;
@@ -608,7 +611,7 @@ function allItems() {
 function currentPool() {
   const q = state.query.trim().toLowerCase();
   let items = allItems().filter(it => {
-    if (state.section !== 'all' && state.section !== 'newest' && it.section !== state.section) return false;
+    if (state.section && state.section !== 'all' && it.section !== state.section) return false;
     if (state.creator && it.creator !== state.creator) return false;
     if (state.favoritesOnly && !favorites.has(it.id)) return false;
     if (q) {
@@ -625,17 +628,13 @@ function currentPool() {
   });
 
   const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
-  if (state.section === 'newest') {
-    const order = new Map(allItems().map((it, i) => [it.id, i]));
-    items.sort((a, b) => (order.get(b.id) ?? 0) - (order.get(a.id) ?? 0));
-  } else if (state.sort === 'name') {
-    items.sort((a, b) => collator.compare(a.name, b.name) || collator.compare(a.id, b.id));
-  } else if (state.sort === 'creator') {
+  if (state.sort === 'creator') {
     items.sort((a, b) =>
       collator.compare((creatorOf(a.creator) || {}).name || a.creator, (creatorOf(b.creator) || {}).name || b.creator)
       || collator.compare(a.id, b.id));
   } else {
-    items.sort((a, b) => collator.compare(a.id, b.id));
+    const order = new Map(allItems().map((it, i) => [it.id, i]));
+    items.sort((a, b) => (order.get(b.id) ?? 0) - (order.get(a.id) ?? 0));
   }
 
   if (state.random) items = seededShuffle(items, state.randomSeed).slice(0, RANDOM_PICKS);
@@ -720,8 +719,8 @@ function buildCard(item) {
     + '<footer class="card-foot">'
     + '<span class="credit-chip" style="--chip:' + (cr ? escapeHtml(cr.color) : '#8a8f98')
     + '" title="Created by ' + escapeHtml(cr ? cr.name : item.creator) + '">'
-    + '<i class="chip-dot"></i>' + escapeHtml(cr ? cr.name : item.creator) + '</span>'
-    + '<button class="copy-btn" type="button">Copy code</button>'
+    + escapeHtml(cr ? cr.name : item.creator) + '</span>'
+    + '<button class="copy-btn" type="button">Copy</button>'
     + '</footer>';
 
   const frame = $('.stage-frame', card);
@@ -833,6 +832,8 @@ function buildNoResults() {
 /* ---------- rendering ---------- */
 
 function renderStats(shownCount) {
+  const el = $('#statline');
+  if (!el) return;
   const total = allItems().length;
   const mine = savedVariants.length;
   const mineCount = savedVariants.length + importedItems.length;
@@ -843,7 +844,7 @@ function renderStats(shownCount) {
   } else {
     text = 'showing <b>' + shownCount + '</b> of ' + total + ' specimens \u00b7 <b>' + LIB.sections.length + '</b> drawers' + mineNote;
   }
-  $('#statline').innerHTML = text;
+  el.innerHTML = text;
 }
 
 function populateSectionDropdown() {
@@ -852,36 +853,31 @@ function populateSectionDropdown() {
   const items = allItems();
   sel.innerHTML = '';
 
-  const optNewest = document.createElement('option');
-  optNewest.value = 'newest';
-  optNewest.textContent = `Newest first (All ${items.length})`;
-  sel.appendChild(optNewest);
-
   const optAll = document.createElement('option');
   optAll.value = 'all';
-  optAll.textContent = `All drawers (Grouped)`;
+  optAll.textContent = `All drawers (${items.length})`;
   sel.appendChild(optAll);
 
   LIB.sections.forEach(sec => {
     const count = items.filter(it => it.section === sec.id).length;
     const opt = document.createElement('option');
     opt.value = sec.id;
-    opt.textContent = `${drawerNumber(sec.id)} ${sec.name} (${count})`;
+    opt.textContent = `${sec.name} (${count})`;
     sel.appendChild(opt);
   });
 
-  sel.value = state.section;
+  sel.value = state.section || 'all';
 }
 
-function populateCreatorDropdown() {
-  const sel = $('#creatorSelect');
+function populateSortDropdown() {
+  const sel = $('#sortSelect');
   if (!sel) return;
   const items = allItems();
   sel.innerHTML = '';
 
   const optAll = document.createElement('option');
   optAll.value = 'all';
-  optAll.textContent = `All creators (${items.length})`;
+  optAll.textContent = `All creators (Newest)`;
   sel.appendChild(optAll);
 
   LIB.creators.forEach(cr => {
@@ -904,10 +900,8 @@ function hasActiveFilters() {
 function syncControlStates() {
   $('#searchInput').value = state.query;
   if ($('#sectionSelect')) $('#sectionSelect').value = state.section;
-  if ($('#creatorSelect')) $('#creatorSelect').value = state.creator || 'all';
-  if ($('#sortSelect')) $('#sortSelect').value = state.sort;
+  if ($('#sortSelect')) $('#sortSelect').value = state.creator || 'all';
   $('#favToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
-  $('#randomBtn').setAttribute('aria-pressed', String(state.random));
 }
 
 function buildShowMore(hidden) {
@@ -929,11 +923,66 @@ function resetRenderLimit() {
   state.renderLimit = RENDER_DEFAULT;
 }
 
+function buildCarouselRow(sec, items) {
+  const wrap = document.createElement('section');
+  wrap.className = 'drawer-carousel-section';
+  wrap.dataset.section = sec.id;
+
+  const head = document.createElement('header');
+  head.className = 'group-head';
+  head.innerHTML =
+    '<span class="group-index">DRAWER ' + drawerNumber(sec.id) + '</span>'
+    + '<h2>' + escapeHtml(sec.name) + '</h2>'
+    + '<span class="group-rule"></span>'
+    + '<span class="group-count">' + items.length + ' specimen' + (items.length === 1 ? '' : 's') + '</span>';
+
+  const nav = document.createElement('div');
+  nav.className = 'carousel-nav-btns';
+
+  const prevBtn = document.createElement('button');
+  prevBtn.type = 'button';
+  prevBtn.className = 'carousel-btn';
+  prevBtn.title = 'Scroll left';
+  prevBtn.setAttribute('aria-label', `Previous ${sec.name}`);
+  prevBtn.innerHTML = '‹';
+
+  const nextBtn = document.createElement('button');
+  nextBtn.type = 'button';
+  nextBtn.className = 'carousel-btn';
+  nextBtn.title = 'Scroll right';
+  nextBtn.setAttribute('aria-label', `Next ${sec.name}`);
+  nextBtn.innerHTML = '›';
+
+  nav.appendChild(prevBtn);
+  nav.appendChild(nextBtn);
+  head.appendChild(nav);
+  wrap.appendChild(head);
+
+  const trackWrap = document.createElement('div');
+  trackWrap.className = 'carousel-track-wrap';
+
+  const track = document.createElement('div');
+  track.className = 'carousel-track';
+
+  items.forEach(it => track.appendChild(buildCard(it)));
+  trackWrap.appendChild(track);
+  wrap.appendChild(trackWrap);
+
+  prevBtn.addEventListener('click', () => {
+    track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+  });
+  nextBtn.addEventListener('click', () => {
+    track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+  });
+
+  return wrap;
+}
+
 function render() {
   const items = currentPool();
 
   populateSectionDropdown();
-  populateCreatorDropdown();
+  populateSortDropdown();
   syncControlStates();
 
   const main = $('#library');
@@ -950,48 +999,31 @@ function render() {
     return;
   }
 
-  let remaining = state.renderLimit;
-  let placed = 0;
-  const takeGrid = list => {
-    const slice = list.slice(0, remaining);
-    remaining -= slice.length;
-    placed += slice.length;
-    return buildGrid(slice);
-  };
-
   const frag = document.createDocumentFragment();
 
   if (state.random) {
-    frag.appendChild(takeGrid(items));
-  } else if (state.section === 'newest') {
-    frag.appendChild(buildNewestHeader(items.length));
-    frag.appendChild(takeGrid(items));
-  } else if (state.section === 'all') {
+    frag.appendChild(buildGrid(items));
+  } else if (!state.section || state.section === 'all') {
     LIB.sections.forEach(sec => {
       const group = items.filter(it => it.section === sec.id);
-      if (!group.length || remaining <= 0) return;
-      frag.appendChild(buildGroupHeader(sec, group.length));
-      frag.appendChild(takeGrid(group));
+      if (!group.length) return;
+      frag.appendChild(buildCarouselRow(sec, group));
     });
     const orphans = items.filter(it => !sectionOf(it.section));
-    if (orphans.length && remaining > 0) {
+    if (orphans.length) {
       const head = document.createElement('header');
       head.className = 'group-head';
       head.innerHTML = '<span class="group-index">DRAWER ??</span><h2>Unfiled</h2><span class="group-rule"></span>';
       frag.appendChild(head);
-      frag.appendChild(takeGrid(orphans));
+      frag.appendChild(buildGrid(orphans));
     }
   } else {
     const sec = sectionOf(state.section);
-    if (sec && remaining > 0) {
-      frag.appendChild(buildGroupHeader(sec, items.length));
-      frag.appendChild(takeGrid(items));
-    }
+    if (sec) frag.appendChild(buildGroupHeader(sec, items.length));
+    frag.appendChild(buildGrid(items));
   }
 
-  if (placed < items.length) frag.appendChild(buildShowMore(items.length - placed));
-
-  renderStats(placed);
+  renderStats(items.length);
   main.appendChild(frag);
 }
 
@@ -1046,9 +1078,10 @@ function exitRandom() {
 function clearAllFilters() {
   resetRenderLimit();
   state.query = '';
-  state.section = 'newest';
+  state.section = 'all';
   state.creator = null;
   state.favoritesOnly = false;
+  state.sort = 'newest';
   state.random = false;
   saveFilters();
   render();
@@ -1328,6 +1361,14 @@ function exportAgentStyleGuide(btn) {
   });
 }
 
+function openExportModal() {
+  $('#exportOverlay').hidden = false;
+}
+
+function closeExportModal() {
+  $('#exportOverlay').hidden = true;
+}
+
 function nextIdFor(sectionId) {
   const sec = sectionOf(sectionId);
   if (!sec) return null;
@@ -1345,6 +1386,8 @@ function applyDensity(idx) {
   state.densityIndex = Math.max(0, Math.min(DENSITY_TIERS.length - 1, idx));
   const tier = DENSITY_TIERS[state.densityIndex];
   document.documentElement.style.setProperty('--grid-min', tier.min);
+  document.documentElement.style.setProperty('--carousel-cols', String(tier.cols));
+  document.documentElement.dataset.density = tier.label;
   const lbl = $('#densityLabel');
   if (lbl) lbl.textContent = tier.label;
   const outBtn = $('#zoomOutBtn');
@@ -1407,9 +1450,25 @@ function init() {
     });
   });
 
-  $('#exportFavsBtn').addEventListener('click', exportFavorites);
-  $('#exportStyleGuideBtn').addEventListener('click', ev => exportAgentStyleGuide(ev.currentTarget));
-  $('#backupAllBtn').addEventListener('click', exportLayer);
+  $('#exportModalBtn').addEventListener('click', openExportModal);
+  $('#exportClose').addEventListener('click', closeExportModal);
+  $('#exportCancel').addEventListener('click', closeExportModal);
+  $('#exportOverlay').addEventListener('click', ev => {
+    if (ev.target === ev.currentTarget) closeExportModal();
+  });
+  $('#exportFavsJsonBtn').addEventListener('click', () => {
+    exportFavorites();
+    closeExportModal();
+  });
+  $('#exportStyleGuidePromptBtn').addEventListener('click', ev => {
+    exportAgentStyleGuide(ev.currentTarget);
+    closeExportModal();
+  });
+  $('#exportFullBackupBtn').addEventListener('click', () => {
+    exportLayer();
+    closeExportModal();
+  });
+
   $('#importBtn').addEventListener('click', openImporter);
   $('#importClose').addEventListener('click', closeImporter);
   $('#importCancel').addEventListener('click', closeImporter);
@@ -1427,24 +1486,15 @@ function init() {
     saveFilters();
     render();
   });
-  $('#randomBtn').addEventListener('click', () => {
-    if (state.random) rerollRandom(); else enterRandom();
-  });
   $('#sectionSelect').addEventListener('change', ev => {
     resetRenderLimit();
     state.section = ev.target.value;
     saveFilters();
     render();
   });
-  $('#creatorSelect').addEventListener('change', ev => {
-    resetRenderLimit();
-    state.creator = ev.target.value === 'all' ? null : ev.target.value;
-    saveFilters();
-    render();
-  });
   $('#sortSelect').addEventListener('change', ev => {
     resetRenderLimit();
-    state.sort = ev.target.value;
+    state.creator = ev.target.value === 'all' ? null : ev.target.value;
     saveFilters();
     render();
   });
@@ -1461,6 +1511,7 @@ function init() {
 
   document.addEventListener('keydown', ev => {
     if (ev.key === 'Escape') {
+      if (!$('#exportOverlay').hidden) { closeExportModal(); return; }
       if (!$('#importOverlay').hidden) { closeImporter(); return; }
       if (!$('#promptOverlay').hidden) { closePromptStudio(); return; }
     }
