@@ -369,8 +369,8 @@ function updatePromptStudio(opts = {}) {
   $('#agentColorHex').textContent = agentColor;
 
   const targetDrawer = dSel.value;
-  let taskText = 'TASK:\nExpand the section (drawer) of the library that I specify with new specimens.';
-  let badgeText = 'General Expansion';
+  let taskText = 'TASK:\nReview the 14 drawers in the library and add new, structurally distinct specimens to whichever drawers you feel have gaps or can be expanded with fresh aesthetics and interaction models.';
+  let badgeText = 'All Drawers (Open Choice)';
 
   if (targetDrawer !== 'all') {
     const sec = sectionOf(targetDrawer);
@@ -389,7 +389,7 @@ function updatePromptStudio(opts = {}) {
   let prompt = AGENT_PROMPT
     .replace(/You are \[AGENT NAME\]\. Everything you add to DESIGN LAB appears under a \[COLOR\] credit chip\./g,
       `You are ${agentName}. Everything you add to DESIGN LAB appears under a ${agentColor} credit chip (creator id: "${agentId}").`)
-    .replace(/FILL-IN SLOTS[\s\S]*?TASK/g, taskText);
+    .replace(/FILL-IN SLOTS[\s\S]*?Expand the section \(drawer\) of the library that I specify with new specimens\./g, taskText);
 
   prompt = prompt
     .replace(/\[AGENT NAME\]/g, agentName)
