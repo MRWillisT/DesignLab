@@ -16,6 +16,7 @@ const LS_VARIANTS = 'designlab.variants.v1';
 const LS_IMPORTS = 'designlab.imports.v1';
 const LS_CANVAS = 'designlab.canvas.v1';
 const LS_DENSITY = 'designlab.density.v1';
+const LS_SEEN = 'designlab.seen.v1';
 const ME_ID = 'me';
 const RANDOM_PICKS = 12;
 const RENDER_DEFAULT = 60;
@@ -32,7 +33,7 @@ const DENSITY_TIERS = [
 
 const state = {
   query: '',
-  section: 'all',
+  section: 'newest',
   creator: null,
   favoritesOnly: false,
   canvas: 'dark',
@@ -46,6 +47,7 @@ const state = {
 let favorites = new Set();
 let savedVariants = [];
 let importedItems = [];
+let newItemIds = new Set();
 const draftVars = new Map();
 const openTrays = new Set();
 let toastTimer = null;
@@ -141,13 +143,26 @@ function saveImports() {
   try { localStorage.setItem(LS_IMPORTS, JSON.stringify(importedItems)); } catch (e) { /* ignore */ }
 }
 
+function loadSeen() {
+  try {
+    const raw = localStorage.getItem(LS_SEEN);
+    if (!raw) return new Set();
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? new Set(arr) : new Set();
+  } catch (e) { return new Set(); }
+}
+
+function saveSeen(ids) {
+  try { localStorage.setItem(LS_SEEN, JSON.stringify(ids)); } catch (e) { /* ignore */ }
+}
+
 function loadFilters() {
   try {
     const raw = localStorage.getItem(LS_FILTERS);
     if (raw) {
       const saved = JSON.parse(raw);
       if (typeof saved.query === 'string') state.query = saved.query;
-      if (saved.section === 'all' || sectionOf(saved.section)) state.section = saved.section;
+      if (saved.section === 'newest' || saved.section === 'all' || sectionOf(saved.section)) state.section = saved.section;
       if (!saved.creator || creatorOf(saved.creator)) state.creator = saved.creator || null;
       state.favoritesOnly = !!saved.favoritesOnly;
       if (['id', 'name', 'creator'].includes(saved.sort)) state.sort = saved.sort;
@@ -596,7 +611,7 @@ function allItems() {
 function currentPool() {
   const q = state.query.trim().toLowerCase();
   let items = allItems().filter(it => {
-    if (state.section !== 'all' && it.section !== state.section) return false;
+    if (state.section !== 'all' && state.section !== 'newest' && it.section !== state.section) return false;
     if (state.creator && it.creator !== state.creator) return false;
     if (state.favoritesOnly && !favorites.has(it.id)) return false;
     if (q) {
@@ -613,7 +628,10 @@ function currentPool() {
   });
 
   const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
-  if (state.sort === 'name') {
+  if (state.section === 'newest') {
+    const order = new Map(allItems().map((it, i) => [it.id, i]));
+    items.sort((a, b) => (order.get(b.id) ?? 0) - (order.get(a.id) ?? 0));
+  } else if (state.sort === 'name') {
     items.sort((a, b) => collator.compare(a.name, b.name) || collator.compare(a.id, b.id));
   } else if (state.sort === 'creator') {
     items.sort((a, b) =>
@@ -681,6 +699,7 @@ function buildCard(item) {
   card.innerHTML =
     '<header class="card-top">'
     + '<span class="card-id">#' + escapeHtml(item.id) + '</span>'
+    + (newItemIds.has(item.id) ? '<span class="new-badge">NEW</span>' : '')
     + '<span class="mod-tag" ' + (dirty ? '' : 'hidden') + '>MOD</span>'
     + '<span class="top-actions">' + actions + '</span>'
     + '</header>'
@@ -780,6 +799,17 @@ function buildGroupHeader(sec, count) {
   return head;
 }
 
+function buildNewestHeader(count) {
+  const head = document.createElement('header');
+  head.className = 'group-head newest-head';
+  head.innerHTML =
+    '<span class="group-index">FRESH</span>'
+    + '<h2>Newest additions</h2>'
+    + '<span class="group-rule"></span>'
+    + '<span class="group-count">' + count + ' specimen' + (count === 1 ? '' : 's') + '</span>';
+  return head;
+}
+
 function buildGlobalEmpty() {
   const panel = document.createElement('div');
   panel.className = 'empty-panel';
@@ -826,6 +856,7 @@ function renderTabs() {
   const items = allItems();
   row.textContent = '';
 
+  row.appendChild(makeTab('newest', 'Newest', items.length));
   row.appendChild(makeTab('all', 'All drawers', items.length));
 
   LIB.sections.forEach(sec => {
@@ -848,7 +879,7 @@ function makeTab(sectionId, label, count) {
   btn.innerHTML = escapeHtml(label) + ' <span class="tab-count">' + count + '</span>';
   btn.addEventListener('click', () => {
     resetRenderLimit();
-    state.section = state.section === sectionId ? 'all' : sectionId;
+    state.section = state.section === sectionId ? 'newest' : sectionId;
     saveFilters();
     render();
   });
@@ -878,7 +909,7 @@ function renderCreatorChips() {
 }
 
 function hasActiveFilters() {
-  return !!(state.query.trim() || state.section !== 'all' || state.creator || state.favoritesOnly || state.random);
+  return !!(state.query.trim() || (state.section !== 'newest' && state.section !== 'all') || state.creator || state.favoritesOnly || state.random);
 }
 
 function afChip(label, opts = {}) {
@@ -916,10 +947,10 @@ function renderActiveFilters() {
   if (state.query.trim()) {
     wrap.appendChild(afChip('search “' + state.query.trim() + '”', { onClear: () => setQuery('') }));
   }
-  if (state.section !== 'all') {
+  if (state.section !== 'newest' && state.section !== 'all') {
     const sec = sectionOf(state.section);
     wrap.appendChild(afChip('drawer: ' + ((sec || {}).name || state.section), {
-      onClear: () => { state.section = 'all'; saveFilters(); render(); }
+      onClear: () => { state.section = 'newest'; saveFilters(); render(); }
     }));
   }
   if (state.creator) {
@@ -1005,7 +1036,12 @@ function render() {
 
   const frag = document.createDocumentFragment();
 
-  if (state.section === 'all' && !state.random) {
+  if (state.random) {
+    frag.appendChild(takeGrid(items));
+  } else if (state.section === 'newest') {
+    frag.appendChild(buildNewestHeader(items.length));
+    frag.appendChild(takeGrid(items));
+  } else if (state.section === 'all') {
     LIB.sections.forEach(sec => {
       const group = items.filter(it => it.section === sec.id);
       if (!group.length || remaining <= 0) return;
@@ -1020,14 +1056,12 @@ function render() {
       frag.appendChild(head);
       frag.appendChild(takeGrid(orphans));
     }
-  } else if (state.section !== 'all') {
+  } else {
     const sec = sectionOf(state.section);
     if (sec && remaining > 0) {
       frag.appendChild(buildGroupHeader(sec, items.length));
       frag.appendChild(takeGrid(items));
     }
-  } else {
-    frag.appendChild(takeGrid(items));
   }
 
   if (placed < items.length) frag.appendChild(buildShowMore(items.length - placed));
@@ -1087,7 +1121,7 @@ function exitRandom() {
 function clearAllFilters() {
   resetRenderLimit();
   state.query = '';
-  state.section = 'all';
+  state.section = 'newest';
   state.creator = null;
   state.favoritesOnly = false;
   state.random = false;
@@ -1402,6 +1436,14 @@ function init() {
   validateLibrary();
   loadFavorites();
   loadFilters();
+
+  const seen = loadSeen();
+  const currentIds = LIB.items.map(it => it.id);
+  const hadBaseline = seen.size > 0;
+  newItemIds = hadBaseline
+    ? new Set(currentIds.filter(id => !seen.has(id)))
+    : new Set();
+  saveSeen(currentIds);
 
   setStageCanvas(state.canvas);
   $$('.canvas-btn').forEach(btn => {

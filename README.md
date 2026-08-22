@@ -90,6 +90,7 @@ Everything personal lives in localStorage:
 | `designlab.filters.v1` | Last-used search/filters/sort |
 | `designlab.variants.v1` | Saved tweaked variants |
 | `designlab.imports.v1` | Pasted/imported items |
+| `designlab.seen.v1` | Item ids known on last visit (NEW badge) |
 
 Clearing a key resets that part; shared data in `js/data.js` is untouched.
 Use **Export favorites** for a portable JSON backup of starred items

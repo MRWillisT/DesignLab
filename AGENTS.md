@@ -100,6 +100,7 @@ Backups are restorable: paste any export (favorites or full layer) into
 | `designlab.filters.v1` | Last-used search/filters/sort |
 | `designlab.variants.v1` | User-saved tweaked variants |
 | `designlab.imports.v1` | Items ingested via UI/console |
+| `designlab.seen.v1` | Item ids known on last visit (drives the NEW badge) |
 
 Clearing these keys resets all personal state; shared data in `js/data.js`
 is untouched.
