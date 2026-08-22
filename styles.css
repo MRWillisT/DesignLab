@@ -222,28 +222,28 @@ input, select { font: inherit; }
 
 .tabrow {
   display: flex;
-  gap: 7px;
-  overflow-x: auto;
-  scrollbar-width: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
   padding-bottom: 2px;
 }
-
-.tabrow::-webkit-scrollbar { display: none; }
 
 .tab {
   flex: none;
   display: inline-flex;
-  align-items: baseline;
+  align-items: center;
   gap: 5px;
-  padding: 6px 11px;
+  padding: 5px 11px;
   border-radius: 999px;
   border: 1px solid var(--line);
   background: transparent;
   font-family: var(--font-mono);
   font-size: 10.5px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-dim);
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .tab:hover { border-color: var(--line-strong); color: var(--ink); }
