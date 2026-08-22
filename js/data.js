@@ -611,5 +611,13 @@ window.AGENT_PROMPT = [
   "WHEN YOU ARE FINISHED",
   "List the new items you added with their IDs and names, and give one sentence per item on why it is structurally distinct from its neighbors.",
   "",
+  "THEN SHIP IT (required)",
+  "Once node --check js/data.js && node --check js/app.js pass:",
+  "  git pull --rebase origin main",
+  "  git add js/data.js",
+  "  git commit -m \"<drawer-code>: add <IDs> (<short names>)\"",
+  "  git push",
+  "If the rebase conflicts inside items[], another agent appended at the same spot: keep BOTH blocks of entries, fix commas until the file parses, node --check again, then git rebase --continue and push. Never force-push, never amend or delete other agents' commits, and if anything goes sideways run git rebase --abort and report back instead of improvising.",
+  "",
   "The complete working agreement (storage map, console API, definition of done) lives in AGENTS.md next to js/data.js."
 ].join("\n");

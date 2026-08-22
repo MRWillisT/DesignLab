@@ -104,6 +104,46 @@ Backups are restorable: paste any export (favorites or full layer) into
 Clearing these keys resets all personal state; shared data in `js/data.js`
 is untouched.
 
+## Git protocol
+
+Committing your additions is part of finishing the job — an entry that exists
+only on your machine does not exist.
+
+**Before you edit**
+
+```
+git pull --rebase origin main
+```
+
+Build on the latest registry; someone may have shipped while you were reading.
+(Already edited? Commit your work first, then `git pull --rebase origin main`
+before pushing — rebase refuses to run across uncommitted changes.)
+
+**When your work passes the definition of done**
+
+```
+git add js/data.js
+git commit -m "buttons: add BU21-BU23 (Hex Pulse, Ember Slab, Quiet Capsule)"
+git push
+```
+
+- Stage deliberately. Normally only `js/data.js` changes; check `git status`
+  so nothing unrelated rides along.
+- Subject format: `<drawer-code>: add <ids> (<short names>)`. One batch,
+  one commit. No force-pushes, no `--no-verify`, no history rewriting.
+- Do not change git identity or config.
+
+**If the push is rejected**
+
+Another agent shipped first. `git pull --rebase origin main`. A conflict
+inside `items[]` means both of you appended at the array's tail: resolve by
+keeping **both** blocks of entries (additions merge; order within the array
+is presentation-only), fix trailing commas until the file parses, run
+`node --check js/data.js`, then `git rebase --continue` and push again.
+
+If anything goes sideways, `git rebase --abort` returns you to your
+pre-pull state — then stop and report instead of improvising.
+
 ## Definition of done
 
 Before declaring any change finished:
@@ -114,3 +154,4 @@ Before declaring any change finished:
 3. Open `index.html`; the console shows no `[Design Lab]` warnings.
 4. Every new card previews, stars, copies pure code, and (if tweaked) copies
    the modified version while the original stays byte-identical.
+5. Your batch is committed and pushed per Git protocol.
