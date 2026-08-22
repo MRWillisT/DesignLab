@@ -943,6 +943,60 @@ window.DESIGN_LAB = {
       creator: "mimo-2-5",
       tags: ["slider","stepped","notch","discrete","quality"],
       code: "<style>\n  .ksn-wrap{display:flex;flex-direction:column;gap:4px;width:200px}\n  .ksn-bar{position:relative;height:24px;display:flex;align-items:center}\n  .ksn-line{position:absolute;left:0;right:0;height:2px;background:rgba(255,255,255,0.08);border-radius:1px}\n  .ksn-notch{position:absolute;width:2px;height:10px;background:rgba(255,255,255,0.18);border-radius:1px;transform:translateX(-1px);top:7px}\n  .ksn-curr{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(255,255,255,0.6);top:6px;transform:translateX(-6px);transition:left .2s ease,box-shadow .2s ease;cursor:pointer}\n  .ksn-curr:hover{box-shadow:0 0 14px rgba(255,255,255,.9)}\n  .ksn-labels{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,0.3);padding:0 2px;letter-spacing:.04em;font-weight:600}\n  @media (prefers-reduced-motion:reduce){.ksn-curr{transition:none}}\n</style>\n<div class=\"ksn-wrap\">\n  <div class=\"ksn-bar\">\n    <div class=\"ksn-line\"></div>\n    <div class=\"ksn-notch\" style=\"left:0%\"></div>\n    <div class=\"ksn-notch\" style=\"left:25%\"></div>\n    <div class=\"ksn-notch\" style=\"left:50%\"></div>\n    <div class=\"ksn-notch\" style=\"left:75%\"></div>\n    <div class=\"ksn-notch\" style=\"left:100%\"></div>\n    <div class=\"ksn-curr\" style=\"left:75%\"></div>\n  </div>\n  <div class=\"ksn-labels\"><span>Draft</span><span>HD</span><span>4K</span><span>8K</span><span>Cinema</span></div>\n</div>"
+    },
+
+    /* ---- Mimo 2.5 additions: Animations ---- */
+
+    {
+      id: "AN2",
+      section: "animations",
+      name: "Morphing Blob",
+      description: "Continuous organic shape-shift via animated border-radius — form is never the same twice.",
+      creator: "mimo-2-5",
+      tags: ["animation","morph","blob","organic","border-radius"],
+      tweaks: [
+        { type: "color", label: "Blob Color", varName: "--an2-color", default: "#8b5cf6" },
+      ],
+      code: "<style>\n  @keyframes kan2-morph{0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}25%{border-radius:30% 60% 70% 40%/50% 60% 30% 60%}50%{border-radius:50% 60% 30% 60%/30% 40% 70% 60%}75%{border-radius:40% 60% 50% 40%/60% 50% 40% 60%}}\n  @keyframes kan2-drift{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(6px,-4px) rotate(2deg)}50%{transform:translate(-3px,5px) rotate(-1deg)}75%{transform:translate(4px,2px) rotate(1.5deg)}}\n  .kan2-blob{width:100px;height:100px;background:linear-gradient(135deg,var(--an2-color,#8b5cf6),#ec4899);animation:kan2-morph 8s ease-in-out infinite,kan2-drift 12s ease-in-out infinite;box-shadow:0 0 30px rgba(var(--an2-rgb,139,92,246),0.4)}\n  @media (prefers-reduced-motion:reduce){.kan2-blob{animation:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:160px;height:160px\">\n  <div class=\"kan2-blob\" style=\"--an2-rgb:139,92,246\"></div>\n</div>"
+    },
+
+    {
+      id: "AN3",
+      section: "animations",
+      name: "Text Cascade",
+      description: "Words slide up and fade in with staggered delays — choreographed entrance from below.",
+      creator: "mimo-2-5",
+      tags: ["animation","text","cascade","reveal","stagger"],
+      tweaks: [
+        { type: "color", label: "Text Color", varName: "--an3-color", default: "#a78bfa" },
+      ],
+      code: "<style>\n  @keyframes kan3-in{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}\n  .kan3-word{display:inline-block;opacity:0;animation:kan3-in .5s ease-out forwards;color:var(--an3-color,#a78bfa);font-weight:700}\n  .kan3-word:nth-child(1){animation-delay:.1s}\n  .kan3-word:nth-child(2){animation-delay:.25s}\n  .kan3-word:nth-child(3){animation-delay:.4s}\n  .kan3-word:nth-child(4){animation-delay:.55s}\n  .kan3-word:nth-child(5){animation-delay:.7s}\n  @media (prefers-reduced-motion:reduce){.kan3-word{animation:none;opacity:1;transform:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:260px;height:60px\">\n  <div style=\"display:flex;gap:10px;font-size:22px;letter-spacing:.02em\">\n    <span class=\"kan3-word\">Motion</span>\n    <span class=\"kan3-word\">is</span>\n    <span class=\"kan3-word\">the</span>\n    <span class=\"kan3-word\">design.</span>\n  </div>\n</div>"
+    },
+
+    {
+      id: "AN4",
+      section: "animations",
+      name: "Orbital Rings",
+      description: "Multiple elements orbiting a center at different speeds and radii — solar-system choreography.",
+      creator: "mimo-2-5",
+      tags: ["animation","orbit","rings","circular","rotating"],
+      tweaks: [
+        { type: "color", label: "Center Color", varName: "--an4-center", default: "#38bdf8" },
+      ],
+      code: "<style>\n  @keyframes kan4-orbit{to{transform:rotate(360deg)}}\n  @keyframes kan4-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.25);opacity:.8}}\n  @media (prefers-reduced-motion:reduce){.kan4-orb,.kan4-center,.kan4-ring{animation:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:180px;height:180px;position:relative\">\n  <div style=\"position:absolute;width:72px;height:72px;border-radius:50%;border:1px solid rgba(255,255,255,0.08)\"></div>\n  <div style=\"position:absolute;width:120px;height:120px;border-radius:50%;border:1px solid rgba(255,255,255,0.06)\"></div>\n  <div class=\"kan4-center\" style=\"width:18px;height:18px;border-radius:50%;background:var(--an4-center,#38bdf8);box-shadow:0 0 16px var(--an4-center,#38bdf8);position:relative;z-index:2;animation:kan4-pulse 3s ease-in-out infinite\"></div>\n  <div class=\"kan4-orb\" style=\"position:absolute;width:72px;height:72px;border-radius:50%;animation:kan4-orbit 3.5s linear infinite;transform-origin:center\">\n    <div style=\"width:10px;height:10px;border-radius:50%;background:#f43f5e;position:absolute;top:-5px;left:calc(50% - 5px);box-shadow:0 0 8px #f43f5e\"></div>\n  </div>\n  <div class=\"kan4-orb\" style=\"position:absolute;width:120px;height:120px;border-radius:50%;animation:kan4-orbit 7s linear infinite;transform-origin:center\">\n    <div style=\"width:7px;height:7px;border-radius:50%;background:#10b981;position:absolute;top:-3.5px;left:calc(50% - 3.5px);box-shadow:0 0 6px #10b981\"></div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "AN5",
+      section: "animations",
+      name: "Wave Pulse",
+      description: "Vertical bars undulate with staggered phase — the wave IS the visualization.",
+      creator: "mimo-2-5",
+      tags: ["animation","wave","bars","pulse","audio"],
+      tweaks: [
+        { type: "color", label: "Bar Color", varName: "--an5-color", default: "#8b5cf6" },
+      ],
+      code: "<style>\n  @keyframes kan5-wave{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}\n  .kan5-bar{width:4px;border-radius:2px;background:var(--an5-color,#8b5cf6);transform-origin:center;animation:kan5-wave 1.2s ease-in-out infinite}\n  .kan5-bar:nth-child(1){animation-delay:0s}\n  .kan5-bar:nth-child(2){animation-delay:.08s}\n  .kan5-bar:nth-child(3){animation-delay:.16s}\n  .kan5-bar:nth-child(4){animation-delay:.24s}\n  .kan5-bar:nth-child(5){animation-delay:.32s}\n  .kan5-bar:nth-child(6){animation-delay:.4s}\n  .kan5-bar:nth-child(7){animation-delay:.48s}\n  .kan5-bar:nth-child(8){animation-delay:.56s}\n  .kan5-bar:nth-child(9){animation-delay:.64s}\n  .kan5-bar:nth-child(10){animation-delay:.72s}\n  .kan5-bar:nth-child(11){animation-delay:.8s}\n  .kan5-bar:nth-child(12){animation-delay:.88s}\n  @media (prefers-reduced-motion:reduce){.kan5-bar{animation:none;transform:scaleY(1)}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:200px;height:60px\">\n  <div style=\"display:flex;align-items:center;gap:5px;height:40px\">\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n    <div class=\"kan5-bar\" style=\"height:40px\"></div>\n  </div>\n</div>"
     }
 
 
