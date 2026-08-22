@@ -7,7 +7,11 @@ codebase with your own words around it.
 
 Built as plain HTML/CSS/JS. No build step, no dependencies.
 
-## Quick start
+## Live Demo & App
+
+🚀 **[Open Design Lab in Browser](https://mrwillist.github.io/DesignLab/)** — No download or setup needed. Run or install directly from Chrome/Edge as a desktop app.
+
+## Quick start (Offline / Local)
 
 Open `index.html` in any modern browser. That's the whole install.
 
