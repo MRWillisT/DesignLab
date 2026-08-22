@@ -578,6 +578,218 @@ window.DESIGN_LAB = {
       creator: "ox-alpha",
       tags: ["status","pills","queue","states"],
       code: "<style>\n  @keyframes kba2kf-br{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}\n  .kba2br{animation:kba2kf-br 2s ease-in-out infinite;display:inline-block}\n  @media (prefers-reduced-motion:reduce){.kba2br{animation:none}}\n</style>\n<span style=\"display:inline-flex; gap:8px; flex-wrap:wrap;\"><span style=\"display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:9999px; font-size:11px; font-weight:700; background:rgba(251,191,36,.12); border:1px solid rgba(251,191,36,.4); color:#fcd34d;\"><i style=\"width:7px; height:7px; border-radius:50%; background:#fbbf24;\"></i>QUEUED</span><span style=\"display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:9999px; font-size:11px; font-weight:700; background:rgba(56,189,248,.12); border:1px solid rgba(56,189,248,.4); color:#7dd3fc;\"><i class=\"kba2br\" style=\"width:7px; height:7px; border-radius:50%; background:#38bdf8;\"></i>RENDERING</span><span style=\"display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:9999px; font-size:11px; font-weight:700; background:rgba(52,211,153,.12); border:1px solid rgba(52,211,153,.4); color:#6ee7b7;\"><i style=\"width:7px; height:7px; border-radius:50%; background:#34d399;\"></i>DONE</span></span>"
+    },
+
+    /* ---- Gemini Drawer Expansions: Forms, Loaders, Alerts, Cards, Navigation, Modals, Effects ---- */
+
+    {
+      id: "FO1",
+      section: "forms",
+      name: "Floating Label Cyber Input",
+      description: "Neon cyan outline glass input with smooth floating label elevation.",
+      creator: "gemini",
+      tags: ["form","input","cyber","neon","glass"],
+      code: "<style>\n  .kfo1-wrap{position:relative;width:220px;margin:0 auto}\n  .kfo1-in{width:100%;background:rgba(15,23,42,0.85);border:1px solid #38bdf8;border-radius:8px;padding:16px 12px 6px;color:#f8fafc;font-size:12px;outline:none;box-shadow:0 0 10px rgba(56,189,248,0.2)}\n  .kfo1-lbl{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:11.5px;color:#38bdf8;pointer-events:none;transition:transform 0.18s ease,opacity 0.18s ease}\n  .kfo1-in:focus + .kfo1-lbl, .kfo1-in:not(:placeholder-shown) + .kfo1-lbl{transform:translateY(-16px) scale(0.85);transform-origin:left;opacity:0.85}\n  @media (prefers-reduced-motion:reduce){.kfo1-lbl{transition:none}}\n</style>\n<div class=\"kfo1-wrap\">\n  <input class=\"kfo1-in\" placeholder=\" \" type=\"text\" value=\"prompt://v2.cyber\">\n  <label class=\"kfo1-lbl\">Model Endpoint</label>\n</div>"
+    },
+
+    {
+      id: "FO2",
+      section: "forms",
+      name: "Gunmetal Hardware Stepper",
+      description: "Chiseled hardware console number stepper with tactile +/- triggers.",
+      creator: "gemini",
+      tags: ["form","stepper","hardware","gunmetal","number"],
+      code: "<style>\n  .kfo2-wrap{display:inline-flex;align-items:center;background:linear-gradient(180deg,#242933,#171a21);border:1px solid #3b4252;border-radius:6px;padding:3px;box-shadow:inset 0 1px 3px rgba(0,0,0,0.5)}\n  .kfo2-btn{width:26px;height:26px;border-radius:4px;background:#2e3440;border:1px solid #4c566a;color:#88c0d0;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;user-select:none}\n  .kfo2-btn:hover{filter:brightness(1.2)}\n  .kfo2-val{width:46px;text-align:center;font-family:monospace;font-size:12.5px;font-weight:600;color:#88c0d0;background:transparent;border:none;outline:none}\n</style>\n<div class=\"kfo2-wrap\">\n  <button type=\"button\" class=\"kfo2-btn\">−</button>\n  <input class=\"kfo2-val\" type=\"text\" value=\"0.75\" readonly>\n  <button type=\"button\" class=\"kfo2-btn\">+</button>\n</div>"
+    },
+
+    {
+      id: "FO3",
+      section: "forms",
+      name: "Tag Chip Pill Input",
+      description: "Compact capsule input with embedded removable gradient pill chips.",
+      creator: "gemini",
+      tags: ["form","tags","chips","pill","input"],
+      code: "<style>\n  .kfo3-box{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);border-radius:9999px;padding:4px 10px;width:220px}\n  .kfo3-chip{display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-size:10.5px;font-weight:600;padding:2px 8px;border-radius:9999px}\n  .kfo3-in{flex:1;background:transparent;border:none;outline:none;color:#e2e8f0;font-size:11.5px;min-width:40px}\n</style>\n<div class=\"kfo3-box\">\n  <span class=\"kfo3-chip\">Sci-Fi <i style=\"cursor:pointer;font-style:normal;opacity:0.7\">✕</i></span>\n  <input class=\"kfo3-in\" type=\"text\" placeholder=\"Add tag…\">\n</div>"
+    },
+
+    {
+      id: "FO4",
+      section: "forms",
+      name: "Segmented Studio Dropdown",
+      description: "Deep violet glass select with custom illuminated chevron indicator.",
+      creator: "gemini",
+      tags: ["form","select","dropdown","violet","glass"],
+      code: "<style>\n  .kfo4-sel{background:linear-gradient(135deg,rgba(30,27,75,0.8),rgba(15,23,42,0.9));border:1px solid rgba(139,92,246,0.4);border-radius:8px;color:#c4b5fd;font-size:12px;font-weight:600;padding:8px 30px 8px 12px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23a78bfa' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 10px center;box-shadow:0 0 10px rgba(139,92,246,0.25)}\n</style>\n<select class=\"kfo4-sel\">\n  <option>4K Ultra Render (Pro)</option>\n  <option>1080p Studio Preview</option>\n  <option>720p Fast Draft</option>\n</select>"
+    },
+
+    {
+      id: "LO1",
+      section: "loaders",
+      name: "Aurora Wave Shimmer",
+      description: "Fluid dual-glow shimmer wave across structured skeleton placeholders.",
+      creator: "gemini",
+      tags: ["loader","skeleton","shimmer","aurora","wave"],
+      code: "<style>\n  @keyframes klo1-shim{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}\n  .klo1-card{width:200px;padding:10px;border-radius:10px;background:#141720;border:1px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;gap:8px}\n  .klo1-bar{position:relative;overflow:hidden;background:rgba(255,255,255,0.06);border-radius:4px}\n  .klo1-bar::after{content:\"\";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(168,85,247,0.25),rgba(56,189,248,0.25),transparent);animation:klo1-shim 1.6s infinite}\n  @media (prefers-reduced-motion:reduce){.klo1-bar::after{animation:none}}\n</style>\n<div class=\"klo1-card\">\n  <div class=\"klo1-bar\" style=\"height:12px;width:55%\"></div>\n  <div class=\"klo1-bar\" style=\"height:7px;width:100%\"></div>\n  <div class=\"klo1-bar\" style=\"height:7px;width:75%\"></div>\n</div>"
+    },
+
+    {
+      id: "LO2",
+      section: "loaders",
+      name: "Orbit Ring Particle Spinner",
+      description: "Dual-tone orbital ring with glowing core center pip.",
+      creator: "gemini",
+      tags: ["loader","spinner","ring","orbit","glow"],
+      code: "<style>\n  @keyframes klo2-rot{to{transform:rotate(360deg)}}\n  .klo2-wrap{position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center}\n  .klo2-ring{position:absolute;inset:0;border-radius:50%;border:2px solid transparent;border-top-color:#38bdf8;border-right-color:#818cf8;animation:klo2-rot 0.9s cubic-bezier(0.4,0,0.2,1) infinite;box-shadow:0 0 10px rgba(56,189,248,0.3)}\n  .klo2-dot{width:7px;height:7px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8}\n  @media (prefers-reduced-motion:reduce){.klo2-ring{animation:none}}\n</style>\n<div class=\"klo2-wrap\">\n  <div class=\"klo2-ring\"></div>\n  <div class=\"klo2-dot\"></div>\n</div>"
+    },
+
+    {
+      id: "LO3",
+      section: "loaders",
+      name: "Terminal Phosphor Pulse",
+      description: "Hacker-style green phosphor block cadence for AI synthesis states.",
+      creator: "gemini",
+      tags: ["loader","terminal","phosphor","green","retro"],
+      code: "<style>\n  @keyframes klo3-pulse{0%,100%{opacity:0.25}50%{opacity:1}}\n  .klo3-box{display:flex;align-items:center;gap:5px;background:#051408;border:1px solid #22c55e;border-radius:4px;padding:6px 10px;font-family:monospace;font-size:11px;color:#4ade80}\n  .klo3-seg{width:7px;height:11px;background:#22c55e;border-radius:1px}\n  .klo3-seg:nth-child(1){animation:klo3-pulse 1.2s infinite 0s}\n  .klo3-seg:nth-child(2){animation:klo3-pulse 1.2s infinite 0.2s}\n  .klo3-seg:nth-child(3){animation:klo3-pulse 1.2s infinite 0.4s}\n  .klo3-seg:nth-child(4){animation:klo3-pulse 1.2s infinite 0.6s}\n  @media (prefers-reduced-motion:reduce){.klo3-seg{animation:none}}\n</style>\n<div class=\"klo3-box\">\n  <span>SYNTHESIZING</span>\n  <span style=\"display:flex;gap:3px;margin-left:5px\">\n    <i class=\"klo3-seg\"></i><i class=\"klo3-seg\"></i><i class=\"klo3-seg\"></i><i class=\"klo3-seg\"></i>\n  </span>\n</div>"
+    },
+
+    {
+      id: "LO4",
+      section: "loaders",
+      name: "Neural Synapse Pulse Dots",
+      description: "Three harmonic gradient bounce dots with warm ambient glow.",
+      creator: "gemini",
+      tags: ["loader","dots","neural","synapse","pink"],
+      code: "<style>\n  @keyframes klo4-bounce{0%,100%{transform:translateY(0);opacity:0.35}50%{transform:translateY(-6px);opacity:1}}\n  .klo4-row{display:inline-flex;align-items:center;gap:7px}\n  .klo4-dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,#ec4899,#8b5cf6);box-shadow:0 0 8px rgba(236,72,153,0.6)}\n  .klo4-dot:nth-child(1){animation:klo4-bounce 0.8s ease-in-out infinite 0s}\n  .klo4-dot:nth-child(2){animation:klo4-bounce 0.8s ease-in-out infinite 0.15s}\n  .klo4-dot:nth-child(3){animation:klo4-bounce 0.8s ease-in-out infinite 0.3s}\n  @media (prefers-reduced-motion:reduce){.klo4-dot{animation:none}}\n</style>\n<div class=\"klo4-row\">\n  <i class=\"klo4-dot\"></i><i class=\"klo4-dot\"></i><i class=\"klo4-dot\"></i>\n</div>"
+    },
+
+    {
+      id: "AL1",
+      section: "alerts",
+      name: "Frosted Glass Pill Toast",
+      description: "Translucent acrylic pill toast with emerald success pip.",
+      creator: "gemini",
+      tags: ["alert","toast","glass","frosted","success"],
+      code: "<style>\n  .kal1-toast{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.18);border-radius:9999px;padding:6px 14px;box-shadow:0 8px 24px -6px rgba(0,0,0,0.5)}\n  .kal1-icon{width:18px;height:18px;border-radius:50%;background:#10b981;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}\n  .kal1-txt{font-size:12px;font-weight:500;color:#f8fafc}\n</style>\n<div class=\"kal1-toast\">\n  <span class=\"kal1-icon\">✓</span>\n  <span class=\"kal1-txt\">Export complete · Saved to assets</span>\n</div>"
+    },
+
+    {
+      id: "AL2",
+      section: "alerts",
+      name: "Tactical Amber Warning Banner",
+      description: "High-contrast tactical amber perimeter banner for memory and queue alerts.",
+      creator: "gemini",
+      tags: ["alert","banner","warning","amber","tactical"],
+      code: "<style>\n  .kal2-banner{display:flex;align-items:center;gap:10px;background:rgba(245,158,11,0.08);border:1px solid #f59e0b;border-radius:6px;padding:8px 12px;width:220px}\n  .kal2-sign{color:#f59e0b;font-size:14px;font-weight:700}\n  .kal2-content{font-size:11.5px;color:#fde68a;line-height:1.3}\n</style>\n<div class=\"kal2-banner\">\n  <span class=\"kal2-sign\">⚠</span>\n  <div class=\"kal2-content\">\n    <strong>VRAM at 88%</strong>\n    <div style=\"opacity:0.8;font-size:10.5px\">Queued tasks may slow down</div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "AL3",
+      section: "alerts",
+      name: "Neon Cyber Rim Notification",
+      description: "Dark carbon surface with electric cyan accent edge and indicator dot.",
+      creator: "gemini",
+      tags: ["alert","cyber","neon","notification","cyan"],
+      code: "<style>\n  .kal3-box{display:flex;align-items:center;gap:10px;background:#090d16;border:1px solid #38bdf8;border-left-width:4px;border-radius:6px;padding:8px 12px;box-shadow:0 0 14px rgba(56,189,248,0.25)}\n  .kal3-dot{width:8px;height:8px;border-radius:50%;background:#38bdf8;box-shadow:0 0 8px #38bdf8}\n  .kal3-title{font-size:12px;font-weight:600;color:#e0f2fe}\n</style>\n<div class=\"kal3-box\">\n  <i class=\"kal3-dot\"></i>\n  <span class=\"kal3-title\">Audio Track Rendered (0:15)</span>\n</div>"
+    },
+
+    {
+      id: "CA1",
+      section: "cards",
+      name: "Sleek Metric Stat Tile",
+      description: "Violet gradient card surface with numeric readout and live trend indicator.",
+      creator: "gemini",
+      tags: ["card","surface","metric","stats","violet"],
+      code: "<style>\n  .kca1-card{background:linear-gradient(145deg,rgba(30,27,75,0.7),rgba(15,23,42,0.85));border:1px solid rgba(139,92,246,0.3);border-radius:12px;padding:12px;width:200px;box-shadow:0 8px 24px -8px rgba(0,0,0,0.6)}\n  .kca1-hdr{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:#a78bfa;font-weight:600;letter-spacing:0.04em}\n  .kca1-num{font-size:20px;font-weight:800;color:#fff;margin:5px 0 2px;letter-spacing:-0.02em}\n  .kca1-sub{font-size:10.5px;color:#34d399;font-weight:500}\n</style>\n<div class=\"kca1-card\">\n  <div class=\"kca1-hdr\"><span>GPU THROUGHPUT</span><span>⚡ LIVE</span></div>\n  <div class=\"kca1-num\">142.8 fps</div>\n  <div class=\"kca1-sub\">↑ +18.4% faster batch</div>\n</div>"
+    },
+
+    {
+      id: "CA2",
+      section: "cards",
+      name: "Frosted Glass Profile Badge",
+      description: "Floating frosted glass tile with cyan avatar gradient and badge hierarchy.",
+      creator: "gemini",
+      tags: ["card","glass","profile","avatar","cyan"],
+      code: "<style>\n  .kca2-tile{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:10px 12px;width:200px}\n  .kca2-ava{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#06b6d4,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;box-shadow:0 4px 10px rgba(6,182,212,0.4)}\n  .kca2-name{font-size:12.5px;font-weight:600;color:#f1f5f9}\n  .kca2-role{font-size:10.5px;color:#94a3b8}\n</style>\n<div class=\"kca2-tile\">\n  <div class=\"kca2-ava\">AI</div>\n  <div>\n    <div class=\"kca2-name\">Studio Engine</div>\n    <div class=\"kca2-role\">v2.4 · High Fidelity</div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "CA3",
+      section: "cards",
+      name: "Hardware Console DSP Module",
+      description: "Gunmetal equipment surface with LED active power pip and technical specs.",
+      creator: "gemini",
+      tags: ["card","hardware","module","gunmetal","dsp"],
+      code: "<style>\n  .kca3-mod{background:linear-gradient(180deg,#242933,#171a21);border:1px solid #3b4252;border-radius:8px;padding:10px 12px;width:200px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.1)}\n  .kca3-top{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #2e3440;padding-bottom:5px;margin-bottom:6px}\n  .kca3-lbl{font-family:monospace;font-size:9.5px;color:#88c0d0;font-weight:600;letter-spacing:0.06em}\n  .kca3-led{width:6px;height:6px;border-radius:50%;background:#a3be8c;box-shadow:0 0 6px #a3be8c}\n  .kca3-body{font-family:monospace;font-size:11px;color:#d8dee9;line-height:1.4}\n</style>\n<div class=\"kca3-mod\">\n  <div class=\"kca3-top\"><span class=\"kca3-lbl\">MODULE_DSP</span><i class=\"kca3-led\"></i></div>\n  <div class=\"kca3-body\">SAMPLERATE: 48kHz<br>STEREO PAN: +0.22</div>\n</div>"
+    },
+
+    {
+      id: "NA2",
+      section: "navigation",
+      name: "Floating Capsule Dock",
+      description: "Subtle blur glass pill dock with illuminated circular active state.",
+      creator: "gemini",
+      tags: ["navigation","dock","capsule","floating","glass"],
+      code: "<style>\n  .kna2-dock{display:inline-flex;align-items:center;gap:4px;background:rgba(15,23,42,0.85);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.12);border-radius:9999px;padding:4px 8px;box-shadow:0 12px 30px -8px rgba(0,0,0,0.7)}\n  .kna2-item{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;color:#94a3b8;font-size:13px;cursor:pointer;transition:transform 0.16s ease,opacity 0.16s ease}\n  .kna2-item:hover{transform:translateY(-2px);color:#fff}\n  .kna2-item.active{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,0.4)}\n  @media (prefers-reduced-motion:reduce){.kna2-item{transition:none}}\n</style>\n<nav class=\"kna2-dock\">\n  <span class=\"kna2-item active\">⊞</span>\n  <span class=\"kna2-item\">⚡</span>\n  <span class=\"kna2-item\">⚙</span>\n  <span class=\"kna2-item\">✦</span>\n</nav>"
+    },
+
+    {
+      id: "NA3",
+      section: "navigation",
+      name: "Minimalist Breadcrumb Trail",
+      description: "Clean hierarchical navigation path with glowing violet chevron delimiters.",
+      creator: "gemini",
+      tags: ["navigation","breadcrumb","hierarchy","minimal"],
+      code: "<style>\n  .kna3-trail{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:#94a3b8}\n  .kna3-crumb{cursor:pointer;transition:opacity 0.15s ease}\n  .kna3-crumb:hover{color:#e2e8f0}\n  .kna3-chev{color:#8b5cf6;font-size:10px;font-weight:700}\n  .kna3-cur{color:#fff;font-weight:650}\n</style>\n<div class=\"kna3-trail\">\n  <span class=\"kna3-crumb\">Projects</span>\n  <span class=\"kna3-chev\">›</span>\n  <span class=\"kna3-crumb\">Aurora</span>\n  <span class=\"kna3-chev\">›</span>\n  <span class=\"kna3-cur\">Timeline</span>\n</div>"
+    },
+
+    {
+      id: "NA4",
+      section: "navigation",
+      name: "Underline Glow Segmented Tabs",
+      description: "Minimalist text tab row with electric cyan active indicator halo.",
+      creator: "gemini",
+      tags: ["navigation","tabs","underline","glow","cyan"],
+      code: "<style>\n  .kna4-tabs{display:inline-flex;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:2px}\n  .kna4-tab{font-size:12px;font-weight:600;color:#64748b;padding:6px 2px;position:relative;cursor:pointer}\n  .kna4-tab.is-on{color:#38bdf8}\n  .kna4-tab.is-on::after{content:\"\";position:absolute;left:0;bottom:-3px;width:100%;height:2px;background:#38bdf8;box-shadow:0 0 8px #38bdf8;border-radius:1px}\n</style>\n<div class=\"kna4-tabs\">\n  <span class=\"kna4-tab is-on\">Specs</span>\n  <span class=\"kna4-tab\">Code</span>\n  <span class=\"kna4-tab\">Exports</span>\n</div>"
+    },
+
+    {
+      id: "MO1",
+      section: "modals",
+      name: "Studio Action Sheet Dialog",
+      description: "Compact dark glass confirmation sheet with dual action hierarchy.",
+      creator: "gemini",
+      tags: ["modal","dialog","action-sheet","confirm"],
+      code: "<style>\n  .kmo1-sheet{background:#13151b;border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:12px;width:210px;box-shadow:0 16px 36px -10px rgba(0,0,0,0.85)}\n  .kmo1-title{font-size:12.5px;font-weight:700;color:#f8fafc;margin-bottom:3px}\n  .kmo1-desc{font-size:10.5px;color:#94a3b8;line-height:1.35;margin-bottom:10px}\n  .kmo1-acts{display:flex;gap:8px}\n  .kmo1-btn{flex:1;padding:6px;font-size:11px;font-weight:600;border-radius:6px;border:none;cursor:pointer}\n  .kmo1-btn.primary{background:#7c3aed;color:#fff}\n  .kmo1-btn.ghost{background:rgba(255,255,255,0.08);color:#cbd5e1}\n</style>\n<div class=\"kmo1-sheet\">\n  <div class=\"kmo1-title\">Publish Specimen?</div>\n  <div class=\"kmo1-desc\">Changes will be added to the shared registry.</div>\n  <div class=\"kmo1-acts\">\n    <button type=\"button\" class=\"kmo1-btn ghost\">Cancel</button>\n    <button type=\"button\" class=\"kmo1-btn primary\">Publish</button>\n  </div>\n</div>"
+    },
+
+    {
+      id: "MO2",
+      section: "modals",
+      name: "Command Palette HUD",
+      description: "Spotlight-style floating command input with keyboard shortcut tags.",
+      creator: "gemini",
+      tags: ["modal","palette","hud","command","spotlight"],
+      code: "<style>\n  .kmo2-hud{background:rgba(15,23,42,0.92);backdrop-filter:blur(14px);border:1px solid #38bdf8;border-radius:10px;padding:8px 10px;width:210px;box-shadow:0 0 20px rgba(56,189,248,0.25)}\n  .kmo2-inrow{display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,0.1);padding-bottom:5px;margin-bottom:5px}\n  .kmo2-icon{color:#38bdf8;font-size:11px}\n  .kmo2-in{background:transparent;border:none;outline:none;color:#fff;font-size:11.5px;width:100%}\n  .kmo2-item{font-size:10.5px;color:#94a3b8;padding:4px 6px;border-radius:4px;display:flex;justify-content:space-between}\n  .kmo2-item.sel{background:rgba(56,189,248,0.15);color:#38bdf8}\n</style>\n<div class=\"kmo2-hud\">\n  <div class=\"kmo2-inrow\"><span class=\"kmo2-icon\">⌘</span><input class=\"kmo2-in\" type=\"text\" value=\"Export...\" readonly></div>\n  <div class=\"kmo2-item sel\"><span>Export JSON</span><span style=\"opacity:0.6\">↵</span></div>\n  <div class=\"kmo2-item\"><span>Copy Code</span><span style=\"opacity:0.6\">⌥C</span></div>\n</div>"
+    },
+
+    {
+      id: "EF1",
+      section: "effects",
+      name: "Cyber Grain Ambient Mesh",
+      description: "Diffused atmospheric multi-point glow mesh for ambient card backdrops.",
+      creator: "gemini",
+      tags: ["effect","ambient","mesh","glow","violet"],
+      code: "<style>\n  .kef1-mesh{position:relative;width:190px;height:65px;border-radius:10px;background:linear-gradient(135deg,#1e1b4b,#0f172a);overflow:hidden;border:1px solid rgba(139,92,246,0.3);display:flex;align-items:center;justify-content:center}\n  .kef1-glow{position:absolute;width:80px;height:80px;border-radius:50%;background:#8b5cf6;filter:blur(22px);opacity:0.55}\n  .kef1-lbl{position:relative;z-index:1;font-weight:700;font-size:11px;letter-spacing:0.12em;color:#e0e7ff}\n</style>\n<div class=\"kef1-mesh\">\n  <div class=\"kef1-glow\"></div>\n  <span class=\"kef1-lbl\">AMBIENT MESH</span>\n</div>"
+    },
+
+    {
+      id: "EF2",
+      section: "effects",
+      name: "Prismatic Glass Specular Rim",
+      description: "Layered specular top highlight with frosted backdrop diffusion.",
+      creator: "gemini",
+      tags: ["effect","glass","specular","prismatic","frosted"],
+      code: "<style>\n  .kef2-glass{position:relative;width:190px;height:65px;border-radius:10px;background:rgba(255,255,255,0.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.2);box-shadow:inset 0 1px 0 rgba(255,255,255,0.4),0 8px 20px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center}\n  .kef2-txt{font-size:11px;font-weight:600;color:#fff;text-shadow:0 0 10px rgba(255,255,255,0.5)}\n</style>\n<div class=\"kef2-glass\">\n  <span class=\"kef2-txt\">PRISMATIC GLASS</span>\n</div>"
     }
 
   ]

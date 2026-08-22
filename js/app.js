@@ -14,11 +14,12 @@ const LS_FAVORITES = 'designlab.favorites.v1';
 const LS_FILTERS = 'designlab.filters.v1';
 const LS_VARIANTS = 'designlab.variants.v1';
 const LS_IMPORTS = 'designlab.imports.v1';
+const LS_CANVAS = 'designlab.canvas.v1';
 const ME_ID = 'me';
 const RANDOM_PICKS = 12;
 const RENDER_DEFAULT = 60;
 const RENDER_STEP = 60;
-const STAGE_MIN_H = 132;
+const STAGE_MIN_H = 80;
 const STAGE_MAX_H = 420;
 
 const state = {
@@ -26,6 +27,7 @@ const state = {
   section: 'all',
   creator: null,
   favoritesOnly: false,
+  canvas: 'dark',
   sort: 'id',
   random: false,
   randomSeed: 1,
@@ -133,13 +135,16 @@ function saveImports() {
 function loadFilters() {
   try {
     const raw = localStorage.getItem(LS_FILTERS);
-    if (!raw) return;
-    const saved = JSON.parse(raw);
-    if (typeof saved.query === 'string') state.query = saved.query;
-    if (saved.section === 'all' || sectionOf(saved.section)) state.section = saved.section;
-    if (!saved.creator || creatorOf(saved.creator)) state.creator = saved.creator || null;
-    state.favoritesOnly = !!saved.favoritesOnly;
-    if (['id', 'name', 'creator'].includes(saved.sort)) state.sort = saved.sort;
+    if (raw) {
+      const saved = JSON.parse(raw);
+      if (typeof saved.query === 'string') state.query = saved.query;
+      if (saved.section === 'all' || sectionOf(saved.section)) state.section = saved.section;
+      if (!saved.creator || creatorOf(saved.creator)) state.creator = saved.creator || null;
+      state.favoritesOnly = !!saved.favoritesOnly;
+      if (['id', 'name', 'creator'].includes(saved.sort)) state.sort = saved.sort;
+    }
+    const c = localStorage.getItem(LS_CANVAS);
+    if (['dark', 'light', 'neutral'].includes(c)) state.canvas = c;
   } catch (e) { /* fresh start */ }
 }
 
@@ -152,6 +157,7 @@ function saveFilters() {
       favoritesOnly: state.favoritesOnly,
       sort: state.sort
     }));
+    localStorage.setItem(LS_CANVAS, state.canvas);
   } catch (e) { /* ignore */ }
 }
 
@@ -250,24 +256,44 @@ async function copyAgentPrompt(btn) {
 
 /* ---------- preview stage ---------- */
 
-function previewDoc(code, vars) {
+function canvasBg(canvas) {
+  if (canvas === 'light') return { bg: '#f8fafc', color: '#0f172a' };
+  if (canvas === 'neutral') return { bg: '#1e232d', color: '#f1f5f9' };
+  return { bg: '#0d0f13', color: '#ebe9e2' };
+}
+
+function previewDoc(code, vars, canvas = state.canvas) {
+  const c = canvasBg(canvas);
   const entries = vars ? Object.entries(vars) : [];
   const overrides = entries.length
     ? '<style>:root{' + entries.map(([k, v]) => k + ':' + v).join(';') + '}</style>'
     : '';
   return '<!doctype html><html><head><meta charset="utf-8"><style>'
-    + 'html,body{margin:0}'
-    + 'body{min-height:100%;display:flex;align-items:center;justify-content:center;padding:12px;'
-    + 'background:#0d0f13;color:#ebe9e2;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;'
+    + 'html,body{height:100%;margin:0}'
+    + 'body{display:flex;align-items:center;justify-content:center;padding:12px;'
+    + 'background:' + c.bg + ';color:' + c.color + ';font-family:system-ui,-apple-system,"Segoe UI",sans-serif;'
     + 'overflow:auto;}'
     + '*{box-sizing:border-box}'
     + '</style></head><body>' + overrides + code
-    + '<scr' + 'ipt>addEventListener("message",function(e){var d=e.data;if(!d||d.type!=="dl-vars")return;'
-    + 'var s=document.documentElement.style,v=d.vars||{};for(var k in v){s.setProperty(k,v[k]);}});'
+    + '<scr' + 'ipt>'
+    + 'addEventListener("message",function(e){var d=e.data;if(!d)return;'
+    + 'if(d.type==="dl-vars"){var s=document.documentElement.style,v=d.vars||{};for(var k in v){s.setProperty(k,v[k]);}}'
+    + 'if(d.type==="dl-canvas"){var b=document.body;if(d.canvas==="light"){b.style.background="#f8fafc";b.style.color="#0f172a";}'
+    + 'else if(d.canvas==="neutral"){b.style.background="#1e232d";b.style.color="#f1f5f9";}'
+    + 'else{b.style.background="#0d0f13";b.style.color="#ebe9e2";}}});'
     + 'function dlH(){try{var b=document.body,d=document.documentElement;'
     + 'parent.postMessage({type:"dl-height",h:Math.ceil(Math.max(b.scrollHeight,d.scrollHeight))},"*")}catch(e){}}'
     + 'addEventListener("load",function(){requestAnimationFrame(dlH)});</scr' + 'ipt>'
     + '</body></html>';
+}
+
+function setStageCanvas(mode) {
+  state.canvas = mode;
+  document.body.dataset.stageCanvas = mode;
+  $$('.canvas-btn').forEach(b => b.classList.toggle('is-active', b.dataset.canvas === mode));
+  $$('#library iframe.stage-frame').forEach(f => {
+    try { f.contentWindow.postMessage({ type: 'dl-canvas', canvas: mode }, '*'); } catch (e) {}
+  });
 }
 
 function pushVars(frame, vars) {
@@ -453,6 +479,7 @@ function buildCard(item) {
   const card = document.createElement('article');
   card.className = 'card' + (isFav ? ' is-fav' : '');
   card.dataset.id = item.id;
+  card.dataset.section = item.section || '';
 
   let actions = '';
   if (hasTweaks) {
@@ -1114,6 +1141,49 @@ function exportLayer() {
   toast('Backed up ' + favorites.size + ' favorites and ' + personal.length + ' personal item' + (personal.length === 1 ? '' : 's') + '.');
 }
 
+function exportAgentStyleGuide(btn) {
+  const favs = allItems().filter(it => favorites.has(it.id));
+  if (!favs.length) {
+    toast('No favorites yet — star (★) some specimens first to generate an agent style guide.');
+    return;
+  }
+  const grouped = {};
+  favs.forEach(it => {
+    const sec = sectionOf(it.section);
+    const secName = sec ? sec.name : it.section;
+    if (!grouped[secName]) grouped[secName] = [];
+    grouped[secName].push(it);
+  });
+
+  let doc = '# VISUAL DESIGN SYSTEM & COMPONENT SPECIFICATION\n\n'
+    + 'You are implementing the UI for this application. Strictly adhere to the visual language, geometry, color palette, and micro-interactions demonstrated in the approved design specimens below.\n\n'
+    + '## Core Aesthetic Directives\n'
+    + '- Maintain the exact border treatments, glassmorphism/glow effects, and corner radius tokens demonstrated in these specimens.\n'
+    + '- All motion must be CSS-only using `transform` and `opacity` exclusively with `prefers-reduced-motion` guards.\n'
+    + '- Keep components self-contained, accessible, and responsive.\n\n'
+    + '## Approved Component Library (' + favs.length + ' item' + (favs.length === 1 ? '' : 's') + ')\n\n';
+
+  Object.entries(grouped).forEach(([secName, items]) => {
+    doc += '### ' + secName.toUpperCase() + '\n\n';
+    items.forEach(it => {
+      doc += '#### #' + it.id + ' — ' + it.name + '\n'
+        + (it.description ? '- **Description**: ' + it.description + '\n' : '')
+        + (it.tags && it.tags.length ? '- **Aesthetic tags**: ' + it.tags.join(', ') + '\n' : '')
+        + '- **Code Implementation**:\n```html\n'
+        + (it.code || '').trim() + '\n```\n\n';
+    });
+  });
+
+  copyText(doc.trim()).then(ok => {
+    if (ok) {
+      if (btn) flashButton(btn, 'Copied ✓');
+      toast('Agent style guide copied (' + favs.length + ' component' + (favs.length === 1 ? '' : 's') + ') — paste into any AI chat.');
+    } else {
+      toast('Copy blocked by browser — select and copy manually.');
+    }
+  });
+}
+
 function nextIdFor(sectionId) {
   const sec = sectionOf(sectionId);
   if (!sec) return null;
@@ -1136,8 +1206,17 @@ function init() {
   loadFavorites();
   loadFilters();
 
+  setStageCanvas(state.canvas);
+  $$('.canvas-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setStageCanvas(btn.dataset.canvas);
+      saveFilters();
+    });
+  });
+
   $('#agentPromptBtn').addEventListener('click', ev => copyAgentPrompt(ev.currentTarget));
   $('#exportFavsBtn').addEventListener('click', exportFavorites);
+  $('#exportStyleGuideBtn').addEventListener('click', ev => exportAgentStyleGuide(ev.currentTarget));
   $('#backupAllBtn').addEventListener('click', exportLayer);
   $('#importBtn').addEventListener('click', openImporter);
   $('#importClose').addEventListener('click', closeImporter);
@@ -1230,7 +1309,9 @@ function init() {
       return { added: added.map(i => '#' + i.id), rejected: rejected };
     },
     exportFavorites: exportFavorites,
-    exportLayer: exportLayer
+    exportAgentStyleGuide: () => exportAgentStyleGuide(null),
+    exportLayer: exportLayer,
+    setCanvas: setStageCanvas
   };
 
   render();
