@@ -480,10 +480,7 @@ function previewDoc(code, vars, canvas = state.canvas) {
     + 'if(d.type==="dl-vars"){var s=document.documentElement.style,v=d.vars||{};for(var k in v){s.setProperty(k,v[k]);}}'
     + 'if(d.type==="dl-canvas"){var b=document.body;if(d.canvas==="light"){b.style.background="#f8fafc";b.style.color="#0f172a";}'
     + 'else if(d.canvas==="neutral"){b.style.background="#1e232d";b.style.color="#f1f5f9";}'
-    + 'else{b.style.background="#0d0f13";b.style.color="#ebe9e2";}}});'
-    + 'function dlH(){try{var b=document.body,d=document.documentElement;'
-    + 'parent.postMessage({type:"dl-height",h:Math.ceil(Math.max(b.scrollHeight,d.scrollHeight))},"*")}catch(e){}}'
-    + 'addEventListener("load",function(){requestAnimationFrame(dlH)});</scr' + 'ipt>'
+    + 'else{b.style.background="#0d0f13";b.style.color="#ebe9e2";}}});</scr' + 'ipt>'
     + '</body></html>';
 }
 
@@ -1545,16 +1542,6 @@ function init() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
-
-  window.addEventListener('message', ev => {
-    const d = ev.data;
-    if (!d || d.type !== 'dl-height') return;
-    $$('#library iframe.stage-frame').forEach(f => {
-      if (f.contentWindow === ev.source) {
-        f.style.height = Math.max(STAGE_MIN_H, Math.min(STAGE_MAX_H, Math.ceil(d.h))) + 'px';
-      }
-    });
-  });
 
   window.DesignLab = {
     version: LIB.meta.version,

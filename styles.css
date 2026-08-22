@@ -633,7 +633,7 @@ input, select { font: inherit; }
 .stage {
   position: relative;
   margin: 0 10px;
-  min-height: var(--stage-h, 140px);
+  height: var(--stage-h, 140px);
   border-radius: 10px;
   background:
     radial-gradient(rgba(235, 233, 226, 0.05) 1px, transparent 1.4px),
@@ -662,7 +662,7 @@ input, select { font: inherit; }
 .stage-frame {
   display: block;
   width: 100%;
-  height: var(--stage-h, 140px);
+  height: 100%;
   border: none;
   background: var(--bg-deep);
 }
