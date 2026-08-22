@@ -15,6 +15,7 @@ const LS_FILTERS = 'designlab.filters.v1';
 const LS_VARIANTS = 'designlab.variants.v1';
 const LS_IMPORTS = 'designlab.imports.v1';
 const LS_CANVAS = 'designlab.canvas.v1';
+const LS_DENSITY = 'designlab.density.v1';
 const ME_ID = 'me';
 const RANDOM_PICKS = 12;
 const RENDER_DEFAULT = 60;
@@ -22,12 +23,20 @@ const RENDER_STEP = 60;
 const STAGE_MIN_H = 80;
 const STAGE_MAX_H = 420;
 
+const DENSITY_TIERS = [
+  { label: 'XS', min: '175px' },
+  { label: 'Sm', min: '210px' },
+  { label: 'Med', min: '256px' },
+  { label: 'Lg', min: '320px' }
+];
+
 const state = {
   query: '',
   section: 'all',
   creator: null,
   favoritesOnly: false,
   canvas: 'dark',
+  densityIndex: 2,
   sort: 'id',
   random: false,
   randomSeed: 1,
@@ -145,6 +154,11 @@ function loadFilters() {
     }
     const c = localStorage.getItem(LS_CANVAS);
     if (['dark', 'light', 'neutral'].includes(c)) state.canvas = c;
+    const d = localStorage.getItem(LS_DENSITY);
+    if (d !== null && !isNaN(parseInt(d, 10))) {
+      const idx = parseInt(d, 10);
+      if (idx >= 0 && idx < DENSITY_TIERS.length) state.densityIndex = idx;
+    }
   } catch (e) { /* fresh start */ }
 }
 
@@ -158,6 +172,7 @@ function saveFilters() {
       sort: state.sort
     }));
     localStorage.setItem(LS_CANVAS, state.canvas);
+    localStorage.setItem(LS_DENSITY, String(state.densityIndex));
   } catch (e) { /* ignore */ }
 }
 
@@ -1197,6 +1212,18 @@ function nextIdFor(sectionId) {
   return code + (max + 1);
 }
 
+function applyDensity(idx) {
+  state.densityIndex = Math.max(0, Math.min(DENSITY_TIERS.length - 1, idx));
+  const tier = DENSITY_TIERS[state.densityIndex];
+  document.documentElement.style.setProperty('--grid-min', tier.min);
+  const lbl = $('#densityLabel');
+  if (lbl) lbl.textContent = tier.label;
+  const outBtn = $('#zoomOutBtn');
+  const inBtn = $('#zoomInBtn');
+  if (outBtn) outBtn.disabled = state.densityIndex === 0;
+  if (inBtn) inBtn.disabled = state.densityIndex === DENSITY_TIERS.length - 1;
+}
+
 /* ---------- init ---------- */
 
 function init() {
@@ -1212,6 +1239,16 @@ function init() {
       setStageCanvas(btn.dataset.canvas);
       saveFilters();
     });
+  });
+
+  applyDensity(state.densityIndex);
+  $('#zoomOutBtn').addEventListener('click', () => {
+    applyDensity(state.densityIndex - 1);
+    saveFilters();
+  });
+  $('#zoomInBtn').addEventListener('click', () => {
+    applyDensity(state.densityIndex + 1);
+    saveFilters();
   });
 
   $('#agentPromptBtn').addEventListener('click', ev => copyAgentPrompt(ev.currentTarget));
