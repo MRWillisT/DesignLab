@@ -63,15 +63,31 @@
 
   <nav class="controls" aria-label="Library filters and sorting">
     <div class="shell">
-      <div class="tabrow" id="tabRow" role="tablist" aria-label="Sections"></div>
       <div class="filterbar">
-        <div class="creator-group" id="creatorRow">
+        <label class="sort-wrap">
+          <span class="filter-label">Drawer</span>
+          <select id="sectionSelect" aria-label="Filter by drawer">
+            <option value="all">All drawers</option>
+          </select>
+        </label>
+
+        <label class="sort-wrap">
           <span class="filter-label">Creator</span>
-        </div>
-        <button id="favToggle" class="btn btn-ghost" aria-pressed="false" title="Show favorites only">
-          <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M12 2.8l2.85 5.98 6.55.62-4.94 4.38 1.44 6.42L12 16.82l-5.9 3.38 1.44-6.42L2.6 9.4l6.55-.62z"/></svg>
-          Favorites
-        </button>
+          <select id="creatorSelect" aria-label="Filter by creator">
+            <option value="all">All creators</option>
+          </select>
+        </label>
+
+        <label class="sort-wrap">
+          <span class="filter-label">Sort</span>
+          <select id="sortSelect" aria-label="Sort specimens">
+            <option value="id">ID order</option>
+            <option value="newest">Newest first</option>
+            <option value="name">Name A–Z</option>
+            <option value="creator">By creator</option>
+          </select>
+        </label>
+
         <div class="canvas-toggle-wrap">
           <span class="filter-label">Canvas</span>
           <div class="canvas-seg" role="radiogroup" aria-label="Stage canvas background">
@@ -80,6 +96,7 @@
             <button type="button" class="canvas-btn" data-canvas="neutral" title="Neutral slate canvas">Slate</button>
           </div>
         </div>
+
         <div class="density-wrap">
           <span class="filter-label">Size</span>
           <div class="density-seg">
@@ -88,14 +105,12 @@
             <button id="zoomInBtn" type="button" class="density-btn" title="Larger cards (fewer per row)" aria-label="Increase card size">+</button>
           </div>
         </div>
-        <label class="sort-wrap">
-          <span class="filter-label">Sort</span>
-          <select id="sortSelect" aria-label="Sort specimens">
-            <option value="id">ID order</option>
-            <option value="name">Name A–Z</option>
-            <option value="creator">By creator</option>
-          </select>
-        </label>
+
+        <button id="favToggle" class="btn btn-ghost" aria-pressed="false" title="Show favorites only">
+          <svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><path d="M12 2.8l2.85 5.98 6.55.62-4.94 4.38 1.44 6.42L12 16.82l-5.9 3.38 1.44-6.42L2.6 9.4l6.55-.62z"/></svg>
+          Favorites
+        </button>
+
         <button id="randomBtn" class="btn btn-ghost" title="Roll a random mix of specimens">
           <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
             <rect x="1.5" y="1.5" width="13" height="13" rx="3.2" fill="none" stroke="currentColor" stroke-width="1.4"/>
@@ -106,6 +121,7 @@
           </svg>
           Random mix
         </button>
+
         <div class="active-filters" id="activeFilters" aria-live="polite"></div>
       </div>
     </div>

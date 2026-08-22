@@ -165,7 +165,7 @@ function loadFilters() {
       if (saved.section === 'newest' || saved.section === 'all' || sectionOf(saved.section)) state.section = saved.section;
       if (!saved.creator || creatorOf(saved.creator)) state.creator = saved.creator || null;
       state.favoritesOnly = !!saved.favoritesOnly;
-      if (['id', 'name', 'creator'].includes(saved.sort)) state.sort = saved.sort;
+      if (['id', 'newest', 'name', 'creator'].includes(saved.sort)) state.sort = saved.sort;
     }
     const c = localStorage.getItem(LS_CANVAS);
     if (['dark', 'light', 'neutral'].includes(c)) state.canvas = c;
@@ -835,74 +835,61 @@ function buildNoResults() {
 function renderStats(shownCount) {
   const total = allItems().length;
   const mine = savedVariants.length;
-  const mineNote = mine ? ' · <b>' + mine + '</b> mine' : '';
-  let text;
-  if (total === 0) {
-    text = 'registry empty · <b>' + LIB.sections.length + '</b> drawers ready · <b>' + LIB.creators.length + '</b> creators registered';
-  } else if (shownCount === total && !hasActiveFilters()) {
-    text = '<b>' + total + '</b> specimens · <b>' + LIB.sections.length + '</b> drawers · <b>' + LIB.creators.length + '</b> creators' + mineNote;
+  const mineCount = savedVariants.length + importedItems.length;
+  const mineNote = mineCount > 0 ? ' \u00b7 <b>' + mineCount + '</b> personal' : '';
+  let text = '';
+  if (hasActiveFilters()) {
+    text = 'showing <b>' + shownCount + '</b> of ' + total + ' specimens' + mineNote;
   } else {
-    text = 'showing <b>' + shownCount + '</b> of ' + total + ' specimens · <b>' + LIB.sections.length + '</b> drawers' + mineNote;
+    text = 'showing <b>' + shownCount + '</b> of ' + total + ' specimens \u00b7 <b>' + LIB.sections.length + '</b> drawers' + mineNote;
   }
   $('#statline').innerHTML = text;
 }
 
-function renderTabs() {
-  const row = $('#tabRow');
-  const keepScroll = row.scrollLeft;
+function populateSectionDropdown() {
+  const sel = $('#sectionSelect');
+  if (!sel) return;
   const items = allItems();
-  row.textContent = '';
+  sel.innerHTML = '';
 
-  row.appendChild(makeTab('newest', 'Newest', items.length));
-  row.appendChild(makeTab('all', 'All drawers', items.length));
+  const optAll = document.createElement('option');
+  optAll.value = 'all';
+  optAll.textContent = `All drawers (${items.length})`;
+  sel.appendChild(optAll);
 
   LIB.sections.forEach(sec => {
     const count = items.filter(it => it.section === sec.id).length;
-    const tab = makeTab(sec.id, sec.name, count);
-    tab.title = sec.brief || sec.name;
-    row.appendChild(tab);
+    const opt = document.createElement('option');
+    opt.value = sec.id;
+    opt.textContent = `${drawerNumber(sec.id)} ${sec.name} (${count})`;
+    sel.appendChild(opt);
   });
 
-  row.scrollLeft = keepScroll;
+  sel.value = state.section === 'newest' ? 'all' : state.section;
 }
 
-function makeTab(sectionId, label, count) {
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'tab' + (state.section === sectionId ? ' is-active' : '');
-  btn.setAttribute('role', 'tab');
-  btn.setAttribute('aria-selected', state.section === sectionId ? 'true' : 'false');
-  btn.dataset.section = sectionId;
-  btn.innerHTML = escapeHtml(label) + ' <span class="tab-count">' + count + '</span>';
-  btn.addEventListener('click', () => {
-    resetRenderLimit();
-    state.section = state.section === sectionId ? 'newest' : sectionId;
-    saveFilters();
-    render();
-  });
-  return btn;
-}
-
-function renderCreatorChips() {
-  const row = $('#creatorRow');
-  row.querySelectorAll('.chip-filter').forEach(el => el.remove());
+function populateCreatorDropdown() {
+  const sel = $('#creatorSelect');
+  if (!sel) return;
   const items = allItems();
+  sel.innerHTML = '';
+
+  const optAll = document.createElement('option');
+  optAll.value = 'all';
+  optAll.textContent = `All creators (${items.length})`;
+  sel.appendChild(optAll);
+
   LIB.creators.forEach(cr => {
     const count = items.filter(it => it.creator === cr.id).length;
-    const chip = document.createElement('button');
-    chip.type = 'button';
-    chip.className = 'chip-filter' + (state.creator === cr.id ? ' is-active' : '');
-    chip.style.setProperty('--chip', cr.color);
-    chip.title = 'Filter by ' + cr.name;
-    chip.innerHTML = '<i class="chip-dot"></i>' + escapeHtml(cr.name) + '<span class="tab-count">' + count + '</span>';
-    chip.addEventListener('click', () => {
-      resetRenderLimit();
-      state.creator = state.creator === cr.id ? null : cr.id;
-      saveFilters();
-      render();
-    });
-    row.appendChild(chip);
+    if (count > 0 || cr.id === 'me') {
+      const opt = document.createElement('option');
+      opt.value = cr.id;
+      opt.textContent = `${cr.name} (${count})`;
+      sel.appendChild(opt);
+    }
   });
+
+  sel.value = state.creator || 'all';
 }
 
 function hasActiveFilters() {
@@ -976,7 +963,9 @@ function renderActiveFilters() {
 
 function syncControlStates() {
   $('#searchInput').value = state.query;
-  $('#sortSelect').value = state.sort;
+  if ($('#sectionSelect')) $('#sectionSelect').value = state.section;
+  if ($('#creatorSelect')) $('#creatorSelect').value = state.creator || 'all';
+  if ($('#sortSelect')) $('#sortSelect').value = state.sort;
   $('#favToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
   $('#randomBtn').setAttribute('aria-pressed', String(state.random));
 }
@@ -1003,8 +992,8 @@ function resetRenderLimit() {
 function render() {
   const items = currentPool();
 
-  renderTabs();
-  renderCreatorChips();
+  populateSectionDropdown();
+  populateCreatorDropdown();
   renderActiveFilters();
   syncControlStates();
 
@@ -1501,6 +1490,18 @@ function init() {
   });
   $('#randomBtn').addEventListener('click', () => {
     if (state.random) rerollRandom(); else enterRandom();
+  });
+  $('#sectionSelect').addEventListener('change', ev => {
+    resetRenderLimit();
+    state.section = ev.target.value;
+    saveFilters();
+    render();
+  });
+  $('#creatorSelect').addEventListener('change', ev => {
+    resetRenderLimit();
+    state.creator = ev.target.value === 'all' ? null : ev.target.value;
+    saveFilters();
+    render();
   });
   $('#sortSelect').addEventListener('change', ev => {
     resetRenderLimit();
