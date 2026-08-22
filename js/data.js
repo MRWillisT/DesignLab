@@ -35,7 +35,8 @@ window.DESIGN_LAB = {
     // reserved for the local user's saved variants — agents must not sign with it
     { id: "me",       name: "My Variants", color: "#f472b6" },
     { id: "mimo-2-5", name: "Mimo 2.5",    color: "#04ff00" },
-    { id: "nemotron", name: "Nemotron", color: "#f97316" }
+    { id: "nemotron", name: "Nemotron", color: "#f97316" },
+    { id: "opus",     name: "Opus",     color: "#f5323c" }
   ],
 
   /* ----------------------------------------------------------
@@ -1216,6 +1217,193 @@ window.DESIGN_LAB = {
         { type: "color", label: "Pendulum Glow", varName: "--an9-glow", default: "#f43f5e" }
       ],
       code: "<style>\n  @keyframes kan9-swing{0%{transform:rotate(36deg)}50%{transform:rotate(-36deg)}100%{transform:rotate(36deg)}}\n  @keyframes kan9-glow-pulse{0%,100%{opacity:.7;transform:scale(.95)}50%{opacity:1;transform:scale(1.15)}}\n  .kan9-pendulum{width:3px;height:44px;background:linear-gradient(180deg,rgba(255,255,255,.15) 0%,var(--an9-glow,#f43f5e) 100%);transform-origin:top center;position:relative;animation:kan9-swing 2.2s cubic-bezier(.45,.05,.55,.95) infinite}\n  .kan9-bob{position:absolute;bottom:-7px;left:-6.5px;width:16px;height:16px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0%,var(--an9-glow,#f43f5e) 65%,#881337 100%);box-shadow:0 0 14px var(--an9-glow,#f43f5e);animation:kan9-glow-pulse 1.1s ease-in-out infinite}\n  .kan9-pivot{position:absolute;top:-3px;left:-2px;width:7px;height:7px;border-radius:50%;background:#cbd5e1}\n  @media (prefers-reduced-motion:reduce){.kan9-pendulum,.kan9-bob{animation:none;transform:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding-top:4px\">\n  <div class=\"kan9-pendulum\">\n    <div class=\"kan9-pivot\"></div>\n    <div class=\"kan9-bob\"></div>\n  </div>\n</div>"
+    },
+
+    /* ---- Opus additions: structurally distinct specimens across underserved drawers ---- */
+
+    {
+      id: "FO6",
+      section: "forms",
+      name: "Inline Editable Field",
+      description: "Click-to-edit text field — renders as plain text until focused, then reveals an underline input with a commit checkmark.",
+      creator: "opus",
+      tags: ["form","inline","editable","click-to-edit"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--fo6-accent", default: "#f5323c" }
+      ],
+      code: "<style>\n  .kfo6-wrap{display:inline-flex;align-items:center;gap:6px;cursor:text}\n  .kfo6-val{font-size:13px;font-weight:600;color:#f1f5f9;background:transparent;border:none;border-bottom:2px solid transparent;outline:none;padding:4px 0;min-width:90px;transition:border-color .18s ease}\n  .kfo6-val:focus{border-bottom-color:var(--fo6-accent,#f5323c)}\n  .kfo6-ok{width:22px;height:22px;border-radius:50%;background:var(--fo6-accent,#f5323c);border:none;color:#fff;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .18s ease}\n  .kfo6-wrap:focus-within .kfo6-ok{opacity:1}\n  @media (prefers-reduced-motion:reduce){.kfo6-val,.kfo6-ok{transition:none}}\n</style>\n<div class=\"kfo6-wrap\">\n  <input class=\"kfo6-val\" type=\"text\" value=\"Project Alpha\" spellcheck=\"false\">\n  <button type=\"button\" class=\"kfo6-ok\">✓</button>\n</div>"
+    },
+
+    {
+      id: "FO7",
+      section: "forms",
+      name: "Textarea with Counter",
+      description: "Multi-line text area with live character count and subtle gradient focus ring — structurally distinct from single-line inputs.",
+      creator: "opus",
+      tags: ["form","textarea","counter","multiline"],
+      tweaks: [
+        { type: "color", label: "Border Glow", varName: "--fo7-glow", default: "#f5323c" }
+      ],
+      code: "<style>\n  .kfo7-wrap{position:relative;width:min(100%,200px)}\n  .kfo7-ta{width:100%;height:64px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:8px 10px;color:#e2e8f0;font-size:11px;line-height:1.5;resize:none;outline:none;transition:border-color .15s ease,box-shadow .15s ease}\n  .kfo7-ta:focus{border-color:var(--fo7-glow,#f5323c);box-shadow:0 0 0 2px color-mix(in srgb,var(--fo7-glow,#f5323c) 25%,transparent)}\n  .kfo7-count{position:absolute;bottom:6px;right:8px;font-size:9px;color:#475569;font-variant-numeric:tabular-nums}\n  @media (prefers-reduced-motion:reduce){.kfo7-ta{transition:none}}\n</style>\n<div class=\"kfo7-wrap\">\n  <textarea class=\"kfo7-ta\" maxlength=\"280\" spellcheck=\"false\">Describe the scene you want to generate…</textarea>\n  <span class=\"kfo7-count\">42 / 280</span>\n</div>"
+    },
+
+    {
+      id: "TO6",
+      section: "toggles",
+      name: "Day Night Toggle",
+      description: "Themed toggle with sun/moon icons that swap on state change — the track itself transitions from warm to cool gradient.",
+      creator: "opus",
+      tags: ["toggle","theme","day-night","icon"],
+      tweaks: [
+        { type: "color", label: "Day Color", varName: "--to6-day", default: "#fbbf24" },
+        { type: "color", label: "Night Color", varName: "--to6-night", default: "#6366f1" }
+      ],
+      code: "<style>\n  .kto6-track{display:inline-flex;align-items:center;width:52px;height:28px;border-radius:9999px;background:linear-gradient(135deg,var(--to6-night,#6366f1),#1e1b4b);position:relative;cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,0.08)}\n  .kto6-knob{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:linear-gradient(145deg,#f1f5f9,#e2e8f0);box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .22s ease}\n  .kto6-track:hover .kto6-knob{transform:translateX(24px)}\n  .kto6-track:hover{background:linear-gradient(135deg,var(--to6-day,#fbbf24),#f97316)}\n  @media (prefers-reduced-motion:reduce){.kto6-knob{transition:none}}\n</style>\n<span style=\"display:inline-flex;align-items:center;gap:10px\">\n  <span class=\"kto6-track\">\n    <span class=\"kto6-knob\">🌙</span>\n  </span>\n  <span style=\"font-size:12px;color:#c4b5fd\">Theme</span>\n</span>"
+    },
+
+    {
+      id: "AL5",
+      section: "alerts",
+      name: "Inline Error Shake",
+      description: "Compact inline error with a red left accent and a CSS shake keyframe on hover — physicality communicates urgency without a full banner.",
+      creator: "opus",
+      tags: ["alert","error","inline","shake"],
+      tweaks: [
+        { type: "color", label: "Error Color", varName: "--al5-err", default: "#f5323c" }
+      ],
+      code: "<style>\n  @keyframes kal5-shake{0%,100%{transform:translateX(0)}15%{transform:translateX(-4px)}30%{transform:translateX(4px)}45%{transform:translateX(-3px)}60%{transform:translateX(2px)}75%{transform:translateX(-1px)}}\n  .kal5-box{display:flex;align-items:center;gap:8px;background:rgba(245,50,60,0.06);border:1px solid rgba(245,50,60,0.25);border-left:3px solid var(--al5-err,#f5323c);border-radius:6px;padding:6px 10px;width:220px;cursor:default}\n  .kal5-box:hover{animation:kal5-shake .45s ease}\n  .kal5-icon{color:var(--al5-err,#f5323c);font-size:13px;font-weight:700;flex-shrink:0}\n  .kal5-msg{font-size:11px;color:#fca5a5;line-height:1.3}\n  .kal5-msg strong{color:#fef2f2;font-weight:700}\n  @media (prefers-reduced-motion:reduce){.kal5-box:hover{animation:none}}\n</style>\n<div class=\"kal5-box\">\n  <span class=\"kal5-icon\">✕</span>\n  <div class=\"kal5-msg\"><strong>GPU out of memory.</strong> Reduce batch size or resolution.</div>\n</div>"
+    },
+
+    {
+      id: "AL6",
+      section: "alerts",
+      name: "Countdown Autodismiss",
+      description: "Toast with a shrinking progress bar that counts down to auto-dismissal — time-pressure feedback distinct from static banners.",
+      creator: "opus",
+      tags: ["alert","toast","countdown","autodismiss","timer"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--al6-accent", default: "#10b981" }
+      ],
+      code: "<style>\n  @keyframes kal6-shrink{from{transform:scaleX(1)}to{transform:scaleX(0)}}\n  .kal6-toast{display:flex;align-items:center;gap:8px;background:#141720;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 12px;width:220px;position:relative;overflow:hidden;box-shadow:0 8px 20px -6px rgba(0,0,0,.6)}\n  .kal6-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--al6-accent,#10b981);transform-origin:left;animation:kal6-shrink 5s linear forwards;box-shadow:0 0 6px var(--al6-accent,#10b981)}\n  .kal6-pip{width:18px;height:18px;border-radius:50%;background:var(--al6-accent,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}\n  .kal6-txt{font-size:11px;color:#e2e8f0;font-weight:500;flex:1}\n  .kal6-time{font-size:10px;color:#64748b;font-variant-numeric:tabular-nums;font-family:monospace}\n  @media (prefers-reduced-motion:reduce){.kal6-bar{animation:none}}\n</style>\n<div class=\"kal6-toast\">\n  <span class=\"kal6-pip\">✓</span>\n  <span class=\"kal6-txt\">Saved to library</span>\n  <span class=\"kal6-time\">5s</span>\n  <div class=\"kal6-bar\"></div>\n</div>"
+    },
+
+    {
+      id: "CA8",
+      section: "cards",
+      name: "Notification Feed Card",
+      description: "Stacked activity feed with avatar initials, timestamps and action types — a timeline surface distinct from single-metric tiles.",
+      creator: "opus",
+      tags: ["card","feed","notification","activity","timeline"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--ca8-accent", default: "#f5323c" }
+      ],
+      code: "<style>\n  .kca8-card{background:#141720;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:12px;width:210px;box-shadow:0 8px 24px -8px rgba(0,0,0,.6)}\n  .kca8-hdr{font-size:11px;font-weight:700;color:#f8fafc;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}\n  .kca8-badge{font-size:9px;padding:2px 6px;border-radius:9999px;background:var(--ca8-accent,#f5323c);color:#fff;font-weight:700}\n  .kca8-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-top:1px solid rgba(255,255,255,0.05)}\n  .kca8-ava{width:24px;height:24px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}\n  .kca8-body{flex:1;min-width:0}\n  .kca8-act{font-size:10px;color:#cbd5e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n  .kca8-time{font-size:9px;color:#475569}\n</style>\n<div class=\"kca8-card\">\n  <div class=\"kca8-hdr\"><span>Activity</span><span class=\"kca8-badge\">3</span></div>\n  <div class=\"kca8-item\"><span class=\"kca8-ava\" style=\"background:#8b5cf6\">JK</span><div class=\"kca8-body\"><div class=\"kca8-act\">Exported 4K render</div><div class=\"kca8-time\">2m ago</div></div></div>\n  <div class=\"kca8-item\"><span class=\"kca8-ava\" style=\"background:#10b981\">AI</span><div class=\"kca8-body\"><div class=\"kca8-act\">Upscaled batch complete</div><div class=\"kca8-time\">8m ago</div></div></div>\n  <div class=\"kca8-item\"><span class=\"kca8-ava\" style=\"background:var(--ca8-accent,#f5323c)\">MR</span><div class=\"kca8-body\"><div class=\"kca8-act\">Commented on Timeline</div><div class=\"kca8-time\">14m ago</div></div></div>\n</div>"
+    },
+
+    {
+      id: "NA6",
+      section: "navigation",
+      name: "Sidebar Icon Rail",
+      description: "Vertical icon-only rail with tooltip-style labels — structurally different from horizontal docks, breadcrumbs, and tab bars.",
+      creator: "opus",
+      tags: ["navigation","sidebar","rail","vertical","icon"],
+      tweaks: [
+        { type: "color", label: "Active Accent", varName: "--na6-accent", default: "#f5323c" }
+      ],
+      code: "<style>\n  .kna6-rail{display:flex;flex-direction:column;align-items:center;gap:4px;background:rgba(15,23,42,0.9);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:6px;width:40px}\n  .kna6-item{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;color:#64748b;cursor:pointer;position:relative;transition:background .15s ease,color .15s ease}\n  .kna6-item:hover{background:rgba(255,255,255,0.06);color:#e2e8f0}\n  .kna6-item.on{background:color-mix(in srgb,var(--na6-accent,#f5323c) 18%,transparent);color:var(--na6-accent,#f5323c)}\n  .kna6-item.on::after{content:\"\";position:absolute;left:-6px;top:50%;transform:translateY(-50%);width:3px;height:14px;border-radius:0 3px 3px 0;background:var(--na6-accent,#f5323c)}\n  .kna6-sep{width:20px;height:1px;background:rgba(255,255,255,0.08);margin:2px 0}\n  @media (prefers-reduced-motion:reduce){.kna6-item{transition:none}}\n</style>\n<nav class=\"kna6-rail\">\n  <span class=\"kna6-item on\">⊞</span>\n  <span class=\"kna6-item\">⚡</span>\n  <span class=\"kna6-item\">♫</span>\n  <div class=\"kna6-sep\"></div>\n  <span class=\"kna6-item\">⚙</span>\n</nav>"
+    },
+
+    {
+      id: "LO6",
+      section: "loaders",
+      name: "DNA Helix Spinner",
+      description: "Twin counter-rotating dot chains that interleave like a DNA strand — organic double-helix motion distinct from rings, bars, and dots.",
+      creator: "opus",
+      tags: ["loader","dna","helix","spinner","organic"],
+      tweaks: [
+        { type: "color", label: "Strand A", varName: "--lo6-a", default: "#f5323c" },
+        { type: "color", label: "Strand B", varName: "--lo6-b", default: "#38bdf8" }
+      ],
+      code: "<style>\n  @keyframes klo6-spin{to{transform:rotate(360deg)}}\n  @keyframes klo6-pulse{0%,100%{opacity:.4;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}\n  .klo6-helix{position:relative;width:40px;height:40px;animation:klo6-spin 2.4s linear infinite}\n  .klo6-dot{position:absolute;width:7px;height:7px;border-radius:50%;animation:klo6-pulse 1.2s ease-in-out infinite}\n  .klo6-a{background:var(--lo6-a,#f5323c);box-shadow:0 0 6px var(--lo6-a,#f5323c)}\n  .klo6-b{background:var(--lo6-b,#38bdf8);box-shadow:0 0 6px var(--lo6-b,#38bdf8)}\n  @media (prefers-reduced-motion:reduce){.klo6-helix,.klo6-dot{animation:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center\">\n  <div class=\"klo6-helix\">\n    <div class=\"klo6-dot klo6-a\" style=\"top:0;left:50%;transform:translateX(-50%)\"></div>\n    <div class=\"klo6-dot klo6-b\" style=\"top:0;right:0;animation-delay:.6s\"></div>\n    <div class=\"klo6-dot klo6-a\" style=\"top:50%;right:0;transform:translateY(-50%);animation-delay:.3s\"></div>\n    <div class=\"klo6-dot klo6-b\" style=\"bottom:0;right:0;left:50%;transform:translateX(-50%);animation-delay:.9s\"></div>\n    <div class=\"klo6-dot klo6-a\" style=\"bottom:0;left:0;animation-delay:.6s\"></div>\n    <div class=\"klo6-dot klo6-b\" style=\"top:50%;left:0;transform:translateY(-50%);animation-delay:.15s\"></div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "AN10",
+      section: "animations",
+      name: "Typewriter Cursor",
+      description: "Text appears character-by-character with a blinking block cursor — a typing/terminal reveal animation unlike any existing motion specimen.",
+      creator: "opus",
+      tags: ["animation","typewriter","cursor","text","reveal"],
+      tweaks: [
+        { type: "color", label: "Text Color", varName: "--an10-color", default: "#f5323c" }
+      ],
+      code: "<style>\n  @keyframes kan10-type{from{width:0}to{width:13ch}}\n  @keyframes kan10-blink{50%{opacity:0}}\n  .kan10-wrap{display:inline-flex;align-items:center;font-family:'Cascadia Mono',Consolas,monospace;font-size:14px;font-weight:600;color:var(--an10-color,#f5323c)}\n  .kan10-text{overflow:hidden;white-space:nowrap;border-right:2px solid var(--an10-color,#f5323c);animation:kan10-type 2.5s steps(13) infinite,kan10-blink .6s step-end infinite;width:13ch;letter-spacing:.04em}\n  @media (prefers-reduced-motion:reduce){.kan10-text{animation:none;width:auto;border-right:2px solid var(--an10-color,#f5323c)}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%\">\n  <div class=\"kan10-wrap\">\n    <span class=\"kan10-text\">Hello, world.</span>\n  </div>\n</div>"
+    },
+
+    {
+      id: "SL8",
+      section: "sliders",
+      name: "Radial Dial",
+      description: "SVG arc gauge controlled like a volume knob — a radial interface structurally unlike every linear track and dot meter in the drawer.",
+      creator: "opus",
+      tags: ["slider","dial","radial","knob","arc"],
+      tweaks: [
+        { type: "color", label: "Arc Color", varName: "--sl8-arc", default: "#f5323c" },
+        { type: "range", label: "Value", varName: "--sl8-val", min: 0, max: 100, step: 5, unit: "%", default: 72 }
+      ],
+      code: "<style>\n  .ksl8-dial{position:relative;width:72px;height:72px;cursor:pointer}\n  .ksl8-dial:hover .ksl8-thumb{transform:scale(1.15)}\n  .ksl8-bg{fill:none;stroke:rgba(255,255,255,0.08);stroke-width:6}\n  .ksl8-arc{fill:none;stroke:var(--sl8-arc,#f5323c);stroke-width:6;stroke-linecap:round;filter:drop-shadow(0 0 4px var(--sl8-arc,#f5323c))}\n  .ksl8-val{font-size:14px;font-weight:800;fill:#f1f5f9}\n  .ksl8-label{font-size:8px;fill:#64748b;letter-spacing:.06em}\n  .ksl8-thumb{transition:transform .15s ease}\n  @media (prefers-reduced-motion:reduce){.ksl8-thumb{transition:none}}\n</style>\n<div style=\"display:inline-flex;align-items:center;gap:14px\">\n  <svg class=\"ksl8-dial\" viewBox=\"0 0 72 72\">\n    <circle class=\"ksl8-bg\" cx=\"36\" cy=\"36\" r=\"28\" stroke-dasharray=\"132\" stroke-dashoffset=\"-44\" transform=\"rotate(135 36 36)\"/>\n    <circle class=\"ksl8-arc\" cx=\"36\" cy=\"36\" r=\"28\" stroke-dasharray=\"132\" stroke-dashoffset=\"calc(132 - 132 * var(--sl8-val,72) / 100)\" transform=\"rotate(135 36 36)\"/>\n    <text class=\"ksl8-val\" x=\"36\" y=\"38\" text-anchor=\"middle\" dominant-baseline=\"middle\">72</text>\n    <text class=\"ksl8-label\" x=\"36\" y=\"50\" text-anchor=\"middle\">VOL</text>\n  </svg>\n</div>"
+    },
+
+    {
+      id: "EF6",
+      section: "effects",
+      name: "Scan Lines CRT",
+      description: "Retro CRT scanline overlay with subtle flicker — analog TV distortion that no other effect replicates.",
+      creator: "opus",
+      tags: ["effect","crt","scanlines","retro","distortion"],
+      tweaks: [
+        { type: "range", label: "Intensity", varName: "--ef6-int", min: 2, max: 15, step: 1, unit: "", default: 6 }
+      ],
+      code: "<style>\n  @keyframes kef6-flicker{0%,100%{opacity:calc(var(--ef6-int,6)/100)}50%{opacity:calc(var(--ef6-int,6)/100 + 0.02)}}\n  .kef6-crt{position:relative;width:190px;height:70px;border-radius:10px;background:#0a0c12;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.06)}\n  .kef6-crt::after{content:\"\";position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.3) 2px,rgba(0,0,0,0.3) 4px);animation:kef6-flicker .08s linear infinite;pointer-events:none;border-radius:inherit}\n  .kef6-lbl{position:relative;z-index:1;font-weight:700;font-size:11px;letter-spacing:.12em;color:#4ade80;text-shadow:0 0 8px rgba(74,222,128,.6);font-family:'Cascadia Mono',Consolas,monospace}\n  @media (prefers-reduced-motion:reduce){.kef6-crt::after{animation:none}}\n</style>\n<div class=\"kef6-crt\">\n  <span class=\"kef6-lbl\">SIGNAL LOCKED</span>\n</div>"
+    },
+
+    {
+      id: "BA7",
+      section: "badges",
+      name: "Ribbon Corner Badge",
+      description: "Folded ribbon badge anchored to a corner — a structural silhouette unlike any circular, pill, or diamond badge in the drawer.",
+      creator: "opus",
+      tags: ["badge","ribbon","corner","folded","label"],
+      tweaks: [
+        { type: "color", label: "Ribbon Color", varName: "--ba7-ribbon", default: "#f5323c" }
+      ],
+      code: "<style>\n  .kba7-wrap{position:relative;width:80px;height:80px;background:#141720;border-radius:10px;border:1px solid rgba(255,255,255,0.08);overflow:hidden}\n  .kba7-ribbon{position:absolute;top:12px;right:-28px;width:100px;padding:3px 0;background:var(--ba7-ribbon,#f5323c);color:#fff;font-size:9px;font-weight:800;letter-spacing:.06em;text-align:center;transform:rotate(45deg);box-shadow:0 2px 8px rgba(0,0,0,.4)}\n</style>\n<div class=\"kba7-wrap\">\n  <div class=\"kba7-ribbon\">NEW</div>\n</div>"
+    },
+
+    {
+      id: "MO9",
+      section: "modals",
+      name: "Side Panel Drawer",
+      description: "Right-edge slide-in panel with header and list — structurally unlike centered dialogs, bottom sheets, and toasts.",
+      creator: "opus",
+      tags: ["modal","side-panel","drawer","slide-in","settings"],
+      tweaks: [
+        { type: "color", label: "Header Accent", varName: "--mo9-accent", default: "#f5323c" }
+      ],
+      code: "<style>\n  .kmo9-bg{position:relative;width:220px;height:140px;background:#080a10;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06)}\n  .kmo9-scrim{position:absolute;inset:0;background:rgba(0,0,0,0.5)}\n  .kmo9-panel{position:absolute;top:0;right:0;bottom:0;width:140px;background:#141720;border-left:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column}\n  .kmo9-hdr{padding:10px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between}\n  .kmo9-title{font-size:11px;font-weight:700;color:#f8fafc}\n  .kmo9-close{width:18px;height:18px;border-radius:4px;background:rgba(255,255,255,0.06);border:none;color:#64748b;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}\n  .kmo9-list{padding:6px 8px;flex:1}\n  .kmo9-item{font-size:10px;color:#94a3b8;padding:5px 6px;border-radius:4px;cursor:pointer;transition:background .12s ease}\n  .kmo9-item:hover{background:rgba(255,255,255,0.05)}\n  .kmo9-item.sel{color:var(--mo9-accent,#f5323c);font-weight:600}\n  .kmo9-bar{height:2px;background:var(--mo9-accent,#f5323c);margin:0 10px}\n  @media (prefers-reduced-motion:reduce){.kmo9-item{transition:none}}\n</style>\n<div class=\"kmo9-bg\">\n  <div class=\"kmo9-scrim\"></div>\n  <div class=\"kmo9-panel\">\n    <div class=\"kmo9-hdr\"><span class=\"kmo9-title\">Settings</span><button type=\"button\" class=\"kmo9-close\">✕</button></div>\n    <div class=\"kmo9-bar\"></div>\n    <div class=\"kmo9-list\">\n      <div class=\"kmo9-item sel\">General</div>\n      <div class=\"kmo9-item\">Rendering</div>\n      <div class=\"kmo9-item\">Export</div>\n      <div class=\"kmo9-item\">Shortcuts</div>\n    </div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "BU21",
+      section: "buttons",
+      name: "Split Action Button",
+      description: "Primary action + dropdown trigger fused into one compound button — two-zone click target unlike any single-action button.",
+      creator: "opus",
+      tags: ["button","split","dropdown","compound","action"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--bu21-accent", default: "#f5323c" }
+      ],
+      code: "<style>\n  .kbu21-wrap{display:inline-flex;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(245,50,60,.3)}\n  .kbu21-main{background:var(--bu21-accent,#f5323c);color:#fff;border:none;padding:0 16px;height:36px;font-weight:700;font-size:12px;cursor:pointer;transition:opacity .12s ease}\n  .kbu21-drop{background:color-mix(in srgb,var(--bu21-accent,#f5323c) 80%,#000);color:#fff;border:none;border-left:1px solid rgba(255,255,255,0.2);width:32px;height:36px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .12s ease}\n  .kbu21-main:hover,.kbu21-drop:hover{opacity:.85}\n  @media (prefers-reduced-motion:reduce){.kbu21-main,.kbu21-drop{transition:none}}\n</style>\n<div class=\"kbu21-wrap\">\n  <button type=\"button\" class=\"kbu21-main\">Deploy</button>\n  <button type=\"button\" class=\"kbu21-drop\">▾</button>\n</div>"
     }
 
   ]
