@@ -339,7 +339,8 @@ function closePromptStudio() {
   $('#promptOverlay').hidden = true;
 }
 
-function updatePromptStudio(focusCustom = false) {
+function updatePromptStudio(opts = {}) {
+  const { isAgentSwitch = false, focusCustom = false } = opts;
   const sel = $('#agentSelect');
   const dSel = $('#targetDrawerSelect');
   const isCustom = sel.value === '_custom';
@@ -350,20 +351,21 @@ function updatePromptStudio(focusCustom = false) {
   }
 
   let agentName = '';
-  let agentColor = '#818cf8';
   let agentId = '';
 
   if (isCustom) {
     agentName = $('#customAgentName').value.trim() || 'Custom Agent';
-    agentColor = $('#agentColorPicker').value;
     agentId = agentName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
   } else {
     const agent = allAvailableAgents().find(c => c.id === sel.value) || { name: 'Gemini', color: '#818cf8', id: 'gemini' };
     agentName = agent.name;
-    agentColor = agent.color;
     agentId = agent.id;
-    $('#agentColorPicker').value = agentColor;
+    if (isAgentSwitch) {
+      $('#agentColorPicker').value = agent.color;
+    }
   }
+
+  const agentColor = $('#agentColorPicker').value || '#818cf8';
   $('#agentColorHex').textContent = agentColor;
 
   const targetDrawer = dSel.value;
@@ -1426,10 +1428,17 @@ function init() {
   $('#promptOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closePromptStudio();
   });
-  $('#agentSelect').addEventListener('change', () => updatePromptStudio(true));
-  $('#customAgentName').addEventListener('input', () => updatePromptStudio(false));
-  $('#agentColorPicker').addEventListener('input', () => updatePromptStudio(false));
-  $('#targetDrawerSelect').addEventListener('change', () => updatePromptStudio(false));
+  $('#agentSelect').addEventListener('change', () => updatePromptStudio({ isAgentSwitch: true, focusCustom: true }));
+  $('#customAgentName').addEventListener('input', () => updatePromptStudio({ isAgentSwitch: false }));
+  $('#agentColorPicker').addEventListener('input', () => updatePromptStudio({ isAgentSwitch: false }));
+  $('#targetDrawerSelect').addEventListener('change', () => updatePromptStudio({ isAgentSwitch: false }));
+
+  $$('.color-pill-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $('#agentColorPicker').value = btn.dataset.color;
+      updatePromptStudio({ isAgentSwitch: false });
+    });
+  });
 
   $('#exportFavsBtn').addEventListener('click', exportFavorites);
   $('#exportStyleGuideBtn').addEventListener('click', ev => exportAgentStyleGuide(ev.currentTarget));
