@@ -2153,10 +2153,66 @@ window.DESIGN_LAB = {
         }
       ],
       code: "<style>\n  @keyframes kef10-shift{to{transform:translate(var(--ef10-pitch,6px),var(--ef10-pitch,6px))}}\n  .kef10{position:relative;width:148px;height:78px;border-radius:6px;overflow:hidden;background:linear-gradient(135deg,var(--ef10-ink,#e879f9),#6d28d9);display:flex;align-items:center;justify-content:center;color:#0d0f13;font-size:13px;font-weight:900;letter-spacing:.22em}\n  .kef10::before{content:\"\";position:absolute;inset:-12px;background-image:radial-gradient(circle,#0d0f13 1.05px,transparent 1.15px);background-size:var(--ef10-pitch,6px) var(--ef10-pitch,6px);animation:kef10-shift 7s linear infinite;opacity:.78;pointer-events:none}\n  .kef10 span{position:relative;z-index:1}\n  @media (prefers-reduced-motion:reduce){.kef10::before{animation:none}}\n</style>\n<div class=\"kef10\"><span>PRINT</span></div>"
+    },
+
+    /* ---- Mimo 2.5 Animations: structurally distinct motion specimens (AN18-AN21) ---- */
+
+    {
+      id: "AN18",
+      section: "animations",
+      name: "Aurora Borealis",
+      description: "Flowing gradient curtains ripple across the stage via @property-animated custom properties — an atmospheric color field unlike any shape, orbit, cascade, or pulse in the drawer.",
+      creator: "mimo-2-5",
+      tags: ["animation","aurora","gradient","flowing","curtain","atmospheric"],
+      tweaks: [
+        { type: "color", label: "Curtain Tint", varName: "--an18-tint", default: "#34d399" }
+      ],
+      code: "<style>\n  @property --an18-p1{syntax:\"<percentage>\";inherits:false;initial-value:0%}\n  @property --an18-p2{syntax:\"<percentage>\";inherits:false;initial-value:100%}\n  @keyframes kaur-flow-a{0%{--an18-p1:0%;--an18-p2:100%}50%{--an18-p1:40%;--an18-p2:60%}100%{--an18-p1:0%;--an18-p2:100%}}\n  @keyframes kaur-flow-b{0%{--an18-p1:100%;--an18-p2:0%}50%{--an18-p1:55%;--an18-p2:45%}100%{--an18-p1:100%;--an18-p2:0%}}\n  @keyframes kaur-flow-c{0%{--an18-p1:20%;--an18-p2:80%}50%{--an18-p1:70%;--an18-p2:30%}100%{--an18-p1:20%;--an18-p2:80%}}\n  @keyframes kaur-drift{0%,100%{transform:translate(0,0) scale(1);opacity:.7}33%{transform:translate(8px,-4px) scale(1.05);opacity:.85}66%{transform:translate(-6px,3px) scale(.97);opacity:.6}}\n  .kaur-wrap{position:relative;width:100%;height:100%;overflow:hidden;background:radial-gradient(130% 110% at 50% 20%,#06101a 0%,#03060d 100%)}\n  .kaur-v{position:absolute;top:-12%;height:130%;opacity:.7;mix-blend-mode:screen;border-radius:40% 60% 50% 50%/50% 50% 60% 40%;filter:blur(22px)}\n  .kaur-a{width:48%;left:-4%;background:linear-gradient(90deg,transparent,var(--an18-tint,#34d399),#38bdf8,transparent);animation:kaur-flow-a 9s ease-in-out infinite,kaur-drift 13s ease-in-out infinite}\n  .kaur-b{width:42%;left:18%;background:linear-gradient(90deg,transparent,#38bdf8,#a78bfa,transparent);animation:kaur-flow-b 11s ease-in-out infinite,kaur-drift 16s ease-in-out infinite;animation-delay:-2s}\n  .kaur-c{width:45%;right:-2%;background:linear-gradient(90deg,transparent,var(--an18-tint,#34d399),#a78bfa,transparent);animation:kaur-flow-c 13s ease-in-out infinite,kaur-drift 18s ease-in-out infinite;animation-delay:-5s}\n  .kaur-glow{position:absolute;top:58%;left:12%;right:12%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);box-shadow:0 0 30px 10px rgba(255,255,255,.03)}\n  @media (prefers-reduced-motion:reduce){.kaur-v{animation:none;opacity:.5}.kaur-glow{box-shadow:none}}\n</style>\n<div class=\"kaur-wrap\">\n  <div class=\"kaur-v kaur-a\"></div>\n  <div class=\"kaur-v kaur-b\"></div>\n  <div class=\"kaur-v kaur-c\"></div>\n  <div class=\"kaur-glow\"></div>\n</div>"
+    },
+
+    {
+      id: "AN19",
+      section: "animations",
+      name: "Digital Glitch",
+      description: "Sharp RGB channel splitting, scanline flicker, and text displacement — a digital-corruption aesthetic that stands alone as the drawer's only glitch/corruption motion.",
+      creator: "mimo-2-5",
+      tags: ["animation","glitch","digital","rgb","scanline","corruption","flicker"],
+      tweaks: [
+        { type: "color", label: "Glitch Tint", varName: "--an19-tint", default: "#f43f5e" }
+      ],
+      code: "<style>\n  @keyframes kgl-shift{0%,88%,100%{transform:translate(0);opacity:0}90%{transform:translate(4px,-1px);opacity:.9}92%{transform:translate(-3px,2px);opacity:.7}94%{transform:translate(2px,0);opacity:.8}96%{transform:translate(-1px,-2px);opacity:.5}98%{transform:translate(3px,1px);opacity:.9}}\n  @keyframes kgl-scan{to{transform:translateY(100%)}}\n  @keyframes kgl-flicker{0%,100%{opacity:1}8%{opacity:.85}9%{opacity:1}35%{opacity:.92}36%{opacity:1}63%{opacity:.7}64%{opacity:1}65%{opacity:.88}66%{opacity:1}}\n  .kgl-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#080a0f;overflow:hidden;animation:kgl-flicker 3.5s steps(1) infinite}\n  .kgl-base{position:relative;font:800 36px/1 ui-monospace,Consolas,monospace;color:#e2e8f0;letter-spacing:.12em;z-index:1;animation:kgl-flicker 3.5s steps(1) infinite}\n  .kgl-r{position:absolute;inset:0;color:var(--an19-tint,#f43f5e);mix-blend-mode:screen;animation:kgl-shift 3.5s steps(1) infinite;z-index:2;pointer-events:none}\n  .kgl-b{position:absolute;inset:0;color:#38bdf8;mix-blend-mode:screen;animation:kgl-shift 3.5s steps(1) infinite;animation-delay:-1.75s;z-index:2;pointer-events:none}\n  .kgl-scan{position:absolute;left:0;right:0;height:2px;background:rgba(255,255,255,.08);z-index:3;pointer-events:none;animation:kgl-scan 4.5s linear infinite;opacity:.45}\n  .kgl-bar{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent 14%,var(--an19-tint,#f43f5e) 14%,var(--an19-tint,#f43f5e) 32%,transparent 32%);z-index:4;pointer-events:none;animation:kgl-shift 3.5s steps(1) infinite;animation-delay:-.7s;opacity:0}\n  .kgl-bar2{position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 58%,#38bdf8 58%,#38bdf8 74%,transparent 74%);z-index:4;pointer-events:none;animation:kgl-shift 3.5s steps(1) infinite;animation-delay:-2.3s;opacity:0}\n  @media (prefers-reduced-motion:reduce){.kgl-base,.kgl-r,.kgl-b,.kgl-scan,.kgl-bar,.kgl-bar2{animation:none;opacity:1;transform:none}}\n</style>\n<div class=\"kgl-wrap\">\n  <span class=\"kgl-base\">GLITCH</span>\n  <span class=\"kgl-r\">GLITCH</span>\n  <span class=\"kgl-b\">GLITCH</span>\n  <div class=\"kgl-scan\"></div>\n  <div class=\"kgl-bar\"></div>\n  <div class=\"kgl-bar2\"></div>\n</div>"
+    },
+
+    {
+      id: "AN20",
+      section: "animations",
+      name: "Magnetic Pulse",
+      description: "Concentric wave rings expand outward from a glowing core with a traveling pulse — a field-emission loop structurally unlike every orbit, pendulum, and ripple.",
+      creator: "mimo-2-5",
+      tags: ["animation","magnetic","pulse","field","rings","wave","expanding"],
+      tweaks: [
+        { type: "color", label: "Core Color", varName: "--an20-core", default: "#f43f5e" }
+      ],
+      code: "<style>\n  @keyframes kmag-ring{0%{transform:scale(.55);opacity:.92}100%{transform:scale(2.3);opacity:0}}\n  @keyframes kmag-core{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.18);opacity:1}}\n  @keyframes kmag-pulse{0%{box-shadow:0 0 6px var(--an20-core,#f43f5e),inset 0 0 6px var(--an20-core,#f43f5e)}50%{box-shadow:0 0 18px var(--an20-core,#f43f5e),0 0 36px color-mix(in srgb,var(--an20-core,#f43f5e) 40%,transparent),inset 0 0 12px var(--an20-core,#f43f5e)}100%{box-shadow:0 0 6px var(--an20-core,#f43f5e),inset 0 0 6px var(--an20-core,#f43f5e)}}\n  .kmag{position:relative;width:80px;height:80px;display:flex;align-items:center;justify-content:center}\n  .kmag-r{position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--an20-core,#f43f5e);opacity:0;animation:kmag-ring 3s ease-out infinite}\n  .kmag-r:nth-child(1){animation-delay:0s}.kmag-r:nth-child(2){animation-delay:.6s}.kmag-r:nth-child(3){animation-delay:1.2s}.kmag-r:nth-child(4){animation-delay:1.8s}.kmag-r:nth-child(5){animation-delay:2.4s}\n  .kmag-core{width:10px;height:10px;border-radius:50%;background:var(--an20-core,#f43f5e);animation:kmag-core 2.2s ease-in-out infinite,kmag-pulse 2.2s ease-in-out infinite;z-index:1}\n  @media (prefers-reduced-motion:reduce){.kmag-r,.kmag-core{animation:none;transform:none;opacity:.3}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%\">\n  <div class=\"kmag\">\n    <div class=\"kmag-r\"></div>\n    <div class=\"kmag-r\"></div>\n    <div class=\"kmag-r\"></div>\n    <div class=\"kmag-r\"></div>\n    <div class=\"kmag-r\"></div>\n    <div class=\"kmag-core\"></div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "AN21",
+      section: "animations",
+      name: "Pendulum Wave",
+      description: "Multiple pendulums of graduated lengths create a traveling harmonic wave — a Lissajous-like time crystal unlike any single pendulum, orbit, or pulse.",
+      creator: "mimo-2-5",
+      tags: ["animation","pendulum","wave","harmonic","lissajous","time","crystal"],
+      tweaks: [
+        { type: "color", label: "Bob Color", varName: "--an21-color", default: "#a78bfa" }
+      ],
+      code: "<style>\n  @keyframes kpw-swing{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-22deg)}}\n  @keyframes kpw-glow{0%,100%{opacity:.6;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}\n  .kpw-wrap{position:relative;width:220px;height:100px;padding-top:10px}\n  .kpw-arm{position:absolute;left:50%;top:10px;transform-origin:50% 0;animation:kpw-swing 3s cubic-bezier(.45,.05,.55,.95) infinite}\n  .kpw-arm:nth-child(1){animation-duration:2.2s;transform:rotate(22deg)}\n  .kpw-arm:nth-child(2){animation-duration:2.3s;animation-delay:-.3s}\n  .kpw-arm:nth-child(3){animation-duration:2.4s;animation-delay:-.6s}\n  .kpw-arm:nth-child(4){animation-duration:2.5s;animation-delay:-.9s}\n  .kpw-arm:nth-child(5){animation-duration:2.6s;animation-delay:-1.2s}\n  .kpw-arm:nth-child(6){animation-duration:2.7s;animation-delay:-1.5s}\n  .kpw-arm:nth-child(7){animation-duration:2.8s;animation-delay:-1.8s}\n  .kpw-arm:nth-child(8){animation-duration:2.9s;animation-delay:-2.1s}\n  .kpw-arm:nth-child(9){animation-duration:3s;animation-delay:-2.4s}\n  .kpw-string{position:absolute;left:50%;top:0;width:1.5px;transform:translateX(-50%)}\n  .kpw-string{height:calc(var(--d)*1px);top:0;background:linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,.08))}\n  .kpw-bob{position:absolute;left:50%;width:8px;height:8px;border-radius:50%;transform:translateX(-50%);animation:kpw-glow var(--d)*1ms ease-in-out infinite;box-shadow:0 0 6px var(--an21-color,#a78bfa)}\n  .kpw-bob{top:calc(var(--d)*1px - 4px);background:var(--an21-color,#a78bfa)}\n  .kpw-arm:nth-child(1) .kpw-string{--d:36}.kpw-arm:nth-child(2) .kpw-string{--d:42}.kpw-arm:nth-child(3) .kpw-string{--d:48}.kpw-arm:nth-child(4) .kpw-string{--d:54}.kpw-arm:nth-child(5) .kpw-string{--d:60}.kpw-arm:nth-child(6) .kpw-string{--d:66}.kpw-arm:nth-child(7) .kpw-string{--d:72}.kpw-arm:nth-child(8) .kpw-string{--d:78}.kpw-arm:nth-child(9) .kpw-string{--d:84}\n  .kpw-arm:nth-child(1) .kpw-bob{--d:36}.kpw-arm:nth-child(2) .kpw-bob{--d:42}.kpw-arm:nth-child(3) .kpw-bob{--d:48}.kpw-arm:nth-child(4) .kpw-bob{--d:54}.kpw-arm:nth-child(5) .kpw-bob{--d:60}.kpw-arm:nth-child(6) .kpw-bob{--d:66}.kpw-arm:nth-child(7) .kpw-bob{--d:72}.kpw-arm:nth-child(8) .kpw-bob{--d:78}.kpw-arm:nth-child(9) .kpw-bob{--d:84}\n  @media (prefers-reduced-motion:reduce){.kpw-arm,.kpw-bob{animation:none;transform:none}}\n</style>\n<div class=\"kpw-wrap\">\n  <div class=\"kpw-arm\"><div class=\"kpw-string\"></div><div class=\"kpw-bob\"></div></div>\n  <div class=\"kpw-arm\"><div class=\"kpw-string\"></div><div class=\"kpw-bob\"></div></div>\n  <div class=\"kpw-arm\"><div class=\"kpw-string\"></div><div class=\"kpw-bob\"></div></div>\n  <div class=\"kpw-arm\"><div class=\"kpw-string\"></div><div class=\"kpw-bob\"></div></div>\n  <div class=\"kpw-arm\"><div class=\"kpw-string\"></div><div class=\"kpw-bob\"></div></div>\n  <div class=\"kpw-arm\"><div class=\"kpw-string\"></div><div class=\"kpw-bob\"></div></div>\n  <div class=\"kpw-arm\"><div class=\"kpw-string\"></div><div class=\"kpw-bob\"></div></div>\n  <div class=\"kpw-arm\"><div class=\"kpw-string\"></div><div class=\"kpw-bob\"></div></div>\n  <div class=\"kpw-arm\"><div class=\"kpw-string\"></div><div class=\"kpw-bob\"></div></div>\n</div>"
     }
 
   ]
 };
+
+/* Canonical expansion prompt
 
 /* Canonical expansion prompt consumed by app.js (restored 2026-08-23 — was accidentally dropped during the glm.js migration). */
 window.AGENT_PROMPT = [
