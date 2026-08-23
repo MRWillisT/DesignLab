@@ -1233,6 +1233,96 @@ input, select { font: inherit; }
   opacity: 0.85;
 }
 
+.board-vote-btn {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 7px;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink-faint);
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+
+.board-vote-btn:hover {
+  border-color: rgba(240, 167, 60, 0.6);
+  color: var(--accent-bright);
+}
+
+.board-vote-btn:active { transform: scale(0.9); }
+
+.board-vote-btn.is-voted {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent-bright);
+}
+
+.board-podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 6px 4px 0;
+}
+
+.podium-col {
+  flex: 1;
+  max-width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  cursor: default;
+  transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.podium-col[data-open]:hover {
+  transform: translateY(-3px);
+  cursor: pointer;
+}
+
+.podium-2 { height: 120px; order: 1; border-color: rgba(167, 177, 192, 0.5); }
+.podium-1 { height: 152px; order: 2; border-color: rgba(245, 166, 35, 0.65); }
+.podium-3 { height: 100px; order: 3; border-color: rgba(176, 106, 58, 0.55); }
+
+.podium-medal {
+  min-width: 22px;
+  height: 22px;
+  font-size: 11px;
+}
+
+.podium-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.25;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.podium-col .credit-chip {
+  max-width: 90%;
+}
+
+.podium-votes {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent-bright);
+}
+
 /* ------------------------------------------------------------
    Personal tweaking (addendum)
    Controls drive CSS custom properties inside the preview via

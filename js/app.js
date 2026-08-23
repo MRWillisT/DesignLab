@@ -1296,6 +1296,8 @@ function toggleFavorite(id, card) {
 let boardOpen = false;
 let boardTab = 'specimens';
 let boardWindow = 'all'; // 'all' | 'week'
+let prevRanks = new Map(); // itemId -> global rank, for climb detection
+let lastRankToastAt = 0;
 
 function refreshVoteButton(btn, item) {
   if (!btn) return;
@@ -1314,6 +1316,36 @@ function refreshAllVoteButtons() {
     const item = allItems().find(it => it.id === id);
     if (item) refreshVoteButton(btn, item);
   });
+}
+
+/* Global rank map (all items, by all-time votes) for climb detection. */
+function globalRanks() {
+  const ranked = allItems()
+    .filter(it => DesignLabVotes.countOf(it.id) > 0)
+    .sort((a, b) => DesignLabVotes.countOf(b.id) - DesignLabVotes.countOf(a.id));
+  const m = new Map();
+  ranked.forEach((it, i) => m.set(it.id, i + 1));
+  return m;
+}
+
+/* Toast when an item the visitor upvoted climbs the leaderboard. Throttled
+   to one toast per 12s and only while the tab is visible. */
+function checkRankClimbs() {
+  const now = Date.now();
+  if (document.visibilityState === 'hidden' || now - lastRankToastAt < 12000) return;
+  const cur = globalRanks();
+  let best = null;
+  DesignLabVotes.mineSet().forEach(id => {
+    const from = prevRanks.get(id);
+    const to = cur.get(id);
+    if (!from || !to || to >= from) return;
+    if (!best || to < best.to) best = { id, from, to };
+  });
+  prevRanks = cur;
+  if (!best) return;
+  lastRankToastAt = now;
+  const item = allItems().find(it => it.id === best.id);
+  toast('▲ ' + escapeHtml(item ? item.name : best.id) + ' climbed to #' + best.to + ' on the leaderboard');
 }
 
 /* Update medal trim + rank badges on existing cards without a full re-render. */
@@ -1411,17 +1443,44 @@ function sparklineSvg(itemId) {
     + '</svg>';
 }
 
-function boardRow(rank, label, creator, n, spark) {
+function boardRow(rank, label, creator, n, spark, itemId) {
   const chip = creator
     ? '<span class="credit-chip" style="--chip:' + escapeHtml(creator.color || '#8a8f98') + '">' + escapeHtml(creator.name) + '</span>'
+    : '';
+  const voteBtn = itemId
+    ? '<button class="board-vote-btn' + (DesignLabVotes.voted(itemId) ? ' is-voted' : '') + '" type="button" data-vote="' + escapeHtml(itemId) + '" aria-pressed="' + DesignLabVotes.voted(itemId) + '" title="' + (DesignLabVotes.voted(itemId) ? 'Remove your upvote' : 'Upvote this specimen') + '">'
+      + '<svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 12.5V3.5m0 0L4.5 7M8 3.5L11.5 7M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      + '</button>'
     : '';
   return '<li class="board-row">'
     + '<span class="board-rank">' + rank + '</span>'
     + chip
     + '<span class="board-label">' + escapeHtml(label) + '</span>'
     + (spark || '')
+    + voteBtn
     + '<span class="board-votes">▲ ' + n + '</span>'
     + '</li>';
+}
+
+function podiumCard(place, label, creator, n, itemId) {
+  const medal = ['', 'gold', 'silver', 'bronze'][place];
+  const chip = creator
+    ? '<span class="credit-chip" style="--chip:' + escapeHtml(creator.color || '#8a8f98') + '">' + escapeHtml(creator.name) + '</span>'
+    : '';
+  return '<div class="podium-col podium-' + place + '" data-open="' + escapeHtml(itemId || '') + '" title="' + (itemId ? 'Click to inspect ' + escapeHtml(itemId) : '') + '">'
+    + '<span class="podium-medal medal-badge medal-' + medal + '">' + place + '</span>'
+    + '<span class="podium-label">' + escapeHtml(label) + '</span>'
+    + chip
+    + '<span class="podium-votes">▲ ' + n + '</span>'
+    + '</div>';
+}
+
+function buildPodium(entries) {
+  if (!entries || entries.length < 3) return '';
+  // order: 2nd, 1st, 3rd (classic podium layout)
+  return podiumCard(2, entries[1].label, entries[1].creator, entries[1].n, entries[1].itemId)
+    + podiumCard(1, entries[0].label, entries[0].creator, entries[0].n, entries[0].itemId)
+    + podiumCard(3, entries[2].label, entries[2].creator, entries[2].n, entries[2].itemId);
 }
 
 function renderLeaderboard() {
@@ -1436,41 +1495,67 @@ function renderLeaderboard() {
   if (winLabel) winLabel.textContent = boardWindow === 'week' ? 'This Week' : 'All Time';
 
   const fn = voteFn();
+  const podiumEl = $('#boardPodium');
+  let podium = '';
   let rows = [];
+
   if (boardTab === 'specimens') {
-    rows = allItems()
+    const ranked = allItems()
       .filter(it => fn(it.id) > 0)
-      .sort((a, b) => fn(b.id) - fn(a.id))
-      .slice(0, 25)
-      .map((it, i) => boardRow(i + 1, it.id + ' · ' + it.name, creatorOf(it.creator), fn(it.id),
-        boardWindow === 'week' ? '' : sparklineSvg(it.id)));
+      .sort((a, b) => fn(b.id) - fn(a.id));
+    const top3 = ranked.slice(0, 3);
+    podium = buildPodium(top3.map(it => ({
+      label: it.id + ' · ' + it.name,
+      creator: creatorOf(it.creator),
+      n: fn(it.id),
+      itemId: it.id
+    })));
+    rows = ranked.slice(3, 25)
+      .map((it, i) => boardRow(i + 4, it.id + ' · ' + it.name, creatorOf(it.creator), fn(it.id),
+        boardWindow === 'week' ? '' : sparklineSvg(it.id), it.id));
   } else if (boardTab === 'creators') {
     const byCreator = new Map();
     allItems().forEach(it => {
       const c = it.creator || '?';
       byCreator.set(c, (byCreator.get(c) || 0) + fn(it.id));
     });
-    rows = [...byCreator.entries()]
+    const ranked = [...byCreator.entries()]
       .filter(([, n]) => n > 0)
-      .sort((a, b) => b[1] - a[1])
-      .map(([cid, n], i) => boardRow(i + 1, (creatorOf(cid) || {}).name || cid, creatorOf(cid), n, ''));
+      .sort((a, b) => b[1] - a[1]);
+    const top3 = ranked.slice(0, 3);
+    podium = buildPodium(top3.map(([cid, n]) => ({
+      label: (creatorOf(cid) || {}).name || cid,
+      creator: creatorOf(cid),
+      n,
+      itemId: null
+    })));
+    rows = ranked.slice(3)
+      .map(([cid, n], i) => boardRow(i + 4, (creatorOf(cid) || {}).name || cid, creatorOf(cid), n, ''));
   } else {
     const bySec = new Map();
     allItems().forEach(it => {
       const s = it.section || '?';
       bySec.set(s, (bySec.get(s) || 0) + fn(it.id));
     });
-    rows = [...bySec.entries()]
+    const ranked = [...bySec.entries()]
       .filter(([, n]) => n > 0)
-      .sort((a, b) => b[1] - a[1])
+      .sort((a, b) => b[1] - a[1]);
+    const top3 = ranked.slice(0, 3);
+    podium = buildPodium(top3.map(([sid, n]) => {
+      const sec = sectionOf(sid);
+      return { label: sec ? sec.name : sid, creator: null, n, itemId: null };
+    }));
+    rows = ranked.slice(3)
       .map(([sid, n], i) => {
         const sec = sectionOf(sid);
-        return boardRow(i + 1, sec ? sec.name : sid, null, n, '');
+        return boardRow(i + 4, sec ? sec.name : sid, null, n, '');
       });
   }
 
+  podiumEl.innerHTML = podium;
+  podiumEl.hidden = !podium;
   list.innerHTML = rows.join('');
-  empty.hidden = rows.length > 0;
+  empty.hidden = rows.length > 0 && !podium;
 }
 
 function setQuery(value) {
@@ -1947,6 +2032,21 @@ function init() {
       renderLeaderboard();
     });
   });
+  $('#boardList').addEventListener('click', ev => {
+    const btn = ev.target.closest('.board-vote-btn');
+    if (!btn) return;
+    const id = btn.dataset.vote;
+    const item = allItems().find(it => it.id === id);
+    if (item) toggleVote(item, null);
+  });
+  $('#boardPodium').addEventListener('click', ev => {
+    const col = ev.target.closest('.podium-col');
+    if (!col) return;
+    const id = col.dataset.open;
+    if (!id) return;
+    const item = allItems().find(it => it.id === id);
+    if (item) openInspectModal(item);
+  });
   $('#sectionSelect').addEventListener('change', ev => {
     resetRenderLimit();
     state.section = ev.target.value;
@@ -2085,11 +2185,18 @@ function init() {
     DesignLabVotes.onChange(() => {
       refreshAllVoteButtons();
       refreshDrawerTop3();
+      checkRankClimbs();
       if (boardOpen) renderLeaderboard();
       if (state.sort === 'top') render();
       else { drawerRanksCache = null; renderMedals(); }
     });
     DesignLabVotes.init();
+    // Live poll: catch rank moves from other visitors without a reload.
+    setInterval(() => {
+      if (DesignLabVotes.isReady() && document.visibilityState !== 'hidden') {
+        DesignLabVotes.refresh();
+      }
+    }, 30000);
   }
 
   render();

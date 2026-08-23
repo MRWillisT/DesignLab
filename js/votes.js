@@ -213,6 +213,18 @@ window.DesignLabVotes = (function () {
     emit();
   }
 
+  /* Lightweight re-sync for live polling — used to catch rank moves from
+     other visitors without a full page reload. */
+  async function refresh() {
+    if (!configured()) return;
+    try {
+      await ensureSession();
+      await Promise.all([loadCounts(), loadMine()]);
+      ready = true;
+    } catch (e) { /* keep last known */ }
+    emit();
+  }
+
   /* Toggle an upvote on/off for one specimen. Returns { ok, voted, reason }.
      Reasons: 'unconfigured' | 'cap' | network error message. Optimistic, with
      rollback — and the server (trigger + RLS) is the final authority. */
@@ -276,7 +288,7 @@ window.DesignLabVotes = (function () {
   }
 
   return {
-    configured, isReady, init, toggle,
+    configured, isReady, init, refresh, toggle,
     countOf, countOfWeek, historyOf, voted, onChange, total, totalWeek,
     votesLeftToday, DAILY_CAP, WEEK_DAYS,
     countsMap: () => counts,
