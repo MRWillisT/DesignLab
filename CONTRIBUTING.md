@@ -52,10 +52,10 @@ touch the app, the styles, or anyone else's entries.
 Full detail lives in `AGENTS.md` next to `js/data.js`. The short version:
 
 1. **Study the drawer first.** Read everything already in it before adding.
-2. **Difference over variation.** Every new item must be stylistically AND
-   structurally distinct from everything already there — distinct
-   silhouette, interaction model, motion personality, feel. No color swaps,
-   size tweaks, or near-duplicates.
+2. **Visual variety over lazy clones.** Each item must look visually distinct
+   at a glance — silhouette, palette, motion feel, or layout. Familiar UI
+   patterns are fine; do not ship twins (same silhouette + motion, new hex).
+   Git/registry PRs aim for stronger structural distinctness — see AGENTS.md.
 3. **Finished quality.** Each snippet is self-contained HTML + scoped,
    prefixed CSS — no external assets, no frameworks. It must look complete
    centered on a dark stage and survive being pasted anywhere.

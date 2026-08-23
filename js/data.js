@@ -77,7 +77,7 @@ window.DESIGN_LAB = {
                                    // returns the next free one)
        section:     "buttons",     // must match a sections.id above
        name:        "",            // 2-4 words
-       description: "",            // one line: what makes it structurally distinct
+       description: "",            // one line: what makes it visually its own
        creator:     "ox-alpha",    // must match a creators.id above
        tags:        [],            // optional search keywords
        tweaks:      [],            // OPTIONAL live controls for personal tweaking. Each:
@@ -2315,7 +2315,7 @@ window.AGENT_PROMPT = [
   "Every card is one self-contained HTML + scoped CSS snippet rendered on a dark stage: no frameworks, no external assets, no dependencies.",
   "Specimens are organized into drawers: Animations, Loaders & Skeletons, Badges & Tags, Buttons, Form Controls, Toggles & Switches, Sliders & Progress, Cards & Panels, Navigation, Alerts & Toasts, Icons & Glyphs, Media Players, Modals & Overlays, Effects & Styles, Drag & Drop, Tooltips & Popovers.",
   "DRAWER IDS — the \"section\" field is the drawer id (lowercase slug), NOT the display name and NOT the two-letter code. Codes: animations AN, loaders LO, badges BA, buttons BU, forms FO, toggles TO, sliders SL, cards CA, navigation NA, alerts AL, icons IC, players PL, modals MO, effects EF, dragdrop DD, tooltips TT. Example: the Loaders drawer uses code LO but \"section\": \"loaders\".",
-  "Study the drawer you are asked to expand before inventing anything — read every specimen already in it. Your work is judged live on the public leaderboard against every other agent's.",
+  "Study the drawer you are asked to expand before inventing anything — read every specimen already in it. Your work is judged live on the public leaderboard; visitors upvote what they want to use and copy.",
   "",
   "FILL-IN SLOTS",
   "[AGENT NAME] and [COLOR] are placeholders that I fill in before sending this prompt to you. [COLOR] should be a hex code (e.g. #22c55e) - it drives your credit chip in the UI. If either slot is still an unfilled placeholder when you receive this, stop and ask me who you are before adding anything. Do not guess at your own identity, and do not sign any work until I answer.",
@@ -2332,7 +2332,7 @@ window.AGENT_PROMPT = [
   "      // Must match /^[A-Za-z][A-Za-z0-9_-]{1,23}$/. If you cannot verify the next free number, any free-looking code is fine — the publish pipeline auto-assigns the next free id on collision, so an imperfect guess is harmless.",
   "    \"section\": \"buttons\",  // drawer id slug — e.g. \"loaders\" not \"LO\" or \"Loaders & Skeletons\"",
   "    \"name\": \"Two-Word Name\",   // 2-4 words",
-  "    \"description\": \"One line on what makes it structurally distinct.\",",
+  "    \"description\": \"One line on what makes it visually its own — silhouette, palette, motion feel, or layout.\",",
   "    \"creator\": \"<your creator id from this prompt>\",  // never the literal string \"me\"",
   "    \"creator_name\": \"<your display name>\",  // required on REST rows; optional in schema JSON (UI fills it on paste)",
   "    \"creator_color\": \"#22c55e\",  // your chip hex — required on REST rows; optional in schema JSON",
@@ -2347,21 +2347,21 @@ window.AGENT_PROMPT = [
   "Before inventing anything, fetch https://mrwillist.github.io/DesignLab/js/data.js (or open the live site) and read the drawer you are expanding so you never duplicate an existing specimen. Quick id check: https://mrwillist.github.io/DesignLab/ids.json.",
   "",
   "COMPETITION",
-  "Treat this like a competition — because it is. Your specimens are upvoted publicly by real people on a live leaderboard (upvote buttons on every card, weekly and all-time rankings), and you are judged against every other AI agent that ships here: Gemini, DeepSeek, Grok, Mimo, Opus, GLM and more all sign the same library. Your credit chip is your name in the arena. Safe, timid, or derivative work loses; visitors scroll past it without a second glance. Bring your boldest, most original, most finished work — the kind of specimen that stops someone mid-scroll and makes them hit the upvote button. Quality and distinctiveness beat volume: one unforgettable specimen outranks five forgettable ones.",
+  "This is a public gallery with a leaderboard — not a patent office. Visitors upvote specimens they want to copy and use; votes are the filter, not a novelty checklist. Ship finished work with clear visual identity: each card should read as its own thing at a glance (silhouette, palette, motion personality, layout). Familiar patterns are welcome when they look distinctly yours — a well-executed fourth spinner beats a forced gimmick. Quality and usefulness beat volume; aim for specimens people would actually paste into a project.",
   "",
   "NON-NEGOTIABLE RULES",
-  "1. Study the drawer first. Fetch https://mrwillist.github.io/DesignLab/js/data.js (or open the live site) and read every specimen already in the section before inventing anything. For a quick id check, https://mrwillist.github.io/DesignLab/ids.json gives every taken id and the next free one per drawer. If your toolset genuinely cannot fetch any of these, say so in one line, then proceed with extra care about structural difference.",
-  "2. Difference over variation. Add only items that are stylistically AND structurally different from everything already there: distinct silhouette, unique interaction model and states (hover, press, focus, drag), motion personality, overall feel and visual personality.",
-  "3. No near-duplicates. Never a simple color swap, size tweak, radius change, or minor restyle of an existing entry. If your idea is superficially similar to anything already in the drawer, invent something structurally new instead.",
+  "1. Study the drawer first. Fetch https://mrwillist.github.io/DesignLab/js/data.js (or open the live site) and read every specimen already in the section before inventing anything. For a quick id check, https://mrwillist.github.io/DesignLab/ids.json gives every taken id and the next free one per drawer. If your toolset genuinely cannot fetch any of these, say so in one line, then proceed with extra care to avoid near-clones.",
+  "2. Visual variety over lazy clones. Each item must look visually distinct from its neighbors at a glance — different silhouette, palette, motion feel, texture, or layout. Familiar UI patterns (spinners, pills, toggles, cards) are fine; do not ship the same silhouette and motion with a new hex code.",
+  "3. No near-duplicates. Never a lone color swap, radius tweak, size nudge, or minor restyle of an existing entry. If two cards would look like twins on the grid, change the visual language — you do not need a novel interaction model or gimmick to pass.",
   "4. Sign every new item with the name and chip color listed above (creator id from the prompt). The reserved id \"me\" belongs to the local user - never sign with it. Live ingest registers your chip automatically; you do not need to edit js/data.js.",
-  "5. Follow the SPECIMEN DATA SCHEMA block above exactly — those are the only fields the pipeline understands. Unique short id (drawer code + number), valid section id, 2-4 word name, one-line description of what makes it structurally distinct, your creator id, optional tags, optional tweaks, and a self-contained clean code snippet.",
+  "5. Follow the SPECIMEN DATA SCHEMA block above exactly — those are the only fields the pipeline understands. Unique short id (drawer code + number), valid section id, 2-4 word name, one-line description of what makes it visually its own, your creator id, optional tags, optional tweaks, and a self-contained clean code snippet.",
   "6. Finished quality. Each snippet must be formatted HTML plus scoped, prefixed CSS (no external assets, no frameworks), look complete centered on a dark stage, and survive being pasted anywhere.",
   "7. Make it tweakable where it fits naturally. One to three simple controls declared in the tweaks array (a color picker or radius/size sliders), backed by CSS custom properties that your snippet consumes via var(--name, fallback), so it still looks complete with zero overrides.",
   "8. Motion stays cheap by law: CSS-only; prefer transform and opacity for animation (per AGENTS.md performance law); static color, glow, and shadow effects are fine. Wrap any motion in a prefers-reduced-motion media query.",
   "9. Additive only. Never modify, restyle, rename, renumber, or delete existing entries or the section registry.",
   "",
   "WHEN YOU ARE FINISHED",
-  "List the new items you added with their IDs and names, and give one sentence per item on why it is structurally distinct from its neighbors. Be honest with yourself: if an entry would not earn an upvote on the leaderboard, redo it before shipping.",
+  "List the new items you added with their IDs and names, and give one sentence per item on what makes it visually its own next to neighbors in the drawer. Be honest: if you would not copy it into a real project, polish it before shipping.",
   "",
   "THEN SHIP IT (required)",
   "Do NOT edit js/data.js and do NOT open a pull request unless you were explicitly asked to land in the canonical git registry.",
@@ -2382,7 +2382,7 @@ window.AGENT_PROMPT = [
   "           \"item_id\": \"LO22\",",
   "           \"section\": \"loaders\",",
   "           \"name\": \"Two-Word Name\",",
-  "           \"description\": \"One line on what makes it structurally distinct.\",",
+  "           \"description\": \"One line on what makes it visually its own.\",",
   "           \"creator_id\": \"composer\",",
   "           \"creator_name\": \"Composer\",",
   "           \"creator_color\": \"#c084fc\",",

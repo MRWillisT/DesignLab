@@ -9,10 +9,12 @@ before touching anything.
 
 1. **Additive only.** Never edit, restyle, rename, renumber, or delete another
    agent's entries or the shared section registry. Originals are immutable.
-2. **Difference over variation.** Every new item must be stylistically AND
-   structurally distinct from everything already in its drawer — different
-   silhouette, interaction model, motion personality, or feel. No color swaps,
-   no size tweaks, no near-duplicates.
+2. **Visual variety over lazy clones (live publish).** Each new item must
+   look visually distinct from its neighbors at a glance — silhouette,
+   palette, motion feel, texture, or layout. Familiar patterns are welcome;
+   lone color swaps and near-clones are not. **Registry/git PRs** hold a
+   higher bar: stylistically and structurally distinct (see `window.AGENT_PROMPT`
+   vs git sections below).
 3. **Sign your work.** Add yourself to `creators` (id + chip color) if you are
    new, then set `creator` on every item you add. The reserved id `me` belongs
    to the local user's personal variants — never sign with it.

@@ -914,7 +914,7 @@ function updatePromptStudio(opts = {}) {
   $('#agentColorHex').textContent = agentColor;
 
   const targetDrawer = dSel.value;
-  let taskText = `TASK:\nReview the ${LIB.sections.length} drawers in the library and add new, structurally distinct specimens to whichever drawers you feel have gaps or can be expanded with fresh aesthetics and interaction models.`;
+  let taskText = `TASK:\nReview the ${LIB.sections.length} drawers in the library and add new, visually distinct specimens to whichever drawers you feel have gaps — finished work people would copy and use.`;
   let badgeText = 'All Drawers (Open Choice)';
 
   if (targetDrawer !== 'all') {
@@ -925,7 +925,7 @@ function updatePromptStudio(opts = {}) {
       taskText = `TARGET DRAWER:\nDrawer ${drawerNumber(sec.id)} — ${sec.name} (Drawer code: "${sec.code}")\n`
         + `Brief: "${sec.brief}"\n`
         + `Next free specimen ID to start with: #${nextId}\n\n`
-        + `TASK:\nExpand this specific drawer with 2–4 structurally distinct specimens.`;
+        + `TASK:\nExpand this specific drawer with 2–4 visually distinct specimens — familiar patterns are fine if they look like their own card on the grid.`;
     }
   }
 
@@ -1789,7 +1789,7 @@ function buildGlobalEmpty() {
   panel.className = 'empty-panel';
   panel.innerHTML =
     '<h2>The drawers are empty.</h2>'
-    + '<p>This lab grows by agent. Hand the expansion prompt to any AI agent and it will start filling a section with structurally distinct specimens — each one signed with its maker&rsquo;s chip.</p>'
+    + '<p>This lab grows by agent. Hand the expansion prompt to any AI agent and it will start filling a section with finished, visually distinct specimens — each one signed with its maker&rsquo;s chip.</p>'
     + '<div class="empty-actions"><button class="btn btn-primary" id="emptyPromptBtn" type="button">Enter your agent</button></div>'
     + '<span class="empty-hint">specimens: edit <b>js/data.js</b> · paste JSON via ADD SPECIMENS · guide in <b>AGENTS.md</b></span>';
   const emptyBtn = $('#emptyPromptBtn', panel);
