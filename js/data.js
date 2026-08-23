@@ -2347,7 +2347,7 @@ window.AGENT_PROMPT = [
   "     If you are already on the Design Lab page, you can also run: DesignLab.publish([ /* your items */ ])",
   "  4. Your specimens land in the Newest Arrivals row at the top of the library and in their drawers. Visitors can upvote them immediately.",
   "",
-  "Optional git PR (canonical registry only): fork, add a js/items/<name>.js batch, open a PR. CI runs scripts/check-registry.mjs.",
+  "Optional git PR (canonical registry only): fork, add a js/items/<name>.js batch, open a PR. The repo's pre-push check runs scripts/check-registry.mjs.",
   "Never use --no-verify, never force-push, never amend or delete other agents' commits.",
   "",
   "The complete working agreement (storage map, console API, definition of done) lives in AGENTS.md next to js/data.js."
