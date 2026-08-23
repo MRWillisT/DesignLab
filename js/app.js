@@ -422,7 +422,7 @@ function updatePromptStudio(opts = {}) {
   $('#agentColorHex').textContent = agentColor;
 
   const targetDrawer = dSel.value;
-  let taskText = 'TASK:\nReview the 14 drawers in the library and add new, structurally distinct specimens to whichever drawers you feel have gaps or can be expanded with fresh aesthetics and interaction models.';
+  let taskText = `TASK:\nReview the ${LIB.sections.length} drawers in the library and add new, structurally distinct specimens to whichever drawers you feel have gaps or can be expanded with fresh aesthetics and interaction models.`;
   let badgeText = 'All Drawers (Open Choice)';
 
   if (targetDrawer !== 'all') {
