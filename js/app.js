@@ -32,6 +32,40 @@ const DENSITY_TIERS = [
   { label: 'Lg',  cols: 3, min: '340px' }
 ];
 
+/* Preset swatches for the prompt studio's credit-chip color picker.
+   COLORS ALREADY HELD by a registered creator are filtered out at runtime
+   (see populateColorPills), then the list is topped up with fresh
+   candidates so new agents never pick an already-taken chip color. */
+const COLOR_PRESETS = [
+  { hex: '#818cf8', label: 'Indigo' },
+  { hex: '#f97316', label: 'Coral / Orange' },
+  { hex: '#10a37f', label: 'Emerald' },
+  { hex: '#38bdf8', label: 'Sky Blue' },
+  { hex: '#ec4899', label: 'Pink / Rose' },
+  { hex: '#a855f7', label: 'Purple' },
+  { hex: '#eab308', label: 'Amber' },
+  { hex: '#22d3ee', label: 'Cyan' }
+];
+const COLOR_FRESH = [
+  { hex: '#ef4444', label: 'Bright Red' },
+  { hex: '#f59e0b', label: 'Honey' },
+  { hex: '#84cc16', label: 'Lime' },
+  { hex: '#22c55e', label: 'Leaf Green' },
+  { hex: '#06b6d4', label: 'Cyan' },
+  { hex: '#0ea5e9', label: 'Sky' },
+  { hex: '#6366f1', label: 'Indigo' },
+  { hex: '#8b5cf6', label: 'Violet' },
+  { hex: '#d946ef', label: 'Fuchsia' },
+  { hex: '#f43f5e', label: 'Rose' },
+  { hex: '#fb7185', label: 'Salmon' },
+  { hex: '#34d399', label: 'Mint' },
+  { hex: '#c084fc', label: 'Lilac' },
+  { hex: '#4ade80', label: 'Grass' },
+  { hex: '#fb923c', label: 'Tangerine' },
+  { hex: '#67e8f9', label: 'Ice Blue' },
+  { hex: '#d4d4d8', label: 'Silver' }
+];
+
 const state = {
   query: '',
   section: 'all',
@@ -455,6 +489,40 @@ async function copyPromptStudio(btn) {
   } else {
     toast('Copy blocked by browser — select and copy manually.');
   }
+}
+
+/* ---------- prompt studio: credit chip color pills ---------- */
+
+function populateColorPills() {
+  const wrap = $('#colorPresetPills');
+  if (!wrap) return;
+  const taken = new Set(LIB.creators.map(c => String(c.color || '').trim().toLowerCase().replace(/^#/, '')));
+  const pick = [];
+  const seen = new Set();
+  const add = (c) => {
+    const key = c.hex.toLowerCase().replace(/^#/, '');
+    if (taken.has(key) || seen.has(key)) return;
+    seen.add(key);
+    pick.push(c);
+  };
+  COLOR_PRESETS.forEach(add);
+  COLOR_FRESH.forEach(add);
+  wrap.innerHTML = '';
+  pick.slice(0, 12).forEach(c => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'color-pill-btn';
+    btn.dataset.color = c.hex;
+    btn.title = `${c.label} (${c.hex})`;
+    btn.setAttribute('aria-label', `Pick ${c.label}`);
+    btn.style.background = c.hex;
+    btn.addEventListener('click', () => {
+      $('#agentColorPicker').value = c.hex;
+      $('#agentColorHex').textContent = c.hex;
+      updatePromptStudio({ isAgentSwitch: false });
+    });
+    wrap.appendChild(btn);
+  });
 }
 
 /* ---------- specimen inspect modal ---------- */
@@ -1569,12 +1637,7 @@ function init() {
   $('#agentColorPicker').addEventListener('input', () => updatePromptStudio({ isAgentSwitch: false }));
   $('#targetDrawerSelect').addEventListener('change', () => updatePromptStudio({ isAgentSwitch: false }));
 
-  $$('.color-pill-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      $('#agentColorPicker').value = btn.dataset.color;
-      updatePromptStudio({ isAgentSwitch: false });
-    });
-  });
+  populateColorPills();
 
   $('#exportModalBtn').addEventListener('click', openExportModal);
   $('#exportClose').addEventListener('click', closeExportModal);
