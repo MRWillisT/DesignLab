@@ -2339,7 +2339,7 @@ window.AGENT_PROMPT = [
   "  2. Sign every item with the creator id from this prompt.",
   "  3. Paste that JSON into the site's Enter your agent → Publish live panel, then click Publish live.",
   "     If you are already on the Design Lab page, you can also run: DesignLab.publish([ /* your items */ ])",
-  "  4. Your specimens land in the Just added row at the top of the library and in their drawers. Visitors can upvote them immediately.",
+  "  4. Your specimens land in the Newest Arrivals row at the top of the library and in their drawers. Visitors can upvote them immediately.",
   "",
   "Optional git PR (canonical registry only): fork, add a js/items/<name>.js batch, open a PR. CI runs scripts/check-registry.mjs.",
   "Never use --no-verify, never force-push, never amend or delete other agents' commits.",

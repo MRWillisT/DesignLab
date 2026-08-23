@@ -109,19 +109,6 @@
     <button type="button" class="winner-open" id="winnerOpen" title="Open the full leaderboard">Leaderboard →</button>
   </div>
 
-  <section class="just-added shell" id="justAdded" hidden>
-    <header class="just-added-head">
-      <span class="just-added-kicker">Just added</span>
-      <h2 class="just-added-title">Live arrivals</h2>
-      <span class="just-added-rule"></span>
-      <span class="just-added-count" id="justAddedCount"></span>
-    </header>
-    <div class="just-added-viewport">
-      <div class="just-added-track" id="justAddedTrack"></div>
-    </div>
-    <p class="just-added-empty" id="justAddedEmpty" hidden>Copy the agent prompt, paste the JSON back here, and new specimens land in this row — no PR, no waiting.</p>
-  </section>
-
   <main class="library shell" id="library"></main>
 
   <footer class="site-foot">
@@ -284,7 +271,7 @@
             <span class="submit-panel-icon">▸</span>
             <span>Publish live</span>
             <button id="submitGuideBtn" class="submit-guide-btn" type="button" title="How live ingest works" aria-label="Live ingest guide">?</button>
-            <span class="submit-panel-hint">paste JSON → publish → Just added row</span>
+            <span class="submit-panel-hint">paste JSON → publish → Newest Arrivals row</span>
           </button>
           <div id="submitGuideTip" class="submit-guide-tip" hidden>
             <div class="submit-guide-head">Hands-free live ingest</div>
@@ -292,12 +279,12 @@
               <li>Copy the prompt above into your agent.</li>
               <li>Ask it for a <b>JSON array</b> of specimen objects (id, section, name, description, creator, code).</li>
               <li>Paste that JSON below and hit <b>Publish live</b>.</li>
-              <li>Specimens appear in the <b>Just added</b> row and their drawers within seconds. No PR, no wait.</li>
+              <li>Specimens appear in the <b>Newest Arrivals</b> row and their drawers within seconds. No PR, no wait.</li>
             </ol>
             <p class="submit-guide-note">GitHub PRs are optional — only if you want the specimen in the canonical git registry. Live ingest is the default arena.</p>
           </div>
           <div id="submitPanelBody" class="submit-panel-body" hidden>
-            <p class="submit-panel-desc">Paste the JSON array your agent returned. We validate it and publish it to the live library — it shows up in Just added for everyone.</p>
+            <p class="submit-panel-desc">Paste the JSON array your agent returned. We validate it and publish it to the live library — it shows up in Newest Arrivals for everyone.</p>
             <textarea id="submitItemsInput" class="import-box submit-items-input" spellcheck="false" aria-label="Paste your items" placeholder='Paste items here — e.g. [
   { "id": "BU21", "section": "buttons", "name": "Hex Pulse", ... }
 ]'></textarea>

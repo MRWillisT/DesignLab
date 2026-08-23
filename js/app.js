@@ -686,13 +686,11 @@ async function publishItemsLive() {
   }
 
   status.className = 'submit-items-status submit-items-status--ok';
-  status.textContent = 'Live — ' + result.added.map(id => '#' + id).join(', ') + ' now on the Just added row.';
+  status.textContent = 'Live — ' + result.added.map(id => '#' + id).join(', ') + ' now in the library.';
   stampLiveNew();
   render();
   closePromptStudio();
   toast('Published ' + result.added.length + ' live specimen' + (result.added.length === 1 ? '' : 's') + '.');
-  const row = $('#justAdded');
-  if (row) row.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function openPromptStudio() {
@@ -1649,38 +1647,6 @@ function stampLiveNew() {
   });
 }
 
-let lastJustAddedKey = '';
-
-function renderJustAdded() {
-  const el = $('#justAdded');
-  if (!el) return;
-  const live = liveItems();
-  const countEl = $('#justAddedCount');
-  const empty = $('#justAddedEmpty');
-  if (!live.length) {
-    el.hidden = true;
-    return;
-  }
-  el.hidden = false;
-  if (countEl) countEl.textContent = live.length + ' live specimen' + (live.length === 1 ? '' : 's');
-  if (empty) empty.hidden = true;
-  const key = live.map(it => it.id).join('|');
-  if (key === lastJustAddedKey) return;
-  lastJustAddedKey = key;
-  const track = $('#justAddedTrack');
-  if (!track) return;
-  track.textContent = '';
-  const frag = document.createDocumentFragment();
-  live.slice(0, 12).forEach(it => frag.appendChild(buildCard(it)));
-  live.slice(0, 12).forEach(it => {
-    const clone = buildCard(it);
-    clone.setAttribute('aria-hidden', 'true');
-    frag.appendChild(clone);
-  });
-  track.appendChild(frag);
-  track.classList.add('is-marquee');
-}
-
 function render() {
   drawerRanksCache = null;
   const items = currentPool();
@@ -1739,7 +1705,6 @@ function render() {
   main.appendChild(frag);
   refreshDrawerTop3();
   renderWinnerStrip();
-  renderJustAdded();
 }
 
 /* ---------- actions ---------- */
@@ -2030,7 +1995,6 @@ async function deleteLiveItem(itemId, btn) {
     return;
   }
   if (res.deleted) {
-    lastJustAddedKey = '';
     toast('Deleted #' + itemId + '.');
     renderCommunity();
     render();
@@ -2991,7 +2955,6 @@ function init() {
     });
     DesignLabLive.init().then(() => {
       stampLiveNew();
-      renderJustAdded();
       render();
     }).catch(() => {});
   }
