@@ -462,6 +462,27 @@ async function copyPromptStudio(btn) {
 let currentInspectItem = null;
 let inspectCanvasMode = 'dark';
 
+function mountInspectFrame(item) {
+  const stage = $('#inspectStage');
+  if (!stage || !item) return null;
+  const oldFrame = $('#inspectFrame');
+  if (oldFrame) oldFrame.remove();
+
+  const frame = document.createElement('iframe');
+  frame.id = 'inspectFrame';
+  frame.className = 'inspect-frame';
+  frame.setAttribute('sandbox', 'allow-scripts');
+  frame.setAttribute('title', escapeHtml(item.name) + ' full preview');
+
+  const hasTweaks = !!(item.tweaks && item.tweaks.length);
+  frame.srcdoc = hasTweaks
+    ? previewDoc(String(item.code || ''), currentValues(item), inspectCanvasMode)
+    : previewDoc(String(item.code || ''), null, inspectCanvasMode);
+
+  stage.appendChild(frame);
+  return frame;
+}
+
 function openInspectModal(item) {
   if (!item) return;
   currentInspectItem = item;
@@ -491,14 +512,12 @@ function openInspectModal(item) {
   $$('.inspect-vp-btn').forEach(b => b.classList.toggle('is-active', b.dataset.vp === 'full'));
   $$('.inspect-canvas-btn').forEach(b => b.classList.toggle('is-active', b.dataset.canvas === 'dark'));
 
-  const frame = $('#inspectFrame');
-  const hasTweaks = !!(item.tweaks && item.tweaks.length);
-  frame.srcdoc = hasTweaks
-    ? previewDoc(String(item.code || ''), currentValues(item), inspectCanvasMode)
-    : previewDoc(String(item.code || ''), null, inspectCanvasMode);
+  // Mount clean fresh iframe
+  mountInspectFrame(item);
 
   const tweaksCol = $('#inspectTweaksCol');
   const tweaksList = $('#inspectTweaksList');
+  const hasTweaks = !!(item.tweaks && item.tweaks.length);
   if (hasTweaks) {
     tweaksCol.hidden = false;
     tweaksList.innerHTML = buildTrayRows(item);
@@ -514,7 +533,8 @@ function openInspectModal(item) {
         draft[t.varName] = formatVal(t, input.value);
         draftVars.set(item.id, draft);
         if (out) out.textContent = t.type === 'range' ? input.value + (t.unit || '') : input.value;
-        pushVars(frame, currentValues(item));
+        const currentFrame = $('#inspectFrame');
+        if (currentFrame) pushVars(currentFrame, currentValues(item));
         const card = document.querySelector('.card[data-id="' + item.id + '"]');
         if (card) {
           const cardFrame = $('.stage-frame', card);
@@ -537,6 +557,8 @@ function openInspectModal(item) {
 function closeInspectModal() {
   const overlay = $('#inspectOverlay');
   if (overlay) overlay.hidden = true;
+  const oldFrame = $('#inspectFrame');
+  if (oldFrame) oldFrame.remove();
   currentInspectItem = null;
 }
 
@@ -1647,11 +1669,7 @@ function init() {
         const stage = $('#inspectStage');
         stage.style.setProperty('--stage-bg', c === 'light' ? '#f8fafc' : (c === 'slate' ? '#1e293b' : '#0d0f13'));
         if (currentInspectItem) {
-          const frame = $('#inspectFrame');
-          const hasTweaks = !!(currentInspectItem.tweaks && currentInspectItem.tweaks.length);
-          frame.srcdoc = hasTweaks
-            ? previewDoc(String(currentInspectItem.code || ''), currentValues(currentInspectItem), inspectCanvasMode)
-            : previewDoc(String(currentInspectItem.code || ''), null, inspectCanvasMode);
+          mountInspectFrame(currentInspectItem);
         }
       });
     });
