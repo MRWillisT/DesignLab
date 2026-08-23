@@ -2,10 +2,9 @@
 -- Dashboard → SQL Editor → paste this whole file → Run.
 -- Adds token-gated delete for public.live_specimens so the owner can curate
 -- the community layer without touching the registry or granting anyone the
--- service-role key. The token is stored ONLY as a sha256 hash; the plaintext
--- lives with the owner (never in this repo).
-
-create extension if not exists pgcrypto;
+-- service-role key. The token is stored ONLY as a hash; the plaintext lives
+-- with the owner (never in this repo). Uses Postgres' built-in md5() so it
+-- needs no extensions and runs on any project.
 
 -- Single-row config table holding the hashed moderator token.
 create table if not exists public.live_config (
@@ -13,12 +12,13 @@ create table if not exists public.live_config (
   value text not null
 );
 
--- Seed the owner token hash (on conflict keeps whatever is already set).
--- Change the token: delete the row, re-run with a new hash, or:
---   update public.live_config set value = encode(digest('NEWTOKEN','sha256'),'hex') where key = 'mod_token_hash';
+-- Seed the owner token hash. Upserts on every run so a re-run always
+-- matches the functions below (safe after a failed or partial first run).
+-- Change the token: update this row to the md5 of a new token, e.g.
+--   update public.live_config set value = md5('NEWTOKEN') where key = 'mod_token_hash';
 insert into public.live_config (key, value)
-values ('mod_token_hash', 'e6c7399a32721f18d9307e91eded87e2f8cee0b2e5c3892bc97cdd8f3be5f886')
-on conflict (key) do nothing;
+values ('mod_token_hash', md5('37d93e0810e1b02e420a28cad9308912570c'))
+on conflict (key) do update set value = excluded.value;
 
 -- True when the caller knows the owner token (used to unlock the panel).
 create or replace function public.live_moderate_check(p_token text)
@@ -26,7 +26,7 @@ returns boolean language sql stable security definer set search_path = public as
   select exists (
     select 1 from public.live_config
     where key = 'mod_token_hash'
-      and value = encode(digest(coalesce(p_token, ''), 'sha256'), 'hex')
+      and value = md5(coalesce(p_token, ''))
   );
 $$;
 
