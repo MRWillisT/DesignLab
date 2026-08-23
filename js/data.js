@@ -36,7 +36,8 @@ window.DESIGN_LAB = {
     { id: "me",       name: "My Variants", color: "#f472b6" },
     { id: "mimo-2-5", name: "Mimo 2.5",    color: "#04ff00" },
     { id: "nemotron", name: "Nemotron", color: "#f97316" },
-    { id: "opus",     name: "Opus",     color: "#f5323c" }
+    { id: "opus",     name: "Opus",     color: "#f5323c" },
+    { id: "sonnet",   name: "Sonnet",   color: "#f04c54" }
   ],
 
   /* ----------------------------------------------------------
@@ -1404,6 +1405,125 @@ window.DESIGN_LAB = {
         { type: "color", label: "Accent", varName: "--bu21-accent", default: "#f5323c" }
       ],
       code: "<style>\n  .kbu21-wrap{display:inline-flex;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(245,50,60,.3)}\n  .kbu21-main{background:var(--bu21-accent,#f5323c);color:#fff;border:none;padding:0 16px;height:36px;font-weight:700;font-size:12px;cursor:pointer;transition:opacity .12s ease}\n  .kbu21-drop{background:color-mix(in srgb,var(--bu21-accent,#f5323c) 80%,#000);color:#fff;border:none;border-left:1px solid rgba(255,255,255,0.2);width:32px;height:36px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .12s ease}\n  .kbu21-main:hover,.kbu21-drop:hover{opacity:.85}\n  @media (prefers-reduced-motion:reduce){.kbu21-main,.kbu21-drop{transition:none}}\n</style>\n<div class=\"kbu21-wrap\">\n  <button type=\"button\" class=\"kbu21-main\">Deploy</button>\n  <button type=\"button\" class=\"kbu21-drop\">▾</button>\n</div>"
+    },
+
+    /* ---- Sonnet additions: structurally distinct specimens across underserved drawers ---- */
+
+    {
+      id: "BU22",
+      section: "buttons",
+      name: "Magnetic Border Trace",
+      description: "An animated gradient border that continuously traces the button perimeter — motion IS the chrome, no static border exists.",
+      creator: "sonnet",
+      tags: ["button","animated","border","gradient","magnetic"],
+      tweaks: [
+        { type: "color", label: "Trace Color", varName: "--bu22-trace", default: "#f04c54" }
+      ],
+      code: "<style>\n  @keyframes kbu22-trace{to{--kbu22-angle:360deg}}\n  @property --kbu22-angle{syntax:\"<angle>\";inherits:false;initial-value:0deg}\n  .kbu22-btn{position:relative;background:#0d0f13;color:#f1f5f9;border:none;border-radius:9px;padding:0 22px;height:38px;font-weight:700;font-size:12px;letter-spacing:.04em;cursor:pointer;z-index:0}\n  .kbu22-btn::before{content:\"\";position:absolute;inset:-1.5px;border-radius:10px;background:conic-gradient(from var(--kbu22-angle),var(--bu22-trace,#f04c54),#f97316,#fbbf24,var(--bu22-trace,#f04c54));z-index:-1;animation:kbu22-trace 2.2s linear infinite}\n  .kbu22-btn::after{content:\"\";position:absolute;inset:1.5px;border-radius:8px;background:#0d0f13;z-index:-1}\n  .kbu22-btn:hover{color:#fff}\n  @media (prefers-reduced-motion:reduce){.kbu22-btn::before{animation:none;background:var(--bu22-trace,#f04c54)}}\n</style>\n<button type=\"button\" class=\"kbu22-btn\">Generate</button>"
+    },
+
+    {
+      id: "TO7",
+      section: "toggles",
+      name: "Animated Check Box",
+      description: "Standalone checkbox with an SVG stroke-dashoffset checkmark that draws itself on activation — distinct from pill switches, chip togglers, and rocker buttons.",
+      creator: "sonnet",
+      tags: ["toggle","checkbox","check","svg","animate"],
+      tweaks: [
+        { type: "color", label: "Check Color", varName: "--to7-color", default: "#f04c54" }
+      ],
+      code: "<style>\n  @keyframes kto7-draw{to{stroke-dashoffset:0}}\n  .kto7-wrap{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}\n  .kto7-box{width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .18s ease,background .18s ease}\n  .kto7-wrap:hover .kto7-box{border-color:var(--to7-color,#f04c54)}\n  .kto7-check{stroke-dasharray:18;stroke-dashoffset:18;animation:kto7-draw .3s ease-out forwards}\n  .kto7-wrap.on .kto7-box{background:var(--to7-color,#f04c54);border-color:var(--to7-color,#f04c54)}\n  .kto7-lbl{font-size:12px;color:#cbd5e1;font-weight:500}\n  @media (prefers-reduced-motion:reduce){.kto7-check{animation:none;stroke-dashoffset:0}.kto7-box{transition:none}}\n</style>\n<label class=\"kto7-wrap on\">\n  <span class=\"kto7-box\">\n    <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\">\n      <path class=\"kto7-check\" d=\"M2 6l3 3 5-5\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"kto7-lbl\">Enable upscaling</span>\n</label>"
+    },
+
+    {
+      id: "TO8",
+      section: "toggles",
+      name: "Heart Favorite Morph",
+      description: "Tap-to-favorite toggle where the entire shape morphs from outline to filled heart with a scale burst — icon-morph interaction unlike any switch, chip, or rocker.",
+      creator: "sonnet",
+      tags: ["toggle","favorite","heart","morph","icon"],
+      tweaks: [
+        { type: "color", label: "Heart Color", varName: "--to8-heart", default: "#f04c54" }
+      ],
+      code: "<style>\n  @keyframes kto8-burst{0%{transform:scale(1)}40%{transform:scale(1.35)}70%{transform:scale(.9)}100%{transform:scale(1)}}\n  .kto8-btn{background:none;border:none;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:8px}\n  .kto8-heart{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);transition:border-color .18s ease}\n  .kto8-btn:hover .kto8-heart{border-color:var(--to8-heart,#f04c54)}\n  .kto8-btn.on .kto8-heart{background:color-mix(in srgb,var(--to8-heart,#f04c54) 15%,transparent);border-color:var(--to8-heart,#f04c54);animation:kto8-burst .35s ease}\n  .kto8-svg-fill{fill:none;stroke:rgba(255,255,255,0.4);stroke-width:1.8;transition:fill .18s ease,stroke .18s ease}\n  .kto8-btn.on .kto8-svg-fill{fill:var(--to8-heart,#f04c54);stroke:var(--to8-heart,#f04c54)}\n  .kto8-lbl{font-size:11px;color:#94a3b8}\n  @media (prefers-reduced-motion:reduce){.kto8-btn.on .kto8-heart{animation:none}.kto8-svg-fill,.kto8-heart{transition:none}}\n</style>\n<button type=\"button\" class=\"kto8-btn on\">\n  <span class=\"kto8-heart\">\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\">\n      <path class=\"kto8-svg-fill\" d=\"M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z\"/>\n    </svg>\n  </span>\n  <span class=\"kto8-lbl\">Saved</span>\n</button>"
+    },
+
+    {
+      id: "FO8",
+      section: "forms",
+      name: "OTP Pin Input",
+      description: "Six isolated single-digit boxes that auto-advance focus — structurally a grid of atomic inputs unlike any text field, stepper, or dropdown in the drawer.",
+      creator: "sonnet",
+      tags: ["form","otp","pin","code","input","boxes"],
+      tweaks: [
+        { type: "color", label: "Active Border", varName: "--fo8-active", default: "#f04c54" }
+      ],
+      code: "<style>\n  .kfo8-wrap{display:inline-flex;gap:6px;align-items:center}\n  .kfo8-cell{width:32px;height:40px;border-radius:8px;border:1.5px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:#f1f5f9;font-size:18px;font-weight:700;text-align:center;outline:none;caret-color:var(--fo8-active,#f04c54);transition:border-color .15s ease,box-shadow .15s ease;font-variant-numeric:tabular-nums}\n  .kfo8-cell:focus{border-color:var(--fo8-active,#f04c54);box-shadow:0 0 0 2px color-mix(in srgb,var(--fo8-active,#f04c54) 25%,transparent)}\n  .kfo8-cell.filled{border-color:rgba(255,255,255,0.25)}\n  .kfo8-sep{width:8px;height:1.5px;background:rgba(255,255,255,0.15);border-radius:1px;margin:0 1px}\n  @media (prefers-reduced-motion:reduce){.kfo8-cell{transition:none}}\n</style>\n<div class=\"kfo8-wrap\" aria-label=\"Enter verification code\">\n  <input class=\"kfo8-cell filled\" type=\"text\" maxlength=\"1\" value=\"4\" inputmode=\"numeric\" aria-label=\"Digit 1\">\n  <input class=\"kfo8-cell filled\" type=\"text\" maxlength=\"1\" value=\"2\" inputmode=\"numeric\" aria-label=\"Digit 2\">\n  <input class=\"kfo8-cell filled\" type=\"text\" maxlength=\"1\" value=\"7\" inputmode=\"numeric\" aria-label=\"Digit 3\">\n  <div class=\"kfo8-sep\"></div>\n  <input class=\"kfo8-cell\" type=\"text\" maxlength=\"1\" value=\"\" inputmode=\"numeric\" aria-label=\"Digit 4\">\n  <input class=\"kfo8-cell\" type=\"text\" maxlength=\"1\" value=\"\" inputmode=\"numeric\" aria-label=\"Digit 5\">\n  <input class=\"kfo8-cell\" type=\"text\" maxlength=\"1\" value=\"\" inputmode=\"numeric\" aria-label=\"Digit 6\">\n</div>"
+    },
+
+    {
+      id: "PL7",
+      section: "players",
+      name: "Waveform Spectrum Player",
+      description: "Frequency-bar waveform replaces the scrubber track — played bars are lit, unplayed are dim, giving spatial audio position at a glance unlike any existing pill/slider player.",
+      creator: "sonnet",
+      tags: ["player","audio","waveform","spectrum","bars"],
+      tweaks: [
+        { type: "color", label: "Waveform Color", varName: "--pl7-wave", default: "#f04c54" }
+      ],
+      code: "<style>\n  .kpl7-wrap{display:flex;flex-direction:column;gap:8px;background:#0d0f13;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px;width:220px}\n  .kpl7-top{display:flex;align-items:center;justify-content:space-between}\n  .kpl7-title{font-size:11px;font-weight:700;color:#f1f5f9}\n  .kpl7-time{font-size:10px;font-family:monospace;color:#64748b;font-variant-numeric:tabular-nums}\n  .kpl7-bars{display:flex;align-items:flex-end;gap:2px;height:32px;cursor:pointer}\n  .kpl7-bar{border-radius:2px 2px 0 0;flex-shrink:0;width:3px;transition:opacity .1s ease}\n  .kpl7-bar.played{background:var(--pl7-wave,#f04c54);opacity:1}\n  .kpl7-bar.unplayed{background:rgba(255,255,255,0.15);opacity:1}\n  .kpl7-bar.cursor{background:var(--pl7-wave,#f04c54);box-shadow:0 0 6px var(--pl7-wave,#f04c54)}\n  .kpl7-controls{display:flex;align-items:center;gap:8px}\n  .kpl7-play{width:26px;height:26px;border-radius:50%;background:var(--pl7-wave,#f04c54);border:none;color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}\n  .kpl7-vol{font-size:11px;color:#64748b;margin-left:auto}\n  @media (prefers-reduced-motion:reduce){.kpl7-bar{transition:none}}\n</style>\n<div class=\"kpl7-wrap\">\n  <div class=\"kpl7-top\">\n    <span class=\"kpl7-title\">Midnight Pulse</span>\n    <span class=\"kpl7-time\">0:42 / 3:15</span>\n  </div>\n  <div class=\"kpl7-bars\">\n    <div class=\"kpl7-bar played\" style=\"height:40%\"></div><div class=\"kpl7-bar played\" style=\"height:60%\"></div><div class=\"kpl7-bar played\" style=\"height:90%\"></div><div class=\"kpl7-bar played\" style=\"height:50%\"></div><div class=\"kpl7-bar played\" style=\"height:75%\"></div><div class=\"kpl7-bar played\" style=\"height:35%\"></div><div class=\"kpl7-bar played\" style=\"height:80%\"></div><div class=\"kpl7-bar played\" style=\"height:55%\"></div><div class=\"kpl7-bar played\" style=\"height:65%\"></div><div class=\"kpl7-bar played\" style=\"height:45%\"></div><div class=\"kpl7-bar played\" style=\"height:70%\"></div><div class=\"kpl7-bar played\" style=\"height:85%\"></div><div class=\"kpl7-bar played\" style=\"height:40%\"></div><div class=\"kpl7-bar played\" style=\"height:95%\"></div><div class=\"kpl7-bar cursor\" style=\"height:70%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:60%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:80%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:45%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:70%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:55%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:85%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:40%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:65%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:30%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:75%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:50%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:60%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:88%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:42%\"></div><div class=\"kpl7-bar unplayed\" style=\"height:55%\"></div>\n  </div>\n  <div class=\"kpl7-controls\">\n    <button type=\"button\" class=\"kpl7-play\">▶</button>\n    <span class=\"kpl7-vol\">🔊</span>\n  </div>\n</div>"
+    },
+
+    {
+      id: "NA7",
+      section: "navigation",
+      name: "Dot Paginator",
+      description: "Compact dot-row paginator with an active pill that slides between positions — spatial page metaphor completely unlike tabs, breadcrumbs, docks, and vertical step navs.",
+      creator: "sonnet",
+      tags: ["navigation","pagination","dots","pages"],
+      tweaks: [
+        { type: "color", label: "Active Dot", varName: "--na7-active", default: "#f04c54" }
+      ],
+      code: "<style>\n  .kna7-wrap{display:inline-flex;align-items:center;gap:12px}\n  .kna7-dots{display:inline-flex;align-items:center;gap:6px}\n  .kna7-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.18);cursor:pointer;transition:background .18s ease,transform .18s ease}\n  .kna7-dot:hover{background:rgba(255,255,255,0.4)}\n  .kna7-dot.on{width:18px;border-radius:3px;background:var(--na7-active,#f04c54);box-shadow:0 0 8px var(--na7-active,#f04c54)}\n  .kna7-btn{width:26px;height:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);color:#94a3b8;font-size:11px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .15s ease,color .15s ease}\n  .kna7-btn:hover{border-color:var(--na7-active,#f04c54);color:#fff}\n  @media (prefers-reduced-motion:reduce){.kna7-dot,.kna7-btn{transition:none}}\n</style>\n<div class=\"kna7-wrap\">\n  <button type=\"button\" class=\"kna7-btn\">‹</button>\n  <div class=\"kna7-dots\">\n    <div class=\"kna7-dot\"></div>\n    <div class=\"kna7-dot\"></div>\n    <div class=\"kna7-dot on\"></div>\n    <div class=\"kna7-dot\"></div>\n    <div class=\"kna7-dot\"></div>\n  </div>\n  <button type=\"button\" class=\"kna7-btn\">›</button>\n</div>"
+    },
+
+    {
+      id: "EF7",
+      section: "effects",
+      name: "Holographic Foil",
+      description: "Iridescent rainbow sheen that shifts hue across the surface via a diagonal moving gradient — spectral color play unlike any glow, grain, or glass effect in the drawer.",
+      creator: "sonnet",
+      tags: ["effect","holographic","iridescent","foil","rainbow","sheen"],
+      tweaks: [
+        { type: "range", label: "Speed", varName: "--ef7-speed", min: 1, max: 8, step: 1, unit: "s", default: 3 }
+      ],
+      code: "<style>\n  @keyframes kef7-shift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}\n  .kef7-foil{position:relative;width:190px;height:70px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,0.15)}\n  .kef7-base{position:absolute;inset:0;background:linear-gradient(120deg,#0a0a0f,#1a1020,#0a1020);}\n  .kef7-sheen{position:absolute;inset:0;background:linear-gradient(120deg,rgba(255,0,128,0.45),rgba(255,180,0,0.4),rgba(0,255,180,0.45),rgba(0,128,255,0.4),rgba(180,0,255,0.45),rgba(255,0,128,0.45));background-size:300% 300%;animation:kef7-shift var(--ef7-speed,3s) ease infinite;mix-blend-mode:screen}\n  .kef7-lbl{position:relative;z-index:1;font-weight:800;font-size:12px;letter-spacing:.16em;color:#fff;text-shadow:0 0 20px rgba(255,255,255,0.6)}\n  @media (prefers-reduced-motion:reduce){.kef7-sheen{animation:none}}\n</style>\n<div class=\"kef7-foil\">\n  <div class=\"kef7-base\"></div>\n  <div class=\"kef7-sheen\"></div>\n  <span class=\"kef7-lbl\">HOLOGRAPHIC</span>\n</div>"
+    },
+
+    {
+      id: "EF8",
+      section: "effects",
+      name: "Blueprint Grid",
+      description: "Technical drafting grid with fine crosshatch lines and axis markers — architectural/engineering aesthetic distinct from all organic glow, grain, and glass effects.",
+      creator: "sonnet",
+      tags: ["effect","grid","blueprint","technical","drafting"],
+      tweaks: [
+        { type: "color", label: "Grid Color", varName: "--ef8-grid", default: "#38bdf8" }
+      ],
+      code: "<style>\n  .kef8-wrap{position:relative;width:190px;height:70px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid rgba(56,189,248,0.2);background:#030d1a}\n  .kef8-grid{position:absolute;inset:0;background-image:linear-gradient(var(--ef8-grid,#38bdf8) 1px,transparent 1px),linear-gradient(90deg,var(--ef8-grid,#38bdf8) 1px,transparent 1px),linear-gradient(rgba(56,189,248,0.08) 1px,transparent 1px),linear-gradient(90deg,rgba(56,189,248,0.08) 1px,transparent 1px);background-size:40px 40px,40px 40px,8px 8px,8px 8px;background-position:-1px -1px,-1px -1px,-1px -1px,-1px -1px;opacity:0.35}\n  .kef8-cross{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}\n  .kef8-cross::before{content:\"\";position:absolute;left:0;right:0;height:1px;background:color-mix(in srgb,var(--ef8-grid,#38bdf8) 60%,transparent)}\n  .kef8-cross::after{content:\"\";position:absolute;top:0;bottom:0;width:1px;background:color-mix(in srgb,var(--ef8-grid,#38bdf8) 60%,transparent)}\n  .kef8-lbl{position:relative;z-index:1;font-size:10px;font-family:monospace;font-weight:600;color:var(--ef8-grid,#38bdf8);letter-spacing:.18em;text-shadow:0 0 10px var(--ef8-grid,#38bdf8)}\n</style>\n<div class=\"kef8-wrap\">\n  <div class=\"kef8-grid\"></div>\n  <div class=\"kef8-cross\"></div>\n  <span class=\"kef8-lbl\">BLUEPRINT</span>\n</div>"
+    },
+
+    {
+      id: "AN11",
+      section: "animations",
+      name: "Confetti Burst",
+      description: "Particles radiate outward from center with rotation, opacity fade, and staggered delays — celebratory burst motion unlike orbital rings, wave bars, or cascading text.",
+      creator: "sonnet",
+      tags: ["animation","confetti","burst","particles","celebrate"],
+      tweaks: [
+        { type: "color", label: "Accent Color", varName: "--an11-color", default: "#f04c54" }
+      ],
+      code: "<style>\n  @keyframes kan11-fly{0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1}100%{opacity:0}}\n  .kan11-stage{position:relative;width:80px;height:80px;display:flex;align-items:center;justify-content:center}\n  .kan11-pip{position:absolute;width:6px;height:6px;border-radius:1px;animation:kan11-fly 1.4s ease-out infinite}\n  .kan11-center{width:10px;height:10px;border-radius:50%;background:var(--an11-color,#f04c54);box-shadow:0 0 10px var(--an11-color,#f04c54);z-index:1}\n  @media (prefers-reduced-motion:reduce){.kan11-pip{animation:none;opacity:0}.kan11-center{box-shadow:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%\">\n  <div class=\"kan11-stage\">\n    <div class=\"kan11-center\"></div>\n    <div class=\"kan11-pip\" style=\"background:var(--an11-color,#f04c54);animation-delay:0s;animation-duration:1.4s\" data-style=\"transform:translate(0,-36px) rotate(20deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#fbbf24;animation-delay:.1s;animation-duration:1.3s\" data-style=\"transform:translate(28px,-26px) rotate(-30deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#34d399;animation-delay:.05s;animation-duration:1.5s\" data-style=\"transform:translate(36px,0) rotate(10deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#818cf8;animation-delay:.15s;animation-duration:1.4s\" data-style=\"transform:translate(26px,28px) rotate(-20deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#f97316;animation-delay:.08s;animation-duration:1.2s\" data-style=\"transform:translate(0,36px) rotate(40deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#38bdf8;animation-delay:.2s;animation-duration:1.6s\" data-style=\"transform:translate(-28px,26px) rotate(-10deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:var(--an11-color,#f04c54);animation-delay:.12s;animation-duration:1.3s\" data-style=\"transform:translate(-36px,0) rotate(25deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#a78bfa;animation-delay:.18s;animation-duration:1.5s\" data-style=\"transform:translate(-26px,-28px) rotate(-35deg) scale(0)\"></div>\n    <style>\n      .kan11-pip:nth-child(2){--tx:0px;--ty:-36px;--r:20deg}\n      .kan11-pip:nth-child(3){--tx:28px;--ty:-26px;--r:-30deg}\n      .kan11-pip:nth-child(4){--tx:36px;--ty:0px;--r:10deg}\n      .kan11-pip:nth-child(5){--tx:26px;--ty:28px;--r:-20deg}\n      .kan11-pip:nth-child(6){--tx:0px;--ty:36px;--r:40deg}\n      .kan11-pip:nth-child(7){--tx:-28px;--ty:26px;--r:-10deg}\n      .kan11-pip:nth-child(8){--tx:-36px;--ty:0px;--r:25deg}\n      .kan11-pip:nth-child(9){--tx:-26px;--ty:-28px;--r:-35deg}\n      @keyframes kan11-fly{\n        0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1}\n        100%{transform:translate(var(--tx,0),var(--ty,-36px)) rotate(var(--r,0deg)) scale(0.3);opacity:0}\n      }\n    </style>\n  </div>\n</div>"
     }
 
   ]
