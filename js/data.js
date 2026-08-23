@@ -631,10 +631,13 @@ window.DESIGN_LAB = {
       id: "AL4",
       section: "alerts",
       name: "Dismissible Status Alert",
-      description: "Closeable warning alert with progress bar — dismiss (×) or collapse, distinct from transient toasts.",
+      description: "Closeable warning alert with recurring transfer progress bar and click-to-dismiss (✕).",
       creator: "nemotron",
-      tags: ["alert","dismissible","warning","progress"],
-      code: "<style>\n  .kla4-alert{position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 14px;color:#e2e8f0;cursor default}\n  .kla4-alert[kind=\"warning\"]{border-color:var(--kla4-accent,#f97316)}\n  .kla4-alert[kind=\"success\"]{border-color:var(--kla4-accent,#10b981)}\n  .kla4-head{display:flex;align-items:center;gap:8px;gap:8px;margin-bottom:6px}\n  .kla4-title{font-weight:600;font-size:12px}\n  .kla4-close{position:absolute;right:10px;top:10px;width:18px;height:18px;border:none;border-radius:50%;background:transparent;color:#64748b;font-size:14px;cursor:pointer;transition:opacity .15s ease}\n  .kla4-close:hover{opacity:1}\n  .kla4-progress{position:absolute;bottom:0;left:0;height:2px;background:var(--kla4-accent,#f97316);border-radius:2px;opacity:0;transition:opacity .2s ease;animation:kla4-progress 3s linear forwards}\n  .kla4-alert[kind=\"warning\"] .kla4-progress{background:var(--kla4-accent,#f97316)}\n  .kla4-alert[kind=\"success\"] .kla4-progress{background:var(--kla4-accent,#10b981)}\n  @keyframes kla4-progress{to{width:100%}}\n  @media (prefers-reduced-motion:reduce){.kla4-progress{animation:none;opacity:0}}\n</style>\n<div class=\"kla4-alert\" kind=\"warning\">\n  <div class=\"kla4-head\">\n    <div>\n      <span class=\"kla4-title\">Download Complete</span>\n    </div>\n    <button class=\"kla4-close\">✕</button>\n  </div>\n  <p style=\"font-size:11px;color:#94a3b8;line-height:1.4;\">Your file is ready and saved to assets. <span style=\"color:#f97316\">12.7 MB</span> transferred.</p>\n  <div class=\"kla4-progress\"></div>\n</div>"
+      tags: ["alert","dismissible","warning","progress","animated"],
+      tweaks: [
+        { type: "color", label: "Accent Color", varName: "--al4-accent", default: "#f97316" }
+      ],
+      code: "<style>\n  @keyframes kla4-pulse-bar{0%{transform:scaleX(0);opacity:.8}60%{transform:scaleX(1);opacity:1}80%,100%{transform:scaleX(1);opacity:0}}\n  .kla4-alert{position:relative;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.15);border-radius:8px;padding:10px 14px;color:#e2e8f0;cursor:default;width:210px;overflow:hidden}\n  .kla4-alert[kind=\"warning\"]{border-color:var(--al4-accent,#f97316)}\n  .kla4-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}\n  .kla4-title{font-weight:600;font-size:12px}\n  .kla4-close{width:18px;height:18px;border:none;border-radius:50%;background:transparent;color:#64748b;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:color .15s ease}\n  .kla4-close:hover{color:#fff}\n  .kla4-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--al4-accent,#f97316);border-radius:2px;transform-origin:left;animation:kla4-pulse-bar 3.5s ease-in-out infinite}\n  @media (prefers-reduced-motion:reduce){.kla4-progress{animation:none;transform:scaleX(1);opacity:1}}\n</style>\n<div class=\"kla4-alert\" kind=\"warning\">\n  <div class=\"kla4-head\">\n    <span class=\"kla4-title\">Download Complete</span>\n    <button type=\"button\" class=\"kla4-close\" onclick=\"this.closest('.kla4-alert').style.opacity='0'\">✕</button>\n  </div>\n  <p style=\"font-size:10.5px;color:#94a3b8;line-height:1.4;margin:0\">File ready in assets · <span style=\"color:var(--al4-accent,#f97316);font-weight:700\">12.7 MB</span></p>\n  <div class=\"kla4-progress\"></div>\n</div>"
     },
 
     {
@@ -788,13 +791,13 @@ window.DESIGN_LAB = {
       id: "BA5",
       section: "badges",
       name: "Circle Gauge",
-      description: "SVG circular progress ring with centered percentage readout — dense information in a compact glyph.",
+      description: "SVG circular progress ring with continuous gauge level pulse and percentage readout.",
       creator: "mimo-2-5",
-      tags: ["badge","gauge","progress","circular"],
+      tags: ["badge","gauge","progress","circular","animated"],
       tweaks: [
-        { type: "color", label: "Ring Color", varName: "--ba5-color", default: "#04ff00" },
+        { type: "color", label: "Ring Color", varName: "--ba5-color", default: "#04ff00" }
       ],
-      code: "<style>\n  @keyframes kba5-fill{from{stroke-dashoffset:126}}\n  .kba5-ring{animation:kba5-fill 1.8s ease-out forwards;transform:rotate(-90deg);transform-origin:center}\n  @media (prefers-reduced-motion:reduce){.kba5-ring{animation:none}}\n</style>\n<svg width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" style=\"cursor:pointer;filter:drop-shadow(0 0 6px var(--ba5-color,#04ff00))\">\n  <circle cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"rgba(255,255,255,0.08)\" stroke-width=\"5\" />\n  <circle class=\"kba5-ring\" cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"var(--ba5-color,#04ff00)\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-dasharray=\"126\" stroke-dashoffset=\"38\" />\n  <text x=\"24\" y=\"28\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"12\" font-weight=\"700\">70</text>\n</svg>"
+      code: "<style>\n  @keyframes kba5-gauge{0%,100%{stroke-dashoffset:88}50%{stroke-dashoffset:28}}\n  .kba5-ring{animation:kba5-gauge 3.6s ease-in-out infinite;transform:rotate(-90deg);transform-origin:center}\n  @media (prefers-reduced-motion:reduce){.kba5-ring{animation:none;stroke-dashoffset:38}}\n</style>\n<svg width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" style=\"cursor:pointer;filter:drop-shadow(0 0 6px var(--ba5-color,#04ff00))\">\n  <circle cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"rgba(255,255,255,0.08)\" stroke-width=\"5\" />\n  <circle class=\"kba5-ring\" cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"var(--ba5-color,#04ff00)\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-dasharray=\"126\" stroke-dashoffset=\"38\" />\n  <text x=\"24\" y=\"28\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"12\" font-weight=\"700\">70</text>\n</svg>"
     },
 
     {
@@ -1189,13 +1192,13 @@ window.DESIGN_LAB = {
       id: "AL6",
       section: "alerts",
       name: "Countdown Autodismiss",
-      description: "Toast with a shrinking progress bar that counts down to auto-dismissal — time-pressure feedback distinct from static banners.",
+      description: "Toast with an autodismissing progress bar that counts down and loops every 5s — hover to pause.",
       creator: "opus",
-      tags: ["alert","toast","countdown","autodismiss","timer"],
+      tags: ["alert","toast","countdown","autodismiss","timer","animated"],
       tweaks: [
         { type: "color", label: "Accent", varName: "--al6-accent", default: "#10b981" }
       ],
-      code: "<style>\n  @keyframes kal6-shrink{from{transform:scaleX(1)}to{transform:scaleX(0)}}\n  .kal6-toast{display:flex;align-items:center;gap:8px;background:#141720;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 12px;width:220px;position:relative;overflow:hidden;box-shadow:0 8px 20px -6px rgba(0,0,0,.6)}\n  .kal6-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--al6-accent,#10b981);transform-origin:left;animation:kal6-shrink 5s linear forwards;box-shadow:0 0 6px var(--al6-accent,#10b981)}\n  .kal6-pip{width:18px;height:18px;border-radius:50%;background:var(--al6-accent,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}\n  .kal6-txt{font-size:11px;color:#e2e8f0;font-weight:500;flex:1}\n  .kal6-time{font-size:10px;color:#64748b;font-variant-numeric:tabular-nums;font-family:monospace}\n  @media (prefers-reduced-motion:reduce){.kal6-bar{animation:none}}\n</style>\n<div class=\"kal6-toast\">\n  <span class=\"kal6-pip\">✓</span>\n  <span class=\"kal6-txt\">Saved to library</span>\n  <span class=\"kal6-time\">5s</span>\n  <div class=\"kal6-bar\"></div>\n</div>"
+      code: "<style>\n  @keyframes kal6-cycle{0%{transform:translateY(12px);opacity:0}6%{transform:translateY(0);opacity:1}84%{transform:translateY(0);opacity:1}90%,100%{transform:translateY(-12px);opacity:0}}\n  @keyframes kal6-deplete{0%,6%{transform:scaleX(1)}84%{transform:scaleX(0)}100%{transform:scaleX(0)}}\n  .kal6-toast{display:flex;align-items:center;gap:8px;background:#141720;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:8px 12px;width:220px;position:relative;overflow:hidden;box-shadow:0 8px 20px -6px rgba(0,0,0,.6);animation:kal6-cycle 5s ease-in-out infinite}\n  .kal6-toast:hover,.kal6-toast:hover .kal6-bar{animation-play-state:paused}\n  .kal6-bar{position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--al6-accent,#10b981);transform-origin:left;animation:kal6-deplete 5s linear infinite;box-shadow:0 0 6px var(--al6-accent,#10b981)}\n  .kal6-pip{width:18px;height:18px;border-radius:50%;background:var(--al6-accent,#10b981);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}\n  .kal6-txt{font-size:11px;color:#e2e8f0;font-weight:500;flex:1}\n  .kal6-time{font-size:10px;color:#64748b;font-variant-numeric:tabular-nums;font-family:monospace}\n  @media (prefers-reduced-motion:reduce){.kal6-toast,.kal6-bar{animation:none;transform:none;opacity:1}}\n</style>\n<div class=\"kal6-toast\">\n  <span class=\"kal6-pip\">✓</span>\n  <span class=\"kal6-txt\">Saved to library</span>\n  <span class=\"kal6-time\">5s</span>\n  <div class=\"kal6-bar\"></div>\n</div>"
     },
 
     {
