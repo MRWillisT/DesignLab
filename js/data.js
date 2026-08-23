@@ -148,15 +148,7 @@ window.DESIGN_LAB = {
       code: "<style>\n  .kpl4d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n</style>\n<div class=\"kpl4d\" style=\"background: #1e222d; border: 1px solid rgba(255,255,255,0.06); box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5); border-radius: 8px;\">\n<button style=\"width:26px; height:26px; border-radius:6px; background:#282e3d; border:1px solid rgba(255,255,255,0.08); color:#f1f5f9; font-size:10px; box-shadow: 2px 2px 4px rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; cursor:pointer;\">▶</button>\n<span style=\"font-size:11px; color:#e2e8f0; font-weight:500;\">0:04 / 0:15</span>\n<div style=\"flex:1; height:6px; background:#141720; border-radius:3px; box-shadow: inset 1px 1px 2px #000; position:relative;\">\n<div style=\"width:28%; height:100%; background:#6366f1; border-radius:3px;\"></div>\n</div>\n<span style=\"font-size:11px; color:#94a3b8;\">🔊</span>\n</div>"
     },
 
-    {
-      id: "PL5",
-      section: "players",
-      name: "Minimal Monochrome Line",
-      description: "Pure stark high-contrast aesthetic with sharp geometry and ultra-clean wireframe borders.",
-      creator: "gemini",
-      tags: ["player","monochrome","black","minimal"],
-      code: "<style>\n  .kpl5d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n</style>\n<div class=\"kpl5d\" style=\"background: #000000; border: 1px solid #ffffff; border-radius: 4px;\">\n<button style=\"width:22px; height:22px; background:#ffffff; border:none; color:#000000; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; cursor:pointer;\">▶</button>\n<span style=\"font-size:11px; color:#ffffff; font-family:monospace;\">0:04/0:15</span>\n<div style=\"flex:1; height:2px; background:#333; position:relative;\">\n<div style=\"width:28%; height:100%; background:#ffffff;\"></div>\n</div>\n<span style=\"font-size:10px; font-family:monospace; color:#fff;\">[VOL]</span>\n</div>"
-    },
+
 
     {
       id: "PL6",
@@ -271,36 +263,6 @@ window.DESIGN_LAB = {
 
 
     {
-      id: "BU7",
-      section: "buttons",
-      name: "Sunset Ember Glow",
-      description: "Vibrant warm ember gradient (orange/red/pink).",
-      creator: "gemini",
-      tags: ["button","ember","orange","gradient"],
-      code: "<button type=\"button\" style=\"background: linear-gradient(135deg, #f97316 0%, #dc2626 50%, #db2777 100%); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; font-weight: 600; font-size: 13px; padding: 0 18px; height: 38px; box-shadow: 0 2px 10px rgba(249, 115, 22, 0.4); cursor: pointer;\">Generate Media</button>"
-    },
-
-    {
-      id: "BU8",
-      section: "buttons",
-      name: "Hardware Console Deck",
-      description: "Dark gunmetal industrial audio hardware finish.",
-      creator: "gemini",
-      tags: ["button","hardware","gunmetal","industrial"],
-      code: "<button type=\"button\" style=\"background: linear-gradient(180deg, #2d3342 0%, #1a1e27 100%); color: #e2e8f0; border: 1px solid #434c5e; border-bottom: 2px solid #0f1219; border-radius: 6px; font-weight: 600; font-size: 12px; padding: 0 16px; height: 36px; cursor: pointer;\">Generate Media</button>"
-    },
-
-    {
-      id: "BU9",
-      section: "buttons",
-      name: "Emerald Precision Pro",
-      description: "Deep rich emerald green accent for studio precision.",
-      creator: "gemini",
-      tags: ["button","emerald","green","precision"],
-      code: "<button type=\"button\" style=\"background: linear-gradient(135deg, #059669 0%, #10b981 100%); color: #ffffff; border: 1px solid rgba(255,255,255,0.18); border-radius: 8px; font-weight: 600; font-size: 13px; padding: 0 18px; height: 38px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35); cursor: pointer;\">Generate Media</button>"
-    },
-
-    {
       id: "BU10",
       section: "buttons",
       name: "Glow Dot Minimal Capsule",
@@ -308,16 +270,6 @@ window.DESIGN_LAB = {
       creator: "gemini",
       tags: ["button","pill","dot","translucent"],
       code: "<button type=\"button\" style=\"background: rgba(139, 92, 246, 0.12); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.45); border-radius: 9999px; font-weight: 600; font-size: 12px; padding: 0 16px; height: 32px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer;\"><span style=\"display:inline-block; width:6px; height:6px; border-radius:50%; background:#a855f7; box-shadow:0 0 6px #a855f7;\"></span>Generate Media</button>"
-    },
-
-    {
-      id: "BU11",
-      section: "buttons",
-      name: "Hexagon Cut",
-      description: "clip-path hexagon — zero border-radius, all angles. Sci-fi console energy.",
-      creator: "ox-alpha",
-      tags: ["button","hexagon","clip-path","scifi"],
-      code: "<style>\n  .kbu11:hover{filter:brightness(1.18)}\n</style>\n<button type=\"button\" class=\"kbu11\" style=\"clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%); background:linear-gradient(135deg,#7c3aed,#4f46e5); color:#fff; border:none; font-weight:800; font-size:12px; letter-spacing:.08em; padding:15px 30px; cursor:pointer;\">CREATE</button>"
     },
 
     {
@@ -392,16 +344,6 @@ window.DESIGN_LAB = {
       creator: "ox-alpha",
       tags: ["icon","svg","stroke","hairline"],
       code: "<span style=\"display:flex; align-items:center; color:#e2e8f0; flex-wrap:wrap; gap:0;\"><span title=\"play\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 5v14l12-7z\"/></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"film\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M7 5v14M17 5v14M3 10h4M3 14h4M17 10h4M17 14h4\"/></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"image\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"3\"/><circle cx=\"9\" cy=\"10\" r=\"2\"/><path d=\"M21 16l-5-5-6 6-2-2-5 5\"/></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"sliders\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 7h9M17 7h3M13 4v6M4 17h3M11 17h9M7 14v6\"/></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"spark\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z\"/></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"save\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z\"/><path d=\"M7 21v-7h10v7M8 3v4h6\"/></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"trash\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15M10 10v7M14 10v7\"/></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"mic\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"9\" y=\"3\" width=\"6\" height=\"11\" rx=\"3\"/><path d=\"M5 11a7 7 0 0 0 14 0M12 18v3\"/></svg></span></span>"
-    },
-
-    {
-      id: "IC8",
-      section: "icons",
-      name: "Duotone Depth",
-      description: "Same vectors twice — a soft filled ghost underneath plus a vivid stroke on top. Adds depth without clutter.",
-      creator: "ox-alpha",
-      tags: ["icon","duotone","depth","vector"],
-      code: "<span style=\"display:flex; align-items:center; color:#a78bfa; flex-wrap:wrap; gap:0;\"><span title=\"play\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><g fill=\"currentColor\" stroke=\"none\" opacity=\".22\"><path d=\"M7 5v14l12-7z\"/></g><g><path d=\"M7 5v14l12-7z\"/></g></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"film\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><g fill=\"currentColor\" stroke=\"none\" opacity=\".22\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M7 5v14M17 5v14M3 10h4M3 14h4M17 10h4M17 14h4\"/></g><g><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M7 5v14M17 5v14M3 10h4M3 14h4M17 10h4M17 14h4\"/></g></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"image\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><g fill=\"currentColor\" stroke=\"none\" opacity=\".22\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"3\"/><circle cx=\"9\" cy=\"10\" r=\"2\"/><path d=\"M21 16l-5-5-6 6-2-2-5 5\"/></g><g><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"3\"/><circle cx=\"9\" cy=\"10\" r=\"2\"/><path d=\"M21 16l-5-5-6 6-2-2-5 5\"/></g></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"sliders\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><g fill=\"currentColor\" stroke=\"none\" opacity=\".22\"><path d=\"M4 7h9M17 7h3M13 4v6M4 17h3M11 17h9M7 14v6\"/></g><g><path d=\"M4 7h9M17 7h3M13 4v6M4 17h3M11 17h9M7 14v6\"/></g></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"spark\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><g fill=\"currentColor\" stroke=\"none\" opacity=\".22\"><path d=\"M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z\"/></g><g><path d=\"M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z\"/></g></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"save\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><g fill=\"currentColor\" stroke=\"none\" opacity=\".22\"><path d=\"M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z\"/><path d=\"M7 21v-7h10v7M8 3v4h6\"/></g><g><path d=\"M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z\"/><path d=\"M7 21v-7h10v7M8 3v4h6\"/></g></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"trash\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><g fill=\"currentColor\" stroke=\"none\" opacity=\".22\"><path d=\"M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15M10 10v7M14 10v7\"/></g><g><path d=\"M3 6h18M8 6V4h8v2M6 6l1 15h10l1-15M10 10v7M14 10v7\"/></g></svg></span><span style=\"display:inline-block; width:14px;\"></span><span title=\"mic\" style=\"display:inline-flex;\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><g fill=\"currentColor\" stroke=\"none\" opacity=\".22\"><rect x=\"9\" y=\"3\" width=\"6\" height=\"11\" rx=\"3\"/><path d=\"M5 11a7 7 0 0 0 14 0M12 18v3\"/></g><g><rect x=\"9\" y=\"3\" width=\"6\" height=\"11\" rx=\"3\"/><path d=\"M5 11a7 7 0 0 0 14 0M12 18v3\"/></g></svg></span></span>"
     },
 
     {
@@ -743,10 +685,13 @@ window.DESIGN_LAB = {
       id: "NA5",
       section: "navigation",
       name: "Vertical Step Nav",
-      description: "Vertical navigation stack with step indicators — each item shows progress number and reveals action on hover, ideal for multi-step workflows.",
+      description: "Vertical stepper trail with connected status pips, check states, and active halo glow.",
       creator: "nemotron",
       tags: ["navigation","vertical","step","workflow"],
-      code: "<style>\n  .kna5-nav{display:flex;flex-direction:column;gap:8px;width:140px}\n  .kna5-item{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,.04);color:#cbd5e1;cursor:pointer;transition:background .15s ease}\n  .kna5-item:hover,.kna5-item.is-active{background:rgba(255,255,255,.08);color:#e2e8f0}\n  .kna5-step{flex-shrink:0;width:24px;height:24px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#64748b;min-width:24px;min-height:24px}\n  .kna5-item:hover .kna5-step,.kna5-item.is-active .kna5-step{background:var(--kna5-accent,#f97316);border-color:#f97316;color:#fff}\n  @media (prefers-reduced-motion:reduce){.kna5-item{transition:none}}\n</style>\n<nav class=\"kna5-nav\">\n  <div class=\"kna5-item is-active\">\n    <span class=\"kna5-step\">1</span>\n    <span>Project Setup</span>\n  </div>\n  <div class=\"kna5-item\">\n    <span class=\"kna5-step\">2</span>\n    <span>Design Review</span>\n  </div>\n  <div class=\"kna5-item\">\n    <span class=\"kna5-step\">3</span>\n    <span>Export Prep</span>\n  </div>\n  <div class=\"kna5-item\">\n    <span class=\"kna5-step\">4</span>\n    <span>Publish</span>\n  </div>\n</nav>"
+      tweaks: [
+        { type: "color", label: "Active Step", varName: "--kna5-accent", default: "#f97316" }
+      ],
+      code: "<style>\n  .kna5-stepper{position:relative;display:flex;flex-direction:column;gap:6px;width:175px}\n  .kna5-line{position:absolute;left:10px;top:10px;bottom:10px;width:1px;background:rgba(255,255,255,0.12);z-index:0}\n  .kna5-step{position:relative;z-index:1;display:flex;align-items:center;gap:8px;padding:3px 6px;border-radius:6px;cursor:pointer;transition:background .15s ease}\n  .kna5-step:hover{background:rgba(255,255,255,0.05)}\n  .kna5-pip{width:20px;height:20px;border-radius:50%;background:#0e1117;border:1px solid rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;color:#64748b;flex-shrink:0}\n  .kna5-step.is-done .kna5-pip{background:#10b981;border-color:#10b981;color:#fff}\n  .kna5-step.is-active .kna5-pip{background:var(--kna5-accent,#f97316);border-color:var(--kna5-accent,#f97316);color:#fff;box-shadow:0 0 10px var(--kna5-accent,#f97316)}\n  .kna5-txt{display:flex;flex-direction:column}\n  .kna5-title{font-size:11px;font-weight:600;color:#cbd5e1}\n  .kna5-step.is-active .kna5-title{color:#fff;font-weight:700}\n  .kna5-step.is-done .kna5-title{color:#94a3b8}\n  @media (prefers-reduced-motion:reduce){.kna5-step{transition:none}}\n</style>\n<div class=\"kna5-stepper\">\n  <div class=\"kna5-line\"></div>\n  <div class=\"kna5-step is-done\">\n    <div class=\"kna5-pip\">✓</div>\n    <div class=\"kna5-txt\"><span class=\"kna5-title\">Setup Pipeline</span></div>\n  </div>\n  <div class=\"kna5-step is-active\">\n    <div class=\"kna5-pip\">2</div>\n    <div class=\"kna5-txt\"><span class=\"kna5-title\">Model Tuning</span></div>\n  </div>\n  <div class=\"kna5-step\">\n    <div class=\"kna5-pip\">3</div>\n    <div class=\"kna5-txt\"><span class=\"kna5-title\">Deploy API</span></div>\n  </div>\n</div>"
     },
 
     {
@@ -976,7 +921,7 @@ window.DESIGN_LAB = {
       tweaks: [
         { type: "color", label: "Accent", varName: "--ca4-accent", default: "#8b5cf6" },
       ],
-      code: "<style>\n  .kca4-card{background:#141720;border:1px solid rgba(255,255,255,0.1);border-top:2px solid var(--ca4-accent,#8b5cf6);border-radius:12px;padding:16px;width:200px;box-shadow:0 8px 24px -8px rgba(0,0,0,0.6)}\n  .kca4-tag{display:inline-block;padding:2px 8px;border-radius:9999px;font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--ca4-accent,#8b5cf6);background:rgba(139,92,246,0.15);border:1px solid rgba(139,92,246,0.3);margin-bottom:10px}\n  .kca4-price{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.02em}\n  .kca4-price span{font-size:11px;font-weight:500;color:#64748b}\n  .kca4-feats{margin:12px 0 14px;font-size:11px;color:#94a3b8;line-height:1.8}\n  .kca4-btn{width:100%;padding:8px;border-radius:8px;border:none;background:var(--ca4-accent,#8b5cf6);color:#fff;font-size:11px;font-weight:700;cursor:pointer;transition:opacity .15s ease}\n  .kca4-btn:hover{opacity:.88}\n  @media (prefers-reduced-motion:reduce){.kca4-btn{transition:none}}\n</style>\n<div class=\"kca4-card\">\n  <div class=\"kca4-tag\">PRO</div>\n  <div class=\"kca4-price\">$29<span>/mo</span></div>\n  <div class=\"kca4-feats\">✓ Unlimited renders<br>✓ Priority queue<br>✓ 4K export</div>\n  <button type=\"button\" class=\"kca4-btn\">Upgrade Now</button>\n</div>"
+      code: "<style>\n  .kca4-card{background:#141720;border:1px solid rgba(255,255,255,0.1);border-top:2px solid var(--ca4-accent,#8b5cf6);border-radius:10px;padding:10px 12px;width:190px;box-shadow:0 8px 20px -6px rgba(0,0,0,0.6)}\n  .kca4-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}\n  .kca4-tag{padding:1px 6px;border-radius:4px;font-size:8.5px;font-weight:700;letter-spacing:.06em;color:var(--ca4-accent,#8b5cf6);background:color-mix(in srgb,var(--ca4-accent,#8b5cf6) 18%,transparent)}\n  .kca4-price{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.02em}\n  .kca4-price span{font-size:10px;font-weight:500;color:#64748b}\n  .kca4-feats{margin:6px 0 8px;font-size:10px;color:#94a3b8;line-height:1.5}\n  .kca4-btn{width:100%;padding:5px 8px;border-radius:6px;border:none;background:var(--ca4-accent,#8b5cf6);color:#fff;font-size:10px;font-weight:700;cursor:pointer;transition:opacity .15s ease}\n  .kca4-btn:hover{opacity:.88}\n  @media (prefers-reduced-motion:reduce){.kca4-btn{transition:none}}\n</style>\n<div class=\"kca4-card\">\n  <div class=\"kca4-head\">\n    <div class=\"kca4-tag\">PRO PLAN</div>\n    <div class=\"kca4-price\">$29<span>/mo</span></div>\n  </div>\n  <div class=\"kca4-feats\">✓ Unlimited renders<br>✓ Priority 4K queue</div>\n  <button type=\"button\" class=\"kca4-btn\">Upgrade Now</button>\n</div>"
     },
 
     {
@@ -1002,7 +947,7 @@ window.DESIGN_LAB = {
       tweaks: [
         { type: "color", label: "Accent", varName: "--ca6-accent", default: "#ec4899" },
       ],
-      code: "<style>\n  .kca6-card{display:flex;align-items:center;gap:12px;background:#141720;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:10px;width:220px;box-shadow:0 8px 24px -8px rgba(0,0,0,0.6)}\n  .kca6-art{width:52px;height:52px;border-radius:8px;background:linear-gradient(135deg,var(--ca6-accent,#ec4899),#8b5cf6);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 12px rgba(236,72,153,0.3)}\n  .kca6-info{flex:1;min-width:0}\n  .kca6-title{font-size:12px;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n  .kca6-artist{font-size:10px;color:#64748b;margin-top:1px}\n  .kca6-prog{height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:6px;position:relative}\n  .kca6-fill{height:100%;width:45%;background:var(--ca6-accent,#ec4899);border-radius:2px}\n  .kca6-btn{width:30px;height:30px;border-radius:50%;background:var(--ca6-accent,#ec4899);border:none;color:#fff;font-size:12px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:opacity .15s ease}\n  .kca6-btn:hover{opacity:.85}\n  @media (prefers-reduced-motion:reduce){.kca6-btn{transition:none}}\n</style>\n<div class=\"kca6-card\">\n  <div class=\"kca6-art\">♫</div>\n  <div class=\"kca6-info\">\n    <div class=\"kca6-title\">Midnight Synth</div>\n    <div class=\"kca6-artist\">Neon Pulse</div>\n    <div class=\"kca6-prog\"><div class=\"kca6-fill\"></div></div>\n  </div>\n  <button type=\"button\" class=\"kca6-btn\">▶</button>\n</div>"
+      code: "<style>\n  .kca6-card{display:flex;align-items:center;gap:10px;background:#141720;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:8px 10px;width:200px;box-shadow:0 8px 20px -6px rgba(0,0,0,0.6)}\n  .kca6-art{width:40px;height:40px;border-radius:6px;background:linear-gradient(135deg,var(--ca6-accent,#ec4899),#8b5cf6);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 3px 10px color-mix(in srgb,var(--ca6-accent,#ec4899) 30%,transparent)}\n  .kca6-info{flex:1;min-width:0}\n  .kca6-title{font-size:11px;font-weight:600;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}\n  .kca6-artist{font-size:9.5px;color:#64748b;margin-top:1px}\n  .kca6-prog{height:3px;background:rgba(255,255,255,0.1);border-radius:2px;margin-top:5px;position:relative}\n  .kca6-fill{height:100%;width:45%;background:var(--ca6-accent,#ec4899);border-radius:2px}\n  .kca6-btn{width:26px;height:26px;border-radius:50%;background:var(--ca6-accent,#ec4899);border:none;color:#fff;font-size:10px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:opacity .15s ease}\n  .kca6-btn:hover{opacity:.85}\n  @media (prefers-reduced-motion:reduce){.kca6-btn{transition:none}}\n</style>\n<div class=\"kca6-card\">\n  <div class=\"kca6-art\">♫</div>\n  <div class=\"kca6-info\">\n    <div class=\"kca6-title\">Midnight Synth</div>\n    <div class=\"kca6-artist\">Neon Pulse</div>\n    <div class=\"kca6-prog\"><div class=\"kca6-fill\"></div></div>\n  </div>\n  <button type=\"button\" class=\"kca6-btn\">▶</button>\n</div>"
     },
 
     {
