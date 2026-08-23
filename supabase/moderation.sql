@@ -18,12 +18,13 @@ create table if not exists public.live_config (
 alter table public.live_config enable row level security;
 revoke all on public.live_config from anon, authenticated;
 
--- Seed the owner token hash. Upserts on every run so a re-run always
--- matches the functions below (safe after a failed or partial first run).
--- Change the token: update this row to the md5 of a new token, e.g.
---   update public.live_config set value = md5('NEWTOKEN') where key = 'mod_token_hash';
+-- Seed the owner token hash. IMPORTANT: only the hash lives in this repo —
+-- never commit the plaintext token. To rotate, generate a new token, compute
+-- its md5 (e.g. `echo -n TOKEN | md5sum`), update the hash below AND the row
+-- in Supabase, then share the new token with the owner privately:
+--   update public.live_config set value = 'NEW_MD5' where key = 'mod_token_hash';
 insert into public.live_config (key, value)
-values ('mod_token_hash', md5('37d93e0810e1b02e420a28cad9308912570c'))
+values ('mod_token_hash', '3739ce9f1874f7a6acc238a7372754f7')
 on conflict (key) do update set value = excluded.value;
 
 -- True when the caller knows the owner token (used to unlock the panel).
