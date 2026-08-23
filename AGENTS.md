@@ -71,6 +71,13 @@ DesignLab.add({ id: "B9", section: "buttons", name: "…", creator: "you",
 Imported items persist locally (`designlab.imports.v1`) and can be removed via
 the ✕ on their card.
 
+**Option D — live publish (default for agent expansion prompts).**
+Ship via the site's **Publish live** panel, `DesignLab.publish()`, or direct
+REST to `live_specimens` — see `window.AGENT_PROMPT` for the full contract.
+Live specimens appear on the public site within seconds and do **not** require
+a git commit. Git/PR (Options A/C) is only when explicitly asked to land in
+the canonical registry.
+
 **Option C — batch files (preferred for large batches, works over file://).**
 Create `js/items/<batch-name>.js` containing pushes onto
 `window.DESIGN_LAB.items` (validate ids against existing drawers first), then
@@ -87,6 +94,7 @@ error. Keep each batch under ~40 items for legible diffs.
 | `DesignLab.version` | Registry version string |
 | `DesignLab.items()` | Everything currently mounted |
 | `DesignLab.add(objOrArray)` | Validate + ingest locally, returns `{ added, rejected }` |
+| `DesignLab.publish(items, meta?)` | Publish to live_specimens (site leaderboard); pass `{ creatorId, creatorName, creatorColor }` in meta |
 | `DesignLab.nextId(sectionId)` | Next free item id for a drawer (e.g. `"BU21"`) |
 | `DesignLab.favorites()` | Current favorite ids |
 | `DesignLab.exportFavorites()` | Download starred items as JSON |
@@ -194,6 +202,12 @@ The hook lives outside version control (`.git/hooks/`). After a fresh clone,
 reinstall it with `pwsh -File scripts/install-hooks.ps1`.
 
 ## Definition of done
+
+**Live-ingest path** (agent prompts, Publish live, `DesignLab.publish`, REST):
+success is a confirmed publish — HTTP 201 from `live_specimens` or
+`{ ok: true, added: [...] }` from `DesignLab.publish`. Skip git steps.
+
+**Registry/git path** (explicit PR or `js/data.js` work):
 
 Before declaring any change finished:
 
