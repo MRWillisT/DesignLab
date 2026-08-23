@@ -583,7 +583,10 @@ window.DESIGN_LAB = {
       description: "Number input with live gradient fill visualizing the numeric value range.",
       creator: "nemotron",
       tags: ["form","input","range","visual"],
-      code: "<style>\n  .kfo5-wrap{position:relative;width:min(100%,200px);margin:0 auto}\n  .kfo5-in{width:100;background:#0d0f13;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 14px;color:#e2e8f0;font-size:13px;outline:none;transition:border-color .15s ease}\n  .kfo5-in:focus{border-color:#f97316}\n  .kfo5-fill{position:absolute;inset:0;background:linear-gradient(135deg,var(--kfo5-color,#f97316) 0%,transparent 50%);border-radius:8px;pointer-events:none;opacity:0.4}\n</style>\n<div class=\"kfo5-wrap\">\n  <input class=\"kfo5-in\" type=\"number\" value=\"72\" min=\"0\" max=\"100\" style=\"accent-color:#f97316\">\n  <div class=\"kfo5-fill\"></div>\n  <label class=\"kfo5-lbl\" style=\"position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#64748b;font-size:11px;\">Value</label>\n</div>"
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--kfo5-color", default: "#f97316" }
+      ],
+      code: "<style>\n  .kfo5-card{width:210px;background:#141720;border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:10px 12px;box-shadow:0 8px 20px rgba(0,0,0,0.5)}\n  .kfo5-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}\n  .kfo5-lbl{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#94a3b8}\n  .kfo5-badge{font-size:10px;font-weight:700;color:var(--kfo5-color,#f97316);background:color-mix(in srgb,var(--kfo5-color,#f97316) 15%,transparent);padding:2px 6px;border-radius:4px}\n  .kfo5-row{display:flex;align-items:center;gap:8px}\n  .kfo5-in{width:100%;box-sizing:border-box;background:#0d0f14;border:1px solid rgba(255,255,255,0.14);border-radius:6px;padding:6px 10px;color:#f8fafc;font-size:14px;font-weight:700;outline:none;font-family:monospace;transition:border-color .15s ease}\n  .kfo5-in:focus{border-color:var(--kfo5-color,#f97316);box-shadow:0 0 10px color-mix(in srgb,var(--kfo5-color,#f97316) 35%,transparent)}\n  .kfo5-meter{position:relative;height:5px;background:rgba(255,255,255,0.08);border-radius:3px;margin-top:8px;overflow:hidden}\n  .kfo5-fill{height:100%;width:72%;background:linear-gradient(90deg,var(--kfo5-color,#f97316),#fb923c);border-radius:3px;box-shadow:0 0 8px var(--kfo5-color,#f97316)}\n  @media (prefers-reduced-motion:reduce){.kfo5-in{transition:none}}\n</style>\n<div class=\"kfo5-card\">\n  <div class=\"kfo5-head\">\n    <span class=\"kfo5-lbl\">Render Quality</span>\n    <span class=\"kfo5-badge\">72%</span>\n  </div>\n  <div class=\"kfo5-row\">\n    <input class=\"kfo5-in\" type=\"number\" value=\"72\" min=\"0\" max=\"100\">\n  </div>\n  <div class=\"kfo5-meter\">\n    <div class=\"kfo5-fill\"></div>\n  </div>\n</div>"
     },
 
     {
@@ -929,23 +932,23 @@ window.DESIGN_LAB = {
       id: "SL5",
       section: "sliders",
       name: "Vertical Gauge",
-      description: "Upright range input with glow thumb — natural orientation for intensity, volume, height pickers.",
+      description: "Upright illuminated level meter with liquid fluid tube, graduation ticks, and live readout.",
       creator: "mimo-2-5",
       tags: ["slider","vertical","gauge","intensity"],
       tweaks: [
         { type: "color", label: "Track Color", varName: "--sl5-color", default: "#04ff00" },
       ],
-      code: "<style>\n  .kvh-wrap{display:inline-flex;align-items:flex-end;gap:10px;height:100px}\n  .kvh-track{position:relative;width:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;flex-shrink:0}\n  .kvh-fill{position:absolute;bottom:0;left:0;width:100%;height:65%;background:var(--sl5-color,#04ff00);border-radius:3px;box-shadow:0 0 8px var(--sl5-color,#04ff00)}\n  .kvh-val{font-size:11px;font-weight:700;color:var(--sl5-color,#04ff00);font-variant-numeric:tabular-nums;writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);line-height:1}\n</style>\n<div class=\"kvh-wrap\">\n  <div class=\"kvh-track\"><div class=\"kvh-fill\"></div></div>\n  <span class=\"kvh-val\">65%</span>\n</div>"
+      code: "<style>\n  .ksl5-card{display:inline-flex;align-items:center;gap:14px;background:#141720;border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 16px;box-shadow:0 8px 24px rgba(0,0,0,0.6)}\n  .ksl5-gauge{position:relative;width:16px;height:100px;background:#090b0f;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:2px;overflow:hidden;box-shadow:inset 0 2px 6px rgba(0,0,0,0.8)}\n  .ksl5-tube{position:relative;width:100%;height:100%;border-radius:5px;overflow:hidden;background:rgba(255,255,255,0.03)}\n  .ksl5-fill{position:absolute;bottom:0;left:0;width:100%;height:68%;background:linear-gradient(180deg,color-mix(in srgb,var(--sl5-color,#04ff00) 70%,#fff),var(--sl5-color,#04ff00));border-radius:4px;box-shadow:0 0 12px var(--sl5-color,#04ff00);animation:ksl5-pulse 2s ease-in-out infinite alternate}\n  .ksl5-ticks{display:flex;flex-direction:column;justify-content:space-between;height:100px;padding:2px 0}\n  .ksl5-tick{width:6px;height:1px;background:rgba(255,255,255,0.2)}\n  .ksl5-tick.major{width:10px;background:rgba(255,255,255,0.45)}\n  .ksl5-info{display:flex;flex-direction:column;gap:2px}\n  .ksl5-val{font-size:16px;font-weight:800;color:var(--sl5-color,#04ff00);letter-spacing:-.02em}\n  .ksl5-sub{font-size:9.5px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.05em}\n  @keyframes ksl5-pulse{0%{opacity:0.85;transform:scaleY(0.98)}100%{opacity:1;transform:scaleY(1)}}\n  @media (prefers-reduced-motion:reduce){.ksl5-fill{animation:none}}\n</style>\n<div class=\"ksl5-card\">\n  <div class=\"ksl5-gauge\">\n    <div class=\"ksl5-tube\">\n      <div class=\"ksl5-fill\"></div>\n    </div>\n  </div>\n  <div class=\"ksl5-ticks\">\n    <span class=\"ksl5-tick major\"></span>\n    <span class=\"ksl5-tick\"></span>\n    <span class=\"ksl5-tick major\"></span>\n    <span class=\"ksl5-tick\"></span>\n    <span class=\"ksl5-tick major\"></span>\n  </div>\n  <div class=\"ksl5-info\">\n    <span class=\"ksl5-val\">68%</span>\n    <span class=\"ksl5-sub\">Output Level</span>\n  </div>\n</div>"
     },
 
     {
       id: "SL6",
       section: "sliders",
       name: "Stepped Notch",
-      description: "Horizontal track with engraved notch ticks — precise discrete level selector for quality presets.",
+      description: "Horizontal track with interactive draggable range and snap notch ticks for quality presets.",
       creator: "mimo-2-5",
       tags: ["slider","stepped","notch","discrete","quality"],
-      code: "<style>\n  .ksn-wrap{display:flex;flex-direction:column;gap:4px;width:200px}\n  .ksn-bar{position:relative;height:24px;display:flex;align-items:center}\n  .ksn-line{position:absolute;left:0;right:0;height:2px;background:rgba(255,255,255,0.08);border-radius:1px}\n  .ksn-notch{position:absolute;width:2px;height:10px;background:rgba(255,255,255,0.18);border-radius:1px;transform:translateX(-1px);top:7px}\n  .ksn-curr{position:absolute;width:12px;height:12px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(255,255,255,0.6);top:6px;transform:translateX(-6px);transition:left .2s ease,box-shadow .2s ease;cursor:pointer}\n  .ksn-curr:hover{box-shadow:0 0 14px rgba(255,255,255,.9)}\n  .ksn-labels{display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,0.3);padding:0 2px;letter-spacing:.04em;font-weight:600}\n  @media (prefers-reduced-motion:reduce){.ksn-curr{transition:none}}\n</style>\n<div class=\"ksn-wrap\">\n  <div class=\"ksn-bar\">\n    <div class=\"ksn-line\"></div>\n    <div class=\"ksn-notch\" style=\"left:0%\"></div>\n    <div class=\"ksn-notch\" style=\"left:25%\"></div>\n    <div class=\"ksn-notch\" style=\"left:50%\"></div>\n    <div class=\"ksn-notch\" style=\"left:75%\"></div>\n    <div class=\"ksn-notch\" style=\"left:100%\"></div>\n    <div class=\"ksn-curr\" style=\"left:75%\"></div>\n  </div>\n  <div class=\"ksn-labels\"><span>Draft</span><span>HD</span><span>4K</span><span>8K</span><span>Cinema</span></div>\n</div>"
+      code: "<style>\n  .ksl6-wrap{width:220px;padding:8px 0}\n  .ksl6-labels{display:flex;justify-content:space-between;font-size:9.5px;color:#94a3b8;font-weight:600;letter-spacing:.04em;margin-bottom:6px}\n  .ksl6-track-box{position:relative;height:24px;display:flex;align-items:center}\n  .ksl6-in{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;z-index:3;margin:0}\n  .ksl6-rail{position:absolute;left:0;right:0;height:4px;background:rgba(255,255,255,0.12);border-radius:2px}\n  .ksl6-notches{position:absolute;left:0;right:0;display:flex;justify-content:space-between;pointer-events:none;padding:0 2px}\n  .ksl6-notch{width:2px;height:10px;background:rgba(255,255,255,0.25);border-radius:1px;transform:translateY(-3px)}\n  .ksl6-thumb-sim{position:absolute;left:75%;width:16px;height:16px;border-radius:50%;background:#ffffff;box-shadow:0 0 12px rgba(255,255,255,0.8),0 2px 6px rgba(0,0,0,0.5);transform:translate(-50%,0);pointer-events:none;transition:transform .15s ease}\n  .ksl6-track-box:hover .ksl6-thumb-sim{transform:translate(-50%,0) scale(1.15)}\n  .ksl6-in:focus ~ .ksl6-thumb-sim{box-shadow:0 0 16px #38bdf8,0 0 0 2px #38bdf8}\n  @media (prefers-reduced-motion:reduce){.ksl6-thumb-sim{transition:none}}\n</style>\n<div class=\"ksl6-wrap\">\n  <div class=\"ksl6-labels\"><span>Draft</span><span>HD</span><span>4K</span><span>8K</span><span>Cinema</span></div>\n  <div class=\"ksl6-track-box\">\n    <input class=\"ksl6-in\" type=\"range\" min=\"0\" max=\"4\" step=\"1\" value=\"3\" oninput=\"this.nextElementSibling.nextElementSibling.nextElementSibling.style.left=(this.value*25)+'%'\">\n    <div class=\"ksl6-rail\"></div>\n    <div class=\"ksl6-notches\">\n      <span class=\"ksl6-notch\"></span>\n      <span class=\"ksl6-notch\"></span>\n      <span class=\"ksl6-notch\"></span>\n      <span class=\"ksl6-notch\"></span>\n      <span class=\"ksl6-notch\"></span>\n    </div>\n    <div class=\"ksl6-thumb-sim\"></div>\n  </div>\n</div>"
     },
 
     {
@@ -1006,10 +1009,13 @@ window.DESIGN_LAB = {
       id: "CA7",
       section: "cards",
       name: "Flipping Concept Card",
-      description: "Dual-sided card that flips on hover — front shows summary, back reveals detailed content with reversed layout.",
+      description: "Dual-sided 3D card that flips on hover — front shows summary, back reveals detailed spec readout.",
       creator: "nemotron",
       tags: ["card","flip","hover","dual-sided"],
-      code: "<style>\n  .kca7-card{width:220px;perspective:1000px;transition:transform .4s ease;transform-style:preserve-3d}\n  .kca7-card:hover{transform:rotateY(-180deg)}\n  .kca7-front,.kca7-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:12px;padding:20px;box-shadow:0 8px 24px -6px rgba(0,0,0,.6)}\n  .kca7-front{background:linear-gradient(135deg,#0f172a,#1e293b);border:1px solid rgba(255,255,255,.08)}\n  .kca7-back{background:linear-gradient(135deg,#1e293b,#0f172a);transform:rotateY(180deg)}\n  .kca7-back{border-top:3px solid var(--kca7-accent,#f97316)}\n</style>\n<div class=\"kca7-card\">\n  <div class=\"kca7-front\">\n    <div style=\"display:flex;justify-content:space-between;align-items:end;\">\n      <h3 style=\"font-size:13px;font-weight:600;color:#f8fafc;\">Concept Card</h3>\n      <span style=\"font-size:10px;color:#64748b\">hover to flip</span>\n    </div>\n    <p style=\"margin:10px 0 0;color:#94a3b8;font-size:11px;\">Tap the card to reveal details</p>\n  </div>\n  <div class=\"kca7-back\">\n    <p style=\"color:#cbd5e1;font-size:11px;line-height:1.5;\">This card\'s back side contains additional information that was hidden on the front. The flip animation is purely CSS-driven using transform and perspective, respecting the performance law.</p>\n    <button style=\"margin:10px 0;padding:6px 12px;border:none;border-radius:6px;background:var(--kca7-accent,#f97316);color:#fff;font-size:11px;font-weight:600;cursor:pointer\">Close</button>\n  </div>\n</div>"
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--kca7-accent", default: "#f97316" }
+      ],
+      code: "<style>\n  .kca7-scene{width:220px;height:124px;perspective:800px}\n  .kca7-card{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,1,.3,1);cursor:pointer}\n  .kca7-scene:hover .kca7-card{transform:rotateY(180deg)}\n  .kca7-front,.kca7-back{position:absolute;inset:0;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:12px;padding:12px 14px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 8px 24px rgba(0,0,0,.6)}\n  .kca7-front{background:linear-gradient(145deg,#141720,#0d0f14);border:1px solid rgba(255,255,255,.1)}\n  .kca7-back{background:linear-gradient(145deg,#1a1d28,#12141c);border:1px solid var(--kca7-accent,#f97316);transform:rotateY(180deg);box-shadow:0 0 16px color-mix(in srgb,var(--kca7-accent,#f97316) 20%,transparent)}\n  .kca7-top{display:flex;justify-content:space-between;align-items:center}\n  .kca7-badge{width:24px;height:24px;border-radius:6px;background:color-mix(in srgb,var(--kca7-accent,#f97316) 18%,transparent);color:var(--kca7-accent,#f97316);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}\n  .kca7-flip-hint{font-size:9.5px;color:#64748b;font-weight:600}\n  .kca7-title{font-size:13px;font-weight:700;color:#f8fafc;margin:0}\n  .kca7-desc{font-size:10px;color:#94a3b8;margin:2px 0 0}\n  .kca7-back-text{font-size:10.5px;line-height:1.4;color:#cbd5e1;margin:0}\n  .kca7-foot{display:flex;justify-content:space-between;align-items:center;font-size:9px;color:var(--kca7-accent,#f97316);font-weight:700}\n  @media (prefers-reduced-motion:reduce){.kca7-card{transition:none}}\n</style>\n<div class=\"kca7-scene\">\n  <div class=\"kca7-card\">\n    <div class=\"kca7-front\">\n      <div class=\"kca7-top\">\n        <div class=\"kca7-badge\">✦</div>\n        <span class=\"kca7-flip-hint\">Hover to flip ↻</span>\n      </div>\n      <div>\n        <h3 class=\"kca7-title\">Concept Shader</h3>\n        <p class=\"kca7-desc\">Real-time volumetric lighting surface</p>\n      </div>\n    </div>\n    <div class=\"kca7-back\">\n      <p class=\"kca7-back-text\">3D hardware accelerated perspective with zero external dependencies.</p>\n      <div class=\"kca7-foot\">\n        <span>STATUS: READY</span>\n        <span>SPEC v2.4</span>\n      </div>\n    </div>\n  </div>\n</div>"
     },
 
     {
@@ -1163,13 +1169,13 @@ window.DESIGN_LAB = {
       id: "FO6",
       section: "forms",
       name: "Inline Editable Field",
-      description: "Click-to-edit text field — renders as plain text until focused, then reveals an underline input with a commit checkmark.",
+      description: "Click-to-edit text field with hover dashed cues, edit icon, and commit checkmark on focus.",
       creator: "opus",
       tags: ["form","inline","editable","click-to-edit"],
       tweaks: [
         { type: "color", label: "Accent", varName: "--fo6-accent", default: "#f5323c" }
       ],
-      code: "<style>\n  .kfo6-wrap{display:inline-flex;align-items:center;gap:6px;cursor:text}\n  .kfo6-val{font-size:13px;font-weight:600;color:#f1f5f9;background:transparent;border:none;border-bottom:2px solid transparent;outline:none;padding:4px 0;min-width:90px;transition:border-color .18s ease}\n  .kfo6-val:focus{border-bottom-color:var(--fo6-accent,#f5323c)}\n  .kfo6-ok{width:22px;height:22px;border-radius:50%;background:var(--fo6-accent,#f5323c);border:none;color:#fff;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .18s ease}\n  .kfo6-wrap:focus-within .kfo6-ok{opacity:1}\n  @media (prefers-reduced-motion:reduce){.kfo6-val,.kfo6-ok{transition:none}}\n</style>\n<div class=\"kfo6-wrap\">\n  <input class=\"kfo6-val\" type=\"text\" value=\"Project Alpha\" spellcheck=\"false\">\n  <button type=\"button\" class=\"kfo6-ok\">✓</button>\n</div>"
+      code: "<style>\n  .kfo6-box{display:inline-flex;flex-direction:column;gap:6px;padding:8px 12px;background:#141720;border:1px solid rgba(255,255,255,0.08);border-radius:10px}\n  .kfo6-tag{font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#64748b}\n  .kfo6-wrap{display:inline-flex;align-items:center;gap:8px;padding:4px 8px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.18);transition:border-color .18s ease}\n  .kfo6-wrap:hover{border-color:var(--fo6-accent,#f5323c);background:rgba(255,255,255,0.07)}\n  .kfo6-wrap:focus-within{border-style:solid;border-color:var(--fo6-accent,#f5323c);box-shadow:0 0 10px color-mix(in srgb,var(--fo6-accent,#f5323c) 30%,transparent)}\n  .kfo6-val{font-size:13px;font-weight:600;color:#f1f5f9;background:transparent;border:none;outline:none;padding:2px 0;width:120px}\n  .kfo6-ico{color:#64748b;font-size:11px;transition:color .18s ease;pointer-events:none}\n  .kfo6-wrap:hover .kfo6-ico{color:var(--fo6-accent,#f5323c)}\n  .kfo6-ok{width:20px;height:20px;border-radius:50%;background:var(--fo6-accent,#f5323c);border:none;color:#fff;font-size:10px;font-weight:800;cursor:pointer;display:none;align-items:center;justify-content:center}\n  .kfo6-wrap:focus-within .kfo6-ico{display:none}\n  .kfo6-wrap:focus-within .kfo6-ok{display:flex}\n  @media (prefers-reduced-motion:reduce){.kfo6-wrap,.kfo6-ico{transition:none}}\n</style>\n<div class=\"kfo6-box\">\n  <span class=\"kfo6-tag\">Filename (Click to edit)</span>\n  <div class=\"kfo6-wrap\">\n    <input class=\"kfo6-val\" type=\"text\" value=\"Project Alpha\" spellcheck=\"false\">\n    <span class=\"kfo6-ico\">✎</span>\n    <button type=\"button\" class=\"kfo6-ok\" title=\"Save\">✓</button>\n  </div>\n</div>"
     },
 
     {
@@ -1465,19 +1471,17 @@ window.DESIGN_LAB = {
 
     /* ---- GPT-OSS additions: specimens signed under #7a00f5 ---- */
 
-
-
     {
       id: "FO9",
       section: "forms",
       name: "Pill Float Input",
-      description: "Floating label with pill-shaped field",
+      description: "Floating label capsule input with focus glow ring and prefix identifier.",
       creator: "gpt-oss",
       tags: ["pill", "float", "input"],
       tweaks: [
         { type: "color", label: "Focus Accent", varName: "--fo9-accent", default: "#7a00f5" }
       ],
-      code: "<style>\n  .form-fo9 {\n    display:flex;\n    flex-direction:column;\n    position:relative;\n    margin:1rem 0;\n  }\n  .form-fo9 input {\n    padding:0.8rem 1rem;\n    border:none;\n    border-radius:999px;\n    background:#222;\n    color:#fff;\n    outline:none;\n  }\n  .form-fo9 label {\n    position:absolute;\n    left:1rem;\n    top:0.5rem;\n    color:#aaa;\n    pointer-events:none;\n    transition:transform 0.2s, color 0.2s;\n  }\n  .form-fo9 input:focus + label,\n  .form-fo9 input:not(:placeholder-shown) + label {\n    transform:translateY(-1.2rem) scale(0.9);\n    color:var(--fo9-accent,#7a00f5);\n  }\n  @media (prefers-reduced-motion:reduce){ .form-fo9 label{transition:none;} }\n</style>\n<div class='form-fo9'>\n  <input type='text' placeholder=' '/>\n  <label>Username</label>\n</div>"
+      code: "<style>\n  .kfo9-wrap{position:relative;width:210px;padding-top:10px}\n  .kfo9-box{position:relative;display:flex;align-items:center;background:#141720;border:1px solid rgba(255,255,255,0.12);border-radius:9999px;padding:0 14px;transition:border-color .2s ease,box-shadow .2s ease}\n  .kfo9-box:focus-within{border-color:var(--fo9-accent,#7a00f5);box-shadow:0 0 14px color-mix(in srgb,var(--fo9-accent,#7a00f5) 40%,transparent)}\n  .kfo9-ico{color:#64748b;font-size:12px;margin-right:8px}\n  .kfo9-in{width:100%;height:38px;background:transparent;border:none;color:#f8fafc;font-size:12.5px;font-weight:600;outline:none}\n  .kfo9-lbl{position:absolute;left:34px;top:20px;font-size:11.5px;color:#64748b;font-weight:500;pointer-events:none;transform-origin:left center;transition:transform .2s ease,color .2s ease,background .2s ease}\n  .kfo9-in:focus ~ .kfo9-lbl,\n  .kfo9-in:not(:placeholder-shown) ~ .kfo9-lbl{transform:translateY(-20px) scale(.85);color:var(--fo9-accent,#7a00f5);font-weight:700;background:#141720;padding:0 6px;border-radius:4px}\n  @media (prefers-reduced-motion:reduce){.kfo9-box,.kfo9-lbl{transition:none}}\n</style>\n<div class=\"kfo9-wrap\">\n  <div class=\"kfo9-box\">\n    <span class=\"kfo9-ico\">@</span>\n    <input class=\"kfo9-in\" type=\"text\" placeholder=\" \" value=\"alex.rivera\">\n    <label class=\"kfo9-lbl\">Username</label>\n  </div>\n</div>"
     },
 
     {
@@ -1490,7 +1494,7 @@ window.DESIGN_LAB = {
       tweaks: [
         { type: "color", label: "Ring Glow", varName: "--to9-glow", default: "#7a00f5" }
       ],
-      code: "<style>\n  .tog-to9 { display:inline-block; position:relative; }\n  .tog-to9 input { display:none; }\n  .tog-to9 .btn { width:24px; height:24px; border:2px solid var(--to9-glow,#7a00f5); border-radius:50%; display:block; cursor:pointer; position:relative; }\n  .tog-to9 .btn::after { content:''; position:absolute; inset:0; border-radius:50%; border:2px solid var(--to9-glow,#7a00f5); opacity:0; }\n  .tog-to9 input:checked + .btn::after { animation:to9-pulse 0.6s ease-out; }\n  .tog-to9 input:checked + .btn { background:var(--to9-glow,#7a00f5); }\n  @keyframes to9-pulse { 0%{transform:scale(1); opacity:1;} 100%{transform:scale(2); opacity:0;} }\n  @media (prefers-reduced-motion:reduce){ .tog-to9 .btn::after{animation:none;} }\n</style>\n<label class='tog-to9'><input type='checkbox'/><span class='btn'></span></label>"
+      code: "<style>\n  .tog-to9 { display:inline-block; position:relative; }\n  .tog-to9 input { display:none; }\n  .tog-to9 .btn { width:24px; height:24px; border:2px solid var(--to9-glow,#7a00f5); border-radius:50%; display:block; cursor:pointer; position:relative; }\n  .tog-to9 .btn::after { content:''; position:absolute; inset:0; border-radius:50%; border:2px solid var(--to9-glow,#7a00f5); opacity:0; }\n  .tog-to9 input:checked + .btn::after { animation:to9-pulse 0.6s ease-out; }\n  .tog-to9 input:checked + .btn { background:var(--to9-glow,#7a00f5); }\n  @keyframes to9-pulse { 0%{transform:scale(1); opacity:1;} 100%{transform:scale(2.5); opacity:0;} }\n  @media (prefers-reduced-motion:reduce){ .tog-to9 .btn::after{animation:none;} }\n</style>\n<label class='tog-to9'><input type='checkbox'/><span class='btn'></span></label>"
     },
 
     {
@@ -1504,19 +1508,6 @@ window.DESIGN_LAB = {
         { type: "color", label: "Dot Color", varName: "--sl9-dot", default: "#7a00f5" }
       ],
       code: "<style>\n  .prog-sl9 { display:flex; gap:4px; }\n  .prog-sl9 div { width:8px; height:8px; border-radius:50%; background:#444; transition:background 0.3s; }\n  .prog-sl9 div.active { background:var(--sl9-dot,#7a00f5); }\n</style>\n<div class='prog-sl9'><div class='active'></div><div class='active'></div><div class='active'></div><div></div><div></div></div>"
-    },
-
-    {
-      id: "CA9",
-      section: "cards",
-      name: "Staggered Reveal Card",
-      description: "Card whose internal elements fade in sequentially",
-      creator: "gpt-oss",
-      tags: ["card", "stagger", "reveal"],
-      tweaks: [
-        { type: "color", label: "Border Highlight", varName: "--ca9-border", default: "#7a00f5" }
-      ],
-      code: "<style>\n  .card-ca9 { width:200px; padding:16px; background:#111; border-radius:8px; border:1px solid var(--ca9-border,#7a00f5); color:#fff; }\n  .card-ca9 .title, .card-ca9 .desc { opacity:0; animation:ca9-fade 0.5s forwards; }\n  .card-ca9 .desc { animation-delay:0.2s; }\n  @keyframes ca9-fade { to{opacity:1;} }\n  @media (prefers-reduced-motion:reduce){ .card-ca9 .title, .card-ca9 .desc {animation:none; opacity:1;} }\n</style>\n<div class='card-ca9'><div class='title'>Title</div><div class='desc'>Description</div></div>"
     },
 
     {
