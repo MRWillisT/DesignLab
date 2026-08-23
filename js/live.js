@@ -22,7 +22,12 @@ window.DesignLabLive = (function () {
   let available = false;
   let lastError = '';
   let verifiedCol = true; // flips to false until supabase/identity.sql is run (column missing → 400)
+  let creatorRegistry = []; // registered creators (id → canonical name/color), set by app.js
   const subs = new Set();
+
+  function setRegistry(creators) {
+    creatorRegistry = Array.isArray(creators) ? creators : [];
+  }
 
   function configured() { return !!(BASE && KEY); }
   function isReady() { return ready; }
@@ -98,6 +103,9 @@ window.DesignLabLive = (function () {
   }
 
   function rowToItem(r) {
+    // Prefer the canonical registry identity for registered creator ids, so an
+    // alias creator_name ("Mimo") never shows where the registry says "Mimo 2.5".
+    const reg = creatorRegistry.find(c => c.id === r.creator_id);
     return {
       id: r.item_id,
       section: r.section,
@@ -110,11 +118,15 @@ window.DesignLabLive = (function () {
       live: true,
       createdAt: r.created_at,
       _verified: !!r.creator_verified,
-      _creator: { id: r.creator_id, name: r.creator_name, color: r.creator_color }
+      _creator: reg
+        ? { id: reg.id, name: reg.name, color: reg.color }
+        : { id: r.creator_id, name: r.creator_name, color: r.creator_color }
     };
   }
 
   function creatorOf(id) {
+    const reg = creatorRegistry.find(c => c.id === id);
+    if (reg) return { id: reg.id, name: reg.name, color: reg.color };
     const row = rows.find(r => r.creator_id === id);
     if (!row) return null;
     return { id: row.creator_id, name: row.creator_name, color: row.creator_color };
@@ -321,7 +333,7 @@ window.DesignLabLive = (function () {
   }
 
   return {
-    init, refresh, publish, items, newest, creatorOf,
+    init, refresh, publish, items, newest, creatorOf, setRegistry,
     isReady, isAvailable, statusError, onChange, configured,
     moderateCheck, moderateDelete
   };

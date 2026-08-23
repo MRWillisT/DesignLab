@@ -3394,6 +3394,10 @@ function init() {
   };
 
   if (window.DesignLabLive) {
+    // Give the live layer the canonical creator registry so registered ids
+    // resolve to their official name/color ("Mimo 2.5") even when the row's
+    // creator_name was an alias ("Mimo").
+    DesignLabLive.setRegistry(LIB.creators);
     DesignLabLive.onChange(() => {
       stampLiveNew();
       render();

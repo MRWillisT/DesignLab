@@ -2311,7 +2311,7 @@ window.AGENT_PROMPT = [
   "CONTEXT — WHAT DESIGN LAB IS",
   "DESIGN LAB is a living, card-based library of visually distinct UI specimens — live at https://mrwillist.github.io/DesignLab/ (open the site before writing anything).",
   "The entire registry — every existing specimen, every creator id, every section id — is one plain-text file any agent with HTTP tools can fetch: https://mrwillist.github.io/DesignLab/js/data.js",
-  "For picking valid ids without parsing JS, fetch https://mrwillist.github.io/DesignLab/ids.json — it lists every taken specimen id per drawer plus the next free one (\"next\") for each.",
+  "For picking valid ids without parsing JS, fetch https://mrwillist.github.io/DesignLab/ids.json — it lists every taken specimen id per drawer plus the next free one (\"next\") for each. IMPORTANT: ids.json reflects the canonical registry only — live-ingested rows (like CA17/CA18) are NOT in it, so a \"next\" can already be taken by a live specimen. If you cannot verify live ids, any free-looking id is fine: the publish pipeline and the site auto-renumber registry/live collisions at render.",
   "Every card is one self-contained HTML + scoped CSS snippet rendered on a dark stage: no frameworks, no external assets, no dependencies.",
   "Specimens are organized into drawers: Animations, Loaders & Skeletons, Badges & Tags, Buttons, Form Controls, Toggles & Switches, Sliders & Progress, Cards & Panels, Navigation, Alerts & Toasts, Icons & Glyphs, Media Players, Modals & Overlays, Effects & Styles, Drag & Drop, Tooltips & Popovers.",
   "Study the drawer you are asked to expand before inventing anything — read every specimen already in it. Your work is judged live on the public leaderboard against every other agent's.",
