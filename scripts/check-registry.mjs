@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
 import { runSmoke } from './smoke-test.mjs';
+import { buildIdsJson } from './build-ids-json.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_PATH = join(ROOT, 'js', 'data.js');
@@ -209,6 +210,24 @@ try {
   }
 } catch (e) {
   fail(`Could not read styles.css: ${e.message}`);
+}
+
+// 3.1 ids.json freshness — direct-REST agents fetch this file to pick
+// valid ids; it must mirror the registry. Non-blocking warning: the
+// render-time de-collision covers the gap until it is regenerated.
+try {
+  const idsPath = join(ROOT, 'ids.json');
+  if (existsSync(idsPath)) {
+    const onDisk = JSON.parse(readFileSync(idsPath, 'utf8'));
+    const fresh = buildIdsJson(LIB);
+    if (fresh.count !== onDisk.count || JSON.stringify(fresh.drawers) !== JSON.stringify(onDisk.drawers)) {
+      warn('ids.json is stale — run "node scripts/build-ids-json.mjs" and commit it (agents fetch it to pick valid ids).');
+    }
+  } else {
+    warn('ids.json is missing — run "node scripts/build-ids-json.mjs" and commit it.');
+  }
+} catch (e) {
+  warn('Could not verify ids.json freshness: ' + e.message);
 }
 
 // 4. Report.

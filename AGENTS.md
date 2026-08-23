@@ -204,3 +204,7 @@ Before declaring any change finished:
 4. Every new card previews, stars, copies pure code, and (if tweaked) copies
    the modified version while the original stays byte-identical.
 5. Your batch is committed and pushed per Git protocol.
+6. If you added items to the registry, regenerate `ids.json`
+   (`node scripts/build-ids-json.mjs`) and commit it — direct-REST agents
+   fetch it to pick valid specimen ids, and the pre-push gate warns when
+   it's stale.
