@@ -66,3 +66,22 @@ with (security_invoker = off) as
 -- 5. Grants (explicit is safe even though Supabase defaults usually cover this).
 grant select, insert, delete on public.votes to anon, authenticated;
 grant select on public.vote_counts to anon, authenticated;
+
+-- 6. v2.1 additive views (run this section over an existing install — nothing
+--    is dropped, seeded votes survive). Weekly board + daily sparkline data.
+create or replace view public.vote_counts_week
+with (security_invoker = off) as
+  select item_id, count(*)::int as votes
+  from public.votes
+  where created_at > now() - interval '7 days'
+  group by item_id;
+
+grant select on public.vote_counts_week to anon, authenticated;
+
+create or replace view public.vote_history
+with (security_invoker = off) as
+  select item_id, (created_at at time zone 'utc')::date as day, count(*)::int as votes
+  from public.votes
+  group by item_id, (created_at at time zone 'utc')::date;
+
+grant select on public.vote_history to anon, authenticated;

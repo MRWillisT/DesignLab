@@ -271,6 +271,13 @@
         <button id="boardClose" class="icon-btn" type="button" aria-label="Close">✕</button>
       </header>
       <div class="modal-body">
+        <div class="board-win-row">
+          <div class="board-win-seg" role="radiogroup" aria-label="Leaderboard time window">
+            <button type="button" class="board-win-btn is-active" data-win="all" title="All-time totals">All time</button>
+            <button type="button" class="board-win-btn" data-win="week" title="Votes from the last 7 days">This week</button>
+          </div>
+          <span class="board-win-hint" id="boardWindowLabel">All Time</span>
+        </div>
         <div class="board-tabs" role="tablist" aria-label="Leaderboard views">
           <button type="button" class="board-tab is-active" data-board-tab="specimens" role="tab">Specimens</button>
           <button type="button" class="board-tab" data-board-tab="creators" role="tab">Creators</button>

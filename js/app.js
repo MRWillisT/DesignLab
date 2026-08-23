@@ -859,6 +859,33 @@ function buildTrayRows(item) {
   }).join('');
 }
 
+/* Top-3 rank within an item's drawer (all-time votes), cached per render. */
+let drawerRanksCache = null;
+
+function drawerRankOf(itemId) {
+  const item = allItems().find(it => it.id === itemId);
+  if (!item) return 0;
+  if (!drawerRanksCache) {
+    const ranks = new Map();
+    const bySec = new Map();
+    allItems().forEach(it => {
+      if (!bySec.has(it.section)) bySec.set(it.section, []);
+      bySec.get(it.section).push(it);
+    });
+    bySec.forEach(list => {
+      list
+        .filter(it => DesignLabVotes.countOf(it.id) > 0)
+        .sort((a, b) => DesignLabVotes.countOf(b.id) - DesignLabVotes.countOf(a.id))
+        .slice(0, 3)
+        .forEach((it, i) => ranks.set(it.id, i + 1));
+    });
+    drawerRanksCache = ranks;
+  }
+  return drawerRanksCache.get(itemId) || 0;
+}
+
+const MEDAL_COLORS = ['', 'gold', 'silver', 'bronze'];
+
 function buildCard(item) {
   const cr = creatorOf(item.creator);
   const isFav = favorites.has(item.id);
@@ -866,9 +893,11 @@ function buildCard(item) {
   const hasTweaks = !!(item.tweaks && item.tweaks.length);
   const removable = isVariant || !!item.imported;
   const dirty = hasTweaks && isDirty(item);
+  const rank = drawerRankOf(item.id);
+  const medal = rank > 0 && rank <= 3 ? ' medal-' + MEDAL_COLORS[rank] : '';
 
   const card = document.createElement('article');
-  card.className = 'card' + (isFav ? ' is-fav' : '');
+  card.className = 'card' + (isFav ? ' is-fav' : '') + medal;
   card.dataset.id = item.id;
   card.dataset.section = item.section || '';
 
@@ -888,6 +917,9 @@ function buildCard(item) {
   card.innerHTML =
     '<header class="card-top">'
     + '<span class="card-id">#' + escapeHtml(item.id) + '</span>'
+    + (rank > 0 && rank <= 3
+      ? '<span class="medal-badge medal-' + MEDAL_COLORS[rank] + '" title="#' + rank + ' in this drawer by votes" aria-label="#' + rank + ' in this drawer">' + rank + '</span>'
+      : '')
     + (newItemIds.has(item.id) ? '<span class="new-badge">NEW</span>' : '')
     + '<span class="mod-tag" ' + (dirty ? '' : 'hidden') + '>MOD</span>'
     + '<span class="top-actions">' + actions + '</span>'
@@ -1186,6 +1218,7 @@ function buildCarouselRow(sec, items) {
 }
 
 function render() {
+  drawerRanksCache = null;
   const items = currentPool();
 
   populateSectionDropdown();
@@ -1262,6 +1295,7 @@ function toggleFavorite(id, card) {
 
 let boardOpen = false;
 let boardTab = 'specimens';
+let boardWindow = 'all'; // 'all' | 'week'
 
 function refreshVoteButton(btn, item) {
   if (!btn) return;
@@ -1279,6 +1313,33 @@ function refreshAllVoteButtons() {
     if (!id) return;
     const item = allItems().find(it => it.id === id);
     if (item) refreshVoteButton(btn, item);
+  });
+}
+
+/* Update medal trim + rank badges on existing cards without a full re-render. */
+function renderMedals() {
+  drawerRanksCache = null;
+  $$('.card').forEach(card => {
+    const id = card.dataset.id;
+    const rank = drawerRankOf(id);
+    const medalCls = rank > 0 && rank <= 3 ? ' medal-' + MEDAL_COLORS[rank] : '';
+    ['gold', 'silver', 'bronze'].forEach(m => card.classList.remove('medal-' + m));
+    if (medalCls) card.classList.add(medalCls.slice(1));
+    let badge = $('.medal-badge', card);
+    if (rank > 0 && rank <= 3) {
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'medal-badge';
+        const idSpan = $('.card-id', card);
+        if (idSpan) idSpan.insertAdjacentElement('afterend', badge);
+      }
+      badge.className = 'medal-badge medal-' + MEDAL_COLORS[rank];
+      badge.textContent = rank;
+      badge.title = '#' + rank + ' in this drawer by votes';
+      badge.setAttribute('aria-label', '#' + rank + ' in this drawer');
+    } else if (badge) {
+      badge.remove();
+    }
   });
 }
 
@@ -1331,7 +1392,26 @@ function closeLeaderboard() {
   $('#boardOverlay').hidden = true;
 }
 
-function boardRow(rank, label, creator, n) {
+function voteFn(kind) {
+  return boardWindow === 'week' ? DesignLabVotes.countOfWeek : DesignLabVotes.countOf;
+}
+
+function sparklineSvg(itemId) {
+  const pts = DesignLabVotes.historyOf(itemId);
+  if (!pts.length) return '';
+  const W = 64, H = 18, PAD = 2;
+  const max = Math.max(1, ...pts.map(p => p.votes));
+  const x = i => PAD + (pts.length === 1 ? W / 2 : (i / (pts.length - 1)) * (W - PAD * 2));
+  const y = v => H - PAD - (v / max) * (H - PAD * 2);
+  const line = pts.map((p, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(p.votes).toFixed(1)).join(' ');
+  const last = pts[pts.length - 1];
+  return '<svg class="board-spark" viewBox="0 0 ' + W + ' ' + H + '" aria-hidden="true">'
+    + '<path d="' + line + '" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>'
+    + '<circle cx="' + x(pts.length - 1).toFixed(1) + '" cy="' + y(last.votes).toFixed(1) + '" r="2" fill="currentColor"/>'
+    + '</svg>';
+}
+
+function boardRow(rank, label, creator, n, spark) {
   const chip = creator
     ? '<span class="credit-chip" style="--chip:' + escapeHtml(creator.color || '#8a8f98') + '">' + escapeHtml(creator.name) + '</span>'
     : '';
@@ -1339,6 +1419,7 @@ function boardRow(rank, label, creator, n) {
     + '<span class="board-rank">' + rank + '</span>'
     + chip
     + '<span class="board-label">' + escapeHtml(label) + '</span>'
+    + (spark || '')
     + '<span class="board-votes">▲ ' + n + '</span>'
     + '</li>';
 }
@@ -1348,39 +1429,43 @@ function renderLeaderboard() {
   const empty = $('#boardEmpty');
   const totalEl = $('#boardTotalVotes');
   const dayEl = $('#boardDayLeft');
+  const winLabel = $('#boardWindowLabel');
   if (!list) return;
-  if (totalEl) totalEl.textContent = DesignLabVotes.total();
+  if (totalEl) totalEl.textContent = boardWindow === 'week' ? DesignLabVotes.totalWeek() : DesignLabVotes.total();
   if (dayEl) dayEl.textContent = DesignLabVotes.votesLeftToday();
+  if (winLabel) winLabel.textContent = boardWindow === 'week' ? 'This Week' : 'All Time';
 
+  const fn = voteFn();
   let rows = [];
   if (boardTab === 'specimens') {
     rows = allItems()
-      .filter(it => DesignLabVotes.countOf(it.id) > 0)
-      .sort((a, b) => DesignLabVotes.countOf(b.id) - DesignLabVotes.countOf(a.id))
+      .filter(it => fn(it.id) > 0)
+      .sort((a, b) => fn(b.id) - fn(a.id))
       .slice(0, 25)
-      .map((it, i) => boardRow(i + 1, it.id + ' · ' + it.name, creatorOf(it.creator), DesignLabVotes.countOf(it.id)));
+      .map((it, i) => boardRow(i + 1, it.id + ' · ' + it.name, creatorOf(it.creator), fn(it.id),
+        boardWindow === 'week' ? '' : sparklineSvg(it.id)));
   } else if (boardTab === 'creators') {
     const byCreator = new Map();
     allItems().forEach(it => {
       const c = it.creator || '?';
-      byCreator.set(c, (byCreator.get(c) || 0) + DesignLabVotes.countOf(it.id));
+      byCreator.set(c, (byCreator.get(c) || 0) + fn(it.id));
     });
     rows = [...byCreator.entries()]
       .filter(([, n]) => n > 0)
       .sort((a, b) => b[1] - a[1])
-      .map(([cid, n], i) => boardRow(i + 1, (creatorOf(cid) || {}).name || cid, creatorOf(cid), n));
+      .map(([cid, n], i) => boardRow(i + 1, (creatorOf(cid) || {}).name || cid, creatorOf(cid), n, ''));
   } else {
     const bySec = new Map();
     allItems().forEach(it => {
       const s = it.section || '?';
-      bySec.set(s, (bySec.get(s) || 0) + DesignLabVotes.countOf(it.id));
+      bySec.set(s, (bySec.get(s) || 0) + fn(it.id));
     });
     rows = [...bySec.entries()]
       .filter(([, n]) => n > 0)
       .sort((a, b) => b[1] - a[1])
       .map(([sid, n], i) => {
         const sec = sectionOf(sid);
-        return boardRow(i + 1, sec ? sec.name : sid, null, n);
+        return boardRow(i + 1, sec ? sec.name : sid, null, n, '');
       });
   }
 
@@ -1854,6 +1939,14 @@ function init() {
       renderLeaderboard();
     });
   });
+  $$('.board-win-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('.board-win-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      boardWindow = btn.dataset.win === 'week' ? 'week' : 'all';
+      renderLeaderboard();
+    });
+  });
   $('#sectionSelect').addEventListener('change', ev => {
     resetRenderLimit();
     state.section = ev.target.value;
@@ -1994,6 +2087,7 @@ function init() {
       refreshDrawerTop3();
       if (boardOpen) renderLeaderboard();
       if (state.sort === 'top') render();
+      else { drawerRanksCache = null; renderMedals(); }
     });
     DesignLabVotes.init();
   }

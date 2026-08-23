@@ -18,12 +18,16 @@ window.DesignLabVotes = (function () {
   const KEY = CFG.anonKey || '';
 
   const DAILY_CAP = 25;
+  const WEEK_DAYS = 7;
   const LS_SESSION = 'designlab.votes.session.v1';
   const LS_COUNTS = 'designlab.votes.counts.v1';
+  const LS_COUNTS_WEEK = 'designlab.votes.counts.week.v1';
   const LS_MINE = 'designlab.votes.mine.v1';
   const LS_DAY = 'designlab.votes.day.v1';
 
-  let counts = new Map();   // itemId -> vote count
+  let counts = new Map();   // itemId -> all-time vote count
+  let countsWeek = new Map(); // itemId -> votes in the last 7 days
+  let history = new Map();  // itemId -> [{ day: 'YYYY-MM-DD', votes: n }] sorted asc
   let mine = new Set();     // item ids this user has upvoted
   let ready = false;
   const subs = new Set();   // change listeners
@@ -42,9 +46,12 @@ window.DesignLabVotes = (function () {
   }
 
   function countOf(id) { return counts.get(id) || 0; }
+  function countOfWeek(id) { return countsWeek.get(id) || 0; }
+  function historyOf(id) { return history.get(id) || []; }
   function voted(id) { return mine.has(id); }
   function isReady() { return ready; }
   function total() { let n = 0; counts.forEach(v => { n += v; }); return n; }
+  function totalWeek() { let n = 0; countsWeek.forEach(v => { n += v; }); return n; }
 
   function onChange(fn) { subs.add(fn); return () => subs.delete(fn); }
   function emit() { subs.forEach(fn => { try { fn(); } catch (e) { /* never let a listener break the app */ } }); }
@@ -137,12 +144,15 @@ window.DesignLabVotes = (function () {
   /* ---------- persistence ---------- */
 
   function saveCounts() { try { localStorage.setItem(LS_COUNTS, JSON.stringify([...counts])); } catch (e) { /* ignore */ } }
+  function saveWeek() { try { localStorage.setItem(LS_COUNTS_WEEK, JSON.stringify([...countsWeek])); } catch (e) { /* ignore */ } }
   function saveMine() { try { localStorage.setItem(LS_MINE, JSON.stringify([...mine])); } catch (e) { /* ignore */ } }
 
   function loadCached() {
     try {
       const c = JSON.parse(localStorage.getItem(LS_COUNTS) || '[]');
       if (Array.isArray(c)) counts = new Map(c);
+      const w = JSON.parse(localStorage.getItem(LS_COUNTS_WEEK) || '[]');
+      if (Array.isArray(w)) countsWeek = new Map(w);
       const m = JSON.parse(localStorage.getItem(LS_MINE) || '[]');
       if (Array.isArray(m)) mine = new Set(m);
     } catch (e) { /* ignore */ }
@@ -151,11 +161,33 @@ window.DesignLabVotes = (function () {
   /* ---------- network ---------- */
 
   async function loadCounts() {
-    const res = await fetch(BASE + '/rest/v1/vote_counts?select=item_id,votes', { headers: authHeaders() });
-    if (!res.ok) throw new Error('counts ' + res.status);
-    const rows = await res.json();
-    counts = new Map((rows || []).map(r => [r.item_id, Number(r.votes) || 0]));
+    const [resAll, resWeek, resHist] = await Promise.all([
+      fetch(BASE + '/rest/v1/vote_counts?select=item_id,votes', { headers: authHeaders() }),
+      fetch(BASE + '/rest/v1/vote_counts_week?select=item_id,votes', { headers: authHeaders() }),
+      fetch(BASE + '/rest/v1/vote_history?select=item_id,day,votes', { headers: authHeaders() })
+    ]);
+    if (!resAll.ok) throw new Error('counts ' + resAll.status);
+    const rowsAll = await resAll.json();
+    counts = new Map((rowsAll || []).map(r => [r.item_id, Number(r.votes) || 0]));
     saveCounts();
+
+    if (resWeek.ok) {
+      const rowsWeek = await resWeek.json();
+      countsWeek = new Map((rowsWeek || []).map(r => [r.item_id, Number(r.votes) || 0]));
+    }
+    saveWeek();
+
+    if (resHist.ok) {
+      const rowsHist = await resHist.json();
+      const h = new Map();
+      (rowsHist || []).forEach(r => {
+        const arr = h.get(r.item_id) || [];
+        arr.push({ day: String(r.day), votes: Number(r.votes) || 0 });
+        h.set(r.item_id, arr);
+      });
+      h.forEach((arr, id) => h.set(id, arr.sort((a, b) => a.day < b.day ? -1 : a.day > b.day ? 1 : 0)));
+      history = h;
+    }
   }
 
   async function loadMine() {
@@ -245,9 +277,10 @@ window.DesignLabVotes = (function () {
 
   return {
     configured, isReady, init, toggle,
-    countOf, voted, onChange, total,
-    votesLeftToday, DAILY_CAP,
+    countOf, countOfWeek, historyOf, voted, onChange, total, totalWeek,
+    votesLeftToday, DAILY_CAP, WEEK_DAYS,
     countsMap: () => counts,
+    countsWeekMap: () => countsWeek,
     mineSet: () => mine
   };
 })();
