@@ -42,10 +42,22 @@ try {
 }
 
 // Batch files push extra items onto the registry before validation runs.
+// Track which ids come from which batch so errors can name the source file.
+const itemSource = new Map();
+const MAX_BATCH_ITEMS = 40;
 for (const file of batchFiles) {
   try {
+    const before = LIB ? LIB.items.length : 0;
     const source = readFileSync(file, 'utf8');
     vm.runInContext(source, sandbox, { filename: file.replace(ROOT + '\\', '') });
+    const after = LIB ? LIB.items.length : 0;
+    const added = LIB.items.slice(before, after);
+    if (added.length > MAX_BATCH_ITEMS) {
+      warn(`Batch ${file.replace(ROOT + '\\', '')} pushes ${added.length} items; keep batches under ${MAX_BATCH_ITEMS} for legible diffs.`);
+    }
+    for (const it of added) {
+      if (it && typeof it.id === 'string') itemSource.set(it.id, file.replace(ROOT + '\\', ''));
+    }
   } catch (e) {
     fail(`Could not evaluate ${file}: ${e.message}`);
   }
@@ -76,15 +88,29 @@ if (LIB) {
       sectionById.set(s.id, s);
     }
 
+    // Chip colors must be unique per creator so credit chips stay unambiguous.
+    const chipByCreator = new Map();
+    for (const c of creators) {
+      if (!c.color) continue;
+      const key = String(c.color).trim().toLowerCase();
+      if (chipByCreator.has(key)) {
+        warn(`Creators "${chipByCreator.get(key)}" and "${c.id}" share chip color "${c.color}".`);
+      } else {
+        chipByCreator.set(key, c.id);
+      }
+    }
+
     const seenIds = new Set();
     for (const item of items) {
       if (!item || typeof item !== 'object') { fail('An items[] entry is not an object.'); continue; }
       const label = item.id ? `#${item.id}` : '<unnamed>';
 
       if (typeof item.id !== 'string' || !item.id.trim()) fail(`${label}: missing id`);
-      else if (seenIds.has(item.id)) fail(`${label}: duplicate item id`);
+      else if (seenIds.has(item.id)) {
+        const src = itemSource.get(item.id);
+        fail(`${label}: duplicate item id${src ? ` (also in ${src})` : ''}`);
+      }
       else seenIds.add(item.id);
-
       if (typeof item.name !== 'string' || !item.name.trim()) fail(`${label}: missing name`);
       if (typeof item.description !== 'string' || !item.description.trim()) warn(`${label}: missing description`);
       if (typeof item.code !== 'string' || !item.code.trim()) fail(`${label}: missing code`);
@@ -101,6 +127,9 @@ if (LIB) {
       }
 
       if (item.tags !== undefined && !Array.isArray(item.tags)) fail(`${label}: tags must be an array`);
+      else if (Array.isArray(item.tags)) item.tags.forEach(t => {
+        if (typeof t !== 'string' || !t.trim()) fail(`${label}: tags must only be non-empty strings`);
+      });
       if (item.tweaks !== undefined) {
         if (!Array.isArray(item.tweaks)) fail(`${label}: tweaks must be an array`);
         else item.tweaks.forEach((t, i) => {
@@ -108,8 +137,16 @@ if (LIB) {
           if (!t || typeof t.varName !== 'string' || !t.varName.startsWith('--')) fail(`${tl}: needs varName starting with --`);
           else if (t.type !== 'color' && t.type !== 'range') fail(`${tl}: type must be color or range`);
           else if (t.default === undefined || t.default === null) fail(`${tl}: needs default`);
-          else if (t.type === 'range' && !(Number(t.max) > Number(t.min))) fail(`${tl}: range needs max > min`);
-          else if (typeof item.code === 'string' && !item.code.includes(`var(${t.varName}`)) fail(`${tl}: ${t.varName} never consumed via var(--name, …)`);
+          else if (t.type === 'range') {
+            if (!(Number(t.max) > Number(t.min))) fail(`${tl}: range needs max > min`);
+            if (!(Number(t.step) > 0)) fail(`${tl}: range step must be positive`);
+            if (typeof t.unit !== 'string') fail(`${tl}: range needs a unit string (may be empty)`);
+            if (Number.isNaN(Number(t.default))) fail(`${tl}: range default must be numeric`);
+          } else if (typeof t.default !== 'string') {
+            fail(`${tl}: color default must be a hex/color string`);
+          } else if (typeof item.code === 'string' && !item.code.includes(`var(${t.varName}`)) {
+            fail(`${tl}: ${t.varName} never consumed via var(--name, …)`);
+          }
         });
       }
     }
