@@ -815,6 +815,41 @@ input, select { font: inherit; }
   font-size: 14px;
 }
 
+/* XXS is 140px wide — the top icon buttons (inspect/tweak/star) don't fit
+   next to the id + LIVE + claims badges without spilling off the card.
+   Hide them; every action still lives one double-click away in the inspect
+   modal (favorite, tweaks, copy) or in the footer (vote, copy). */
+[data-density="XXS"] .top-actions {
+  display: none;
+}
+
+[data-density="XXS"] .card-top {
+  gap: 3px;
+  padding: 5px 6px 3px;
+}
+
+[data-density="XXS"] .live-badge,
+[data-density="XXS"] .claims-badge,
+[data-density="XXS"] .new-badge,
+[data-density="XXS"] .medal-badge {
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  padding: 1px 4px;
+}
+
+[data-density="XXS"] .card-foot {
+  gap: 5px;
+  padding: 5px 6px 6px;
+}
+
+[data-density="XXS"] .foot-actions {
+  gap: 4px;
+}
+
+[data-density="XXS"] .credit-chip {
+  max-width: 44%;
+}
+
 /* Elevation is faked with opacity-animated layers so only
    transform + opacity ever animate (GPU-composited). */
 .card::before {
