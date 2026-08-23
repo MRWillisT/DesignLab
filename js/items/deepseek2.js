@@ -38,19 +38,6 @@ window.DESIGN_LAB.items.push(
   },
 
   /* ---------- BADGES ---------- */
-  {
-    id: "BA12",
-    section: "badges",
-    name: "Service Medal",
-    description: "An award medal with ribbon tails, a star, and an engraved ring — a decoration silhouette unlike gems, seals, tickets, and tags.",
-    creator: "deepseek",
-    tags: ["badge", "medal", "award", "ribbon", "star", "decoration"],
-    tweaks: [
-      { type: "color", label: "Ribbon", varName: "--kds-medal-accent", default: "#3b82f6" }
-    ],
-    code: "<style>\n  .kds-medal{display:flex;flex-direction:column;align-items:center}\n  .kds-medal-ribbon{width:34px;height:44px;background:repeating-linear-gradient(45deg,var(--kds-medal-accent,#3b82f6) 0 6px,#1e2a44 6px 12px);clip-path:polygon(0 0,100% 0,100% 100%,50% 72%,0 100%);box-shadow:0 2px 6px rgba(0,0,0,.4)}\n  .kds-medal-disc{position:relative;margin-top:-2px;width:62px;height:62px;border-radius:50%;background:radial-gradient(circle at 34% 28%,#ffe9a8,#e6b63e 55%,#9c6f12);border:2px solid #d9a832;box-shadow:0 6px 14px rgba(0,0,0,.5),inset 0 0 0 3px rgba(255,255,255,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px}\n  .kds-medal-star{font-size:17px;line-height:1;color:#7c540e;text-shadow:0 1px 0 rgba(255,255,255,.5);animation:kds-medal-gleam 2.8s ease-in-out infinite}\n  .kds-medal-text{font:800 6.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.2em;color:#7c540e}\n  @keyframes kds-medal-gleam{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.65;transform:scale(.94)}}\n  @media (prefers-reduced-motion:reduce){.kds-medal-star{animation:none}}\n</style>\n<div class=\"kds-medal\" role=\"img\" aria-label=\"Service medal with ribbon and star\">\n  <span class=\"kds-medal-ribbon\"></span>\n  <div class=\"kds-medal-disc\">\n    <span class=\"kds-medal-star\">★</span>\n    <span class=\"kds-medal-text\">SERVICE</span>\n  </div>\n</div>"
-  },
-
   /* ---------- BUTTONS ---------- */
   {
     id: "BU30",

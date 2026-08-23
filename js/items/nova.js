@@ -2,11 +2,9 @@
 
 /* ============================================================
    DESIGN LAB — Nova (placeholder rival, signed #2dd4bf)
-   Entered via the open submission flow. Four specimens, each
-   structurally distinct from everything in its drawer:
+   Entered via the open submission flow. Three specimens:
      CA15 Pull-To-Refresh Card  — gesture-driven feed reload
      EF15 Chromatic Aberration  — split-RGB edge ghosting
-     AL15 Offline Banner        — connectivity state strip
      FO18 Stepper Flow          — sequential multi-step form
    ============================================================ */
 
@@ -35,18 +33,6 @@ window.DESIGN_LAB.items.push(
       { type: "color", label: "Cyan Layer", varName: "--knv-c", default: "#1fd8e8" }
     ],
     code: "<style>\n  .knv-ca{display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px 0}\n  .knv-ca-word{position:relative;font:900 30px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.02em;color:#eef2fa}\n  .knv-ca-word::before,.knv-ca-word::after{content:attr(data-txt);position:absolute;inset:0;pointer-events:none}\n  .knv-ca-word::before{color:var(--knv-r,#ff3b4d);transform:translate(-2.5px,1px);mix-blend-mode:screen}\n  .knv-ca-word::after{color:var(--knv-c,#1fd8e8);transform:translate(2.5px,-1px);mix-blend-mode:screen}\n  .knv-ca-hint{font:700 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.26em;color:#56617c}\n</style>\n<div class=\"knv-ca\" role=\"img\" aria-label=\"Chromatic aberration split-color title\">\n  <span class=\"knv-ca-word\" data-txt=\"NOVA\">NOVA</span>\n  <span class=\"knv-ca-hint\">RGB SPLIT · EDGE GHOST</span>\n</div>"
-  },
-  {
-    id: "AL15",
-    section: "alerts",
-    name: "Offline Banner",
-    description: "A connectivity strip that snaps across the top edge with a retry action — the drawer's only connection-state alert, versus toasts, toasts-like, and snackbars.",
-    creator: "nova",
-    tags: ["alert", "offline", "banner", "connectivity", "retry"],
-    tweaks: [
-      { type: "color", label: "Accent", varName: "--knv-off", default: "#f59e0b" }
-    ],
-    code: "<style>\n  .knv-off{width:252px;border:1px solid rgba(255,255,255,.1);border-radius:12px;overflow:hidden;background:#10141c;box-shadow:0 10px 22px rgba(0,0,0,.4)}\n  .knv-off-strip{display:flex;align-items:center;gap:8px;padding:8px 11px;background:color-mix(in srgb,var(--knv-off,#f59e0b) 16%,transparent);border-bottom:1px solid color-mix(in srgb,var(--knv-off,#f59e0b) 35%,transparent)}\n  .knv-off-dot{width:8px;height:8px;border-radius:50%;background:var(--knv-off,#f59e0b);box-shadow:0 0 8px var(--knv-off,#f59e0b);flex-shrink:0}\n  .knv-off-strip b{font:700 9px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;color:#f5e9d3}\n  .knv-off-strip span{margin-left:auto;font:700 8px/1 ui-monospace,Consolas,monospace;color:color-mix(in srgb,var(--knv-off,#f59e0b) 80%,white)}\n  .knv-off-body{display:flex;align-items:center;gap:10px;padding:11px 12px}\n  .knv-off-body p{flex:1;margin:0;font:500 11px/1.4 ui-sans-serif,system-ui,sans-serif;color:#c8d2e0}\n  .knv-off-btn{flex:none;padding:5px 11px;border-radius:8px;border:1px solid color-mix(in srgb,var(--knv-off,#f59e0b) 55%,transparent);background:transparent;font:800 9px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em;color:#f5e9d3;cursor:pointer;transition:transform .12s ease,opacity .12s ease}\n  .knv-off-btn:hover{background:color-mix(in srgb,var(--knv-off,#f59e0b) 22%,transparent)}\n  .knv-off-btn:active{transform:scale(.94)}\n</style>\n<div class=\"knv-off\" role=\"status\" aria-live=\"polite\">\n  <div class=\"knv-off-strip\"><span class=\"knv-off-dot\"></span><b>NO CONNECTION</b><span>OFFLINE</span></div>\n  <div class=\"knv-off-body\"><p>You're offline. Specimens will stay cached — changes sync when you're back.</p><button type=\"button\" class=\"knv-off-btn\">RETRY</button></div>\n</div>"
   },
   {
     id: "FO18",

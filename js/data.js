@@ -143,65 +143,6 @@ window.DESIGN_LAB = {
     },
 
     {
-      id: "PL4",
-      section: "players",
-      name: "Neomorphic Soft Dock",
-      description: "Soft debossed track slot with tactile physical play toggle button.",
-      creator: "gemini",
-      tags: ["player","neumorphic","soft","indigo","interactive"],
-      code: "<style>\n  .kpl4d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n  .kpl4-btn{width:26px;height:26px;border-radius:6px;background:#282e3d;border:1px solid rgba(255,255,255,0.08);color:#f1f5f9;font-size:10px;box-shadow:2px 2px 4px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s ease}\n  .kpl4-btn:active{transform:scale(0.92)}\n  @media (prefers-reduced-motion:reduce){.kpl4-btn{transition:none}}\n</style>\n<div class=\"kpl4d\" style=\"background: #1e222d; border: 1px solid rgba(255,255,255,0.06); box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5); border-radius: 8px;\">\n<button type=\"button\" class=\"kpl4-btn\" onclick=\"this.textContent=this.textContent==='▶'?'❚❚':'▶'\">▶</button>\n<span style=\"font-size:11px; color:#e2e8f0; font-weight:500;\">0:04 / 0:15</span>\n<div style=\"flex:1; height:6px; background:#141720; border-radius:3px; box-shadow: inset 1px 1px 2px #000; position:relative;\">\n<div style=\"width:28%; height:100%; background:#6366f1; border-radius:3px;\"></div>\n</div>\n<span style=\"font-size:11px; color:#94a3b8;\">🔊</span>\n</div>"
-    },
-
-    {
-      id: "PL6",
-      section: "players",
-      name: "Retro Amber Hi-Fi",
-      description: "Vintage studio receiver aesthetic with interactive play toggle and glowing amber display.",
-      creator: "gemini",
-      tags: ["player","retro","amber","hifi","interactive"],
-      code: "<style>\n  .kpl6d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n  .kpl6-btn{width:26px;height:26px;border-radius:50%;background:#78350f;border:1px solid #f59e0b;color:#fbbf24;font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s ease}\n  .kpl6-btn:active{transform:scale(0.92)}\n  @media (prefers-reduced-motion:reduce){.kpl6-btn{transition:none}}\n</style>\n<div class=\"kpl6d\" style=\"background: #14120e; border: 1px solid #d97706; border-radius: 6px; box-shadow: 0 0 8px rgba(217,119,6,0.2);\">\n<button type=\"button\" class=\"kpl6-btn\" onclick=\"this.textContent=this.textContent==='▶'?'❚❚':'▶';this.nextElementSibling.textContent=this.textContent==='▶'?'0:04 [PAUSE]':'0:04 [PLAY]'\">▶</button>\n<span style=\"font-size:12px; font-family:monospace; color:#fbbf24; text-shadow:0 0 6px #f59e0b;\">0:04 [PLAY]</span>\n<div style=\"flex:1; height:5px; background:#291e0d; border-radius:2px; position:relative;\">\n<div style=\"width:28%; height:100%; background:#f59e0b; box-shadow:0 0 6px #f59e0b;\"></div>\n</div>\n<span style=\"font-size:11px; color:#fbbf24;\">📻</span>\n</div>"
-    },
-
-    {
-      id: "IC1",
-      section: "icons",
-      name: "Hairline Minimal Line Glyphs",
-      description: "Ultra-crisp 1.5px monochromatic hairline SVG icons with unified grid voice for minimal toolbars.",
-      creator: "gemini",
-      tags: ["icon", "svg", "hairline", "minimal", "outline"],
-      tweaks: [
-        { type: "color", label: "Stroke Color", varName: "--ic1-color", default: "#e2e8f0" }
-      ],
-      code: "<style>\n  .kic1-row{display:flex;align-items:center;gap:14px;color:var(--ic1-color,#e2e8f0)}\n  .kic1-row svg{width:20px;height:20px}\n</style>\n<div class='kic1-row'>\n  <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><polygon points='5 3 19 12 5 21 5 3'/></svg>\n  <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M9 18V5l12-2v13'/><circle cx='6' cy='18' r='3'/><circle cx='18' cy='16' r='3'/></svg>\n  <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='2' width='20' height='20' rx='2.18'/><line x1='7' y1='2' x2='7' y2='22'/><line x1='17' y1='2' x2='17' y2='22'/><line x1='2' y1='12' x2='22' y2='12'/></svg>\n  <svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><path d='M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6'/></svg>\n</div>"
-    },
-
-    {
-      id: "IC2",
-      section: "icons",
-      name: "Neon Cyber Dual-Tone",
-      description: "Electroluminescent vector iconography with glowing neon outline and ambient diffused backdrop bloom.",
-      creator: "gemini",
-      tags: ["icon", "neon", "cyber", "glow", "dualtone"],
-      tweaks: [
-        { type: "color", label: "Neon Glow", varName: "--ic2-glow", default: "#38bdf8" }
-      ],
-      code: "<style>\n  .kic2-row{display:flex;align-items:center;gap:14px}\n  .kic2-icon{display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:8px;background:rgba(56,189,248,0.06);border:1px solid color-mix(in srgb,var(--ic2-glow,#38bdf8) 40%,transparent);color:var(--ic2-glow,#38bdf8);box-shadow:0 0 14px color-mix(in srgb,var(--ic2-glow,#38bdf8) 35%,transparent);transition:transform .15s,box-shadow .15s}\n  .kic2-icon:hover{transform:translateY(-2px);box-shadow:0 0 20px var(--ic2-glow,#38bdf8)}\n  .kic2-icon svg{width:18px;height:18px}\n  @media (prefers-reduced-motion:reduce){.kic2-icon{transition:none}}\n</style>\n<div class='kic2-row'>\n  <div class='kic2-icon'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='5 3 19 12 5 21 5 3'/></svg></div>\n  <div class='kic2-icon'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='12' y1='8' x2='12' y2='12'/><line x1='12' y1='16' x2='12.01' y2='16'/></svg></div>\n  <div class='kic2-icon'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg></div>\n  <div class='kic2-icon'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/></svg></div>\n</div>"
-    },
-
-    {
-      id: "IC3",
-      section: "icons",
-      name: "Frosted Glass Badge Icons",
-      description: "Translucent frosted acrylic rounded tile badges with refractive borders and floating glossy glyphs.",
-      creator: "gemini",
-      tags: ["icon", "glass", "badge", "frosted", "tile"],
-      tweaks: [
-        { type: "color", label: "Glass Tint", varName: "--ic3-tint", default: "#c4b5fd" }
-      ],
-      code: "<style>\n  .kic3-row{display:flex;align-items:center;gap:12px}\n  .kic3-tile{width:36px;height:36px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.18);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;color:var(--ic3-tint,#c4b5fd);box-shadow:0 6px 16px rgba(0,0,0,0.4),inset 0 1px 1px rgba(255,255,255,0.3)}\n  .kic3-tile svg{width:18px;height:18px}\n</style>\n<div class='kic3-row'>\n  <div class='kic3-tile'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/><line x1='4' y1='22' x2='4' y2='15'/></svg></div>\n  <div class='kic3-tile'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'/></svg></div>\n  <div class='kic3-tile'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 20h9'/><path d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'/></svg></div>\n  <div class='kic3-tile'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9'/><path d='M13.73 21a2 2 0 0 1-3.46 0'/></svg></div>\n</div>"
-    },
-
-    {
       id: "IC4",
       section: "icons",
       name: "Hardware Stamped & Engraved",
@@ -228,97 +169,6 @@ window.DESIGN_LAB = {
     },
 
     {
-      id: "IC6",
-      section: "icons",
-      name: "Emerald Studio Segment Matrix",
-      description: "Segmented mint and emerald precision pro audio/video iconography with angular vector cuts.",
-      creator: "gemini",
-      tags: ["icon", "emerald", "mint", "studio", "matrix"],
-      tweaks: [
-        { type: "color", label: "Emerald Accent", varName: "--ic6-accent", default: "#10b981" }
-      ],
-      code: "<style>\n  .kic6-row{display:flex;align-items:center;gap:12px}\n  .kic6-seg{width:34px;height:34px;border-radius:6px;background:#06140d;border:1px solid rgba(16,185,129,0.3);display:flex;align-items:center;justify-content:center;color:var(--ic6-accent,#10b981);box-shadow:0 0 10px rgba(16,185,129,0.15)}\n  .kic6-seg svg{width:18px;height:18px}\n</style>\n<div class='kic6-row'>\n  <div class='kic6-seg'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='3' width='20' height='14' rx='2' ry='2'/><line x1='8' y1='21' x2='16' y2='21'/><line x1='12' y1='17' x2='12' y2='21'/></svg></div>\n  <div class='kic6-seg'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M23 7l-7 5 7 5V7z'/><rect x='1' y='5' width='15' height='14' rx='2' ry='2'/></svg></div>\n  <div class='kic6-seg'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z'/><path d='M19 10v2a7 7 0 0 1-14 0v-2'/><line x1='12' y1='19' x2='12' y2='23'/><line x1='8' y1='23' x2='16' y2='23'/></svg></div>\n  <div class='kic6-seg'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/><path d='M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07'/></svg></div>\n</div>"
-    },
-
-
-
-    {
-      id: "BU2",
-      section: "buttons",
-      name: "Slim Studio Pill",
-      description: "Ultra-sleek 30px compact capsule (~25% less space).",
-      creator: "gemini",
-      tags: ["button","pill","slim","indigo"],
-      code: "<button type=\"button\" style=\"background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); border-radius: 9999px; font-weight: 600; font-size: 12px; letter-spacing: 0.02em; padding: 0 16px; height: 30px; box-shadow: 0 2px 6px rgba(99, 102, 241, 0.3); cursor: pointer;\">Generate Media</button>"
-    },
-
-    {
-      id: "BU3",
-      section: "buttons",
-      name: "Neon Cyber Rim",
-      description: "Dark glass with electric cyan outline and glow.",
-      creator: "gemini",
-      tags: ["button","neon","cyan","outline"],
-      code: "<button type=\"button\" style=\"background: rgba(15, 23, 42, 0.88); color: #38bdf8; border: 1px solid #38bdf8; border-radius: 8px; font-weight: 600; font-size: 13px; padding: 0 18px; height: 38px; box-shadow: 0 0 12px rgba(56, 189, 248, 0.35); cursor: pointer;\">Generate Media</button>"
-    },
-
-
-
-    {
-      id: "BU10",
-      section: "buttons",
-      name: "Glow Dot Minimal Capsule",
-      description: "Translucent purple pill with glowing active dot.",
-      creator: "gemini",
-      tags: ["button","pill","dot","translucent"],
-      code: "<button type=\"button\" style=\"background: rgba(139, 92, 246, 0.12); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.45); border-radius: 9999px; font-weight: 600; font-size: 12px; padding: 0 16px; height: 32px; display: inline-flex; align-items: center; gap: 7px; cursor: pointer;\"><span style=\"display:inline-block; width:6px; height:6px; border-radius:50%; background:#a855f7; box-shadow:0 0 6px #a855f7;\"></span>Generate Media</button>"
-    },
-
-    {
-      id: "BU12",
-      section: "buttons",
-      name: "Circle FAB",
-      description: "Floating action button — 56px circle with soft lift shadow. One icon, one job.",
-      creator: "ox-alpha",
-      tags: ["button","fab","circle","floating"],
-      code: "<style>\n  .kbu12:hover{filter:brightness(1.18)}\n</style>\n<button type=\"button\" class=\"kbu12\" style=\"width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,#8b5cf6,#6366f1); color:#fff; font-size:28px; font-weight:300; line-height:1; border:none; cursor:pointer; box-shadow:0 8px 20px rgba(139,92,246,.45);\">+</button>"
-    },
-
-    {
-      id: "BU13",
-      section: "buttons",
-      name: "Skewed Slant",
-      description: "Parallelogram via skewX — italic geometry without an italic font.",
-      creator: "ox-alpha",
-      tags: ["button","skew","parallelogram","italic"],
-      code: "<style>\n  .kbu13:hover{filter:brightness(1.18)}\n</style>\n<button type=\"button\" class=\"kbu13\" style=\"transform:skewX(-14deg); background:#f43f5e; color:#fff; border:none; padding:13px 30px; font-weight:800; font-size:13px; letter-spacing:.1em; cursor:pointer; box-shadow:0 4px 14px rgba(244,63,94,.4);\"><span style=\"display:inline-block; transform:skewX(14deg);\">RENDER</span></button>"
-    },
-
-
-
-    {
-      id: "BU16",
-      section: "buttons",
-      name: "Leaf / Petal Play",
-      description: "One sharp corner, three round — rotated petal with a counter-rotated play glyph.",
-      creator: "ox-alpha",
-      tags: ["button","leaf","petal","rotated"],
-      code: "<style>\n  .kbu16:hover{filter:brightness(1.18)}\n</style>\n<button type=\"button\" class=\"kbu16\" style=\"width:48px; height:48px; border:none; background:linear-gradient(135deg,#10b981,#059669); border-radius:4px 50% 50% 50%; transform:rotate(-45deg); cursor:pointer; box-shadow:0 6px 16px rgba(16,185,129,.4);\"><span style=\"display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%; transform:rotate(45deg); color:#fff; font-size:18px;\">▶</span></button>"
-    },
-
-
-
-    {
-      id: "BU20",
-      section: "buttons",
-      name: "Underline Ghost",
-      description: "No button at all — just text whose gradient underline grows on hover. Quietest action in the room.",
-      creator: "ox-alpha",
-      tags: ["button","ghost","underline","text"],
-      code: "<style>\n  .kbu20g{background:none;border:none;color:#e2e8f0;font-weight:600;font-size:13px;cursor:pointer;padding:6px 2px;position:relative;letter-spacing:.03em}\n  .kbu20g::after{content:\"\";position:absolute;left:0;bottom:0;height:2px;width:100%;background:linear-gradient(90deg,#8b5cf6,#38bdf8);transform:scaleX(.3);transform-origin:left;transition:transform .22s ease}\n  .kbu20g:hover::after{transform:scaleX(1)}\n</style>\n<button type=\"button\" class=\"kbu20g\">Save to Library</button>"
-    },
-
-    {
       id: "NA1",
       section: "navigation",
       name: "Segmented Control",
@@ -329,16 +179,6 @@ window.DESIGN_LAB = {
         { type: "color", label: "Accent", varName: "--na1-accent", default: "#7c3aed" }
       ],
       code: "<style>\n  .kna1-seg{display:inline-flex;max-width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9999px;padding:3px;gap:2px}\n  .kna1-btn{padding:5px 12px;font-size:11px;font-weight:600;color:#94a3b8;border:none;background:transparent;border-radius:9999px;cursor:pointer;user-select:none;transition:background .18s ease,color .18s ease}\n  .kna1-btn:hover{color:#e2e8f0}\n  .kna1-btn.active{color:#fff;background:linear-gradient(135deg,var(--na1-accent,#7c3aed),#4f46e5);font-weight:700;box-shadow:0 2px 8px rgba(124,58,237,.35)}\n  @media (prefers-reduced-motion:reduce){.kna1-btn{transition:none}}\n</style>\n<div class=\"kna1-seg\">\n  <button type=\"button\" class=\"kna1-btn\" onclick=\"this.parentElement.querySelectorAll('.kna1-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">Draft</button>\n  <button type=\"button\" class=\"kna1-btn active\" onclick=\"this.parentElement.querySelectorAll('.kna1-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">Render</button>\n  <button type=\"button\" class=\"kna1-btn\" onclick=\"this.parentElement.querySelectorAll('.kna1-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">Export</button>\n</div>"
-    },
-
-    {
-      id: "BA1",
-      section: "badges",
-      name: "Diamond Badge",
-      description: "Rotated squircle — reads as a gem/achievement rather than an action rectangle.",
-      creator: "ox-alpha",
-      tags: ["badge","diamond","achievement","gem"],
-      code: "<style>\n  .kba1:hover{filter:brightness(1.18)}\n</style>\n<span class=\"kba1\" style=\"display:inline-block; width:52px; height:52px; transform:rotate(45deg); background:linear-gradient(135deg,#38bdf8,#6366f1); border-radius:10px; cursor:pointer; box-shadow:0 6px 16px rgba(56,189,248,.35);\"><span style=\"display:flex; align-items:center; justify-content:center; width:100%; height:100%; transform:rotate(-45deg); color:#fff; font-size:19px;\">✦</span></span>"
     },
 
     {
@@ -486,16 +326,6 @@ window.DESIGN_LAB = {
       code: "<style>\n  .ksl3r{-webkit-appearance:none;appearance:none;width:190px;height:5px;border-radius:3px;background:linear-gradient(90deg,#8b5cf6 65%,rgba(255,255,255,.14) 65%);outline:none;cursor:pointer}\n  .ksl3r::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid #8b5cf6;box-shadow:0 0 8px rgba(139,92,246,.8)}\n</style>\n<input type=\"range\" class=\"ksl3r\" min=\"0\" max=\"100\" value=\"65\" style=\"accent-color:#8b5cf6;\">"
     },
 
-    {
-      id: "BA2",
-      section: "badges",
-      name: "Status Pills",
-      description: "Queue-state vocabulary as pills — queued / rendering / done, each with its own signal.",
-      creator: "ox-alpha",
-      tags: ["status","pills","queue","states"],
-      code: "<style>\n  @keyframes kba2kf-br{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}\n  .kba2br{animation:kba2kf-br 2s ease-in-out infinite;display:inline-block}\n  @media (prefers-reduced-motion:reduce){.kba2br{animation:none}}\n</style>\n<span style=\"display:inline-flex; align-items:center; gap:5px; flex-wrap:nowrap; max-width:100%; white-space:nowrap;\"><span style=\"display:inline-flex; align-items:center; gap:4px; padding:4px 8px; border-radius:9999px; font-size:10px; font-weight:700; background:rgba(251,191,36,.12); border:1px solid rgba(251,191,36,.4); color:#fcd34d;\"><i style=\"width:6px; height:6px; border-radius:50%; background:#fbbf24;\"></i>QUEUED</span><span style=\"display:inline-flex; align-items:center; gap:4px; padding:4px 8px; border-radius:9999px; font-size:10px; font-weight:700; background:rgba(56,189,248,.12); border:1px solid rgba(56,189,248,.4); color:#7dd3fc;\"><i class=\"kba2br\" style=\"width:6px; height:6px; border-radius:50%; background:#38bdf8;\"></i>RENDERING</span><span style=\"display:inline-flex; align-items:center; gap:4px; padding:4px 8px; border-radius:9999px; font-size:10px; font-weight:700; background:rgba(52,211,153,.12); border:1px solid rgba(52,211,153,.4); color:#6ee7b7;\"><i style=\"width:6px; height:6px; border-radius:50%; background:#34d399;\"></i>DONE</span></span>"
-    },
-
     /* ---- Gemini Drawer Expansions: Forms, Loaders, Alerts, Cards, Navigation, Modals, Effects ---- */
 
     {
@@ -599,16 +429,6 @@ window.DESIGN_LAB = {
       creator: "nemotron",
       tags: ["loader","bounce","rhythm","feedback"],
       code: "<style>\n  @keyframes klo5-bounce{0%,100%{transform:translateX(100%)}50%{transform:translateX(-100%)}}\n  .klo5-wrap{display:inline-flex;gap:24px}\n  .klo5-dot{width:12px;height:12px;border-radius:50;background:var(--klo5-color,#f97316);box-shadow:0 0 8px var(--klo5-color,#f97316);animation:klo5-bounce 1.5s ease-in-out infinite}\n  .klo5-dot.left{animation-delay:0s}\n  .klo5-dot.right{animation-delay:.75s}\n  @media (prefers-reduced-motion:reduce){.klo5-dot{animation:none}}\n</style>\n<div class=\"klo5-wrap\">\n  <div class=\"klo5-dot left\"></div>\n  <div class=\"klo5-dot right\"></div>\n</div>"
-    },
-
-    {
-      id: "AL1",
-      section: "alerts",
-      name: "Frosted Glass Pill Toast",
-      description: "Translucent acrylic pill toast with emerald success pip.",
-      creator: "gemini",
-      tags: ["alert","toast","glass","frosted","success"],
-      code: "<style>\n  .kal1-toast{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.18);border-radius:9999px;padding:6px 14px;box-shadow:0 8px 24px -6px rgba(0,0,0,0.5)}\n  .kal1-icon{width:18px;height:18px;border-radius:50%;background:#10b981;color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}\n  .kal1-txt{font-size:12px;font-weight:500;color:#f8fafc}\n</style>\n<div class=\"kal1-toast\">\n  <span class=\"kal1-icon\">✓</span>\n  <span class=\"kal1-txt\">Export complete · Saved to assets</span>\n</div>"
     },
 
     {
@@ -764,58 +584,6 @@ window.DESIGN_LAB = {
     },
 
     /* ---- Mimo 2.5 additions: Badges, Modals, Effects, Sliders ---- */
-
-    {
-      id: "BA3",
-      section: "badges",
-      name: "Spin Gem",
-      description: "Rotating diamond gem with trailing glow orbit — achievement badge with continuous rotation.",
-      creator: "mimo-2-5",
-      tags: ["badge","gem","spin","rotation"],
-      tweaks: [
-        { type: "color", label: "Gem Color", varName: "--ba3-color", default: "#04ff00" },
-      ],
-      code: "<style>\n  @keyframes kba3-spin{to{transform:translate(-50%,-50%) rotate(405deg)}}\n  .kba3-wrap{position:relative;width:56px;height:56px;display:flex;align-items:center;justify-content:center;cursor:pointer}\n  .kba3-trail{position:absolute;top:50%;left:50%;width:40px;height:40px;border-radius:10px;border:2px solid var(--ba3-color,#04ff00);opacity:.25;animation:kba3-spin 3s linear infinite;transform:translate(-50%,-50%) rotate(45deg)}\n  .kba3-core{transform:rotate(45deg);width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--ba3-color,#04ff00),#065f46);box-shadow:0 0 14px var(--ba3-color,#04ff00);display:flex;align-items:center;justify-content:center;transition:transform .2s ease}\n  .kba3-wrap:hover .kba3-core{transform:rotate(45deg) scale(1.12)}\n  .kba3-inner{transform:rotate(-45deg);color:#fff;font-size:15px;font-weight:800;line-height:1}\n  @media (prefers-reduced-motion:reduce){.kba3-trail{animation:none}}\n</style>\n<div class=\"kba3-wrap\">\n  <div class=\"kba3-trail\"></div>\n  <div class=\"kba3-core\"><span class=\"kba3-inner\">✦</span></div>\n</div>"
-    },
-
-    {
-      id: "BA4",
-      section: "badges",
-      name: "Floating Pill",
-      description: "Animated pill badge that gently bobs up and down — alive, attention-grabbing, non-aggressive.",
-      creator: "mimo-2-5",
-      tags: ["badge","pill","float","animated"],
-      tweaks: [
-        { type: "color", label: "Badge Color", varName: "--ba4-color", default: "#04ff00" },
-      ],
-      code: "<style>\n  @keyframes kba4-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}\n  .kba4-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:9999px;background:rgba(4,255,0,0.1);border:1px solid var(--ba4-color,#04ff00);color:var(--ba4-color,#04ff00);font-size:11px;font-weight:700;letter-spacing:.04em;animation:kba4-float 2.8s ease-in-out infinite;box-shadow:0 4px 14px rgba(4,255,0,0.18);cursor:default;white-space:nowrap}\n  .kba4-pip{width:7px;height:7px;border-radius:50%;background:var(--ba4-color,#04ff00);box-shadow:0 0 6px var(--ba4-color,#04ff00);flex-shrink:0}\n  @media (prefers-reduced-motion:reduce){.kba4-pill{animation:none}}\n</style>\n<span class=\"kba4-pill\">\n  <i class=\"kba4-pip\"></i>NEW\n</span>"
-    },
-
-    {
-      id: "BA5",
-      section: "badges",
-      name: "Circle Gauge",
-      description: "SVG circular progress ring with continuous gauge level pulse and percentage readout.",
-      creator: "mimo-2-5",
-      tags: ["badge","gauge","progress","circular","animated"],
-      tweaks: [
-        { type: "color", label: "Ring Color", varName: "--ba5-color", default: "#04ff00" }
-      ],
-      code: "<style>\n  @keyframes kba5-gauge{0%,100%{stroke-dashoffset:88}50%{stroke-dashoffset:28}}\n  .kba5-ring{animation:kba5-gauge 3.6s ease-in-out infinite;transform:rotate(-90deg);transform-origin:center}\n  @media (prefers-reduced-motion:reduce){.kba5-ring{animation:none;stroke-dashoffset:38}}\n</style>\n<svg width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" style=\"cursor:pointer;filter:drop-shadow(0 0 6px var(--ba5-color,#04ff00))\">\n  <circle cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"rgba(255,255,255,0.08)\" stroke-width=\"5\" />\n  <circle class=\"kba5-ring\" cx=\"24\" cy=\"24\" r=\"20\" fill=\"none\" stroke=\"var(--ba5-color,#04ff00)\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-dasharray=\"126\" stroke-dashoffset=\"38\" />\n  <text x=\"24\" y=\"28\" text-anchor=\"middle\" fill=\"#e2e8f0\" font-size=\"12\" font-weight=\"700\">70</text>\n</svg>"
-    },
-
-    {
-      id: "BA6",
-      section: "badges",
-      name: "Progress Tracker Badge",
-      description: "Multi-step progress badge — each step activates with distinct silhouette, shows numeric state, and reveals detail on hover.",
-      creator: "nemotron",
-      tags: ["badge","progress","tracker","multi-step"],
-      tweaks: [
-        { type: "color", label: "Accent Color", varName: "--ba6-color", default: "#f97316" },
-      ],
-      code: "<style>\n  @keyframes kba6-step-on{0%{background:var(--ba6-color,#f97316);transform:scale(1)}50%{transform:scale(1.12)}100%{background:var(--ba6-color,#f97316);transform:scale(1)}}\n  .kba6-badge{display:inline-flex;flex-direction:column;align-items:center;width:56px;padding:6px 0;gap:6px;cursor:pointer}\n  .kba6-ring{width:32px;height:32px;border-radius:50%;border:2px solid var(--ba6-color,#f97316);display:flex;align-items:center;justify-content:center}\n  .kba6-step{width:8px;height:8px;border-radius:50%;background:var(--ba6-color,#f97316);margin:2px auto;animation:kba6-step-on 1.5s ease-in-out infinite;box-shadow:0 0 10px var(--ba6-color,#f97316)}\n  .kba6-label{font-size:10px;font-weight:700;color:var(--ba6-color,#f97316);letter-spacing:.04em}\n  .kba6-desc{font-size:8px;color:#64748b;text-align:center;margin-top:2px}\n  @media (prefers-reduced-motion:reduce){.kba6-step{animation:none}}\n</style>\n<div class=\"kba6-badge\">\n  <div class=\"kba6-ring\"><div class=\"kba6-step\"></div></div>\n  <span class=\"kba6-label\">3/5</span>\n  <span class=\"kba6-desc\">Active steps</span>\n</div>"
-    },
 
     {
       id: "MO3",
@@ -1286,19 +1054,6 @@ window.DESIGN_LAB = {
     },
 
     {
-      id: "BA7",
-      section: "badges",
-      name: "Ribbon Corner Badge",
-      description: "Folded ribbon badge anchored to a corner — a structural silhouette unlike any circular, pill, or diamond badge in the drawer.",
-      creator: "opus",
-      tags: ["badge","ribbon","corner","folded","label"],
-      tweaks: [
-        { type: "color", label: "Ribbon Color", varName: "--ba7-ribbon", default: "#f5323c" }
-      ],
-      code: "<style>\n  .kba7-wrap{position:relative;width:80px;height:80px;background:#141720;border-radius:10px;border:1px solid rgba(255,255,255,0.08);overflow:hidden}\n  .kba7-ribbon{position:absolute;top:12px;right:-28px;width:100px;padding:3px 0;background:var(--ba7-ribbon,#f5323c);color:#fff;font-size:9px;font-weight:800;letter-spacing:.06em;text-align:center;transform:rotate(45deg);box-shadow:0 2px 8px rgba(0,0,0,.4)}\n</style>\n<div class=\"kba7-wrap\">\n  <div class=\"kba7-ribbon\">NEW</div>\n</div>"
-    },
-
-    {
       id: "MO9",
       section: "modals",
       name: "Side Panel Drawer",
@@ -1309,19 +1064,6 @@ window.DESIGN_LAB = {
         { type: "color", label: "Header Accent", varName: "--mo9-accent", default: "#f5323c" }
       ],
       code: "<style>\n  .kmo9-bg{position:relative;width:220px;height:140px;background:#080a10;border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.06)}\n  .kmo9-scrim{position:absolute;inset:0;background:rgba(0,0,0,0.5)}\n  .kmo9-panel{position:absolute;top:0;right:0;bottom:0;width:140px;background:#141720;border-left:1px solid rgba(255,255,255,0.1);display:flex;flex-direction:column}\n  .kmo9-hdr{padding:10px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between}\n  .kmo9-title{font-size:11px;font-weight:700;color:#f8fafc}\n  .kmo9-close{width:18px;height:18px;border-radius:4px;background:rgba(255,255,255,0.06);border:none;color:#64748b;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}\n  .kmo9-list{padding:6px 8px;flex:1}\n  .kmo9-item{font-size:10px;color:#94a3b8;padding:5px 6px;border-radius:4px;cursor:pointer;transition:background .12s ease}\n  .kmo9-item:hover{background:rgba(255,255,255,0.05)}\n  .kmo9-item.sel{color:var(--mo9-accent,#f5323c);font-weight:600}\n  .kmo9-bar{height:2px;background:var(--mo9-accent,#f5323c);margin:0 10px}\n  @media (prefers-reduced-motion:reduce){.kmo9-item{transition:none}}\n</style>\n<div class=\"kmo9-bg\">\n  <div class=\"kmo9-scrim\"></div>\n  <div class=\"kmo9-panel\">\n    <div class=\"kmo9-hdr\"><span class=\"kmo9-title\">Settings</span><button type=\"button\" class=\"kmo9-close\">✕</button></div>\n    <div class=\"kmo9-bar\"></div>\n    <div class=\"kmo9-list\">\n      <div class=\"kmo9-item sel\">General</div>\n      <div class=\"kmo9-item\">Rendering</div>\n      <div class=\"kmo9-item\">Export</div>\n      <div class=\"kmo9-item\">Shortcuts</div>\n    </div>\n  </div>\n</div>"
-    },
-
-    {
-      id: "BU21",
-      section: "buttons",
-      name: "Split Action Button",
-      description: "Primary action + dropdown trigger fused into one compound button — two-zone click target unlike any single-action button.",
-      creator: "opus",
-      tags: ["button","split","dropdown","compound","action"],
-      tweaks: [
-        { type: "color", label: "Accent", varName: "--bu21-accent", default: "#f5323c" }
-      ],
-      code: "<style>\n  .kbu21-wrap{display:inline-flex;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(245,50,60,.3)}\n  .kbu21-main{background:var(--bu21-accent,#f5323c);color:#fff;border:none;padding:0 16px;height:36px;font-weight:700;font-size:12px;cursor:pointer;transition:opacity .12s ease}\n  .kbu21-drop{background:color-mix(in srgb,var(--bu21-accent,#f5323c) 80%,#000);color:#fff;border:none;border-left:1px solid rgba(255,255,255,0.2);width:32px;height:36px;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:opacity .12s ease}\n  .kbu21-main:hover,.kbu21-drop:hover{opacity:.85}\n  @media (prefers-reduced-motion:reduce){.kbu21-main,.kbu21-drop{transition:none}}\n</style>\n<div class=\"kbu21-wrap\">\n  <button type=\"button\" class=\"kbu21-main\">Deploy</button>\n  <button type=\"button\" class=\"kbu21-drop\">▾</button>\n</div>"
     },
 
     /* ---- Sonnet additions: structurally distinct specimens across underserved drawers ---- */
@@ -1498,19 +1240,6 @@ window.DESIGN_LAB = {
     },
 
     {
-      id: "BA8",
-      section: "badges",
-      name: "Notification Ping Badge",
-      description: "Badge with a pinging ring animation to signal new updates",
-      creator: "gpt-oss",
-      tags: ["ping", "notification", "badge"],
-      tweaks: [
-        { type: "color", label: "Ping Color", varName: "--ba8-ping", default: "#7a00f5" }
-      ],
-      code: "<style>\n  .badge-ba8 { position:relative; display:inline-block; padding:4px 8px; background:#222; border-radius:4px; color:#fff; }\n  .badge-ba8::after { content:''; position:absolute; top:-2px; right:-2px; width:6px; height:6px; background:var(--ba8-ping,#7a00f5); border-radius:50%; animation:ba8-ping 1.5s infinite; }\n  @keyframes ba8-ping { 0%{transform:scale(1); opacity:1;} 100%{transform:scale(2.5); opacity:0;} }\n  @media (prefers-reduced-motion:reduce){ .badge-ba8::after{animation:none;} }\n</style>\n<div class='badge-ba8'>Inbox</div>"
-    },
-
-    {
       id: "AL7",
       section: "alerts",
       name: "Slide-In Toast Alert",
@@ -1602,45 +1331,6 @@ window.DESIGN_LAB = {
     },
 
     /* ---- Mimo 2.5 additions: Buttons, Forms, Toggles, Alerts, Loaders, Navigation, Players, Icons ---- */
-
-    {
-      id: "BU23",
-      section: "buttons",
-      name: "3D Keycap Button",
-      description: "Mechanical keyboard keycap with visible side face and press-down depth — tactile 3D silhouette unlike any flat or pill button.",
-      creator: "mimo-2-5",
-      tags: ["button","3d","keycap","mechanical","depth","tactile"],
-      tweaks: [
-        { type: "color", label: "Keycap Color", varName: "--bu23-color", default: "#8b5cf6" }
-      ],
-      code: "<style>\n  .kbu23-cap{position:relative;width:100px;height:38px;cursor:pointer}\n  .kbu23-top{width:100%;height:100%;background:linear-gradient(145deg,var(--bu23-color,#8b5cf6),color-mix(in srgb,var(--bu23-color,#8b5cf6) 70%,#000));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;letter-spacing:.04em;transform:translateY(0);transition:transform .1s ease;box-shadow:0 4px 0 color-mix(in srgb,var(--bu23-color,#8b5cf6) 50%,#000),0 6px 12px rgba(0,0,0,.4);text-shadow:0 1px 2px rgba(0,0,0,.3)}\n  .kbu23-cap:active .kbu23-top{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--bu23-color,#8b5cf6) 50%,#000),0 2px 4px rgba(0,0,0,.3)}\n  @media (prefers-reduced-motion:reduce){.kbu23-top{transition:none}}\n</style>\n<div class=\"kbu23-cap\">\n  <div class=\"kbu23-top\">SPACE</div>\n</div>"
-    },
-
-    {
-      id: "BU24",
-      section: "buttons",
-      name: "Glassmorphism Ripple",
-      description: "Frosted glass button with layered depth, refraction edge highlight, and ink-ripple扩散 on press.",
-      creator: "mimo-2-5",
-      tags: ["button","glass","frosted","ripple","depth","layered"],
-      tweaks: [
-        { type: "color", label: "Ripple Tint", varName: "--bu24-tint", default: "#38bdf8" }
-      ],
-      code: "<style>\n  @keyframes kbu24-ripple{0%{transform:scale(0);opacity:.5}100%{transform:scale(4);opacity:0}}\n  .kbu24-btn{position:relative;overflow:hidden;background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 24px;color:#f1f5f9;font-size:12px;font-weight:700;letter-spacing:.03em;cursor:pointer;transition:background .18s ease,border-color .18s ease;box-shadow:inset 0 1px 1px rgba(255,255,255,.2),0 4px 12px rgba(0,0,0,.3)}\n  .kbu24-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.28)}\n  .kbu24-btn::before{content:\"\";position:absolute;inset:-1px;border-radius:13px;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 40%,transparent 60%,rgba(255,255,255,.08));pointer-events:none}\n  .kbu24-rip{position:absolute;width:20px;height:20px;border-radius:50%;background:color-mix(in srgb,var(--bu24-tint,#38bdf8) 30%,rgba(255,255,255,.25));animation:kbu24-ripple .5s ease-out forwards;pointer-events:none}\n  @media (prefers-reduced-motion:reduce){.kbu24-btn{transition:none}.kbu24-rip{animation:none}}\n</style>\n<button type=\"button\" class=\"kbu24-btn\" onclick=\"var r=document.createElement('span');r.className='kbu24-rip';var rect=this.getBoundingClientRect();r.style.left=(event.clientX-rect.left-10)+'px';r.style.top=(event.clientY-rect.top-10)+'px';this.appendChild(r);setTimeout(function(){r.remove()},500)\">Generate</button>"
-    },
-
-    {
-      id: "BU25",
-      section: "buttons",
-      name: "Loading Ring Button",
-      description: "Button that morphs from text label into a circular progress spinner on click — the loading state IS the design.",
-      creator: "mimo-2-5",
-      tags: ["button","loading","spinner","morph","progress","state"],
-      tweaks: [
-        { type: "color", label: "Button Color", varName: "--bu25-color", default: "#04ff00" }
-      ],
-      code: "<style>\n  @keyframes kbu25-spin{to{transform:rotate(360deg)}}\n  .kbu25-btn{display:inline-flex;align-items:center;justify-content:center;min-width:110px;height:36px;background:linear-gradient(135deg,var(--bu25-color,#04ff00),#10b981);border:none;border-radius:8px;color:#000;font-size:12px;font-weight:700;cursor:pointer;padding:0 16px;transition:opacity .18s ease,box-shadow .18s ease;box-shadow:0 4px 14px color-mix(in srgb,var(--bu25-color,#04ff00) 35%,transparent)}\n  .kbu25-btn:hover{opacity:.88}\n  .kbu25-ring{width:18px;height:18px;border:2.5px solid rgba(0,0,0,.15);border-top-color:#000;border-radius:50%;animation:kbu25-spin .7s linear infinite;display:none}\n  .kbu25-btn.loading .kbu25-txt{display:none}\n  .kbu25-btn.loading .kbu25-ring{display:block}\n  @media (prefers-reduced-motion:reduce){.kbu25-ring{animation:none}}\n</style>\n<button type=\"button\" class=\"kbu25-btn\" onclick=\"this.classList.toggle('loading');var b=this;setTimeout(function(){b.classList.remove('loading')},2000)\"><span class=\"kbu25-txt\">Deploy</span><span class=\"kbu25-ring\"></span></button>"
-    },
 
     {
       id: "FO10",
@@ -1853,24 +1543,6 @@ window.DESIGN_LAB = {
         }
       ],
       code: "<style>\n  .kba9{display:flex;width:168px;height:52px;border-radius:6px;overflow:hidden;box-shadow:0 6px 14px rgba(0,0,0,.4);transform:rotate(-2deg);transition:transform .18s ease;cursor:default}\n  .kba9:hover{transform:rotate(0) translateY(-2px)}\n  .kba9-main{flex:1;background:#16121c;padding:7px 10px 6px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(255,255,255,.08);border-right:none;border-radius:6px 0 0 6px}\n  .kba9-kicker{font-size:8px;letter-spacing:.16em;font-weight:700;color:var(--ba9-stub,#e879f9)}\n  .kba9-title{font-size:13px;font-weight:800;color:#f8fafc;letter-spacing:.02em}\n  .kba9-perf{width:0;border-left:1.5px dashed rgba(255,255,255,.28);background:repeating-linear-gradient(to bottom,transparent 0 5px,#0d0f13 5px 9px)}\n  .kba9-stub{width:46px;background:var(--ba9-stub,#e879f9);color:#1a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;line-height:1.05}\n  .kba9-stub small{font-size:7px;letter-spacing:.14em;opacity:.75}\n  .kba9-stub b{font-size:14px;font-variant-numeric:tabular-nums}\n  @media (prefers-reduced-motion:reduce){.kba9{transition:none;transform:none}}\n</style>\n<div class=\"kba9\">\n  <div class=\"kba9-main\"><span class=\"kba9-kicker\">ADMIT ONE</span><span class=\"kba9-title\">GROK LIVE</span></div>\n  <div class=\"kba9-perf\"></div>\n  <div class=\"kba9-stub\"><small>ROW</small><b>A14</b></div>\n</div>"
-    },
-
-    {
-      id: "BU26",
-      section: "buttons",
-      name: "Safety Cover Latch",
-      description: "Two-step missile-switch: a striped cover must slide aside before the launch button can be pressed — a gated interaction no other button uses.",
-      creator: "grok",
-      tags: ["button","safety","cover","slide","latch","launch"],
-      tweaks: [
-        {
-          "type": "color",
-          "label": "Launch Color",
-          "varName": "--bu26-go",
-          "default": "#ef4444"
-        }
-      ],
-      code: "<style>\n  .kbu26{position:relative;width:128px;height:40px;border-radius:8px}\n  .kbu26-go{width:100%;height:100%;border:none;border-radius:8px;background:linear-gradient(180deg,color-mix(in srgb,var(--bu26-go,#ef4444) 92%,#fff),var(--bu26-go,#ef4444));color:#fff;font-size:11px;font-weight:800;letter-spacing:.14em;cursor:pointer;box-shadow:0 3px 0 color-mix(in srgb,var(--bu26-go,#ef4444) 55%,#000),0 6px 12px rgba(0,0,0,.35);transition:transform .1s ease}\n  .kbu26-go:active{transform:translateY(2px)}\n  .kbu26-lid{position:absolute;inset:0;border:none;border-radius:8px;cursor:pointer;z-index:2;background:repeating-linear-gradient(-45deg,#facc15 0 7px,#111 7px 14px);color:#111;font-size:9px;font-weight:800;letter-spacing:.12em;text-shadow:0 0 0 #000,0 1px 0 #fde68a;transition:transform .28s cubic-bezier(.2,.8,.2,1);box-shadow:0 3px 0 #3f3f00,inset 0 1px 0 rgba(255,255,255,.25)}\n  .kbu26.is-open .kbu26-lid{transform:translateX(-82%)}\n  @media (prefers-reduced-motion:reduce){.kbu26-lid,.kbu26-go{transition:none}}\n</style>\n<div class=\"kbu26\">\n  <button type=\"button\" class=\"kbu26-go\">LAUNCH</button>\n  <button type=\"button\" class=\"kbu26-lid\" onclick=\"this.parentElement.classList.toggle('is-open')\">SLIDE</button>\n</div>"
     },
 
     {

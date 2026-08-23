@@ -46,23 +46,6 @@ window.DESIGN_LAB.items.push(
     code: "<style>\n  @keyframes klo14-pop{0%,22%{opacity:1;transform:scale(1)}28%,100%{opacity:0;transform:scale(1.35)}}\n  .klo14{width:72px;height:72px;background:#141018;border:2px solid #2a2430;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;box-shadow:inset 0 0 16px #000}\n  .klo14-n{position:absolute;font:800 34px/1 ui-monospace,Consolas,monospace;color:var(--lo14-ink,#e879f9);opacity:0;animation:klo14-pop 3.6s ease-in infinite}\n  .klo14-n:nth-child(1){animation-delay:0s}\n  .klo14-n:nth-child(2){animation-delay:1.2s}\n  .klo14-n:nth-child(3){animation-delay:2.4s}\n  .klo14-h{position:absolute;top:0;bottom:0;width:8px;display:flex;flex-direction:column;justify-content:space-evenly}\n  .klo14-h.l{left:2px}.klo14-h.r{right:2px}\n  .klo14-h i{width:6px;height:5px;background:#0a0a0c;border-radius:1px;box-shadow:0 0 0 1px #3a3340}\n  @media (prefers-reduced-motion:reduce){.klo14-n{animation:none;opacity:1}.klo14-n:nth-child(n+2){display:none}}\n</style>\n<div class=\"klo14\">\n  <span class=\"klo14-n\">3</span><span class=\"klo14-n\">2</span><span class=\"klo14-n\">1</span>\n  <div class=\"klo14-h l\"><i></i><i></i><i></i><i></i><i></i></div>\n  <div class=\"klo14-h r\"><i></i><i></i><i></i><i></i><i></i></div>\n</div>"
   },
   {
-    id: "BA14",
-    section: "badges",
-    name: "Wax Seal",
-    description: "Embossed circular wax with hanging ribbon tails — a signet silhouette unlike hex seals, medals, hang tags, tickets, or gems.",
-    creator: "grok",
-    tags: ["badge","wax","seal","ribbon","signet"],
-    tweaks: [
-      {
-        "type": "color",
-        "label": "Wax Color",
-        "varName": "--ba14-wax",
-        "default": "#e879f9"
-      }
-    ],
-    code: "<style>\n  .kba14{display:flex;flex-direction:column;align-items:center;width:64px}\n  .kba14-seal{width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--ba14-wax,#e879f9) 80%,#fff),var(--ba14-wax,#e879f9) 55%,color-mix(in srgb,var(--ba14-wax,#e879f9) 55%,#4a0433));box-shadow:0 6px 0 color-mix(in srgb,var(--ba14-wax,#e879f9) 45%,#000),0 10px 16px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;position:relative;z-index:1}\n  .kba14-seal span{width:34px;height:34px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font:800 11px/1 Palatino,Georgia,serif;color:#3b0728;letter-spacing:.04em}\n  .kba14-r{display:flex;gap:4px;margin-top:-6px}\n  .kba14-r i{width:12px;height:28px;background:linear-gradient(180deg,var(--ba14-wax,#e879f9),#9d174d);clip-path:polygon(0 0,100% 0,85% 100%,15% 100%);opacity:.9}\n  .kba14-r i:last-child{transform:rotate(8deg);opacity:.75}\n</style>\n<div class=\"kba14\">\n  <div class=\"kba14-seal\"><span>GX</span></div>\n  <div class=\"kba14-r\"><i></i><i></i></div>\n</div>"
-  },
-  {
     id: "BU32",
     section: "buttons",
     name: "Pull Cord",
