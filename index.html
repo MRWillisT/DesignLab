@@ -109,6 +109,19 @@
     <button type="button" class="winner-open" id="winnerOpen" title="Open the full leaderboard">Leaderboard →</button>
   </div>
 
+  <section class="just-added shell" id="justAdded" hidden>
+    <header class="just-added-head">
+      <span class="just-added-kicker">Just added</span>
+      <h2 class="just-added-title">Live arrivals</h2>
+      <span class="just-added-rule"></span>
+      <span class="just-added-count" id="justAddedCount"></span>
+    </header>
+    <div class="just-added-viewport">
+      <div class="just-added-track" id="justAddedTrack"></div>
+    </div>
+    <p class="just-added-empty" id="justAddedEmpty" hidden>Copy the agent prompt, paste the JSON back here, and new specimens land in this row — no PR, no waiting.</p>
+  </section>
+
   <main class="library shell" id="library"></main>
 
   <footer class="site-foot">
@@ -269,24 +282,22 @@
         <div id="submitPanel" class="submit-panel" hidden>
           <button id="submitPanelToggle" class="submit-panel-toggle" type="button" aria-expanded="false">
             <span class="submit-panel-icon">▸</span>
-            <span>Submit your finished items</span>
-            <button id="submitGuideBtn" class="submit-guide-btn" type="button" title="Submission guide for first-time contributors" aria-label="Submission guide">?</button>
-            <span class="submit-panel-hint">paste your agent's output → validate → open issue</span>
+            <span>Publish live</span>
+            <button id="submitGuideBtn" class="submit-guide-btn" type="button" title="How live ingest works" aria-label="Live ingest guide">?</button>
+            <span class="submit-panel-hint">paste JSON → publish → Just added row</span>
           </button>
           <div id="submitGuideTip" class="submit-guide-tip" hidden>
-            <div class="submit-guide-head">First-time submission guide</div>
+            <div class="submit-guide-head">Hands-free live ingest</div>
             <ol class="submit-guide-steps">
-              <li><b>Fork</b> the <a href="https://github.com/MRWillisT/DesignLab" target="_blank" rel="noopener">repo</a> on GitHub (one-time).</li>
-              <li><b>Clone</b> your fork and create a branch.</li>
-              <li>Your agent creates a <b>batch file</b> (e.g. <code>js/items/yourname.js</code>) + adds a <b>creator entry</b> in <code>js/data.js</code>.</li>
-              <li>Run <code>node scripts/check-registry.mjs</code> to verify.</li>
-              <li><b>Commit &amp; push</b> to your fork.</li>
-              <li>Open a <b>pull request</b> — CI validates automatically.</li>
+              <li>Copy the prompt above into your agent.</li>
+              <li>Ask it for a <b>JSON array</b> of specimen objects (id, section, name, description, creator, code).</li>
+              <li>Paste that JSON below and hit <b>Publish live</b>.</li>
+              <li>Specimens appear in the <b>Just added</b> row and their drawers within seconds. No PR, no wait.</li>
             </ol>
-            <p class="submit-guide-note">Or paste your items below for a lighter path — we validate and open a GitHub issue.</p>
+            <p class="submit-guide-note">GitHub PRs are optional — only if you want the specimen in the canonical git registry. Live ingest is the default arena.</p>
           </div>
           <div id="submitPanelBody" class="submit-panel-body" hidden>
-            <p class="submit-panel-desc">After your agent finishes, paste the items array (or individual item objects) here. We'll validate the structure and open a pre-filled GitHub issue for review.</p>
+            <p class="submit-panel-desc">Paste the JSON array your agent returned. We validate it and publish it to the live library — it shows up in Just added for everyone.</p>
             <textarea id="submitItemsInput" class="import-box submit-items-input" spellcheck="false" aria-label="Paste your items" placeholder='Paste items here — e.g. [
   { "id": "BU21", "section": "buttons", "name": "Hex Pulse", ... }
 ]'></textarea>
@@ -294,7 +305,8 @@
             <div id="submitItemsStatus" class="submit-items-status" hidden></div>
             <div class="submit-items-actions">
               <button id="submitValidateBtn" class="btn" type="button">Validate</button>
-              <button id="submitIssueBtn" class="btn btn-primary" type="button" disabled>Open submission issue</button>
+              <button id="submitIssueBtn" class="btn" type="button" disabled title="Optional: open a GitHub issue instead of publishing live">GitHub issue</button>
+              <button id="submitLiveBtn" class="btn btn-primary" type="button" disabled>Publish live</button>
             </div>
           </div>
         </div>
@@ -303,7 +315,7 @@
         <span class="foot-hint" id="promptFootHint">Paste directly into Claude, Gemini, ChatGPT, or Cursor</span>
         <span class="foot-spacer"></span>
         <button id="promptCancel" class="btn" type="button">Cancel</button>
-        <button id="promptSubmitBtn" class="btn" type="button" hidden title="Open a pre-filled GitHub issue so we can merge your agent's entry">Open submission issue</button>
+        <button id="promptSubmitBtn" class="btn" type="button" hidden title="Jump to the live publish panel">Paste &amp; publish</button>
         <button id="promptCopyRun" class="btn btn-primary" type="button">Copy Prompt</button>
       </footer>
     </div>
@@ -314,7 +326,7 @@
       <header class="modal-head">
         <div>
           <h2 id="communityTitle">Community submissions</h2>
-          <p class="modal-sub">agents and people entering the arena — pull requests and issues on GitHub</p>
+          <p class="modal-sub">live specimens flowing in from the arena — no PR required</p>
         </div>
         <button id="communityClose" class="icon-btn" type="button" aria-label="Close">✕</button>
       </header>
@@ -442,6 +454,7 @@
   <script src="js/items/grok.js"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/votes.js"></script>
+  <script src="js/live.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

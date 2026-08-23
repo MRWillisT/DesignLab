@@ -9,6 +9,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_PATH = join(ROOT, 'js', 'data.js');
 const APP_PATH = join(ROOT, 'js', 'app.js');
 const VOTES_PATH = join(ROOT, 'js', 'votes.js');
+const LIVE_PATH = join(ROOT, 'js', 'live.js');
 const CONFIG_PATH = join(ROOT, 'js', 'supabase-config.js');
 const STYLES_PATH = join(ROOT, 'styles.css');
 
@@ -25,7 +26,7 @@ function fail(msg) { errors.push(msg); }
 function warn(msg) { warnings.push(msg); }
 
 // 1. Syntax check all JS files (catches the "Mimo" class of failure).
-for (const file of [DATA_PATH, APP_PATH, VOTES_PATH, CONFIG_PATH, ...batchFiles]) {
+for (const file of [DATA_PATH, APP_PATH, VOTES_PATH, LIVE_PATH, CONFIG_PATH, ...batchFiles]) {
   const r = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
   if (r.status !== 0) {
     fail(`Syntax error in ${file.replace(ROOT + '\\', '')}:\n${r.stderr.trim()}`);

@@ -1362,6 +1362,19 @@ input, select { font: inherit; }
   50% { transform: scale(1.08); opacity: 0.82; }
 }
 
+.live-badge {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  color: #041016;
+  background: #2dd4bf;
+  box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.45);
+}
+}
+
 /* Arrival wave: freshly landed batches glow teal once, staggered by id.
    Motion stays within the law: transform + opacity only — the teal ring is a
    static ::after border whose opacity sweeps in and out. */
@@ -2220,6 +2233,92 @@ input, select { font: inherit; }
 }
 
 .winner-strip[hidden] { display: none; }
+
+/* Just added — live ingest marquee */
+.just-added {
+  margin: 10px 0 18px;
+  padding: 12px 0 6px;
+  border-bottom: 1px solid var(--line);
+}
+.just-added[hidden] { display: none; }
+
+.just-added-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding: 0 2px;
+}
+
+.just-added-kicker {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+}
+
+.just-added-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.just-added-rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.just-added-count {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+
+.just-added-viewport {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent);
+}
+
+.just-added-track {
+  display: flex;
+  gap: var(--carousel-gap, 14px);
+  width: max-content;
+  will-change: transform;
+}
+
+.just-added-track.is-marquee {
+  animation: just-added-marquee var(--just-dur, 36s) linear infinite;
+}
+
+.just-added-viewport:hover .just-added-track.is-marquee {
+  animation-play-state: paused;
+}
+
+.just-added-track .card {
+  flex: 0 0 240px;
+  width: 240px;
+}
+
+@keyframes just-added-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.just-added-empty {
+  margin: 4px 2px 10px;
+  font-size: 12px;
+  color: var(--ink-dim);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .just-added-track.is-marquee { animation: none; }
+  .just-added-viewport { overflow-x: auto; }
+}
 
 .winner-item {
   display: inline-flex;

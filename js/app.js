@@ -129,7 +129,9 @@ function sectionOf(id) {
 }
 
 function creatorOf(id) {
-  return LIB.creators.find(c => c.id === id) || null;
+  return LIB.creators.find(c => c.id === id)
+    || (window.DesignLabLive && DesignLabLive.creatorOf(id))
+    || null;
 }
 
 function drawerNumber(id) {
@@ -412,8 +414,19 @@ function enterAgentFlow() {
   $('#customAgentName').value = '';
   $('#promptSubmitBtn').hidden = false;
   $('#submitPanel').hidden = false;
-  $('#promptFootHint').textContent = 'Enter your agent\u2019s name, pick a chip color, copy the prompt — then open a submission issue.';
+  $('#promptFootHint').textContent = 'Enter your agent\u2019s name, pick a chip color, copy the prompt — then paste the JSON and publish live.';
   updatePromptStudio({ isAgentSwitch: true, focusCustom: true });
+  const toggle = $('#submitPanelToggle');
+  if (toggle && toggle.getAttribute('aria-expanded') !== 'true') toggleSubmitPanel();
+}
+
+function jumpToPublishPanel() {
+  $('#submitPanel').hidden = false;
+  const toggle = $('#submitPanelToggle');
+  if (toggle.getAttribute('aria-expanded') !== 'true') toggleSubmitPanel();
+  const box = $('#submitItemsInput');
+  if (box) box.focus();
+  toast('Paste the JSON your agent returned, then Publish live.');
 }
 
 function openSubmissionIssue() {
@@ -471,6 +484,8 @@ function validateSubmitItems() {
     status.className = 'submit-items-status submit-items-status--err';
     status.textContent = 'Paste your items first.';
     submitBtn.disabled = true;
+    const liveBtn0 = $('#submitLiveBtn');
+    if (liveBtn0) liveBtn0.disabled = true;
     validatedItems = null;
     return;
   }
@@ -483,6 +498,8 @@ function validateSubmitItems() {
     status.className = 'submit-items-status submit-items-status--err';
     status.textContent = 'Invalid JSON — ' + e.message;
     submitBtn.disabled = true;
+    const liveBtnErr = $('#submitLiveBtn');
+    if (liveBtnErr) liveBtnErr.disabled = true;
     validatedItems = null;
     return;
   }
@@ -490,7 +507,6 @@ function validateSubmitItems() {
   const items = Array.isArray(parsed) ? parsed : [parsed];
   const errors = [];
   const knownSections = new Set(LIB.sections.map(s => s.id));
-  const knownCreators = new Set(LIB.creators.map(c => c.id));
 
   items.forEach((item, i) => {
     const tag = item.id || '(item ' + (i + 1) + ')';
@@ -499,7 +515,7 @@ function validateSubmitItems() {
     else if (!knownSections.has(item.section)) errors.push(tag + ': unknown section "' + item.section + '"');
     if (!item.name) errors.push(tag + ': missing name');
     if (!item.creator) errors.push(tag + ': missing creator');
-    else if (!knownCreators.has(item.creator)) errors.push(tag + ': creator "' + item.creator + '" not in registry (add yourself to creators[] first)');
+    else if (item.creator === 'me') errors.push(tag + ': creator "me" is reserved');
     if (!item.code || typeof item.code !== 'string') errors.push(tag + ': missing or invalid code');
   });
 
@@ -508,14 +524,18 @@ function validateSubmitItems() {
     status.className = 'submit-items-status submit-items-status--err';
     status.innerHTML = errors.map(e => '⚠ ' + escapeHtml(e)).join('<br>');
     submitBtn.disabled = true;
+    const liveBtnBad = $('#submitLiveBtn');
+    if (liveBtnBad) liveBtnBad.disabled = true;
     validatedItems = null;
     return;
   }
 
   status.hidden = false;
   status.className = 'submit-items-status submit-items-status--ok';
-  status.textContent = '✓ Valid — ' + items.length + ' item' + (items.length === 1 ? '' : 's') + ' ready to submit.';
+  status.textContent = '✓ Valid — ' + items.length + ' item' + (items.length === 1 ? '' : 's') + ' ready to publish live.';
   submitBtn.disabled = false;
+  const liveBtn = $('#submitLiveBtn');
+  if (liveBtn) liveBtn.disabled = false;
   validatedItems = items;
 }
 
@@ -598,7 +618,72 @@ function submitItemsAsIssue() {
   const url = 'https://github.com/MRWillisT/DesignLab/issues/new?title='
     + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
   window.open(url, '_blank', 'noopener');
-  toast('Submission issue opened with ' + validatedItems.length + ' validated item(s) — submit the issue on GitHub.');
+  toast('GitHub issue opened — optional path. Publish live is faster and needs no review.');
+}
+
+async function publishItemsLive() {
+  if (!validatedItems || !validatedItems.length) {
+    toast('Validate your JSON first.');
+    return;
+  }
+  if (!window.DesignLabLive) {
+    toast('Live ingest is not loaded.');
+    return;
+  }
+
+  const sel = $('#agentSelect');
+  let name = sel.value === '_custom' ? $('#customAgentName').value.trim() : (sel.selectedOptions[0] || {}).textContent || 'Agent';
+  if (!name) name = 'Agent';
+  const color = $('#agentColorPicker').value || '#818cf8';
+  let creatorId = '';
+  if (sel.value === '_custom') {
+    creatorId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'agent';
+  } else if (sel.value && sel.value.startsWith('known:')) {
+    creatorId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'agent';
+  } else {
+    creatorId = sel.value || validatedItems[0].creator;
+  }
+
+  const status = $('#submitItemsStatus');
+  const liveBtn = $('#submitLiveBtn');
+  if (liveBtn) liveBtn.disabled = true;
+  status.hidden = false;
+  status.className = 'submit-items-status';
+  status.textContent = 'Publishing…';
+
+  const sectionCode = {};
+  LIB.sections.forEach(s => { sectionCode[s.id] = s.code; });
+  const taken = new Set(allItems().map(i => i.id));
+
+  const result = await DesignLabLive.publish(validatedItems, {
+    creatorId: creatorId,
+    creatorName: name,
+    creatorColor: color,
+    takenIds: taken,
+    sectionCode: sectionCode
+  });
+
+  if (!result.ok) {
+    if (result.error === 'missing-table') {
+      status.className = 'submit-items-status submit-items-status--err';
+      status.innerHTML = 'Live ingest is not enabled yet. Owner: run <code>supabase/live.sql</code> once in the Supabase SQL editor. GitHub issue still works as a fallback.';
+      if (liveBtn) liveBtn.disabled = false;
+      return;
+    }
+    status.className = 'submit-items-status submit-items-status--err';
+    status.textContent = 'Publish failed — ' + (result.error || 'unknown error');
+    if (liveBtn) liveBtn.disabled = false;
+    return;
+  }
+
+  status.className = 'submit-items-status submit-items-status--ok';
+  status.textContent = 'Live — ' + result.added.map(id => '#' + id).join(', ') + ' now on the Just added row.';
+  stampLiveNew();
+  render();
+  closePromptStudio();
+  toast('Published ' + result.added.length + ' live specimen' + (result.added.length === 1 ? '' : 's') + '.');
+  const row = $('#justAdded');
+  if (row) row.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function openPromptStudio() {
@@ -1037,8 +1122,12 @@ function refreshTweakUi(card, item) {
 
 /* ---------- filtering + sorting ---------- */
 
+function liveItems() {
+  return (window.DesignLabLive && DesignLabLive.items()) || [];
+}
+
 function allItems() {
-  return LIB.items.concat(importedItems, savedVariants);
+  return LIB.items.concat(importedItems, savedVariants, liveItems());
 }
 
 function getNewItemsSet() {
@@ -1179,6 +1268,7 @@ function buildCard(item) {
     + (rank > 0 && rank <= 3
       ? '<span class="medal-badge medal-' + MEDAL_COLORS[rank] + '" title="#' + rank + ' in this drawer by votes" aria-label="#' + rank + ' in this drawer">' + rank + '</span>'
       : '')
+    + (item.live ? '<span class="live-badge">LIVE</span>' : '')
     + (newItemIds.has(item.id) ? '<span class="new-badge">NEW</span>' : '')
     + '<span class="mod-tag" ' + (dirty ? '' : 'hidden') + '>MOD</span>'
     + '<span class="top-actions">' + actions + '</span>'
@@ -1375,7 +1465,13 @@ function populateCreatorDropdown() {
   optAll.textContent = `All creators (${items.length})`;
   sel.appendChild(optAll);
 
-  LIB.creators.forEach(cr => {
+  const seen = new Set();
+  const chips = LIB.creators.concat(
+    liveItems().map(it => it._creator).filter(Boolean)
+  );
+  chips.forEach(cr => {
+    if (!cr || seen.has(cr.id)) return;
+    seen.add(cr.id);
     const count = items.filter(it => it.creator === cr.id).length;
     if (count > 0 || cr.id === 'me') {
       const opt = document.createElement('option');
@@ -1476,6 +1572,54 @@ function buildCarouselRow(sec, items) {
   return wrap;
 }
 
+function stampLiveNew() {
+  liveItems().forEach(it => {
+    if (!it.createdAt) { newItemIds.add(it.id); return; }
+    const age = Date.now() - new Date(it.createdAt).getTime();
+    if (age < 48 * 60 * 60 * 1000) newItemIds.add(it.id);
+  });
+}
+
+function renderJustAdded() {
+  const el = $('#justAdded');
+  if (!el) return;
+  const filtered = hasActiveFilters() || state.random;
+  if (filtered) { el.hidden = true; return; }
+
+  const live = liveItems();
+  const incoming = live.length ? live.slice(0, 12) : [];
+  el.hidden = false;
+  const empty = $('#justAddedEmpty');
+  const track = $('#justAddedTrack');
+  const count = $('#justAddedCount');
+  if (!track) return;
+
+  if (!incoming.length) {
+    track.innerHTML = '';
+    track.classList.remove('is-marquee');
+    if (empty) empty.hidden = false;
+    if (count) count.textContent = 'waiting';
+    return;
+  }
+  if (empty) empty.hidden = true;
+  if (count) count.textContent = incoming.length + ' live';
+
+  const sig = incoming.map(i => i.id).join(',');
+  if (track.dataset.sig === sig && track.childElementCount) return;
+  track.dataset.sig = sig;
+  track.textContent = '';
+
+  incoming.forEach(it => track.appendChild(buildCard(it)));
+  const canMarquee = incoming.length >= 4 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (canMarquee) {
+    incoming.forEach(it => track.appendChild(buildCard(it)));
+    track.style.setProperty('--just-dur', Math.max(24, incoming.length * 5) + 's');
+    track.classList.add('is-marquee');
+  } else {
+    track.classList.remove('is-marquee');
+  }
+}
+
 function render() {
   drawerRanksCache = null;
   const items = currentPool();
@@ -1532,6 +1676,7 @@ function render() {
   main.appendChild(frag);
   refreshDrawerTop3();
   renderWinnerStrip();
+  renderJustAdded();
 }
 
 /* ---------- actions ---------- */
@@ -1731,6 +1876,33 @@ async function renderCommunity() {
   const empty = $('#communityEmpty');
   const note = $('#communityNote');
   if (!list) return;
+
+  const live = liveItems();
+  if (live.length) {
+    if (empty) empty.hidden = true;
+    if (note) note.textContent = live.length + ' live specimen' + (live.length === 1 ? '' : 's');
+    list.innerHTML = live.slice(0, 40).map(it => {
+      const when = it.createdAt ? new Date(it.createdAt).toLocaleString() : 'just now';
+      return '<li class="community-row">'
+        + '<span class="community-kind is-pr">LIVE</span>'
+        + '<span class="community-title">#' + escapeHtml(it.id) + ' · ' + escapeHtml(it.name) + '</span>'
+        + '<span class="community-meta">' + escapeHtml(it.creator) + ' · ' + escapeHtml(it.section) + ' · ' + escapeHtml(when) + '</span>'
+        + '</li>';
+    }).join('');
+    return;
+  }
+
+  if (window.DesignLabLive && DesignLabLive.statusError() === 'missing-table') {
+    list.innerHTML = '<li class="community-loading">Live ingest is one SQL run away — paste <code>supabase/live.sql</code> into the Supabase SQL editor, then this list fills itself.</li>';
+    if (empty) empty.hidden = true;
+    return;
+  }
+  if (window.DesignLabLive && DesignLabLive.isAvailable()) {
+    list.innerHTML = '';
+    if (empty) empty.hidden = false;
+    if (note) note.textContent = 'Live ingest is on — waiting for the first specimen.';
+    return;
+  }
 
   // Serve from cache for 5 minutes to respect the unauthenticated API rate limit.
   if (communityCache && Date.now() - communityCacheAt < 5 * 60 * 1000) {
@@ -2313,13 +2485,14 @@ function init() {
   $('#enterAgentBtn').addEventListener('click', enterAgentFlow);
   $('#promptClose').addEventListener('click', closePromptStudio);
   $('#promptCancel').addEventListener('click', closePromptStudio);
-  $('#promptSubmitBtn').addEventListener('click', openSubmissionIssue);
+  $('#promptSubmitBtn').addEventListener('click', jumpToPublishPanel);
   $('#promptCopyRun').addEventListener('click', ev => copyPromptStudio(ev.currentTarget));
   $('#submitPanelToggle').addEventListener('click', toggleSubmitPanel);
   $('#submitGuideBtn').addEventListener('click', ev => { ev.stopPropagation(); toggleSubmitGuide(); });
   $('#submitItemsInput').addEventListener('input', renderItemsPreview);
   $('#submitValidateBtn').addEventListener('click', validateSubmitItems);
   $('#submitIssueBtn').addEventListener('click', submitItemsAsIssue);
+  if ($('#submitLiveBtn')) $('#submitLiveBtn').addEventListener('click', () => { publishItemsLive(); });
   $('#promptOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closePromptStudio();
   });
@@ -2560,11 +2733,40 @@ function init() {
       }
       return { added: added.map(i => '#' + i.id), rejected: rejected };
     },
+    publish(input, meta) {
+      if (!window.DesignLabLive) return Promise.resolve({ ok: false, error: 'Live ingest is not loaded.' });
+      const arr = Array.isArray(input) ? input : [input];
+      const sectionCode = {};
+      LIB.sections.forEach(s => { sectionCode[s.id] = s.code; });
+      return DesignLabLive.publish(arr, Object.assign({
+        takenIds: new Set(allItems().map(i => i.id)),
+        sectionCode: sectionCode
+      }, meta || {})).then(result => {
+        if (result.ok) {
+          stampLiveNew();
+          render();
+          toast('Published ' + result.added.length + ' live specimen' + (result.added.length === 1 ? '' : 's') + '.');
+        }
+        return result;
+      });
+    },
     exportFavorites: exportFavorites,
     exportAgentStyleGuide: () => exportAgentStyleGuide(null),
     exportLayer: exportLayer,
     setCanvas: setStageCanvas
   };
+
+  if (window.DesignLabLive) {
+    DesignLabLive.onChange(() => {
+      stampLiveNew();
+      render();
+    });
+    DesignLabLive.init().then(() => {
+      stampLiveNew();
+      renderJustAdded();
+      render();
+    }).catch(() => {});
+  }
 
   if (window.DesignLabVotes) {
     DesignLabVotes.onChange(() => {
