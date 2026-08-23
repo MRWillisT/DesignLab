@@ -21,6 +21,7 @@ window.DesignLabLive = (function () {
   let ready = false;
   let available = false;
   let lastError = '';
+  let verifiedCol = true; // flips to false until supabase/identity.sql is run (column missing → 400)
   const subs = new Set();
 
   function configured() { return !!(BASE && KEY); }
@@ -108,6 +109,7 @@ window.DesignLabLive = (function () {
       code: r.code,
       live: true,
       createdAt: r.created_at,
+      _verified: !!r.creator_verified,
       _creator: { id: r.creator_id, name: r.creator_name, color: r.creator_color }
     };
   }
@@ -131,10 +133,22 @@ window.DesignLabLive = (function () {
 
   async function refresh() {
     if (!configured()) return false;
-    const res = await fetch(
-      BASE + '/rest/v1/live_specimens?select=item_id,section,name,description,creator_id,creator_name,creator_color,tags,tweaks,code,created_at&order=created_at.desc&limit=200',
+    // Ask for creator_verified when the column exists (post identity.sql).
+    // If the owner hasn't run that file yet, PostgREST 400s on the unknown
+    // column — retry without it so the live layer never goes dark.
+    const baseCols = 'item_id,section,name,description,creator_id,creator_name,creator_color,tags,tweaks,code,created_at';
+    const cols = verifiedCol ? baseCols + ',creator_verified' : baseCols;
+    let res = await fetch(
+      BASE + '/rest/v1/live_specimens?select=' + encodeURIComponent(cols) + '&order=created_at.desc&limit=200',
       { headers: authHeaders(loadSession()) }
     );
+    if (res.status === 400 && verifiedCol) {
+      verifiedCol = false;
+      res = await fetch(
+        BASE + '/rest/v1/live_specimens?select=' + encodeURIComponent(baseCols) + '&order=created_at.desc&limit=200',
+        { headers: authHeaders(loadSession()) }
+      );
+    }
     if (res.status === 404) {
       available = false;
       lastError = 'missing-table';
@@ -267,6 +281,24 @@ window.DesignLabLive = (function () {
       return { ok: true, deleted: deleted };
     } catch (e) {
       return { ok: false, error: e.message || 'delete failed' };
+    }
+  }
+
+  async function moderateVerify(itemId, token) {
+    if (!configured()) return { ok: false, error: 'Supabase is not configured.' };
+    try {
+      const res = await fetch(BASE + '/rest/v1/rpc/live_moderate_verify', {
+        method: 'POST',
+        headers: authHeaders(loadSession()),
+        body: JSON.stringify({ p_item_id: String(itemId || ''), p_token: String(token || '') })
+      });
+      if (res.status === 404) return { ok: false, error: 'missing-function' };
+      if (!res.ok) return { ok: false, error: 'verify ' + res.status };
+      const verified = !!(await res.json());
+      if (verified) await refresh();
+      return { ok: true, verified: verified };
+    } catch (e) {
+      return { ok: false, error: e.message || 'verify failed' };
     }
   }
 

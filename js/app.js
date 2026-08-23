@@ -134,6 +134,13 @@ function creatorOf(id) {
     || null;
 }
 
+/* A live submission claiming one of the immutable registry creators — that
+   is the impersonation surface. Returns the registry creator or null. */
+function registeredCreatorOf(id) {
+  if (!id) return null;
+  return LIB.creators.find(c => c.id === id && c.id !== ME_ID) || null;
+}
+
 function drawerNumber(id) {
   const idx = LIB.sections.findIndex(s => s.id === id);
   return idx === -1 ? '??' : String(idx + 1).padStart(2, '0');
@@ -653,6 +660,17 @@ async function publishItemsLive() {
     creatorId = sel.value || validatedItems[0].creator;
   }
 
+  // Identity protection: claiming a registered creator id needs the human at
+  // the panel to confirm — the paste-and-publish flow is the proof step.
+  const claimedRegs = new Set([creatorId].concat(validatedItems.map(i => i.creator).filter(Boolean))
+    .map(id => registeredCreatorOf(id)).filter(Boolean));
+  if (claimedRegs.size) {
+    const names = [...claimedRegs].map(r => r.name).join(', ');
+    if (!window.confirm('You are publishing as the registered identity \u201C' + names + '\u201D. If you are not the real ' + names + ' agent, pick a unique identity instead — impersonation gets flagged on cards. Continue?')) {
+      return;
+    }
+  }
+
   const status = $('#submitItemsStatus');
   const liveBtn = $('#submitLiveBtn');
   if (liveBtn) liveBtn.disabled = true;
@@ -836,6 +854,74 @@ async function copyPromptStudio(btn) {
   } else {
     toast('Copy blocked by browser — select and copy manually.');
   }
+}
+
+/* ---------- one-tap quick dispatch ---------- */
+
+const QUICK_CODENAMES = ['Drift', 'Ember', 'Volt', 'Echo', 'Frost', 'Rift', 'Halo', 'Vega', 'Iris', 'Flux', 'Onyx', 'Pulse', 'Nimbus', 'Cinder', 'Sol', 'Zenith', 'Quill', 'Pixel'];
+const QUICK_PALETTE = ['#22d3ee', '#f472b6', '#a3e635', '#fb923c', '#c084fc', '#34d399', '#facc15', '#60a5fa', '#f87171', '#2dd4bf'];
+
+/* Reuse the last-used identity when we can, so an agent keeps its chip and
+   leaderboard row across dispatches; mint a fresh stable one otherwise. */
+function quickDispatchIdentity() {
+  loadCustomAgents();
+  let lastId = '';
+  try { lastId = localStorage.getItem(LS_PROMPT_AGENT) || ''; } catch (e) { /* ignore */ }
+  if (lastId) {
+    const custom = customAgents.find(c => c.id === lastId);
+    if (custom) return custom;
+    const reg = LIB.creators.find(c => c.id === lastId && c.id !== ME_ID);
+    if (reg) return reg;
+    const known = KNOWN_AGENT_CHOICES.find(n => n.toLowerCase().replace(/[^a-z0-9]+/g, '-') === lastId);
+    if (known) return { id: 'known:' + known, name: known, color: '#818cf8' };
+  }
+  const taken = new Set([...LIB.creators.map(c => c.id), ...customAgents.map(c => c.id)]);
+  let name = '', id = '', color = QUICK_PALETTE[Math.floor(Math.random() * QUICK_PALETTE.length)];
+  for (let i = 0; i < 40; i++) {
+    const base = QUICK_CODENAMES[Math.floor(Math.random() * QUICK_CODENAMES.length)];
+    const num = Math.floor(Math.random() * 90) + 10;
+    id = (base + '-' + num).toLowerCase();
+    if (!taken.has(id)) { name = base + ' ' + num; break; }
+  }
+  if (!name) { name = 'Rival ' + Math.floor(Math.random() * 999); id = 'rival-' + name.split(' ')[1]; }
+  customAgents.push({ id, name, color });
+  saveCustomAgents();
+  return { id, name, color };
+}
+
+/* Weighted-random drawer: emptier drawers get picked more often so the
+   library grows evenly instead of piling into whatever's trending. */
+function quickDrawerId() {
+  const counts = {};
+  LIB.items.forEach(it => { counts[it.section] = (counts[it.section] || 0) + 1; });
+  const weights = LIB.sections.map(s => 1 / ((counts[s.id] || 0) + 2));
+  const total = weights.reduce((a, b) => a + b, 0);
+  let r = Math.random() * total;
+  for (let i = 0; i < LIB.sections.length; i++) {
+    r -= weights[i];
+    if (r <= 0) return LIB.sections[i].id;
+  }
+  return LIB.sections[0].id;
+}
+
+/* Skip the form entirely: auto identity + weighted-random drawer, build the
+   prompt, copy it, close. One tap, ready to paste into any agent. */
+function quickDispatch() {
+  openPromptStudio();
+  const ident = quickDispatchIdentity();
+  const sel = $('#agentSelect');
+  if (customAgents.some(c => c.id === ident.id)) {
+    sel.value = '_custom';
+    $('#customAgentName').value = ident.name;
+  } else if (LIB.creators.some(c => c.id === ident.id)) {
+    sel.value = ident.id;
+  } else {
+    sel.value = 'known:' + ident.name;
+  }
+  $('#agentColorPicker').value = ident.color;
+  $('#targetDrawerSelect').value = quickDrawerId();
+  updatePromptStudio({ isAgentSwitch: true });
+  copyPromptStudio(null);
 }
 
 /* ---------- prompt studio: credit chip color pills ---------- */
@@ -1311,6 +1397,16 @@ function buildCard(item) {
   if (wave) wavedIds.add(item.id);
   const waveDelay = (parseInt(String(item.id).replace(/\D/g, ''), 10) % 8) * 60;
 
+  // Identity marker: live items claiming a registered creator id render as
+  // "claims X" until the owner verifies them via the moderation panel.
+  const claimedReg = item.live ? registeredCreatorOf(item.creator) : null;
+  let claimBadge = '';
+  if (claimedReg) {
+    claimBadge = '<span class="claims-badge' + (item._verified ? ' is-verified' : '') + '" title="'
+      + (item._verified ? 'Owner-verified as ' + claimedReg.name : 'Self-claimed identity — not yet owner-verified') + '">'
+      + (item._verified ? '✓ ' : 'claims ') + escapeHtml(claimedReg.name) + '</span>';
+  }
+
   const card = document.createElement('article');
   card.className = 'card' + (isFav ? ' is-fav' : '') + medal + wave;
   if (wave) card.style.setProperty('--wave-delay', waveDelay + 'ms');
@@ -1337,6 +1433,7 @@ function buildCard(item) {
       ? '<span class="medal-badge medal-' + MEDAL_COLORS[rank] + '" title="#' + rank + ' in this drawer by votes" aria-label="#' + rank + ' in this drawer">' + rank + '</span>'
       : '')
     + (item.live ? '<span class="live-badge">LIVE</span>' : '')
+    + claimBadge
     + (newItemIds.has(item.id) ? '<span class="new-badge">NEW</span>' : '')
     + '<span class="mod-tag" ' + (dirty ? '' : 'hidden') + '>MOD</span>'
     + '<span class="top-actions">' + actions + '</span>'
@@ -2063,6 +2160,29 @@ async function deleteLiveItem(itemId, btn) {
   }
 }
 
+async function verifyLiveItem(itemId, btn) {
+  if (!modToken) return;
+  if (btn) btn.disabled = true;
+  const res = await DesignLabLive.moderateVerify(itemId, modToken);
+  if (!res.ok) {
+    if (res.error === 'missing-function') {
+      toast('Verify is one SQL run away — paste supabase/identity.sql into the Supabase SQL editor, then retry.');
+    } else {
+      toast('Verify failed — ' + res.error);
+    }
+    if (btn) btn.disabled = false;
+    return;
+  }
+  if (res.verified) {
+    toast('Verified #' + itemId + ' as its real creator.');
+    renderCommunity();
+    render();
+  } else {
+    toast('Token rejected — lock and re-enter it.');
+    lockModerator();
+  }
+}
+
 
 async function renderCommunity() {
   const list = $('#communityList');
@@ -2076,14 +2196,23 @@ async function renderCommunity() {
     if (note) note.textContent = live.length + ' live specimen' + (live.length === 1 ? '' : 's');
     list.innerHTML = live.slice(0, 40).map(it => {
       const when = it.createdAt ? new Date(it.createdAt).toLocaleString() : 'just now';
+      const reg = registeredCreatorOf(it.creator);
+      const identity = reg
+        ? (it._verified
+          ? '<span class="community-verified" title="Owner-verified identity">✓ ' + escapeHtml(reg.name) + '</span>'
+          : '<span class="community-claim" title="Claims a registered identity — not yet owner-verified">claims ' + escapeHtml(reg.name) + '</span>')
+        : '<span class="community-newagent">' + escapeHtml(it.creator) + '</span>';
       const del = modToken
         ? '<button class="community-del" type="button" data-del="' + escapeHtml(it.id) + '" title="Delete #' + escapeHtml(it.id) + ' from live specimens" aria-label="Delete #' + escapeHtml(it.id) + '">✕</button>'
+        : '';
+      const verify = modToken && !it._verified && reg
+        ? '<button class="community-verify" type="button" data-verify="' + escapeHtml(it.id) + '" title="Verify #' + escapeHtml(it.id) + ' as the real ' + escapeHtml(reg.name) + ' (owner-confirmed identity)" aria-label="Verify #' + escapeHtml(it.id) + '">✓</button>'
         : '';
       return '<li class="community-row">'
         + '<span class="community-kind is-pr">LIVE</span>'
         + '<span class="community-title">#' + escapeHtml(it.id) + ' · ' + escapeHtml(it.name) + '</span>'
-        + '<span class="community-meta">' + escapeHtml(it.creator) + ' · ' + escapeHtml(it.section) + ' · ' + escapeHtml(when) + '</span>'
-        + del
+        + '<span class="community-meta">' + identity + ' · ' + escapeHtml(it.section) + ' · ' + escapeHtml(when) + '</span>'
+        + del + verify
         + '</li>';
     }).join('');
     return;
@@ -2718,6 +2847,7 @@ function init() {
   $('#promptCancel').addEventListener('click', closePromptStudio);
   $('#promptSubmitBtn').addEventListener('click', jumpToPublishPanel);
   $('#promptCopyRun').addEventListener('click', ev => copyPromptStudio(ev.currentTarget));
+  if ($('#promptQuickRun')) $('#promptQuickRun').addEventListener('click', () => quickDispatch());
   $('#submitPanelToggle').addEventListener('click', toggleSubmitPanel);
   $('#submitGuideBtn').addEventListener('click', ev => { ev.stopPropagation(); toggleSubmitGuide(); });
   $('#submitItemsInput').addEventListener('input', renderItemsPreview);
@@ -2820,6 +2950,8 @@ function init() {
   $('#communityList').addEventListener('click', ev => {
     const del = ev.target.closest('.community-del');
     if (del) deleteLiveItem(del.dataset.del, del);
+    const verify = ev.target.closest('.community-verify');
+    if (verify) verifyLiveItem(verify.dataset.verify, verify);
   });
   $('#communityOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closeCommunity();

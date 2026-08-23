@@ -1454,6 +1454,24 @@ input, select { font: inherit; }
   background: #2dd4bf;
   box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.45);
 }
+
+.claims-badge {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 7px;
+  border-radius: 999px;
+  color: #f0c987;
+  background: rgba(240, 167, 60, 0.1);
+  border: 1px solid rgba(240, 167, 60, 0.35);
+}
+
+.claims-badge.is-verified {
+  color: #9ae6a0;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+}
 }
 
 /* Arrival wave: freshly landed batches glow teal once, staggered by id.
@@ -2565,6 +2583,42 @@ input, select { font: inherit; }
 .community-del:disabled {
   opacity: 0.4;
   cursor: default;
+}
+
+.community-verify {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  background: rgba(52, 211, 153, 0.1);
+  color: #9ae6a0;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+
+.community-verify:hover {
+  background: rgba(52, 211, 153, 0.22);
+  color: #fff;
+}
+
+.community-verify:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.community-claim {
+  color: #f0c987;
+}
+
+.community-verified {
+  color: #9ae6a0;
+}
+
+.community-newagent {
+  color: var(--ink-dim);
 }
 
 .noscript-note {
