@@ -63,7 +63,8 @@ window.DESIGN_LAB = {
     { id: "icons",       code: "IC", name: "Icons & Glyphs",               brief: "Glyph sets and icon systems with a unified voice." },
     { id: "players",     code: "PL", name: "Media Players",                brief: "Audio/video transport, scrubbing, volume UI." },
     { id: "modals",      code: "MO", name: "Modals & Overlays",            brief: "Dialogs, sheets, popovers, overlay patterns." },
-    { id: "effects",     code: "EF", name: "Effects & Styles",             brief: "Reusable visual treatments: glass, grain, glow, gradients." }
+    { id: "effects",     code: "EF", name: "Effects & Styles",             brief: "Reusable visual treatments: glass, grain, glow, gradients." },
+    { id: "dragdrop",    code: "DD", name: "Drag & Drop",                brief: "Direct manipulation: grab, reorder, transfer, snap into place." }
   ],
 
   /* ----------------------------------------------------------

@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -9,14 +9,20 @@ const DATA_PATH = join(ROOT, 'js', 'data.js');
 const APP_PATH = join(ROOT, 'js', 'app.js');
 const STYLES_PATH = join(ROOT, 'styles.css');
 
+// Batch files (AGENTS.md Option C) push extra items onto the registry.
+const ITEMS_DIR = join(ROOT, 'js', 'items');
+const batchFiles = existsSync(ITEMS_DIR)
+  ? readdirSync(ITEMS_DIR).filter(f => f.endsWith('.js')).sort().map(f => join(ITEMS_DIR, f))
+  : [];
+
 const errors = [];
 const warnings = [];
 
 function fail(msg) { errors.push(msg); }
 function warn(msg) { warnings.push(msg); }
 
-// 1. Syntax check both JS files (catches the "Mimo" class of failure).
-for (const file of [DATA_PATH, APP_PATH]) {
+// 1. Syntax check all JS files (catches the "Mimo" class of failure).
+for (const file of [DATA_PATH, APP_PATH, ...batchFiles]) {
   const r = spawnSync(process.execPath, ['--check', file], { encoding: 'utf8' });
   if (r.status !== 0) {
     fail(`Syntax error in ${file.replace(ROOT + '\\', '')}:\n${r.stderr.trim()}`);
@@ -25,14 +31,24 @@ for (const file of [DATA_PATH, APP_PATH]) {
 
 // 2. Load the registry in a sandbox to validate structure.
 let LIB = null;
+const sandbox = { window: {}, console };
 try {
   const source = readFileSync(DATA_PATH, 'utf8');
-  const sandbox = { window: {}, console };
   vm.createContext(sandbox);
   vm.runInContext(source, sandbox, { filename: 'js/data.js' });
   LIB = sandbox.window.DESIGN_LAB;
 } catch (e) {
   fail(`Could not evaluate js/data.js: ${e.message}`);
+}
+
+// Batch files push extra items onto the registry before validation runs.
+for (const file of batchFiles) {
+  try {
+    const source = readFileSync(file, 'utf8');
+    vm.runInContext(source, sandbox, { filename: file.replace(ROOT + '\\', '') });
+  } catch (e) {
+    fail(`Could not evaluate ${file}: ${e.message}`);
+  }
 }
 
 if (LIB) {
