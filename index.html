@@ -336,6 +336,16 @@
           <a class="btn" href="https://github.com/MRWillisT/DesignLab/issues/new" target="_blank" rel="noopener">Open an issue</a>
           <span class="community-note" id="communityNote"></span>
         </div>
+        <div class="community-mod-row">
+          <button id="communityModBtn" class="btn btn-ghost" type="button" title="Owner only — unlock to delete live specimens" aria-expanded="false">Moderate</button>
+          <div id="communityModPanel" class="community-mod-panel" hidden>
+            <label class="mod-token-label" for="communityModToken">Owner token</label>
+            <input id="communityModToken" class="mod-token-input" type="password" autocomplete="off" placeholder="paste your owner token" aria-label="Owner moderation token">
+            <button id="communityModUnlock" class="btn" type="button">Unlock</button>
+            <button id="communityModLock" class="btn btn-ghost" type="button" hidden>Lock</button>
+            <span id="communityModStatus" class="mod-status" hidden></span>
+          </div>
+        </div>
         <ul class="community-list" id="communityList">
           <li class="community-loading">Loading recent submissions…</li>
         </ul>
@@ -369,6 +379,7 @@
         <div class="board-tabs" role="tablist" aria-label="Leaderboard views">
           <button type="button" class="board-tab is-active" data-board-tab="specimens" role="tab">Specimens</button>
           <button type="button" class="board-tab" data-board-tab="creators" role="tab">Creators</button>
+          <button type="button" class="board-tab" data-board-tab="agents" role="tab">Agents</button>
           <button type="button" class="board-tab" data-board-tab="drawers" role="tab">Drawers</button>
         </div>
         <div class="board-podium" id="boardPodium"></div>

@@ -236,6 +236,40 @@ window.DesignLabLive = (function () {
     return { ok: true, added: (inserted || []).map(r => r.item_id) };
   }
 
+  async function moderateCheck(token) {
+    if (!configured()) return { ok: false, error: 'Supabase is not configured.' };
+    try {
+      const res = await fetch(BASE + '/rest/v1/rpc/live_moderate_check', {
+        method: 'POST',
+        headers: authHeaders(loadSession()),
+        body: JSON.stringify({ p_token: String(token || '') })
+      });
+      if (res.status === 404) return { ok: false, error: 'missing-function' };
+      if (!res.ok) return { ok: false, error: 'check ' + res.status };
+      return { ok: true, valid: !!(await res.json()) };
+    } catch (e) {
+      return { ok: false, error: e.message || 'check failed' };
+    }
+  }
+
+  async function moderateDelete(itemId, token) {
+    if (!configured()) return { ok: false, error: 'Supabase is not configured.' };
+    try {
+      const res = await fetch(BASE + '/rest/v1/rpc/live_moderate_delete', {
+        method: 'POST',
+        headers: authHeaders(loadSession()),
+        body: JSON.stringify({ p_item_id: String(itemId || ''), p_token: String(token || '') })
+      });
+      if (res.status === 404) return { ok: false, error: 'missing-function' };
+      if (!res.ok) return { ok: false, error: 'delete ' + res.status };
+      const deleted = !!(await res.json());
+      if (deleted) await refresh();
+      return { ok: true, deleted: deleted };
+    } catch (e) {
+      return { ok: false, error: e.message || 'delete failed' };
+    }
+  }
+
   async function init() {
     if (!configured()) {
       ready = true;
@@ -256,6 +290,7 @@ window.DesignLabLive = (function () {
 
   return {
     init, refresh, publish, items, newest, creatorOf,
-    isReady, isAvailable, statusError, onChange, configured
+    isReady, isAvailable, statusError, onChange, configured,
+    moderateCheck, moderateDelete
   };
 })();

@@ -464,6 +464,15 @@ function openSubmissionIssue() {
 
 let validatedItems = null;
 
+/* One-shot entrance on the very first render — cards "march in" once,
+   then stay still so filters/sorts/votes never replay it. */
+let didFirstRender = false;
+function entranceClass() {
+  if (didFirstRender) return '';
+  didFirstRender = true;
+  return ' is-entering';
+}
+
 function toggleSubmitPanel() {
   const body = $('#submitPanelBody');
   const toggle = $('#submitPanelToggle');
@@ -1392,7 +1401,7 @@ function newestArrivalItems() {
 
 function buildNewestRow(items) {
   const wrap = document.createElement('section');
-  wrap.className = 'drawer-carousel-section newest-row';
+  wrap.className = 'drawer-carousel-section newest-row' + entranceClass();
   wrap.dataset.section = 'newest';
 
   const head = document.createElement('header');
@@ -1427,6 +1436,18 @@ function buildNewestRow(items) {
   const track = document.createElement('div');
   track.className = 'carousel-track';
   items.forEach(it => track.appendChild(buildCard(it)));
+
+  // Marquee mode: duplicate the cards so the track can loop seamlessly.
+  if (items.length >= 4) {
+    wrap.classList.add('is-marquee');
+    track.classList.add('is-marquee');
+    items.forEach(it => {
+      const clone = buildCard(it);
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    });
+  }
+
   trackWrap.appendChild(track);
   wrap.appendChild(trackWrap);
 
@@ -1566,7 +1587,7 @@ function resetRenderLimit() {
 
 function buildCarouselRow(sec, items) {
   const wrap = document.createElement('section');
-  wrap.className = 'drawer-carousel-section';
+  wrap.className = 'drawer-carousel-section' + entranceClass();
   wrap.dataset.section = sec.id;
 
   const head = document.createElement('header');
@@ -1628,9 +1649,36 @@ function stampLiveNew() {
   });
 }
 
+let lastJustAddedKey = '';
+
 function renderJustAdded() {
   const el = $('#justAdded');
-  if (el) el.hidden = true;
+  if (!el) return;
+  const live = liveItems();
+  const countEl = $('#justAddedCount');
+  const empty = $('#justAddedEmpty');
+  if (!live.length) {
+    el.hidden = true;
+    return;
+  }
+  el.hidden = false;
+  if (countEl) countEl.textContent = live.length + ' live specimen' + (live.length === 1 ? '' : 's');
+  if (empty) empty.hidden = true;
+  const key = live.map(it => it.id).join('|');
+  if (key === lastJustAddedKey) return;
+  lastJustAddedKey = key;
+  const track = $('#justAddedTrack');
+  if (!track) return;
+  track.textContent = '';
+  const frag = document.createDocumentFragment();
+  live.slice(0, 12).forEach(it => frag.appendChild(buildCard(it)));
+  live.slice(0, 12).forEach(it => {
+    const clone = buildCard(it);
+    clone.setAttribute('aria-hidden', 'true');
+    frag.appendChild(clone);
+  });
+  track.appendChild(frag);
+  track.classList.add('is-marquee');
 }
 
 function render() {
@@ -1879,12 +1927,119 @@ let communityCacheAt = 0;
 
 function openCommunity() {
   $('#communityOverlay').hidden = false;
+  syncModPanel();
   renderCommunity();
 }
 
 function closeCommunity() {
   $('#communityOverlay').hidden = true;
 }
+
+/* ---------- owner moderation (token-gated deletes) ---------- */
+
+let modToken = null;
+const LS_MOD_TOKEN = 'designlab.moderator.v1';
+
+function loadModToken() {
+  try { modToken = localStorage.getItem(LS_MOD_TOKEN) || null; } catch (e) { modToken = null; }
+}
+
+function saveModToken() {
+  try {
+    if (modToken) localStorage.setItem(LS_MOD_TOKEN, modToken);
+    else localStorage.removeItem(LS_MOD_TOKEN);
+  } catch (e) { /* ignore */ }
+}
+
+function setModStatus(msg, isErr) {
+  const el = $('#communityModStatus');
+  if (!el) return;
+  el.hidden = false;
+  el.textContent = msg;
+  el.className = 'mod-status' + (isErr ? ' is-err' : ' is-ok');
+}
+
+function syncModPanel() {
+  const input = $('#communityModToken');
+  const unlockBtn = $('#communityModUnlock');
+  const lockBtn = $('#communityModLock');
+  if (modToken) {
+    if (input) input.hidden = true;
+    if (unlockBtn) unlockBtn.hidden = true;
+    if (lockBtn) lockBtn.hidden = false;
+  } else {
+    if (input) input.hidden = false;
+    if (unlockBtn) unlockBtn.hidden = false;
+    if (lockBtn) lockBtn.hidden = true;
+  }
+}
+
+async function unlockModerator() {
+  if (!window.DesignLabLive || !DesignLabLive.moderateCheck) {
+    setModStatus('Live ingest is not configured.', true);
+    return;
+  }
+  const input = $('#communityModToken');
+  const token = (input && input.value.trim()) || '';
+  if (!token) {
+    setModStatus('Paste the owner token first.', true);
+    return;
+  }
+  setModStatus('Checking token…', false);
+  const res = await DesignLabLive.moderateCheck(token);
+  if (!res.ok) {
+    if (res.error === 'missing-function') {
+      setModStatus('Moderation is one SQL run away — paste supabase/moderation.sql into the Supabase SQL editor, then retry.', true);
+    } else {
+      setModStatus('Check failed — ' + res.error, true);
+    }
+    return;
+  }
+  if (!res.valid) {
+    setModStatus('Wrong token.', true);
+    return;
+  }
+  modToken = token;
+  saveModToken();
+  syncModPanel();
+  setModStatus('Unlocked — delete buttons are live.', false);
+  renderCommunity();
+}
+
+function lockModerator() {
+  modToken = null;
+  saveModToken();
+  syncModPanel();
+  const status = $('#communityModStatus');
+  if (status) status.hidden = true;
+  renderCommunity();
+}
+
+async function deleteLiveItem(itemId, btn) {
+  if (!modToken) return;
+  if (!window.confirm('Delete #' + itemId + ' from live specimens? This is immediate and permanent.')) return;
+  if (btn) btn.disabled = true;
+  const res = await DesignLabLive.moderateDelete(itemId, modToken);
+  if (!res.ok) {
+    if (res.error === 'missing-function') {
+      toast('Moderation is one SQL run away — paste supabase/moderation.sql into the Supabase SQL editor, then retry.');
+    } else {
+      toast('Delete failed — ' + res.error);
+    }
+    if (btn) btn.disabled = false;
+    return;
+  }
+  if (res.deleted) {
+    lastJustAddedKey = '';
+    toast('Deleted #' + itemId + '.');
+    renderCommunity();
+    render();
+  } else {
+    toast('Token rejected — lock and re-enter it.');
+    lockModerator();
+  }
+}
+
 
 async function renderCommunity() {
   const list = $('#communityList');
@@ -1898,10 +2053,14 @@ async function renderCommunity() {
     if (note) note.textContent = live.length + ' live specimen' + (live.length === 1 ? '' : 's');
     list.innerHTML = live.slice(0, 40).map(it => {
       const when = it.createdAt ? new Date(it.createdAt).toLocaleString() : 'just now';
+      const del = modToken
+        ? '<button class="community-del" type="button" data-del="' + escapeHtml(it.id) + '" title="Delete #' + escapeHtml(it.id) + ' from live specimens" aria-label="Delete #' + escapeHtml(it.id) + '">✕</button>'
+        : '';
       return '<li class="community-row">'
         + '<span class="community-kind is-pr">LIVE</span>'
         + '<span class="community-title">#' + escapeHtml(it.id) + ' · ' + escapeHtml(it.name) + '</span>'
         + '<span class="community-meta">' + escapeHtml(it.creator) + ' · ' + escapeHtml(it.section) + ' · ' + escapeHtml(when) + '</span>'
+        + del
         + '</li>';
     }).join('');
     return;
@@ -2083,6 +2242,39 @@ function renderLeaderboard() {
     })));
     rows = ranked.slice(3)
       .map(([cid, n], i) => boardRow(i + 4, (creatorOf(cid) || {}).name || cid, creatorOf(cid), n, ''));
+  } else if (boardTab === 'agents') {
+    const byAgent = new Map();
+    allItems().forEach(it => {
+      const c = it.creator || '?';
+      if (!byAgent.has(c)) byAgent.set(c, { votes: 0, live: 0, total: 0 });
+      const g = byAgent.get(c);
+      g.votes += fn(it.id);
+      g.total += 1;
+      if (it.live) g.live += 1;
+    });
+    const ranked = [...byAgent.entries()]
+      .filter(([, g]) => g.votes > 0 || g.live > 0)
+      .sort((a, b) => (b[1].votes - a[1].votes) || (b[1].live - a[1].live) || (b[1].total - a[1].total));
+    const top3 = ranked.slice(0, 3);
+    podium = buildPodium(top3.map(([cid, g]) => ({
+      label: (creatorOf(cid) || {}).name || cid,
+      creator: creatorOf(cid),
+      n: g.votes,
+      itemId: null
+    })));
+    rows = ranked.slice(3).map(([cid, g], i) => {
+      const creator = creatorOf(cid);
+      const chip = creator
+        ? '<span class="credit-chip" style="--chip:' + escapeHtml(creator.color || '#8a8f98') + '">' + escapeHtml(creator.name) + '</span>'
+        : '';
+      return '<li class="board-row">'
+        + '<span class="board-rank">' + (i + 4) + '</span>'
+        + chip
+        + '<span class="board-label">' + escapeHtml((creatorOf(cid) || {}).name || cid)
+        + '<span class="board-meta">' + g.live + ' live · ' + g.total + ' published</span></span>'
+        + '<span class="board-votes">▲ ' + g.votes + '</span>'
+        + '</li>';
+    });
   } else {
     const bySec = new Map();
     allItems().forEach(it => {
@@ -2470,6 +2662,7 @@ function init() {
   validateLibrary();
   loadFavorites();
   loadFilters();
+  loadModToken();
 
   const seen = loadSeen();
   const currentIds = LIB.items.map(it => it.id);
@@ -2585,6 +2778,26 @@ function init() {
   $('#communityBtn').addEventListener('click', openCommunity);
   $('#communityClose').addEventListener('click', closeCommunity);
   $('#communityCancel').addEventListener('click', closeCommunity);
+  $('#communityModBtn').addEventListener('click', ev => {
+    const panel = $('#communityModPanel');
+    const show = panel.hidden;
+    panel.hidden = !show;
+    ev.currentTarget.setAttribute('aria-expanded', String(show));
+    if (show) {
+      syncModPanel();
+      const input = $('#communityModToken');
+      if (!modToken && input) input.focus();
+    }
+  });
+  $('#communityModUnlock').addEventListener('click', unlockModerator);
+  $('#communityModLock').addEventListener('click', lockModerator);
+  $('#communityModToken').addEventListener('keydown', ev => {
+    if (ev.key === 'Enter') unlockModerator();
+  });
+  $('#communityList').addEventListener('click', ev => {
+    const del = ev.target.closest('.community-del');
+    if (del) deleteLiveItem(del.dataset.del, del);
+  });
   $('#communityOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closeCommunity();
   });
