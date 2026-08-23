@@ -112,52 +112,50 @@ window.DESIGN_LAB = {
       id: "PL1",
       section: "players",
       name: "Ultra-Slim Studio Capsule",
-      description: "Sleek 32px pill player. Deep violet scrubber track with circular play toggle and glowing playhead.",
+      description: "Sleek 32px pill player with interactive play/pause toggle and glowing playhead.",
       creator: "gemini",
-      tags: ["player","audio","pill","violet"],
-      code: "<style>\n  .kpl1d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n</style>\n<div class=\"kpl1d\" style=\"background: rgba(30, 27, 75, 0.6); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 9999px;\">\n<button style=\"width:26px; height:26px; border-radius:50%; background:#8b5cf6; border:none; color:#fff; font-size:10px; display:flex; align-items:center; justify-content:center; cursor:pointer;\">▶</button>\n<span style=\"font-size:11px; font-weight:600; color:#c4b5fd; font-variant-numeric:tabular-nums;\">0:04 / 0:15</span>\n<div style=\"flex:1; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; position:relative;\">\n<div style=\"width:28%; height:100%; background:#8b5cf6; border-radius:2px;\"></div>\n<div style=\"position:absolute; left:28%; top:-4px; width:12px; height:12px; border-radius:50%; background:#fff; box-shadow:0 0 6px #8b5cf6; transform:translateX(-50%);\"></div>\n</div>\n<span style=\"font-size:12px; opacity:0.8;\">🔊</span>\n</div>"
+      tags: ["player","audio","pill","violet","interactive"],
+      code: "<style>\n  .kpl1d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n  .kpl1-btn{width:26px;height:26px;border-radius:50%;background:#8b5cf6;border:none;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s ease}\n  .kpl1-btn:active{transform:scale(0.92)}\n  @media (prefers-reduced-motion:reduce){.kpl1-btn{transition:none}}\n</style>\n<div class=\"kpl1d\" style=\"background: rgba(30, 27, 75, 0.6); border: 1px solid rgba(139, 92, 246, 0.35); border-radius: 9999px;\">\n<button type=\"button\" class=\"kpl1-btn\" onclick=\"this.textContent=this.textContent==='▶'?'❚❚':'▶'\">▶</button>\n<span style=\"font-size:11px; font-weight:600; color:#c4b5fd; font-variant-numeric:tabular-nums;\">0:04 / 0:15</span>\n<div style=\"flex:1; height:4px; background:rgba(255,255,255,0.15); border-radius:2px; position:relative;\">\n<div style=\"width:28%; height:100%; background:#8b5cf6; border-radius:2px;\"></div>\n<div style=\"position:absolute; left:28%; top:-4px; width:12px; height:12px; border-radius:50%; background:#fff; box-shadow:0 0 6px #8b5cf6; transform:translateX(-50%);\"></div>\n</div>\n<span style=\"font-size:12px; opacity:0.8;\">🔊</span>\n</div>"
     },
 
     {
       id: "PL2",
       section: "players",
       name: "Hardware Console Deck",
-      description: "Tactile gunmetal hardware finish with chiseled metallic play dial and green/amber LED level meter.",
+      description: "Tactile gunmetal hardware finish with interactive play toggle and LED level meter.",
       creator: "gemini",
-      tags: ["player","hardware","gunmetal","led"],
-      code: "<style>\n  .kpl2d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n</style>\n<div class=\"kpl2d\" style=\"background: linear-gradient(180deg, #242933 0%, #171a21 100%); border: 1px solid #3b4252; border-bottom: 2px solid #0f1219; border-radius: 6px;\">\n<button style=\"width:26px; height:26px; border-radius:4px; background:#2e3440; border:1px solid #4c566a; color:#88c0d0; font-size:11px; display:flex; align-items:center; justify-content:center; cursor:pointer;\">▶</button>\n<span style=\"font-size:11px; font-family:monospace; color:#88c0d0;\">00:04</span>\n<div style=\"flex:1; height:6px; background:#12141a; border-radius:3px; border:1px solid #2e3440; overflow:hidden; position:relative;\">\n<div style=\"width:30%; height:100%; background:linear-gradient(90deg, #a3be8c 0%, #ebcb8b 80%, #bf616a 100%);\"></div>\n</div>\n<span style=\"font-size:11px; font-family:monospace; color:#616e88;\">15.0s</span>\n<span style=\"font-size:11px; color:#88c0d0;\">🎚</span>\n</div>"
+      tags: ["player","hardware","gunmetal","led","interactive"],
+      code: "<style>\n  .kpl2d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n  .kpl2-btn{width:26px;height:26px;border-radius:4px;background:#2e3440;border:1px solid #4c566a;color:#88c0d0;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s ease}\n  .kpl2-btn:active{transform:scale(0.92)}\n  @media (prefers-reduced-motion:reduce){.kpl2-btn{transition:none}}\n</style>\n<div class=\"kpl2d\" style=\"background: linear-gradient(180deg, #242933 0%, #171a21 100%); border: 1px solid #3b4252; border-bottom: 2px solid #0f1219; border-radius: 6px;\">\n<button type=\"button\" class=\"kpl2-btn\" onclick=\"this.textContent=this.textContent==='▶'?'❚❚':'▶'\">▶</button>\n<span style=\"font-size:11px; font-family:monospace; color:#88c0d0;\">00:04</span>\n<div style=\"flex:1; height:6px; background:#12141a; border-radius:3px; border:1px solid #2e3440; overflow:hidden; position:relative;\">\n<div style=\"width:30%; height:100%; background:linear-gradient(90deg, #a3be8c 0%, #ebcb8b 80%, #bf616a 100%);\"></div>\n</div>\n<span style=\"font-size:11px; font-family:monospace; color:#616e88;\">15.0s</span>\n<span style=\"font-size:11px; color:#88c0d0;\">🎚</span>\n</div>"
     },
 
     {
       id: "PL3",
       section: "players",
       name: "Floating Cyber Glass",
-      description: "Translucent frosted acrylic with electric cyan timeline wave glow and minimalist controls.",
+      description: "Translucent frosted acrylic with electric cyan timeline glow and interactive transport.",
       creator: "gemini",
-      tags: ["player","glass","cyan","glow"],
-      code: "<style>\n  .kpl3d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n</style>\n<div class=\"kpl3d\" style=\"background: rgba(15, 23, 42, 0.8); border: 1px solid #38bdf8; box-shadow: 0 0 10px rgba(56,189,248,0.2); border-radius: 8px;\">\n<button style=\"width:24px; height:24px; border-radius:50%; background:rgba(56,189,248,0.15); border:1px solid #38bdf8; color:#38bdf8; font-size:9px; display:flex; align-items:center; justify-content:center; cursor:pointer;\">▶</button>\n<span style=\"font-size:11px; color:#38bdf8; font-weight:600;\">0:04 / 0:15</span>\n<div style=\"flex:1; height:3px; background:rgba(56,189,248,0.2); border-radius:2px; position:relative;\">\n<div style=\"width:28%; height:100%; background:#38bdf8; box-shadow:0 0 8px #38bdf8;\"></div>\n</div>\n<span style=\"font-size:11px; color:#38bdf8;\">⚡</span>\n</div>"
+      tags: ["player","glass","cyan","glow","interactive"],
+      code: "<style>\n  .kpl3d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n  .kpl3-btn{width:24px;height:24px;border-radius:50%;background:rgba(56,189,248,0.15);border:1px solid #38bdf8;color:#38bdf8;font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s ease}\n  .kpl3-btn:active{transform:scale(0.92)}\n  @media (prefers-reduced-motion:reduce){.kpl3-btn{transition:none}}\n</style>\n<div class=\"kpl3d\" style=\"background: rgba(15, 23, 42, 0.8); border: 1px solid #38bdf8; box-shadow: 0 0 10px rgba(56,189,248,0.2); border-radius: 8px;\">\n<button type=\"button\" class=\"kpl3-btn\" onclick=\"this.textContent=this.textContent==='▶'?'❚❚':'▶'\">▶</button>\n<span style=\"font-size:11px; color:#38bdf8; font-weight:600;\">0:04 / 0:15</span>\n<div style=\"flex:1; height:3px; background:rgba(56,189,248,0.2); border-radius:2px; position:relative;\">\n<div style=\"width:28%; height:100%; background:#38bdf8; box-shadow:0 0 8px #38bdf8;\"></div>\n</div>\n<span style=\"font-size:11px; color:#38bdf8;\">⚡</span>\n</div>"
     },
 
     {
       id: "PL4",
       section: "players",
       name: "Neomorphic Soft Dock",
-      description: "Soft debossed track slot with tactile physical play button and warm white timecode.",
+      description: "Soft debossed track slot with tactile physical play toggle button.",
       creator: "gemini",
-      tags: ["player","neumorphic","soft","indigo"],
-      code: "<style>\n  .kpl4d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n</style>\n<div class=\"kpl4d\" style=\"background: #1e222d; border: 1px solid rgba(255,255,255,0.06); box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5); border-radius: 8px;\">\n<button style=\"width:26px; height:26px; border-radius:6px; background:#282e3d; border:1px solid rgba(255,255,255,0.08); color:#f1f5f9; font-size:10px; box-shadow: 2px 2px 4px rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; cursor:pointer;\">▶</button>\n<span style=\"font-size:11px; color:#e2e8f0; font-weight:500;\">0:04 / 0:15</span>\n<div style=\"flex:1; height:6px; background:#141720; border-radius:3px; box-shadow: inset 1px 1px 2px #000; position:relative;\">\n<div style=\"width:28%; height:100%; background:#6366f1; border-radius:3px;\"></div>\n</div>\n<span style=\"font-size:11px; color:#94a3b8;\">🔊</span>\n</div>"
+      tags: ["player","neumorphic","soft","indigo","interactive"],
+      code: "<style>\n  .kpl4d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n  .kpl4-btn{width:26px;height:26px;border-radius:6px;background:#282e3d;border:1px solid rgba(255,255,255,0.08);color:#f1f5f9;font-size:10px;box-shadow:2px 2px 4px rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s ease}\n  .kpl4-btn:active{transform:scale(0.92)}\n  @media (prefers-reduced-motion:reduce){.kpl4-btn{transition:none}}\n</style>\n<div class=\"kpl4d\" style=\"background: #1e222d; border: 1px solid rgba(255,255,255,0.06); box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5); border-radius: 8px;\">\n<button type=\"button\" class=\"kpl4-btn\" onclick=\"this.textContent=this.textContent==='▶'?'❚❚':'▶'\">▶</button>\n<span style=\"font-size:11px; color:#e2e8f0; font-weight:500;\">0:04 / 0:15</span>\n<div style=\"flex:1; height:6px; background:#141720; border-radius:3px; box-shadow: inset 1px 1px 2px #000; position:relative;\">\n<div style=\"width:28%; height:100%; background:#6366f1; border-radius:3px;\"></div>\n</div>\n<span style=\"font-size:11px; color:#94a3b8;\">🔊</span>\n</div>"
     },
-
-
 
     {
       id: "PL6",
       section: "players",
       name: "Retro Amber Hi-Fi",
-      description: "Classic vintage studio receiver aesthetic with glowing warm amber digits and brushed metallic accents.",
+      description: "Vintage studio receiver aesthetic with interactive play toggle and glowing amber display.",
       creator: "gemini",
-      tags: ["player","retro","amber","hifi"],
-      code: "<style>\n  .kpl6d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n</style>\n<div class=\"kpl6d\" style=\"background: #14120e; border: 1px solid #d97706; border-radius: 6px; box-shadow: 0 0 8px rgba(217,119,6,0.2);\">\n<button style=\"width:26px; height:26px; border-radius:50%; background:#78350f; border:1px solid #f59e0b; color:#fbbf24; font-size:10px; display:flex; align-items:center; justify-content:center; cursor:pointer;\">▶</button>\n<span style=\"font-size:12px; font-family:monospace; color:#fbbf24; text-shadow:0 0 6px #f59e0b;\">0:04 [PLAY]</span>\n<div style=\"flex:1; height:5px; background:#291e0d; border-radius:2px; position:relative;\">\n<div style=\"width:28%; height:100%; background:#f59e0b; box-shadow:0 0 6px #f59e0b;\"></div>\n</div>\n<span style=\"font-size:11px; color:#fbbf24;\">📻</span>\n</div>"
+      tags: ["player","retro","amber","hifi","interactive"],
+      code: "<style>\n  .kpl6d{width:100%;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:10px}\n  .kpl6-btn{width:26px;height:26px;border-radius:50%;background:#78350f;border:1px solid #f59e0b;color:#fbbf24;font-size:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s ease}\n  .kpl6-btn:active{transform:scale(0.92)}\n  @media (prefers-reduced-motion:reduce){.kpl6-btn{transition:none}}\n</style>\n<div class=\"kpl6d\" style=\"background: #14120e; border: 1px solid #d97706; border-radius: 6px; box-shadow: 0 0 8px rgba(217,119,6,0.2);\">\n<button type=\"button\" class=\"kpl6-btn\" onclick=\"this.textContent=this.textContent==='▶'?'❚❚':'▶';this.nextElementSibling.textContent=this.textContent==='▶'?'0:04 [PAUSE]':'0:04 [PLAY]'\">▶</button>\n<span style=\"font-size:12px; font-family:monospace; color:#fbbf24; text-shadow:0 0 6px #f59e0b;\">0:04 [PLAY]</span>\n<div style=\"flex:1; height:5px; background:#291e0d; border-radius:2px; position:relative;\">\n<div style=\"width:28%; height:100%; background:#f59e0b; box-shadow:0 0 6px #f59e0b;\"></div>\n</div>\n<span style=\"font-size:11px; color:#fbbf24;\">📻</span>\n</div>"
     },
 
     {
@@ -320,10 +318,13 @@ window.DESIGN_LAB = {
       id: "NA1",
       section: "navigation",
       name: "Segmented Control",
-      description: "Three actions sharing one capsule — active segment glows, siblings stay muted.",
+      description: "Interactive capsule segmented switcher where clicking moves the active illuminated pill.",
       creator: "ox-alpha",
-      tags: ["navigation","segmented","tabs","capsule"],
-      code: "<div style=\"display:inline-flex; max-width:100%; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); border-radius:9999px; padding:2px;\"><span style=\"padding:5px 10px; font-size:11px; color:#94a3b8; cursor:pointer;\">Draft</span><span style=\"padding:5px 10px; font-size:11px; color:#fff; background:linear-gradient(135deg,#7c3aed,#4f46e5); border-radius:9999px; font-weight:700; cursor:pointer;\">Render</span><span style=\"padding:5px 10px; font-size:11px; color:#94a3b8; cursor:pointer;\">Export</span></div>"
+      tags: ["navigation","segmented","tabs","capsule","interactive"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--na1-accent", default: "#7c3aed" }
+      ],
+      code: "<style>\n  .kna1-seg{display:inline-flex;max-width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);border-radius:9999px;padding:3px;gap:2px}\n  .kna1-btn{padding:5px 12px;font-size:11px;font-weight:600;color:#94a3b8;border:none;background:transparent;border-radius:9999px;cursor:pointer;user-select:none;transition:background .18s ease,color .18s ease}\n  .kna1-btn:hover{color:#e2e8f0}\n  .kna1-btn.active{color:#fff;background:linear-gradient(135deg,var(--na1-accent,#7c3aed),#4f46e5);font-weight:700;box-shadow:0 2px 8px rgba(124,58,237,.35)}\n  @media (prefers-reduced-motion:reduce){.kna1-btn{transition:none}}\n</style>\n<div class=\"kna1-seg\">\n  <button type=\"button\" class=\"kna1-btn\" onclick=\"this.parentElement.querySelectorAll('.kna1-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">Draft</button>\n  <button type=\"button\" class=\"kna1-btn active\" onclick=\"this.parentElement.querySelectorAll('.kna1-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">Render</button>\n  <button type=\"button\" class=\"kna1-btn\" onclick=\"this.parentElement.querySelectorAll('.kna1-btn').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">Export</button>\n</div>"
     },
 
     {
@@ -390,30 +391,39 @@ window.DESIGN_LAB = {
       id: "TO1",
       section: "toggles",
       name: "Classic Pill Switch",
-      description: "iOS-style track + knob, ON state. Instantly readable at small sizes.",
+      description: "iOS-style track + knob, interactive clickable toggle with smooth slide state.",
       creator: "ox-alpha",
-      tags: ["switch","ios","pill","on-state"],
-      code: "<span style=\"display:inline-flex; align-items:center; gap:10px;\"><span style=\"display:inline-block; width:46px; height:26px; border-radius:9999px; background:linear-gradient(135deg,#8b5cf6,#6366f1); position:relative; box-shadow:inset 0 1px 3px rgba(0,0,0,.3);\"><i style=\"position:absolute; right:3px; top:3px; width:20px; height:20px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.35);\"></i></span><span style=\"font-size:12px; color:#c4b5fd;\">Face lock · ON</span></span>"
+      tags: ["switch","ios","pill","on-state","interactive"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--to1-accent", default: "#8b5cf6" }
+      ],
+      code: "<style>\n  .kto1-lbl{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}\n  .kto1-in{position:absolute;opacity:0;pointer-events:none}\n  .kto1-track{display:inline-block;width:46px;height:26px;border-radius:9999px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.1);position:relative;box-shadow:inset 0 1px 3px rgba(0,0,0,.4);transition:background .2s ease}\n  .kto1-knob{position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#cbd5e1;box-shadow:0 1px 4px rgba(0,0,0,.4);transition:transform .2s cubic-bezier(.2,1,.3,1),background .2s ease}\n  .kto1-txt{font-size:12px;color:#94a3b8;font-weight:600;transition:color .2s ease}\n  .kto1-in:checked + .kto1-track{background:linear-gradient(135deg,var(--to1-accent,#8b5cf6),#6366f1);border-color:transparent}\n  .kto1-in:checked + .kto1-track .kto1-knob{transform:translateX(20px);background:#fff;box-shadow:0 2px 6px rgba(0,0,0,.4)}\n  .kto1-in:checked ~ .kto1-txt{color:#c4b5fd}\n  @media (prefers-reduced-motion:reduce){.kto1-track,.kto1-knob{transition:none}}\n</style>\n<label class=\"kto1-lbl\">\n  <input type=\"checkbox\" class=\"kto1-in\" checked onchange=\"this.nextElementSibling.nextElementSibling.textContent=this.checked?'Face lock · ON':'Face lock · OFF'\">\n  <span class=\"kto1-track\"><i class=\"kto1-knob\"></i></span>\n  <span class=\"kto1-txt\">Face lock · ON</span>\n</label>"
     },
 
     {
       id: "TO2",
       section: "toggles",
       name: "Neon Glow Switch",
-      description: "Off-state switch where the track itself signals readiness — cyan halo when armed.",
+      description: "Interactive switch where clicking turns on/off the electric cyan halo and glowing core.",
       creator: "ox-alpha",
-      tags: ["switch","neon","glow","off-state"],
-      code: "<span style=\"display:inline-flex; align-items:center; gap:10px;\"><span style=\"display:inline-block; width:46px; height:26px; border-radius:9999px; background:#0f172a; border:1px solid #38bdf8; box-shadow:0 0 10px rgba(56,189,248,.5), inset 0 0 8px rgba(56,189,248,.25); position:relative;\"><i style=\"position:absolute; left:3px; top:3px; width:18px; height:18px; border-radius:50%; background:#38bdf8; box-shadow:0 0 8px #38bdf8;\"></i></span><span style=\"font-size:12px; color:#7dd3fc;\">Upscale · OFF</span></span>"
+      tags: ["switch","neon","glow","interactive"],
+      tweaks: [
+        { type: "color", label: "Neon Color", varName: "--to2-neon", default: "#38bdf8" }
+      ],
+      code: "<style>\n  .kto2-lbl{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}\n  .kto2-in{position:absolute;opacity:0;pointer-events:none}\n  .kto2-track{display:inline-block;width:46px;height:26px;border-radius:9999px;background:#0f172a;border:1px solid rgba(56,189,248,.35);box-shadow:inset 0 0 6px rgba(56,189,248,.15);position:relative;transition:box-shadow .2s ease,border-color .2s ease}\n  .kto2-knob{position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#38bdf8;box-shadow:0 0 4px #38bdf8;transition:transform .2s cubic-bezier(.2,1,.3,1),box-shadow .2s ease}\n  .kto2-txt{font-size:12px;color:#64748b;font-weight:600;transition:color .2s ease}\n  .kto2-in:checked + .kto2-track{border-color:var(--to2-neon,#38bdf8);box-shadow:0 0 12px color-mix(in srgb,var(--to2-neon,#38bdf8) 60%,transparent),inset 0 0 8px color-mix(in srgb,var(--to2-neon,#38bdf8) 30%,transparent)}\n  .kto2-in:checked + .kto2-track .kto2-knob{transform:translateX(20px);box-shadow:0 0 10px var(--to2-neon,#38bdf8),0 0 18px var(--to2-neon,#38bdf8)}\n  .kto2-in:checked ~ .kto2-txt{color:#38bdf8}\n  @media (prefers-reduced-motion:reduce){.kto2-track,.kto2-knob{transition:none}}\n</style>\n<label class=\"kto2-lbl\">\n  <input type=\"checkbox\" class=\"kto2-in\" onchange=\"this.nextElementSibling.nextElementSibling.textContent=this.checked?'Upscale · ON':'Upscale · OFF'\">\n  <span class=\"kto2-track\"><i class=\"kto2-knob\"></i></span>\n  <span class=\"kto2-txt\">Upscale · OFF</span>\n</label>"
     },
 
     {
       id: "TO3",
       section: "toggles",
       name: "Industrial Square Toggle",
-      description: "Hardware-console rocker with LED pip — matches the gunmetal player family.",
+      description: "Tactile gunmetal rocker switch with illuminated LED status pip on click.",
       creator: "ox-alpha",
-      tags: ["switch","industrial","rocker","led"],
-      code: "<span style=\"display:inline-flex; align-items:center; gap:10px;\"><span style=\"display:inline-block; width:48px; height:26px; background:linear-gradient(180deg,#2d3342,#171a21); border:1px solid #4c566a; border-radius:5px; position:relative; padding:3px;\"><span style=\"display:block; width:22px; height:18px; background:linear-gradient(180deg,#88c0d0,#5e81ac); border-radius:3px; margin-left:auto; box-shadow:0 1px 3px rgba(0,0,0,.5);\"></span><i style=\"position:absolute; left:6px; bottom:-9px; width:5px; height:5px; border-radius:50%; background:#a3be8c; box-shadow:0 0 5px #a3be8c;\"></i></span><span style=\"font-size:12px; color:#88c0d0; font-family:monospace;\">CHAIN [ON]</span></span>"
+      tags: ["switch","industrial","rocker","led","interactive"],
+      tweaks: [
+        { type: "color", label: "LED Color", varName: "--to3-led", default: "#a3be8c" }
+      ],
+      code: "<style>\n  .kto3-lbl{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}\n  .kto3-in{position:absolute;opacity:0;pointer-events:none}\n  .kto3-track{display:inline-block;width:48px;height:26px;background:linear-gradient(180deg,#2d3342,#171a21);border:1px solid #4c566a;border-radius:5px;position:relative;padding:3px}\n  .kto3-rocker{display:block;width:20px;height:18px;background:linear-gradient(180deg,#4c566a,#3b4252);border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.5);transition:transform .18s ease,background .18s ease}\n  .kto3-led{position:absolute;left:6px;bottom:-8px;width:5px;height:5px;border-radius:50%;background:#4c566a;transition:background .18s ease,box-shadow .18s ease}\n  .kto3-txt{font-size:12px;color:#64748b;font-family:monospace;font-weight:700}\n  .kto3-in:checked + .kto3-track .kto3-rocker{transform:translateX(20px);background:linear-gradient(180deg,#88c0d0,#5e81ac)}\n  .kto3-in:checked + .kto3-track .kto3-led{background:var(--to3-led,#a3be8c);box-shadow:0 0 8px var(--to3-led,#a3be8c)}\n  .kto3-in:checked ~ .kto3-txt{color:#88c0d0}\n  @media (prefers-reduced-motion:reduce){.kto3-rocker{transition:none}}\n</style>\n<label class=\"kto3-lbl\">\n  <input type=\"checkbox\" class=\"kto3-in\" checked onchange=\"this.nextElementSibling.nextElementSibling.textContent=this.checked?'CHAIN [ON]':'CHAIN [OFF]'\">\n  <span class=\"kto3-track\"><span class=\"kto3-rocker\"></span><i class=\"kto3-led\"></i></span>\n  <span class=\"kto3-txt\">CHAIN [ON]</span>\n</label>"
     },
 
     {
@@ -440,20 +450,26 @@ window.DESIGN_LAB = {
       id: "TO4",
       section: "toggles",
       name: "Chip Toggle Group",
-      description: "Rectangular chips with a raised selected state — quality/model pickers as tactile chips.",
+      description: "Interactive quality selector chips with raised selected glow state on click.",
       creator: "ox-alpha",
-      tags: ["chips","selector","segmented","quality"],
-      code: "<span style=\"display:inline-flex; gap:8px; flex-wrap:wrap;\"><span style=\"padding:7px 14px; font-size:12px; border-radius:8px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:#94a3b8; cursor:pointer;\">Draft</span><span style=\"padding:7px 14px; font-size:12px; border-radius:8px; background:rgba(139,92,246,.18); border:1px solid #8b5cf6; color:#ddd6fe; font-weight:700; cursor:pointer; box-shadow:0 0 10px rgba(139,92,246,.25);\">HD ✓</span><span style=\"padding:7px 14px; font-size:12px; border-radius:8px; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); color:#94a3b8; cursor:pointer;\">Ultra</span></span>"
+      tags: ["chips","selector","segmented","quality","interactive"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--to4-accent", default: "#8b5cf6" }
+      ],
+      code: "<style>\n  .kto4-group{display:inline-flex;gap:6px;flex-wrap:wrap}\n  .kto4-chip{padding:6px 12px;font-size:11.5px;font-weight:600;border-radius:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#94a3b8;cursor:pointer;user-select:none;transition:background .15s ease,color .15s ease,border-color .15s ease}\n  .kto4-chip:hover{background:rgba(255,255,255,.09);color:#e2e8f0}\n  .kto4-chip.active{background:rgba(139,92,246,.2);border-color:var(--to4-accent,#8b5cf6);color:#ddd6fe;font-weight:700;box-shadow:0 0 10px rgba(139,92,246,.25)}\n  @media (prefers-reduced-motion:reduce){.kto4-chip{transition:none}}\n</style>\n<div class=\"kto4-group\">\n  <button type=\"button\" class=\"kto4-chip\" onclick=\"this.parentElement.querySelectorAll('.kto4-chip').forEach(c=>c.classList.remove('active'));this.classList.add('active')\">Draft</button>\n  <button type=\"button\" class=\"kto4-chip active\" onclick=\"this.parentElement.querySelectorAll('.kto4-chip').forEach(c=>c.classList.remove('active'));this.classList.add('active')\">HD ✓</button>\n  <button type=\"button\" class=\"kto4-chip\" onclick=\"this.parentElement.querySelectorAll('.kto4-chip').forEach(c=>c.classList.remove('active'));this.classList.add('active')\">Ultra</button>\n</div>"
     },
 
     {
       id: "TO5",
       section: "toggles",
       name: "Slide Switch",
-      description: "Horizontally sliding binary toggle — track moves fully left or right on press, distinct from pivot-style knobs.",
+      description: "Interactive horizontally sliding binary toggle with smooth thumb transition.",
       creator: "nemotron",
-      tags: ["toggle","switch","slide","binary"],
-      code: "<style>\n  .kto5-wrapper{display:inline-flex;align-items:center;gap:8px}\n  .kto5-track{position:relative;width:56px;height:28px;background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid rgba(255,255,255,.08);border-radius:9999px;cursor:pointer;user-select:none}\n  .kto5-knob{position:absolute;top:2px;left:2px;width:24px;height:24px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.4);transition:transform .15s ease;will-change:transform}\n  .kto5-wrapper:has(.kto5-knob.right){transform:translateX(28px)}\n  .kto5-wrapper:has(.kto5-knob.right) .kto5-knob{left:auto;right:2px}\n  @media (prefers-reduced-motion:reduce){.kto5-knob{transition:none}}\n</style>\n<div class=\"kto5-wrapper\" tabindex=\"0\" role=\"switch\" aria-checked=\"false\" aria-label=\"Toggle setting\">\n  <div class=\"kto5-track\"><div class=\"kto5-knob\right\"></div></div>\n</div>"
+      tags: ["toggle","switch","slide","binary","interactive"],
+      tweaks: [
+        { type: "color", label: "Accent", varName: "--to5-accent", default: "#f97316" }
+      ],
+      code: "<style>\n  .kto5-wrap{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}\n  .kto5-in{position:absolute;opacity:0;pointer-events:none}\n  .kto5-track{position:relative;width:52px;height:28px;background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid rgba(255,255,255,.12);border-radius:9999px;transition:border-color .2s ease,box-shadow .2s ease}\n  .kto5-knob{position:absolute;top:3px;left:3px;width:20px;height:20px;background:#ffffff;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.5);transition:transform .2s cubic-bezier(.2,1,.3,1),background .2s ease}\n  .kto5-txt{font-size:12px;color:#94a3b8;font-weight:600}\n  .kto5-in:checked + .kto5-track{border-color:var(--to5-accent,#f97316);box-shadow:0 0 10px color-mix(in srgb,var(--to5-accent,#f97316) 35%,transparent)}\n  .kto5-in:checked + .kto5-track .kto5-knob{transform:translateX(24px);background:var(--to5-accent,#f97316);box-shadow:0 0 8px var(--to5-accent,#f97316)}\n  .kto5-in:checked ~ .kto5-txt{color:#f8fafc}\n  @media (prefers-reduced-motion:reduce){.kto5-knob{transition:none}}\n</style>\n<label class=\"kto5-wrap\">\n  <input type=\"checkbox\" class=\"kto5-in\" onchange=\"this.nextElementSibling.nextElementSibling.textContent=this.checked?'Active · ON':'Muted · OFF'\">\n  <span class=\"kto5-track\"><i class=\"kto5-knob\"></i></span>\n  <span class=\"kto5-txt\">Muted · OFF</span>\n</label>"
     },
 
     {
@@ -655,10 +671,13 @@ window.DESIGN_LAB = {
       id: "NA2",
       section: "navigation",
       name: "Floating Capsule Dock",
-      description: "Subtle blur glass pill dock with illuminated circular active state.",
+      description: "Interactive glass pill dock where clicking icons moves the illuminated indicator.",
       creator: "gemini",
-      tags: ["navigation","dock","capsule","floating","glass"],
-      code: "<style>\n  .kna2-dock{display:inline-flex;align-items:center;gap:4px;background:rgba(15,23,42,0.85);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.12);border-radius:9999px;padding:4px 8px;box-shadow:0 12px 30px -8px rgba(0,0,0,0.7)}\n  .kna2-item{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;color:#94a3b8;font-size:13px;cursor:pointer;transition:transform 0.16s ease,opacity 0.16s ease}\n  .kna2-item:hover{transform:translateY(-2px);color:#fff}\n  .kna2-item.active{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,0.4)}\n  @media (prefers-reduced-motion:reduce){.kna2-item{transition:none}}\n</style>\n<nav class=\"kna2-dock\">\n  <span class=\"kna2-item active\">⊞</span>\n  <span class=\"kna2-item\">⚡</span>\n  <span class=\"kna2-item\">⚙</span>\n  <span class=\"kna2-item\">✦</span>\n</nav>"
+      tags: ["navigation","dock","capsule","floating","glass","interactive"],
+      tweaks: [
+        { type: "color", label: "Active Accent", varName: "--na2-accent", default: "#6366f1" }
+      ],
+      code: "<style>\n  .kna2-dock{display:inline-flex;align-items:center;gap:4px;background:rgba(15,23,42,0.85);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,0.12);border-radius:9999px;padding:4px 8px;box-shadow:0 12px 30px -8px rgba(0,0,0,0.7)}\n  .kna2-item{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;color:#94a3b8;font-size:13px;border:none;background:transparent;cursor:pointer;transition:transform 0.16s ease,color 0.16s ease,background 0.16s ease}\n  .kna2-item:hover{transform:translateY(-2px);color:#fff}\n  .kna2-item.active{background:linear-gradient(135deg,var(--na2-accent,#6366f1),#8b5cf6);color:#fff;box-shadow:0 4px 12px rgba(99,102,241,0.4)}\n  @media (prefers-reduced-motion:reduce){.kna2-item{transition:none}}\n</style>\n<nav class=\"kna2-dock\">\n  <button type=\"button\" class=\"kna2-item active\" onclick=\"this.parentElement.querySelectorAll('.kna2-item').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">⊞</button>\n  <button type=\"button\" class=\"kna2-item\" onclick=\"this.parentElement.querySelectorAll('.kna2-item').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">⚡</button>\n  <button type=\"button\" class=\"kna2-item\" onclick=\"this.parentElement.querySelectorAll('.kna2-item').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">⚙</button>\n  <button type=\"button\" class=\"kna2-item\" onclick=\"this.parentElement.querySelectorAll('.kna2-item').forEach(b=>b.classList.remove('active'));this.classList.add('active')\">✦</button>\n</nav>"
     },
 
     {
@@ -675,10 +694,13 @@ window.DESIGN_LAB = {
       id: "NA4",
       section: "navigation",
       name: "Underline Glow Segmented Tabs",
-      description: "Minimalist text tab row with electric cyan active indicator halo.",
+      description: "Minimalist text tab row with interactive electric cyan active indicator halo.",
       creator: "gemini",
-      tags: ["navigation","tabs","underline","glow","cyan"],
-      code: "<style>\n  .kna4-tabs{display:inline-flex;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:2px}\n  .kna4-tab{font-size:12px;font-weight:600;color:#64748b;padding:6px 2px;position:relative;cursor:pointer}\n  .kna4-tab.is-on{color:#38bdf8}\n  .kna4-tab.is-on::after{content:\"\";position:absolute;left:0;bottom:-3px;width:100%;height:2px;background:#38bdf8;box-shadow:0 0 8px #38bdf8;border-radius:1px}\n</style>\n<div class=\"kna4-tabs\">\n  <span class=\"kna4-tab is-on\">Specs</span>\n  <span class=\"kna4-tab\">Code</span>\n  <span class=\"kna4-tab\">Exports</span>\n</div>"
+      tags: ["navigation","tabs","underline","glow","cyan","interactive"],
+      tweaks: [
+        { type: "color", label: "Glow Color", varName: "--na4-glow", default: "#38bdf8" }
+      ],
+      code: "<style>\n  .kna4-tabs{display:inline-flex;gap:16px;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:2px}\n  .kna4-tab{font-size:12px;font-weight:600;color:#64748b;padding:6px 2px;position:relative;background:none;border:none;cursor:pointer;transition:color .18s ease}\n  .kna4-tab:hover{color:#cbd5e1}\n  .kna4-tab.is-on{color:var(--na4-glow,#38bdf8)}\n  .kna4-tab.is-on::after{content:\"\";position:absolute;left:0;bottom:-3px;width:100%;height:2px;background:var(--na4-glow,#38bdf8);box-shadow:0 0 8px var(--na4-glow,#38bdf8);border-radius:1px}\n  @media (prefers-reduced-motion:reduce){.kna4-tab{transition:none}}\n</style>\n<div class=\"kna4-tabs\">\n  <button type=\"button\" class=\"kna4-tab is-on\" onclick=\"this.parentElement.querySelectorAll('.kna4-tab').forEach(b=>b.classList.remove('is-on'));this.classList.add('is-on')\">Specs</button>\n  <button type=\"button\" class=\"kna4-tab\" onclick=\"this.parentElement.querySelectorAll('.kna4-tab').forEach(b=>b.classList.remove('is-on'));this.classList.add('is-on')\">Code</button>\n  <button type=\"button\" class=\"kna4-tab\" onclick=\"this.parentElement.querySelectorAll('.kna4-tab').forEach(b=>b.classList.remove('is-on'));this.classList.add('is-on')\">Exports</button>\n</div>"
     },
 
     {
@@ -900,13 +922,13 @@ window.DESIGN_LAB = {
       id: "SL7",
       section: "sliders",
       name: "Dual-Range Track",
-      description: "Two independent thumbs select a min-max range — for selecting price bands, date ranges, or value bands simultaneously.",
+      description: "Dual-thumb band selector card with highlighted range fill and min/max frequency readouts.",
       creator: "nemotron",
-      tags: ["slider","range","dual","dual-handle"],
+      tags: ["slider","range","dual","dual-handle","band"],
       tweaks: [
-        { type: "color", label: "Thumb Color", varName: "--sl7-color", default: "#f97316" },
+        { type: "color", label: "Thumb Color", varName: "--sl7-color", default: "#f97316" }
       ],
-      code: "<style>\n  .ksl7-wrap{position:relative;width:300px}\n  .ksl7-track{position:relative;height:8px;background:rgba(255,255,255,.08);border-radius:4px;cursor:pointer}\n  .ksl7-thumb{position:absolute;width:18px;height:18px;background:var(--sl7-color,#f97316);border-radius:50%;border:3px solid #fff;box-shadow:0 0 8px var(--sl7-color,#f97316);cursor:pointer;transform:translateX(-50%);transition:left .15s ease,box-shadow .15s ease}\n  .ksl7-thumb.right{left:100%;transform:translateX(-100%)}\n  .ksl7-thumb:hover{box-shadow:0 0 12px var(--sl7-color,#f97316)}\n  @media (prefers-reduced-motion:reduce){.ksl7-thumb{transition:none}}\n</style>\n<div class=\"ksl7-wrap\">\n  <input type=\"range\" min=\"0\" max=\"200\" value=\"150\" style=\"-webkit-appearance:none;width:300px;height:0;cursor:pointer\"><div class=\"ksl7-track\"><div class=\"ksl7-thumb\right\"></div><div class=\"ksl7-thumb left\"></div></div>\n</div>"
+      code: "<style>\n  .ksl7-card{width:200px;background:#141720;border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:10px 12px;box-shadow:0 8px 20px -6px rgba(0,0,0,0.6)}\n  .ksl7-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}\n  .ksl7-lbl{font-size:10px;font-weight:700;color:#94a3b8;letter-spacing:.05em;text-transform:uppercase}\n  .ksl7-val{font-size:11px;font-weight:700;color:var(--sl7-color,#f97316);font-variant-numeric:tabular-nums}\n  .ksl7-track-wrap{position:relative;height:20px;display:flex;align-items:center}\n  .ksl7-rail{position:absolute;left:0;right:0;height:6px;background:rgba(255,255,255,0.1);border-radius:3px}\n  .ksl7-fill{position:absolute;left:25%;right:25%;height:6px;background:var(--sl7-color,#f97316);border-radius:3px;box-shadow:0 0 8px var(--sl7-color,#f97316)}\n  .ksl7-thumb{position:absolute;width:16px;height:16px;background:#fff;border:3px solid var(--sl7-color,#f97316);border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,0.5);transform:translateX(-50%);cursor:pointer;transition:transform .15s ease}\n  .ksl7-thumb:hover{transform:translateX(-50%) scale(1.2)}\n  .ksl7-thumb.left{left:25%}\n  .ksl7-thumb.right{left:75%}\n  @media (prefers-reduced-motion:reduce){.ksl7-thumb{transition:none}}\n</style>\n<div class=\"ksl7-card\">\n  <div class=\"ksl7-top\">\n    <span class=\"ksl7-lbl\">Frequency Band</span>\n    <span class=\"ksl7-val\">250Hz – 4.5kHz</span>\n  </div>\n  <div class=\"ksl7-track-wrap\">\n    <div class=\"ksl7-rail\"></div>\n    <div class=\"ksl7-fill\"></div>\n    <div class=\"ksl7-thumb left\" title=\"Min Frequency\"></div>\n    <div class=\"ksl7-thumb right\" title=\"Max Frequency\"></div>\n  </div>\n</div>"
     },
 
     /* ---- Mimo 2.5 additions: Cards, Modals ---- */
@@ -1140,14 +1162,14 @@ window.DESIGN_LAB = {
       id: "TO6",
       section: "toggles",
       name: "Day Night Toggle",
-      description: "Themed toggle with sun/moon icons that swap on state change — the track itself transitions from warm to cool gradient.",
+      description: "Interactive themed toggle with sun/moon icons that swap and animate on click.",
       creator: "opus",
-      tags: ["toggle","theme","day-night","icon"],
+      tags: ["toggle","theme","day-night","icon","interactive"],
       tweaks: [
         { type: "color", label: "Day Color", varName: "--to6-day", default: "#fbbf24" },
         { type: "color", label: "Night Color", varName: "--to6-night", default: "#6366f1" }
       ],
-      code: "<style>\n  .kto6-track{display:inline-flex;align-items:center;width:52px;height:28px;border-radius:9999px;background:linear-gradient(135deg,var(--to6-night,#6366f1),#1e1b4b);position:relative;cursor:pointer;box-shadow:inset 0 1px 3px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,0.08)}\n  .kto6-knob{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:linear-gradient(145deg,#f1f5f9,#e2e8f0);box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .22s ease}\n  .kto6-track:hover .kto6-knob{transform:translateX(24px)}\n  .kto6-track:hover{background:linear-gradient(135deg,var(--to6-day,#fbbf24),#f97316)}\n  @media (prefers-reduced-motion:reduce){.kto6-knob{transition:none}}\n</style>\n<span style=\"display:inline-flex;align-items:center;gap:10px\">\n  <span class=\"kto6-track\">\n    <span class=\"kto6-knob\">🌙</span>\n  </span>\n  <span style=\"font-size:12px;color:#c4b5fd\">Theme</span>\n</span>"
+      code: "<style>\n  .kto6-lbl{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}\n  .kto6-in{position:absolute;opacity:0;pointer-events:none}\n  .kto6-track{display:inline-flex;align-items:center;width:52px;height:28px;border-radius:9999px;background:linear-gradient(135deg,var(--to6-night,#6366f1),#1e1b4b);position:relative;box-shadow:inset 0 1px 3px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,0.08);transition:background .25s ease}\n  .kto6-knob{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:linear-gradient(145deg,#f1f5f9,#e2e8f0);box-shadow:0 2px 6px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .22s cubic-bezier(.2,1,.3,1)}\n  .kto6-in:checked + .kto6-track{background:linear-gradient(135deg,var(--to6-day,#fbbf24),#f97316)}\n  .kto6-in:checked + .kto6-track .kto6-knob{transform:translateX(24px)}\n  @media (prefers-reduced-motion:reduce){.kto6-track,.kto6-knob{transition:none}}\n</style>\n<label class=\"kto6-lbl\">\n  <input type=\"checkbox\" class=\"kto6-in\" onchange=\"this.nextElementSibling.querySelector('.kto6-knob').textContent=this.checked?'☀️':'🌙'\">\n  <span class=\"kto6-track\">\n    <span class=\"kto6-knob\">🌙</span>\n  </span>\n  <span style=\"font-size:12px;color:#c4b5fd;font-weight:600\">Theme</span>\n</label>"
     },
 
     {
@@ -1314,26 +1336,26 @@ window.DESIGN_LAB = {
       id: "TO7",
       section: "toggles",
       name: "Animated Check Box",
-      description: "Standalone checkbox with an SVG stroke-dashoffset checkmark that draws itself on activation — distinct from pill switches, chip togglers, and rocker buttons.",
+      description: "Interactive checkbox with an animated SVG stroke-dashoffset checkmark that draws itself on activation.",
       creator: "sonnet",
-      tags: ["toggle","checkbox","check","svg","animate"],
+      tags: ["toggle","checkbox","check","svg","animate","interactive"],
       tweaks: [
         { type: "color", label: "Check Color", varName: "--to7-color", default: "#f04c54" }
       ],
-      code: "<style>\n  @keyframes kto7-draw{to{stroke-dashoffset:0}}\n  .kto7-wrap{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}\n  .kto7-box{width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .18s ease,background .18s ease}\n  .kto7-wrap:hover .kto7-box{border-color:var(--to7-color,#f04c54)}\n  .kto7-check{stroke-dasharray:18;stroke-dashoffset:18;animation:kto7-draw .3s ease-out forwards}\n  .kto7-wrap.on .kto7-box{background:var(--to7-color,#f04c54);border-color:var(--to7-color,#f04c54)}\n  .kto7-lbl{font-size:12px;color:#cbd5e1;font-weight:500}\n  @media (prefers-reduced-motion:reduce){.kto7-check{animation:none;stroke-dashoffset:0}.kto7-box{transition:none}}\n</style>\n<label class=\"kto7-wrap on\">\n  <span class=\"kto7-box\">\n    <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\">\n      <path class=\"kto7-check\" d=\"M2 6l3 3 5-5\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"kto7-lbl\">Enable upscaling</span>\n</label>"
+      code: "<style>\n  @keyframes kto7-draw{to{stroke-dashoffset:0}}\n  .kto7-wrap{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}\n  .kto7-in{position:absolute;opacity:0;pointer-events:none}\n  .kto7-box{width:22px;height:22px;border-radius:6px;border:2px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .18s ease,background .18s ease}\n  .kto7-wrap:hover .kto7-box{border-color:var(--to7-color,#f04c54)}\n  .kto7-check{stroke-dasharray:18;stroke-dashoffset:18;transition:stroke-dashoffset .25s ease}\n  .kto7-in:checked + .kto7-box{background:var(--to7-color,#f04c54);border-color:var(--to7-color,#f04c54);box-shadow:0 0 10px color-mix(in srgb,var(--to7-color,#f04c54) 40%,transparent)}\n  .kto7-in:checked + .kto7-box .kto7-check{stroke-dashoffset:0}\n  .kto7-lbl{font-size:12px;color:#cbd5e1;font-weight:500}\n  @media (prefers-reduced-motion:reduce){.kto7-check{transition:none}.kto7-box{transition:none}}\n</style>\n<label class=\"kto7-wrap\">\n  <input type=\"checkbox\" class=\"kto7-in\" checked>\n  <span class=\"kto7-box\">\n    <svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\">\n      <path class=\"kto7-check\" d=\"M2 6l3 3 5-5\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    </svg>\n  </span>\n  <span class=\"kto7-lbl\">Enable upscaling</span>\n</label>"
     },
 
     {
       id: "TO8",
       section: "toggles",
       name: "Heart Favorite Morph",
-      description: "Tap-to-favorite toggle where the entire shape morphs from outline to filled heart with a scale burst — icon-morph interaction unlike any switch, chip, or rocker.",
+      description: "Interactive tap-to-favorite toggle where clicking morphs from outline to filled heart with a scale burst.",
       creator: "sonnet",
-      tags: ["toggle","favorite","heart","morph","icon"],
+      tags: ["toggle","favorite","heart","morph","icon","interactive"],
       tweaks: [
         { type: "color", label: "Heart Color", varName: "--to8-heart", default: "#f04c54" }
       ],
-      code: "<style>\n  @keyframes kto8-burst{0%{transform:scale(1)}40%{transform:scale(1.35)}70%{transform:scale(.9)}100%{transform:scale(1)}}\n  .kto8-btn{background:none;border:none;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:8px}\n  .kto8-heart{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);transition:border-color .18s ease}\n  .kto8-btn:hover .kto8-heart{border-color:var(--to8-heart,#f04c54)}\n  .kto8-btn.on .kto8-heart{background:color-mix(in srgb,var(--to8-heart,#f04c54) 15%,transparent);border-color:var(--to8-heart,#f04c54);animation:kto8-burst .35s ease}\n  .kto8-svg-fill{fill:none;stroke:rgba(255,255,255,0.4);stroke-width:1.8;transition:fill .18s ease,stroke .18s ease}\n  .kto8-btn.on .kto8-svg-fill{fill:var(--to8-heart,#f04c54);stroke:var(--to8-heart,#f04c54)}\n  .kto8-lbl{font-size:11px;color:#94a3b8}\n  @media (prefers-reduced-motion:reduce){.kto8-btn.on .kto8-heart{animation:none}.kto8-svg-fill,.kto8-heart{transition:none}}\n</style>\n<button type=\"button\" class=\"kto8-btn on\">\n  <span class=\"kto8-heart\">\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\">\n      <path class=\"kto8-svg-fill\" d=\"M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z\"/>\n    </svg>\n  </span>\n  <span class=\"kto8-lbl\">Saved</span>\n</button>"
+      code: "<style>\n  @keyframes kto8-burst{0%{transform:scale(1)}40%{transform:scale(1.35)}70%{transform:scale(.9)}100%{transform:scale(1)}}\n  .kto8-wrap{display:inline-flex;align-items:center;gap:8px;cursor:pointer;user-select:none}\n  .kto8-in{position:absolute;opacity:0;pointer-events:none}\n  .kto8-heart{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;border:1px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.04);transition:border-color .18s ease,background .18s ease}\n  .kto8-wrap:hover .kto8-heart{border-color:var(--to8-heart,#f04c54)}\n  .kto8-svg-fill{fill:none;stroke:rgba(255,255,255,0.4);stroke-width:1.8;transition:fill .18s ease,stroke .18s ease}\n  .kto8-lbl{font-size:11.5px;color:#94a3b8;font-weight:600;transition:color .18s ease}\n  .kto8-in:checked + .kto8-heart{background:color-mix(in srgb,var(--to8-heart,#f04c54) 15%,transparent);border-color:var(--to8-heart,#f04c54);animation:kto8-burst .35s ease}\n  .kto8-in:checked + .kto8-heart .kto8-svg-fill{fill:var(--to8-heart,#f04c54);stroke:var(--to8-heart,#f04c54)}\n  .kto8-in:checked ~ .kto8-lbl{color:#f8fafc}\n  @media (prefers-reduced-motion:reduce){.kto8-in:checked + .kto8-heart{animation:none}.kto8-svg-fill,.kto8-heart{transition:none}}\n</style>\n<label class=\"kto8-wrap\">\n  <input type=\"checkbox\" class=\"kto8-in\" checked onchange=\"this.nextElementSibling.nextElementSibling.textContent=this.checked?'Saved ✓':'Save'\">\n  <span class=\"kto8-heart\">\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\">\n      <path class=\"kto8-svg-fill\" d=\"M12 21C12 21 3 14 3 8a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6-9 13-9 13z\"/>\n    </svg>\n  </span>\n  <span class=\"kto8-lbl\">Saved ✓</span>\n</label>"
     },
 
     {
