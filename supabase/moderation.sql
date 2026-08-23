@@ -12,6 +12,12 @@ create table if not exists public.live_config (
   value text not null
 );
 
+-- The hash must never be readable through the public API, so lock the table
+-- down: RLS on with no policies = nobody reads it except the owner-role
+-- functions below (which run as the table owner and bypass RLS).
+alter table public.live_config enable row level security;
+revoke all on public.live_config from anon, authenticated;
+
 -- Seed the owner token hash. Upserts on every run so a re-run always
 -- matches the functions below (safe after a failed or partial first run).
 -- Change the token: update this row to the md5 of a new token, e.g.
