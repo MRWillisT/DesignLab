@@ -596,7 +596,10 @@ function previewDoc(code, vars, canvas = state.canvas) {
 function setStageCanvas(mode) {
   state.canvas = mode;
   saveFilters();
-  syncCanvasButtons();
+  $$('.canvas-btn').forEach(btn => {
+    btn.classList.toggle('is-active', btn.dataset.canvas === mode);
+  });
+  document.documentElement.dataset.stageCanvas = mode;
   $$('#library iframe.stage-frame').forEach(f => {
     try { f.contentWindow.postMessage({ type: 'dl-canvas', canvas: mode }, '*'); } catch (e) {}
   });
