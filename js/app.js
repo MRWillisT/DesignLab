@@ -809,7 +809,7 @@ function updatePromptStudio(opts = {}) {
   $('#promptPreviewText').value = prompt.trim();
 }
 
-async function copyPromptStudio(btn) {
+async function copyPromptStudio(btn, successMsg) {
   const sel = $('#agentSelect');
   const dSel = $('#targetDrawerSelect');
   const text = $('#promptPreviewText').value;
@@ -849,7 +849,7 @@ async function copyPromptStudio(btn) {
   const ok = await copyText(text);
   if (ok) {
     if (btn) flashButton(btn, 'Copied ✓');
-    toast('Customized agent prompt copied — ready to paste!');
+    toast(successMsg || 'Customized agent prompt copied — ready to paste!');
     closePromptStudio();
   } else {
     toast('Copy blocked by browser — select and copy manually.');
@@ -919,9 +919,12 @@ function quickDispatch() {
     sel.value = 'known:' + ident.name;
   }
   $('#agentColorPicker').value = ident.color;
-  $('#targetDrawerSelect').value = quickDrawerId();
+  const drawerId = quickDrawerId();
+  $('#targetDrawerSelect').value = drawerId;
   updatePromptStudio({ isAgentSwitch: true });
-  copyPromptStudio(null);
+  const drawerName = sectionOf(drawerId) ? sectionOf(drawerId).name : drawerId;
+  copyPromptStudio(null, '⚡ Prompt copied — dispatched as ' + ident.name + ' · ' + drawerName
+    + '. When your agent returns JSON, open Customize → Publish live and paste it.');
 }
 
 /* ---------- prompt studio: credit chip color pills ---------- */
@@ -2842,7 +2845,8 @@ function init() {
     saveFilters();
   });
 
-  $('#enterAgentBtn').addEventListener('click', enterAgentFlow);
+  $('#enterAgentBtn').addEventListener('click', quickDispatch);
+  if ($('#customizeAgentBtn')) $('#customizeAgentBtn').addEventListener('click', enterAgentFlow);
   $('#promptClose').addEventListener('click', closePromptStudio);
   $('#promptCancel').addEventListener('click', closePromptStudio);
   $('#promptSubmitBtn').addEventListener('click', jumpToPublishPanel);

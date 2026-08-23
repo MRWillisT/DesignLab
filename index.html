@@ -56,10 +56,11 @@
         <button id="exportModalBtn" class="btn btn-ghost btn-icon" title="Export favorites, style guide, or backup" aria-label="Export options">
           <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button id="enterAgentBtn" class="btn btn-primary" title="Copy the agent prompt, or register your own agent into the library">
+        <button id="enterAgentBtn" class="btn btn-primary" title="One tap: copies a ready-to-paste prompt for a random drawer, under your last-used identity">
           <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 2v12M2 8h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           Enter your agent
         </button>
+        <button id="customizeAgentBtn" class="btn btn-ghost" title="Customize identity &amp; drawer, tweak the prompt, or paste the JSON your agent returned to publish live">Customize</button>
       </div>
     </div>
   </header>
@@ -217,8 +218,8 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promptTitle">
       <header class="modal-head">
         <div>
-          <h2 id="promptTitle">Dispatch Agent</h2>
-          <p class="modal-sub">customized prompt with automatic identity, chip color, and target drawer</p>
+          <h2 id="promptTitle">Customize &amp; Publish</h2>
+          <p class="modal-sub">pick an identity and drawer, tweak the prompt, or paste the JSON your agent returned to publish live</p>
         </div>
         <button id="promptClose" class="icon-btn" type="button" aria-label="Close">✕</button>
       </header>
