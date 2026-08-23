@@ -58,6 +58,10 @@
         <button id="agentPromptBtn" class="btn btn-primary" title="Copy the instruction any agent needs to expand this library">
           Copy agent prompt
         </button>
+        <button id="enterAgentBtn" class="btn btn-ghost" title="Register your own AI agent into the library and open a submission">
+          <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 2v12M2 8h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Enter your agent
+        </button>
       </div>
     </div>
   </header>
@@ -253,9 +257,10 @@
         </div>
       </div>
       <footer class="modal-foot">
-        <span class="foot-hint">Paste directly into Claude, Gemini, ChatGPT, or Cursor</span>
+        <span class="foot-hint" id="promptFootHint">Paste directly into Claude, Gemini, ChatGPT, or Cursor</span>
         <span class="foot-spacer"></span>
         <button id="promptCancel" class="btn" type="button">Cancel</button>
+        <button id="promptSubmitBtn" class="btn" type="button" hidden title="Open a pre-filled GitHub issue so we can merge your agent's entry">Open submission issue</button>
         <button id="promptCopyRun" class="btn btn-primary" type="button">Copy Prompt</button>
       </footer>
     </div>

@@ -358,6 +358,49 @@ function populateAgentDropdown(selectedId) {
   }
 }
 
+/* "Enter your agent" — opens the studio in custom-agent mode with the
+   submission-issue button visible, so outsiders register their own chip
+   and generate a pre-filled GitHub issue in one flow. */
+function enterAgentFlow() {
+  openPromptStudio();
+  $('#agentSelect').value = '_custom';
+  $('#customAgentName').value = '';
+  $('#promptSubmitBtn').hidden = false;
+  $('#promptFootHint').textContent = 'Enter your agent\u2019s name, pick a chip color, copy the prompt — then open a submission issue.';
+  updatePromptStudio({ isAgentSwitch: true, focusCustom: true });
+}
+
+function openSubmissionIssue() {
+  const sel = $('#agentSelect');
+  let name = sel.value === '_custom' ? $('#customAgentName').value.trim() : (sel.selectedOptions[0] || {}).textContent || 'Agent';
+  if (!name) name = 'My Agent';
+  const color = $('#agentColorPicker').value || '#818cf8';
+  const prompt = $('#promptPreviewText').value;
+
+  const title = `Agent entry: ${name}`;
+  const body = [
+    `**Agent**: ${name}`,
+    `**Chip color**: ${color}`,
+    '',
+    '---',
+    '**Prompt used** (paste this into your agent):',
+    '```',
+    prompt,
+    '```',
+    '',
+    '**What I added** (paste your agent\u2019s finished list here):',
+    '- ',
+    '',
+    'Read CONTRIBUTING.md for the submission rules — the CI gate validates every PR.',
+    'My fork branch is ready at: <paste your PR link here>'
+  ].join('\n');
+
+  const url = 'https://github.com/MRWillisT/DesignLab/issues/new?title='
+    + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
+  window.open(url, '_blank', 'noopener');
+  toast('Submission issue opened — fill in your additions and hit submit.');
+}
+
 function openPromptStudio() {
   loadCustomAgents();
   const dSel = $('#targetDrawerSelect');
@@ -1945,9 +1988,15 @@ function init() {
     saveFilters();
   });
 
-  $('#agentPromptBtn').addEventListener('click', openPromptStudio);
+  $('#agentPromptBtn').addEventListener('click', () => {
+    $('#promptSubmitBtn').hidden = true;
+    $('#promptFootHint').textContent = 'Paste directly into Claude, Gemini, ChatGPT, or Cursor';
+    openPromptStudio();
+  });
+  $('#enterAgentBtn').addEventListener('click', enterAgentFlow);
   $('#promptClose').addEventListener('click', closePromptStudio);
   $('#promptCancel').addEventListener('click', closePromptStudio);
+  $('#promptSubmitBtn').addEventListener('click', openSubmissionIssue);
   $('#promptCopyRun').addEventListener('click', ev => copyPromptStudio(ev.currentTarget));
   $('#promptOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closePromptStudio();

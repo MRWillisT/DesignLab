@@ -1,0 +1,30 @@
+name: registry-check
+
+# Validates the specimen registry on every pull request and push to main,
+# so outside contributors' batches are checked automatically — the same
+# rules the local pre-push hook enforces (syntax, structure, tweaks,
+# chip-color/name uniqueness, and the behavioral smoke test).
+#
+# Zero dependencies: the check uses only Node's stdlib, so there is no
+# npm install step and nothing to keep in sync.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check-registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run registry checks (structure + smoke test)
+        run: node scripts/check-registry.mjs
+
+      - name: Verify app syntax
+        run: node --check js/data.js && node --check js/app.js && node --check js/votes.js && node --check js/supabase-config.js

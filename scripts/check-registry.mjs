@@ -75,10 +75,19 @@ if (LIB) {
     const items = Array.isArray(LIB.items) ? LIB.items : [];
 
     const creatorIds = new Set();
+    const creatorNames = new Map(); // lowercase name -> original id
     for (const c of creators) {
       if (!c || !c.id) { fail('A creator entry is missing an id.'); continue; }
       if (creatorIds.has(c.id)) fail(`Duplicate creator id "${c.id}".`);
       creatorIds.add(c.id);
+      if (typeof c.name === 'string' && c.name.trim()) {
+        const key = c.name.trim().toLowerCase();
+        if (creatorNames.has(key)) {
+          fail(`Duplicate creator name "${c.name}" (also used by "${creatorNames.get(key)}") — one agent per identity.`);
+        } else {
+          creatorNames.set(key, c.id);
+        }
+      }
     }
 
     const sectionById = new Map();
