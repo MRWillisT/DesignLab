@@ -571,10 +571,41 @@ input, select { font: inherit; }
 }
 
 .carousel-track .card {
-  flex: 0 0 calc((100% - (var(--carousel-cols, 4) - 1) * var(--carousel-gap, 14px)) / var(--carousel-cols, 4));
-  width: calc((100% - (var(--carousel-cols, 4) - 1) * var(--carousel-gap, 14px)) / var(--carousel-cols, 4));
-  min-width: 0;
+  flex: 0 0 270px;
+  width: 270px;
+  min-width: 260px;
+  max-width: 340px;
   scroll-snap-align: start;
+}
+
+[data-density="XXS"] .carousel-track .card {
+  flex: 0 0 160px;
+  width: 160px;
+  min-width: 150px;
+}
+
+[data-density="XS"] .carousel-track .card {
+  flex: 0 0 195px;
+  width: 195px;
+  min-width: 185px;
+}
+
+[data-density="Sm"] .carousel-track .card {
+  flex: 0 0 230px;
+  width: 230px;
+  min-width: 220px;
+}
+
+[data-density="Med"] .carousel-track .card {
+  flex: 0 0 270px;
+  width: 270px;
+  min-width: 260px;
+}
+
+[data-density="Lg"] .carousel-track .card {
+  flex: 0 0 340px;
+  width: 340px;
+  min-width: 320px;
 }
 
 .grid {
