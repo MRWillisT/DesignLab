@@ -246,15 +246,7 @@ window.DESIGN_LAB = {
       code: "<style>\n  .kic6-row{display:flex;align-items:center;gap:12px}\n  .kic6-seg{width:34px;height:34px;border-radius:6px;background:#06140d;border:1px solid rgba(16,185,129,0.3);display:flex;align-items:center;justify-content:center;color:var(--ic6-accent,#10b981);box-shadow:0 0 10px rgba(16,185,129,0.15)}\n  .kic6-seg svg{width:18px;height:18px}\n</style>\n<div class='kic6-row'>\n  <div class='kic6-seg'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='3' width='20' height='14' rx='2' ry='2'/><line x1='8' y1='21' x2='16' y2='21'/><line x1='12' y1='17' x2='12' y2='21'/></svg></div>\n  <div class='kic6-seg'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M23 7l-7 5 7 5V7z'/><rect x='1' y='5' width='15' height='14' rx='2' ry='2'/></svg></div>\n  <div class='kic6-seg'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z'/><path d='M19 10v2a7 7 0 0 1-14 0v-2'/><line x1='12' y1='19' x2='12' y2='23'/><line x1='8' y1='23' x2='16' y2='23'/></svg></div>\n  <div class='kic6-seg'><svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polygon points='11 5 6 9 2 9 2 15 6 15 11 19 11 5'/><path d='M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07'/></svg></div>\n</div>"
     },
 
-    {
-      id: "BU1",
-      section: "buttons",
-      name: "Classic Aurora Gradient",
-      description: "Current standard purple-to-indigo gradient.",
-      creator: "gemini",
-      tags: ["button","gradient","purple","primary"],
-      code: "<button type=\"button\" style=\"background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%); color: #ffffff; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; font-weight: 600; font-size: 13px; padding: 0 18px; height: 38px; box-shadow: 0 2px 8px rgba(124, 58, 237, 0.35); cursor: pointer;\">Generate Media</button>"
-    },
+
 
     {
       id: "BU2",
@@ -276,35 +268,7 @@ window.DESIGN_LAB = {
       code: "<button type=\"button\" style=\"background: rgba(15, 23, 42, 0.88); color: #38bdf8; border: 1px solid #38bdf8; border-radius: 8px; font-weight: 600; font-size: 13px; padding: 0 18px; height: 38px; box-shadow: 0 0 12px rgba(56, 189, 248, 0.35); cursor: pointer;\">Generate Media</button>"
     },
 
-    {
-      id: "BU4",
-      section: "buttons",
-      name: "Frosted Glassmorphism",
-      description: "Translucent frosted background with white border.",
-      creator: "gemini",
-      tags: ["button","glass","frosted","blur"],
-      code: "<button type=\"button\" style=\"background: rgba(255, 255, 255, 0.09); backdrop-filter: blur(12px); color: #f8fafc; border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 10px; font-weight: 600; font-size: 13px; padding: 0 18px; height: 38px; cursor: pointer;\">Generate Media</button>"
-    },
 
-    {
-      id: "BU5",
-      section: "buttons",
-      name: "Neomorphic Tactile Bevel",
-      description: "Physical studio button feel with soft dual-tone bevel.",
-      creator: "gemini",
-      tags: ["button","neumorphic","bevel","dark"],
-      code: "<button type=\"button\" style=\"background: #1e222d; color: #f1f5f9; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; font-weight: 600; font-size: 13px; padding: 0 18px; height: 38px; box-shadow: 3px 3px 8px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.18); cursor: pointer;\">Generate Media</button>"
-    },
-
-    {
-      id: "BU6",
-      section: "buttons",
-      name: "Brutalist Mono Stark",
-      description: "Bold pure white on black with sharp 4px corners.",
-      creator: "gemini",
-      tags: ["button","brutalist","mono","contrast"],
-      code: "<button type=\"button\" style=\"background: #ffffff; color: #000000; border: 2px solid #ffffff; border-radius: 4px; font-weight: 700; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 0 18px; height: 36px; cursor: pointer;\">Generate Media</button>"
-    },
 
     {
       id: "BU7",
@@ -376,25 +340,7 @@ window.DESIGN_LAB = {
       code: "<style>\n  .kbu13:hover{filter:brightness(1.18)}\n</style>\n<button type=\"button\" class=\"kbu13\" style=\"transform:skewX(-14deg); background:#f43f5e; color:#fff; border:none; padding:13px 30px; font-weight:800; font-size:13px; letter-spacing:.1em; cursor:pointer; box-shadow:0 4px 14px rgba(244,63,94,.4);\"><span style=\"display:inline-block; transform:skewX(14deg);\">RENDER</span></button>"
     },
 
-    {
-      id: "BU14",
-      section: "buttons",
-      name: "Notched Octagon",
-      description: "Two cut corners via clip-path — tactical HUD framing around a normal label.",
-      creator: "ox-alpha",
-      tags: ["button","octagon","notched","hud"],
-      code: "<style>\n  .kbu14:hover{filter:brightness(1.18)}\n</style>\n<button type=\"button\" class=\"kbu14\" style=\"clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px); background:linear-gradient(135deg,#0ea5e9,#6366f1); color:#fff; border:none; font-weight:700; font-size:12px; letter-spacing:.06em; padding:13px 26px; cursor:pointer;\">EXPORT CLIP</button>"
-    },
 
-    {
-      id: "BU15",
-      section: "buttons",
-      name: "Ticket Stub",
-      description: "Cinema-ticket punch holes on both edges — playful, collectible, memorable.",
-      creator: "ox-alpha",
-      tags: ["button","ticket","punch","playful"],
-      code: "<style>\n  .kbu15:hover{filter:brightness(1.18)}\n</style>\n<span style=\"position:relative; display:inline-block;\"><button type=\"button\" class=\"kbu15\" style=\"background:linear-gradient(135deg,#f59e0b,#ef4444); color:#fff; border:none; padding:13px 34px; font-weight:800; font-size:12px; letter-spacing:.09em; cursor:pointer;\">ADMIT ONE</button><i style=\"position:absolute; left:-7px; top:50%; transform:translateY(-50%); width:14px; height:14px; border-radius:50%; background:#0d0f13;\"></i><i style=\"position:absolute; right:-7px; top:50%; transform:translateY(-50%); width:14px; height:14px; border-radius:50%; background:#0d0f13;\"></i></span>"
-    },
 
     {
       id: "BU16",
@@ -406,35 +352,7 @@ window.DESIGN_LAB = {
       code: "<style>\n  .kbu16:hover{filter:brightness(1.18)}\n</style>\n<button type=\"button\" class=\"kbu16\" style=\"width:48px; height:48px; border:none; background:linear-gradient(135deg,#10b981,#059669); border-radius:4px 50% 50% 50%; transform:rotate(-45deg); cursor:pointer; box-shadow:0 6px 16px rgba(16,185,129,.4);\"><span style=\"display:inline-flex; align-items:center; justify-content:center; width:100%; height:100%; transform:rotate(45deg); color:#fff; font-size:18px;\">▶</span></button>"
     },
 
-    {
-      id: "BU17",
-      section: "buttons",
-      name: "Chevron Ribbon",
-      description: "Arrow banner pointing forward — motion baked into the silhouette.",
-      creator: "ox-alpha",
-      tags: ["button","chevron","arrow","ribbon"],
-      code: "<style>\n  .kbu17:hover{filter:brightness(1.18)}\n</style>\n<button type=\"button\" class=\"kbu17\" style=\"clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%); background:linear-gradient(90deg,#8b5cf6,#ec4899); color:#fff; border:none; font-weight:800; font-size:12px; letter-spacing:.07em; padding:14px 34px 14px 22px; cursor:pointer;\">NEXT BEAT →</button>"
-    },
 
-    {
-      id: "BU18",
-      section: "buttons",
-      name: "Speech Bubble Pill",
-      description: "Pill with a little tail — makes the button talk. Great for AI-assist actions.",
-      creator: "ox-alpha",
-      tags: ["button","speech-bubble","tail","assist"],
-      code: "<style>\n  .kbu18b{position:relative;background:linear-gradient(135deg,#8b5cf6,#ec4899);color:#fff;border:none;border-radius:9999px;padding:11px 24px;font-weight:700;font-size:12px;cursor:pointer}\n  .kbu18b::after{content:\"\";position:absolute;left:28px;bottom:-8px;width:14px;height:14px;background:#ec4899;clip-path:polygon(0 0,100% 0,15% 100%)}\n</style>\n<button type=\"button\" class=\"kbu18b\">✨ Assist me</button>"
-    },
-
-    {
-      id: "BU19",
-      section: "buttons",
-      name: "Squishy 3D Press",
-      description: "Thick bottom lip physically sinks when clicked (:active). Toy-like tactility.",
-      creator: "ox-alpha",
-      tags: ["button","3d","press","tactile"],
-      code: "<style>\n  .kbu19:hover{filter:brightness(1.18)}\n  .kbu19p{box-shadow:0 5px 0 #372a75,0 9px 18px rgba(0,0,0,.45)}\n  .kbu19p:active{transform:translateY(4px);box-shadow:0 1px 0 #372a75,0 3px 8px rgba(0,0,0,.4)}\n</style>\n<button type=\"button\" class=\"kbu19 kbu19p\" style=\"background:linear-gradient(180deg,#a78bfa,#7c3aed); color:#fff; border:none; border-radius:12px; font-weight:800; font-size:13px; padding:13px 28px; cursor:pointer;\">PRESS ME</button>"
-    },
 
     {
       id: "BU20",
@@ -1547,18 +1465,7 @@ window.DESIGN_LAB = {
 
     /* ---- GPT-OSS additions: specimens signed under #7a00f5 ---- */
 
-    {
-      id: "BU23",
-      section: "buttons",
-      name: "Organic Ripple",
-      description: "Organic circular ripple expands across button on hover",
-      creator: "gpt-oss",
-      tags: ["ripple", "organic", "button"],
-      tweaks: [
-        { type: "color", label: "Button Color", varName: "--bu23-bg", default: "#7a00f5" }
-      ],
-      code: "<style>\n  .btn-bu23 {\n    display:inline-block;\n    padding:0.6rem 1.2rem;\n    border:none;\n    background:var(--bu23-bg,#7a00f5);\n    color:#fff;\n    font-weight:600;\n    border-radius:8px;\n    cursor:pointer;\n    overflow:hidden;\n    position:relative;\n  }\n  .btn-bu23::after {\n    content:'';\n    position:absolute;\n    top:50%; left:50%;\n    width:0; height:0;\n    background:rgba(255,255,255,0.3);\n    border-radius:50%;\n    transform:translate(-50%,-50%);\n    transition:width 0.4s ease-out, height 0.4s ease-out;\n  }\n  .btn-bu23:hover::after {\n    width:200%; height:200%;\n  }\n  @media (prefers-reduced-motion:reduce){ .btn-bu23::after{transition:none;} }\n</style>\n<button class='btn-bu23'>Organic Ripple</button>"
-    },
+
 
     {
       id: "FO9",
