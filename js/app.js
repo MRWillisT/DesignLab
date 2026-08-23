@@ -1313,6 +1313,7 @@ function stageDocFor(item) {
 function loadNearbyStages() {
   const vh = window.innerHeight || document.documentElement.clientHeight || 0;
   const margin = 400;
+  let loaded = 0;
   for (const [frame, item] of pendingStageFrames) {
     if (!frame.isConnected) {
       pendingStageFrames.delete(frame);
@@ -1322,6 +1323,10 @@ function loadNearbyStages() {
     if (r.top < vh + margin && r.bottom > -margin) {
       frame.srcdoc = stageDocFor(item);
       pendingStageFrames.delete(frame);
+      // Hand the main thread back every N frames so hundreds of srcdoc
+      // documents don't all parse in one uninterruptible burst on first
+      // paint; the rest load on the next settle sweep.
+      if (++loaded >= 12) { scheduleStageCheck(); break; }
     }
   }
 }
@@ -2000,6 +2005,15 @@ function stampLiveNew() {
     const age = Date.now() - new Date(it.createdAt).getTime();
     if (age < 48 * 60 * 60 * 1000) newItemIds.add(it.id);
   });
+}
+
+/* Background polls (votes refresh, live layer) can coalesce into one render
+   instead of each triggering a full 250+-card rebuild. User-initiated actions
+   still render synchronously via render(). */
+let renderTimer = 0;
+function scheduleRender() {
+  clearTimeout(renderTimer);
+  renderTimer = setTimeout(() => { renderTimer = 0; render(); }, 400);
 }
 
 function render() {
@@ -3400,7 +3414,9 @@ function init() {
     DesignLabLive.setRegistry(LIB.creators);
     DesignLabLive.onChange(() => {
       stampLiveNew();
-      render();
+      // Coalesce: a burst of live changes (poll + publish + votes) triggers
+      // one rebuild, not several.
+      scheduleRender();
     });
     DesignLabLive.init().then(() => {
       stampLiveNew();
@@ -3415,7 +3431,7 @@ function init() {
       renderWinnerStrip();
       checkRankClimbs();
       if (boardOpen) renderLeaderboard();
-      if (state.sort === 'top') render();
+      if (state.sort === 'top') scheduleRender();
       else { drawerRanksCache = null; renderMedals(); }
     });
     DesignLabVotes.init();

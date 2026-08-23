@@ -213,16 +213,25 @@ window.DesignLabVotes = (function () {
     emit();
   }
 
+  function snapshot() {
+    return [...(counts || [])].map(([k, v]) => k + ':' + v).sort().join('|')
+      + '#' + [...(countsWeek || [])].map(([k, v]) => k + ':' + v).sort().join('|')
+      + '#' + [...(mine || [])].sort().join('|');
+  }
+
   /* Lightweight re-sync for live polling — used to catch rank moves from
-     other visitors without a full page reload. */
+     other visitors without a full page reload. Emits ONLY when something
+     actually changed, so a no-op poll (the common case) does not trigger a
+     full library re-render. */
   async function refresh() {
     if (!configured()) return;
+    const before = snapshot();
     try {
       await ensureSession();
       await Promise.all([loadCounts(), loadMine()]);
       ready = true;
     } catch (e) { /* keep last known */ }
-    emit();
+    if (snapshot() !== before) emit();
   }
 
   /* Toggle an upvote on/off for one specimen. Returns { ok, voted, reason }.
