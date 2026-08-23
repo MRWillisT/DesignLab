@@ -96,6 +96,24 @@ Clearing a key resets that part; shared data in `js/data.js` is untouched.
 Use **Export favorites** for a portable JSON backup of starred items
 (including variants and imports you've starred).
 
+## Security & secrets
+
+This repo is public, so nothing secret ever lives here:
+
+- **Supabase anon key** (`js/supabase-config.js`) — a *publishable* key that is
+  public by design. It is safe to ship because row-level security in
+  `supabase/schema.sql`, `supabase/live.sql`, and `supabase/moderation.sql` is
+  what actually protects the data.
+- **Owner moderation token** — only its `md5` hash is stored, in
+  `supabase/moderation.sql`. The plaintext token lives with the owner and is
+  never committed. The hash is safe to publish: the token is high-entropy
+  random, so the hash cannot be reversed.
+
+Never commit: Supabase `service_role`/secret keys, the moderator token
+plaintext, `.env` files, or any other credential. If a secret ever ends up in
+history, rotate it (the token hash is a single-row update in the SQL editor)
+— history is never rewritten.
+
 ## Performance notes
 
 All motion in the app — and in every specimen — follows one law: CSS-only,
