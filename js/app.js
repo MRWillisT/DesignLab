@@ -1380,15 +1380,63 @@ function buildGroupHeader(sec, count) {
   return head;
 }
 
-function buildNewestHeader(count) {
+function newestArrivalItems() {
+  const all = allItems();
+  const order = new Map(all.map((it, i) => [it.id, i]));
+  const ids = new Set(all.slice(Math.max(0, all.length - 16)).map(it => it.id));
+  getNewItemsSet().forEach(id => ids.add(id));
+  return all
+    .filter(it => ids.has(it.id))
+    .sort((a, b) => (order.get(b.id) ?? 0) - (order.get(a.id) ?? 0));
+}
+
+function buildNewestRow(items) {
+  const wrap = document.createElement('section');
+  wrap.className = 'drawer-carousel-section newest-row';
+  wrap.dataset.section = 'newest';
+
   const head = document.createElement('header');
   head.className = 'group-head newest-head';
   head.innerHTML =
-    '<span class="group-index">FRESH</span>'
-    + '<h2>Newest additions</h2>'
+    '<span class="group-index">FRESH ADDITIONS</span>'
+    + '<h2>Newest Arrivals</h2>'
     + '<span class="group-rule"></span>'
-    + '<span class="group-count">' + count + ' specimen' + (count === 1 ? '' : 's') + '</span>';
-  return head;
+    + '<span class="group-count">' + items.length + ' specimen' + (items.length === 1 ? '' : 's') + '</span>';
+
+  const nav = document.createElement('div');
+  nav.className = 'carousel-nav-btns';
+  const prevBtn = document.createElement('button');
+  prevBtn.type = 'button';
+  prevBtn.className = 'carousel-btn';
+  prevBtn.title = 'Scroll left';
+  prevBtn.setAttribute('aria-label', 'Previous newest arrivals');
+  prevBtn.innerHTML = '‹';
+  const nextBtn = document.createElement('button');
+  nextBtn.type = 'button';
+  nextBtn.className = 'carousel-btn';
+  nextBtn.title = 'Scroll right';
+  nextBtn.setAttribute('aria-label', 'Next newest arrivals');
+  nextBtn.innerHTML = '›';
+  nav.appendChild(prevBtn);
+  nav.appendChild(nextBtn);
+  head.appendChild(nav);
+  wrap.appendChild(head);
+
+  const trackWrap = document.createElement('div');
+  trackWrap.className = 'carousel-track-wrap';
+  const track = document.createElement('div');
+  track.className = 'carousel-track';
+  items.forEach(it => track.appendChild(buildCard(it)));
+  trackWrap.appendChild(track);
+  wrap.appendChild(trackWrap);
+
+  prevBtn.addEventListener('click', () => {
+    track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+  });
+  nextBtn.addEventListener('click', () => {
+    track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+  });
+  return wrap;
 }
 
 function buildGlobalEmpty() {
@@ -1582,42 +1630,7 @@ function stampLiveNew() {
 
 function renderJustAdded() {
   const el = $('#justAdded');
-  if (!el) return;
-  const filtered = hasActiveFilters() || state.random;
-  if (filtered) { el.hidden = true; return; }
-
-  const live = liveItems();
-  const incoming = live.length ? live.slice(0, 12) : [];
-  el.hidden = false;
-  const empty = $('#justAddedEmpty');
-  const track = $('#justAddedTrack');
-  const count = $('#justAddedCount');
-  if (!track) return;
-
-  if (!incoming.length) {
-    track.innerHTML = '';
-    track.classList.remove('is-marquee');
-    if (empty) empty.hidden = false;
-    if (count) count.textContent = 'waiting';
-    return;
-  }
-  if (empty) empty.hidden = true;
-  if (count) count.textContent = incoming.length + ' live';
-
-  const sig = incoming.map(i => i.id).join(',');
-  if (track.dataset.sig === sig && track.childElementCount) return;
-  track.dataset.sig = sig;
-  track.textContent = '';
-
-  incoming.forEach(it => track.appendChild(buildCard(it)));
-  const canMarquee = incoming.length >= 4 && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (canMarquee) {
-    incoming.forEach(it => track.appendChild(buildCard(it)));
-    track.style.setProperty('--just-dur', Math.max(24, incoming.length * 5) + 's');
-    track.classList.add('is-marquee');
-  } else {
-    track.classList.remove('is-marquee');
-  }
+  if (el) el.hidden = true;
 }
 
 function render() {
@@ -1653,6 +1666,8 @@ function render() {
     frag.appendChild(head);
     frag.appendChild(buildGrid(items));
   } else if (!state.section || state.section === 'all') {
+    const fresh = newestArrivalItems();
+    if (fresh.length) frag.appendChild(buildNewestRow(fresh));
     LIB.sections.forEach(sec => {
       const group = items.filter(it => it.section === sec.id);
       if (!group.length) return;

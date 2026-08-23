@@ -505,6 +505,12 @@ input, select { font: inherit; }
 
 .newest-head .group-index { color: var(--accent-bright); }
 
+.newest-row {
+  margin-bottom: 22px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+}
+
 .group-count {
   font-family: var(--font-mono);
   font-size: 10.5px;
