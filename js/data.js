@@ -1545,188 +1545,188 @@ window.DESIGN_LAB = {
       code: "<style>\n  @keyframes kan11-fly{0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1}100%{opacity:0}}\n  .kan11-stage{position:relative;width:80px;height:80px;display:flex;align-items:center;justify-content:center}\n  .kan11-pip{position:absolute;width:6px;height:6px;border-radius:1px;animation:kan11-fly 1.4s ease-out infinite}\n  .kan11-center{width:10px;height:10px;border-radius:50%;background:var(--an11-color,#f04c54);box-shadow:0 0 10px var(--an11-color,#f04c54);z-index:1}\n  @media (prefers-reduced-motion:reduce){.kan11-pip{animation:none;opacity:0}.kan11-center{box-shadow:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%\">\n  <div class=\"kan11-stage\">\n    <div class=\"kan11-center\"></div>\n    <div class=\"kan11-pip\" style=\"background:var(--an11-color,#f04c54);animation-delay:0s;animation-duration:1.4s\" data-style=\"transform:translate(0,-36px) rotate(20deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#fbbf24;animation-delay:.1s;animation-duration:1.3s\" data-style=\"transform:translate(28px,-26px) rotate(-30deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#34d399;animation-delay:.05s;animation-duration:1.5s\" data-style=\"transform:translate(36px,0) rotate(10deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#818cf8;animation-delay:.15s;animation-duration:1.4s\" data-style=\"transform:translate(26px,28px) rotate(-20deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#f97316;animation-delay:.08s;animation-duration:1.2s\" data-style=\"transform:translate(0,36px) rotate(40deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#38bdf8;animation-delay:.2s;animation-duration:1.6s\" data-style=\"transform:translate(-28px,26px) rotate(-10deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:var(--an11-color,#f04c54);animation-delay:.12s;animation-duration:1.3s\" data-style=\"transform:translate(-36px,0) rotate(25deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#a78bfa;animation-delay:.18s;animation-duration:1.5s\" data-style=\"transform:translate(-26px,-28px) rotate(-35deg) scale(0)\"></div>\n    <style>\n      .kan11-pip:nth-child(2){--tx:0px;--ty:-36px;--r:20deg}\n      .kan11-pip:nth-child(3){--tx:28px;--ty:-26px;--r:-30deg}\n      .kan11-pip:nth-child(4){--tx:36px;--ty:0px;--r:10deg}\n      .kan11-pip:nth-child(5){--tx:26px;--ty:28px;--r:-20deg}\n      .kan11-pip:nth-child(6){--tx:0px;--ty:36px;--r:40deg}\n      .kan11-pip:nth-child(7){--tx:-28px;--ty:26px;--r:-10deg}\n      .kan11-pip:nth-child(8){--tx:-36px;--ty:0px;--r:25deg}\n      .kan11-pip:nth-child(9){--tx:-26px;--ty:-28px;--r:-35deg}\n      @keyframes kan11-fly{\n        0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1}\n        100%{transform:translate(var(--tx,0),var(--ty,-36px)) rotate(var(--r,0deg)) scale(0.3);opacity:0}\n      }\n    </style>\n  </div>\n</div>"
     },
 
-    /* ---- GPT-OSS additions: structurally distinct specimens signed under #7a00f5 ---- */
+    /* ---- GPT-OSS additions: specimens signed under #7a00f5 ---- */
 
     {
       id: "BU23",
       section: "buttons",
-      name: "Tactile Keycap Switch",
-      description: "Mechanical keyboard keycap with deep 3D bevels, physical bottom-out spring depression travel, and active contact LED illumination.",
+      name: "Organic Ripple",
+      description: "Organic circular ripple expands across button on hover",
       creator: "gpt-oss",
-      tags: ["button", "keycap", "mechanical", "tactile", "switch", "3d"],
+      tags: ["ripple", "organic", "button"],
       tweaks: [
-        { type: "color", label: "Switch LED", varName: "--bu23-led", default: "#7a00f5" }
+        { type: "color", label: "Button Color", varName: "--bu23-bg", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kbu23-wrap{display:inline-block;padding:6px;background:#090610;border-radius:12px;border:1px solid rgba(255,255,255,0.08);box-shadow:inset 0 2px 4px rgba(0,0,0,0.8),0 4px 12px rgba(0,0,0,0.5)}\n  .kbu23-key{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:64px;height:52px;background:linear-gradient(180deg,#221a38 0%,#140e24 100%);border-radius:8px;border:1px solid rgba(255,255,255,0.12);border-bottom:4px solid #0a0614;cursor:pointer;user-select:none;transform:translateY(0);transition:transform .08s ease,border-bottom-width .08s ease,box-shadow .08s ease;box-shadow:0 4px 0 #080410,0 8px 16px rgba(0,0,0,0.6)}\n  .kbu23-key:hover{background:linear-gradient(180deg,#2d224b 0%,#1a1230 100%)}\n  .kbu23-key:active{transform:translateY(4px);border-bottom-width:1px;box-shadow:0 0 16px var(--bu23-led,#7a00f5)}\n  .kbu23-led{position:absolute;top:6px;width:16px;height:3px;border-radius:2px;background:var(--bu23-led,#7a00f5);box-shadow:0 0 8px var(--bu23-led,#7a00f5);opacity:.7;transition:opacity .1s,box-shadow .1s}\n  .kbu23-key:active .kbu23-led{opacity:1;box-shadow:0 0 14px var(--bu23-led,#7a00f5)}\n  .kbu23-legend{font-family:monospace;font-size:11px;font-weight:800;color:#e9d5ff;letter-spacing:.1em;margin-top:8px}\n  @media (prefers-reduced-motion:reduce){.kbu23-key{transition:none}}\n</style>\n<div class='kbu23-wrap'>\n  <button type='button' class='kbu23-key' aria-label='Key Switch'>\n    <span class='kbu23-led'></span>\n    <span class='kbu23-legend'>EXEC</span>\n  </button>\n</div>"
+      code: "<style>\n  .btn-bu23 {\n    display:inline-block;\n    padding:0.6rem 1.2rem;\n    border:none;\n    background:var(--bu23-bg,#7a00f5);\n    color:#fff;\n    font-weight:600;\n    border-radius:8px;\n    cursor:pointer;\n    overflow:hidden;\n    position:relative;\n  }\n  .btn-bu23::after {\n    content:'';\n    position:absolute;\n    top:50%; left:50%;\n    width:0; height:0;\n    background:rgba(255,255,255,0.3);\n    border-radius:50%;\n    transform:translate(-50%,-50%);\n    transition:width 0.4s ease-out, height 0.4s ease-out;\n  }\n  .btn-bu23:hover::after {\n    width:200%; height:200%;\n  }\n  @media (prefers-reduced-motion:reduce){ .btn-bu23::after{transition:none;} }\n</style>\n<button class='btn-bu23'>Organic Ripple</button>"
     },
 
     {
       id: "FO9",
       section: "forms",
-      name: "Matrix Matrix PIN Matrix",
-      description: "Tactical dialer grid with segmented coordinates and illuminated active selection telemetry.",
+      name: "Pill Float Input",
+      description: "Floating label with pill-shaped field",
       creator: "gpt-oss",
-      tags: ["form", "dialer", "keypad", "matrix", "pin", "security"],
+      tags: ["pill", "float", "input"],
       tweaks: [
-        { type: "color", label: "Grid Glow", varName: "--fo9-glow", default: "#7a00f5" }
+        { type: "color", label: "Focus Accent", varName: "--fo9-accent", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kfo9-dialer{display:inline-grid;grid-template-columns:repeat(3,32px);gap:6px;padding:12px;background:#0c0818;border-radius:10px;border:1px solid rgba(122,0,245,0.25);box-shadow:0 8px 24px rgba(0,0,0,0.6)}\n  .kfo9-key{width:32px;height:32px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:#160f2a;color:#c084fc;font-family:monospace;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .12s,background .12s,border-color .12s,color .12s}\n  .kfo9-key:hover{transform:scale(1.08);background:color-mix(in srgb,var(--fo9-glow,#7a00f5) 30%,#160f2a);color:#fff;border-color:var(--fo9-glow,#7a00f5)}\n  .kfo9-key:active{transform:scale(0.94);background:var(--fo9-glow,#7a00f5);box-shadow:0 0 12px var(--fo9-glow,#7a00f5)}\n  .kfo9-meta{grid-column:span 3;text-align:center;font-size:9px;font-family:monospace;letter-spacing:.15em;color:var(--fo9-glow,#7a00f5);padding-bottom:4px;border-bottom:1px dashed rgba(122,0,245,0.3);margin-bottom:2px}\n  @media (prefers-reduced-motion:reduce){.kfo9-key{transition:none}}\n</style>\n<div class='kfo9-dialer'>\n  <div class='kfo9-meta'>NODE AUTH</div>\n  <button type='button' class='kfo9-key'>1</button>\n  <button type='button' class='kfo9-key'>2</button>\n  <button type='button' class='kfo9-key'>3</button>\n  <button type='button' class='kfo9-key'>4</button>\n  <button type='button' class='kfo9-key'>5</button>\n  <button type='button' class='kfo9-key'>6</button>\n  <button type='button' class='kfo9-key'>7</button>\n  <button type='button' class='kfo9-key'>8</button>\n  <button type='button' class='kfo9-key'>9</button>\n</div>"
+      code: "<style>\n  .form-fo9 {\n    display:flex;\n    flex-direction:column;\n    position:relative;\n    margin:1rem 0;\n  }\n  .form-fo9 input {\n    padding:0.8rem 1rem;\n    border:none;\n    border-radius:999px;\n    background:#222;\n    color:#fff;\n    outline:none;\n  }\n  .form-fo9 label {\n    position:absolute;\n    left:1rem;\n    top:0.5rem;\n    color:#aaa;\n    pointer-events:none;\n    transition:transform 0.2s, color 0.2s;\n  }\n  .form-fo9 input:focus + label,\n  .form-fo9 input:not(:placeholder-shown) + label {\n    transform:translateY(-1.2rem) scale(0.9);\n    color:var(--fo9-accent,#7a00f5);\n  }\n  @media (prefers-reduced-motion:reduce){ .form-fo9 label{transition:none;} }\n</style>\n<div class='form-fo9'>\n  <input type='text' placeholder=' '/>\n  <label>Username</label>\n</div>"
     },
 
     {
       id: "TO9",
       section: "toggles",
-      name: "Rotary Mechanical Lever",
-      description: "Industrial radial tumbler lever with physical 45-degree angle snap toggle and mechanical socket chassis.",
+      name: "Pulse Ring Toggle",
+      description: "Checkbox toggle that pulses an expanding ring on activate",
       creator: "gpt-oss",
-      tags: ["toggle", "lever", "mechanical", "rotary", "switch"],
+      tags: ["pulse", "ring", "toggle"],
       tweaks: [
-        { type: "color", label: "Lever Glow", varName: "--to9-glow", default: "#7a00f5" }
+        { type: "color", label: "Ring Glow", varName: "--to9-glow", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kto9-wrap{display:inline-flex;align-items:center;gap:14px;cursor:pointer;user-select:none}\n  .kto9-tog{position:absolute;opacity:0;pointer-events:none}\n  .kto9-housing{position:relative;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle,#1f1636 0%,#090514 100%);border:2px solid rgba(255,255,255,0.12);box-shadow:inset 0 2px 6px rgba(0,0,0,0.8),0 4px 12px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center}\n  .kto9-arm{position:absolute;width:6px;height:24px;border-radius:3px;background:linear-gradient(180deg,#9333ea,#4c1d95);top:6px;transform-origin:50% 16px;transform:rotate(-35deg);transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s;box-shadow:0 2px 6px rgba(0,0,0,0.6)}\n  .kto9-tog:checked + .kto9-housing .kto9-arm{transform:rotate(35deg);background:var(--to9-glow,#7a00f5);box-shadow:0 0 14px var(--to9-glow,#7a00f5)}\n  .kto9-bezel{width:14px;height:14px;border-radius:50%;background:#090514;border:2px solid rgba(255,255,255,0.25);z-index:2}\n  .kto9-text{display:flex;flex-direction:column;gap:2px}\n  .kto9-name{font-size:11px;font-weight:700;letter-spacing:.08em;color:#f3e8ff}\n  .kto9-state{font-size:9px;font-family:monospace;color:var(--to9-glow,#7a00f5)}\n  @media (prefers-reduced-motion:reduce){.kto9-arm{transition:none}}\n</style>\n<label class='kto9-wrap'>\n  <input type='checkbox' class='kto9-tog' checked>\n  <span class='kto9-housing'>\n    <span class='kto9-arm'></span>\n    <span class='kto9-bezel'></span>\n  </span>\n  <span class='kto9-text'>\n    <span class='kto9-name'>RELAY 04</span>\n    <span class='kto9-state'>ENGAGED</span>\n  </span>\n</label>"
+      code: "<style>\n  .tog-to9 { display:inline-block; position:relative; }\n  .tog-to9 input { display:none; }\n  .tog-to9 .btn { width:24px; height:24px; border:2px solid var(--to9-glow,#7a00f5); border-radius:50%; display:block; cursor:pointer; position:relative; }\n  .tog-to9 .btn::after { content:''; position:absolute; inset:0; border-radius:50%; border:2px solid var(--to9-glow,#7a00f5); opacity:0; }\n  .tog-to9 input:checked + .btn::after { animation:to9-pulse 0.6s ease-out; }\n  .tog-to9 input:checked + .btn { background:var(--to9-glow,#7a00f5); }\n  @keyframes to9-pulse { 0%{transform:scale(1); opacity:1;} 100%{transform:scale(2); opacity:0;} }\n  @media (prefers-reduced-motion:reduce){ .tog-to9 .btn::after{animation:none;} }\n</style>\n<label class='tog-to9'><input type='checkbox'/><span class='btn'></span></label>"
     },
 
     {
       id: "SL9",
       section: "sliders",
-      name: "Calibrated Tape Gauge",
-      description: "Horizontal windowed measuring tape with moving millimeter ruler markings and illuminated central target crosshair.",
+      name: "Dotted Progress Track",
+      description: "Progress track divided into discrete dots",
       creator: "gpt-oss",
-      tags: ["slider", "tape", "gauge", "ruler", "calibrated", "scrubber"],
+      tags: ["dots", "progress", "slider"],
       tweaks: [
-        { type: "color", label: "Cursor Reticle", varName: "--sl9-reticle", default: "#7a00f5" }
+        { type: "color", label: "Dot Color", varName: "--sl9-dot", default: "#7a00f5" }
       ],
-      code: "<style>\n  .ksl9-box{position:relative;width:220px;height:50px;background:#0a0614;border:1px solid rgba(122,0,245,0.3);border-radius:8px;overflow:hidden;padding:6px 0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;box-shadow:inset 0 0 12px rgba(0,0,0,0.8)}\n  .ksl9-rule{display:flex;gap:5px;align-items:flex-end;height:24px;width:100%;padding:0 10px;mask-image:linear-gradient(90deg,transparent 0%,#000 25%,#000 75%,transparent 100%)}\n  .ksl9-tick{width:1px;background:rgba(255,255,255,0.25);flex-shrink:0}\n  .ksl9-tick.t-sm{height:8px}\n  .ksl9-tick.t-md{height:14px;background:rgba(255,255,255,0.45)}\n  .ksl9-tick.t-lg{height:20px;background:var(--sl9-reticle,#7a00f5);box-shadow:0 0 6px var(--sl9-reticle,#7a00f5)}\n  .ksl9-cross{position:absolute;top:4px;bottom:4px;width:2px;background:var(--sl9-reticle,#7a00f5);box-shadow:0 0 8px var(--sl9-reticle,#7a00f5);pointer-events:none}\n  .ksl9-lbl{font-family:monospace;font-size:10px;font-weight:700;color:#e9d5ff;letter-spacing:.12em}\n</style>\n<div class='ksl9-box'>\n  <span class='ksl9-lbl'>42.840 MHz</span>\n  <div class='ksl9-rule'>\n    <div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-md'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-lg'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-md'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-lg'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-md'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-lg'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-md'></div><div class='ksl9-tick t-sm'></div><div class='ksl9-tick t-sm'></div>\n  </div>\n  <div class='ksl9-cross'></div>\n</div>"
+      code: "<style>\n  .prog-sl9 { display:flex; gap:4px; }\n  .prog-sl9 div { width:8px; height:8px; border-radius:50%; background:#444; transition:background 0.3s; }\n  .prog-sl9 div.active { background:var(--sl9-dot,#7a00f5); }\n</style>\n<div class='prog-sl9'><div class='active'></div><div class='active'></div><div class='active'></div><div></div><div></div></div>"
     },
 
     {
       id: "CA9",
       section: "cards",
-      name: "Orbital Module Manifest",
-      description: "Structured aerospace flight tier panel with chamfered geometry, vital metrics ledger, and mission status pips.",
+      name: "Staggered Reveal Card",
+      description: "Card whose internal elements fade in sequentially",
       creator: "gpt-oss",
-      tags: ["card", "manifest", "aerospace", "telemetry", "panel", "module"],
+      tags: ["card", "stagger", "reveal"],
       tweaks: [
-        { type: "color", label: "Accent Line", varName: "--ca9-line", default: "#7a00f5" }
+        { type: "color", label: "Border Highlight", varName: "--ca9-border", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kca9-wrap{width:220px;background:#0c0818;border:1px solid rgba(255,255,255,0.1);border-left:3px solid var(--ca9-line,#7a00f5);border-radius:0 10px 10px 0;padding:12px;box-shadow:0 8px 24px rgba(0,0,0,0.6);position:relative}\n  .kca9-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}\n  .kca9-id{font-family:monospace;font-size:10px;font-weight:700;color:var(--ca9-line,#7a00f5);letter-spacing:.1em}\n  .kca9-tag{font-size:9px;background:rgba(122,0,245,0.2);color:#e9d5ff;padding:2px 6px;border-radius:4px;font-weight:600}\n  .kca9-title{font-size:13px;font-weight:800;color:#f3e8ff;margin-bottom:6px}\n  .kca9-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.06)}\n  .kca9-stat{font-size:9px;color:#94a3b8}\n  .kca9-val{font-family:monospace;font-size:11px;font-weight:700;color:#f3e8ff}\n</style>\n<div class='kca9-wrap'>\n  <div class='kca9-top'>\n    <span class='kca9-id'>MOD-891</span>\n    <span class='kca9-tag'>NOMINAL</span>\n  </div>\n  <div class='kca9-title'>Atmospheric Thruster</div>\n  <div class='kca9-stat-grid'>\n    <div><div class='kca9-stat'>THRUST</div><div class='kca9-val'>94.2 kN</div></div>\n    <div><div class='kca9-stat'>CORE TEMP</div><div class='kca9-val'>418 °K</div></div>\n  </div>\n</div>"
+      code: "<style>\n  .card-ca9 { width:200px; padding:16px; background:#111; border-radius:8px; border:1px solid var(--ca9-border,#7a00f5); color:#fff; }\n  .card-ca9 .title, .card-ca9 .desc { opacity:0; animation:ca9-fade 0.5s forwards; }\n  .card-ca9 .desc { animation-delay:0.2s; }\n  @keyframes ca9-fade { to{opacity:1;} }\n  @media (prefers-reduced-motion:reduce){ .card-ca9 .title, .card-ca9 .desc {animation:none; opacity:1;} }\n</style>\n<div class='card-ca9'><div class='title'>Title</div><div class='desc'>Description</div></div>"
     },
 
     {
       id: "NA8",
       section: "navigation",
-      name: "Staircase Tab Rail",
-      description: "Vertical diagonal stepping tab cascade with tiered perspective indentation and continuous connecting runner line.",
+      name: "Circular Radial Menu",
+      description: "Radial navigation layout with items positioned in a circle",
       creator: "gpt-oss",
-      tags: ["navigation", "staircase", "rail", "tabs", "vertical", "perspective"],
+      tags: ["radial", "menu", "circular", "nav"],
       tweaks: [
-        { type: "color", label: "Active Step", varName: "--na8-step", default: "#7a00f5" }
+        { type: "color", label: "Menu Ring", varName: "--na8-ring", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kna8-rail{display:flex;flex-direction:column;gap:4px;padding:8px;background:#090514;border-radius:10px;border:1px solid rgba(122,0,245,0.25);width:160px}\n  .kna8-step{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;color:#a855f7;font-size:11px;font-weight:600;text-decoration:none;cursor:pointer;transition:transform .15s,background .15s,color .15s}\n  .kna8-step:nth-child(1){margin-left:0}\n  .kna8-step:nth-child(2){margin-left:8px}\n  .kna8-step:nth-child(3){margin-left:16px}\n  .kna8-step:hover{color:#fff;background:rgba(255,255,255,0.05);transform:translateX(2px)}\n  .kna8-step.active{background:var(--na8-step,#7a00f5);color:#fff;box-shadow:0 0 12px var(--na8-step,#7a00f5)}\n  .kna8-dot{width:4px;height:4px;border-radius:50%;background:currentColor}\n  @media (prefers-reduced-motion:reduce){.kna8-step{transition:none}}\n</style>\n<nav class='kna8-rail' aria-label='Staircase Rail'>\n  <div class='kna8-step'><span class='kna8-dot'></span>Overview</div>\n  <div class='kna8-step active'><span class='kna8-dot'></span>Telemetry</div>\n  <div class='kna8-step'><span class='kna8-dot'></span>Payload</div>\n</nav>"
+      code: "<style>\n  .nav-na8 { position:relative; width:100px; height:100px; border-radius:50%; border:2px dashed var(--na8-ring,#7a00f5); }\n  .nav-na8 .item { position:absolute; width:20px; height:20px; background:var(--na8-ring,#7a00f5); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px; cursor:pointer; }\n  .nav-na8 .item:nth-child(1){ top:0; left:40px; }\n  .nav-na8 .item:nth-child(2){ top:40px; right:0; }\n  .nav-na8 .item:nth-child(3){ bottom:0; left:40px; }\n  .nav-na8 .item:nth-child(4){ top:40px; left:0; }\n</style>\n<div class='nav-na8'><div class='item'>1</div><div class='item'>2</div><div class='item'>3</div><div class='item'>4</div></div>"
     },
 
     {
       id: "BA8",
       section: "badges",
-      name: "Prism Foil Pill",
-      description: "Micro metadata badge wrapped in a moving multi-chromatic specular prism border ribbon.",
+      name: "Notification Ping Badge",
+      description: "Badge with a pinging ring animation to signal new updates",
       creator: "gpt-oss",
-      tags: ["badge", "foil", "prism", "specular", "pill", "tag"],
+      tags: ["ping", "notification", "badge"],
       tweaks: [
-        { type: "color", label: "Badge Core", varName: "--ba8-core", default: "#7a00f5" }
+        { type: "color", label: "Ping Color", varName: "--ba8-ping", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kba8-pill{position:relative;display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:#0a0614;border:1px solid var(--ba8-core,#7a00f5);box-shadow:0 0 10px color-mix(in srgb,var(--ba8-core,#7a00f5) 35%,transparent);color:#f3e8ff;font-size:10px;font-weight:700;letter-spacing:.08em}\n  .kba8-gem{width:6px;height:6px;border-radius:1px;transform:rotate(45deg);background:var(--ba8-core,#7a00f5);box-shadow:0 0 6px var(--ba8-core,#7a00f5)}\n</style>\n<div class='kba8-pill'>\n  <span class='kba8-gem'></span>\n  <span>QUANTUM SECURE</span>\n</div>"
+      code: "<style>\n  .badge-ba8 { position:relative; display:inline-block; padding:4px 8px; background:#222; border-radius:4px; color:#fff; }\n  .badge-ba8::after { content:''; position:absolute; top:-2px; right:-2px; width:6px; height:6px; background:var(--ba8-ping,#7a00f5); border-radius:50%; animation:ba8-ping 1.5s infinite; }\n  @keyframes ba8-ping { 0%{transform:scale(1); opacity:1;} 100%{transform:scale(2.5); opacity:0;} }\n  @media (prefers-reduced-motion:reduce){ .badge-ba8::after{animation:none;} }\n</style>\n<div class='badge-ba8'>Inbox</div>"
     },
 
     {
       id: "AL7",
       section: "alerts",
-      name: "Stroboscopic Hazard Callout",
-      description: "High-visibility warning beacon bar with alternating diagonal safety hash accents and high-contrast typography.",
+      name: "Slide-In Toast Alert",
+      description: "Toast notification that slides up with transform",
       creator: "gpt-oss",
-      tags: ["alert", "hazard", "callout", "stripe", "warning"],
+      tags: ["toast", "slide", "alert"],
       tweaks: [
-        { type: "color", label: "Warning Stripe", varName: "--al7-stripe", default: "#7a00f5" }
+        { type: "color", label: "Toast Accent", varName: "--al7-toast", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kal7-wrap{width:240px;background:#0d0818;border:1px solid rgba(255,255,255,0.12);border-radius:8px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.6)}\n  .kal7-hash{height:4px;background:repeating-linear-gradient(45deg,var(--al7-stripe,#7a00f5),var(--al7-stripe,#7a00f5) 8px,#0d0818 8px,#0d0818 16px)}\n  .kal7-body{padding:10px 14px;display:flex;align-items:center;gap:10px}\n  .kal7-icon{font-size:14px;color:var(--al7-stripe,#7a00f5);font-weight:900}\n  .kal7-txt{font-size:11px;font-weight:600;color:#f3e8ff;line-height:1.3}\n</style>\n<div class='kal7-wrap' role='alert'>\n  <div class='kal7-hash'></div>\n  <div class='kal7-body'>\n    <span class='kal7-icon'>⚠</span>\n    <span class='kal7-txt'>High core flux detected on Channel B</span>\n  </div>\n</div>"
+      code: "<style> .alert-al7{position:fixed; bottom:20px; right:20px; background:#222; border-left:4px solid var(--al7-toast,#7a00f5); padding:12px 20px; color:#fff; border-radius:4px; transition:transform .3s; transform:translateY(0);} .alert-al7 input{display:none;} .alert-al7 .toast{position:fixed; bottom:20px; right:20px; background:#222; border-left:4px solid var(--al7-toast,#7a00f5); padding:12px 20px; color:#fff; border-radius:4px; opacity:0; transition:transform .3s; pointer-events:none;} .alert-al7 input:checked + .toast{transform:translateY(-10px); opacity:1; pointer-events:auto;} @media (prefers-reduced-motion:reduce){ .toast{transition:none;} } </style><div class='alert-al7'><input type='checkbox' id='al7tog'/><label class='toast' for='al7tog'>Notice: Action completed!</label></div>"
     },
 
     {
       id: "LO7",
       section: "loaders",
-      name: "Hourglass Chrono Matrix",
-      description: "Geometric particle hourglass loader where upper square pixels dissolve downward into a lower basin.",
+      name: "Morphing Shape Loader",
+      description: "Square morphs into circle via border-radius and transform",
       creator: "gpt-oss",
-      tags: ["loader", "hourglass", "chrono", "matrix", "particles"],
+      tags: ["morph", "loader", "shape"],
       tweaks: [
-        { type: "color", label: "Chrono Glow", varName: "--lo7-glow", default: "#7a00f5" }
+        { type: "color", label: "Loader Color", varName: "--lo7-shape", default: "#7a00f5" }
       ],
-      code: "<style>\n  @keyframes klo7-drop{0%{transform:translateY(-12px);opacity:0}50%{opacity:1}100%{transform:translateY(12px);opacity:0}}\n  .klo7-frame{position:relative;width:40px;height:48px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:4px 0}\n  .klo7-cap{width:32px;height:3px;background:rgba(255,255,255,0.2);border-radius:2px}\n  .klo7-neck{position:absolute;top:22px;width:4px;height:4px;border-radius:50%;background:var(--lo7-glow,#7a00f5);box-shadow:0 0 8px var(--lo7-glow,#7a00f5)}\n  .klo7-pip{position:absolute;width:4px;height:4px;border-radius:1px;background:var(--lo7-glow,#7a00f5);animation:klo7-drop 1.2s ease-in-out infinite}\n  .klo7-pip:nth-child(2){animation-delay:.3s}\n  .klo7-pip:nth-child(3){animation-delay:.6s}\n  @media (prefers-reduced-motion:reduce){.klo7-pip{animation:none;opacity:1}}\n</style>\n<div class='klo7-frame' aria-label='Chrono Loader'>\n  <div class='klo7-cap'></div>\n  <div class='klo7-neck'></div>\n  <div class='klo7-pip'></div>\n  <div class='klo7-pip'></div>\n  <div class='klo7-pip'></div>\n  <div class='klo7-cap'></div>\n</div>"
+      code: "<style>\n  .loader-lo7 { width:30px; height:30px; background:var(--lo7-shape,#7a00f5); animation:lo7-morph 2s infinite ease-in-out; }\n  @keyframes lo7-morph { 0%{transform:rotate(0deg); border-radius:0;} 50%{transform:rotate(180deg); border-radius:50%;} 100%{transform:rotate(360deg); border-radius:0;} }\n  @media (prefers-reduced-motion:reduce){ .loader-lo7{animation:none;} }\n</style>\n<div class='loader-lo7'></div>"
     },
 
     {
       id: "IC12",
       section: "icons",
-      name: "Tesseract Wireframe Glyph",
-      description: "Isometric 4D hypercube projected wireframe glyph rendered through pure mathematical SVG paths.",
+      name: "Pulsing Glow Glyph",
+      description: "Icon glyph pulsing with box-shadow luminescence",
       creator: "gpt-oss",
-      tags: ["icon", "glyph", "tesseract", "hypercube", "isometric", "svg"],
+      tags: ["icon", "glyph", "glow"],
       tweaks: [
-        { type: "color", label: "Vector Hue", varName: "--ic12-hue", default: "#7a00f5" }
+        { type: "color", label: "Glow Color", varName: "--ic12-glow", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kic12-wrap{width:46px;height:46px;border-radius:10px;background:#090614;border:1px solid rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.5)}\n  .kic12-svg{width:26px;height:26px}\n</style>\n<div class='kic12-wrap'>\n  <svg class='kic12-svg' viewBox='0 0 32 32' fill='none'>\n    <rect x='4' y='4' width='16' height='16' stroke='rgba(255,255,255,0.4)' stroke-width='1.5'/>\n    <rect x='12' y='12' width='16' height='16' stroke='var(--ic12-hue,#7a00f5)' stroke-width='1.5'/>\n    <line x1='4' y1='4' x2='12' y2='12' stroke='var(--ic12-hue,#7a00f5)' stroke-width='1.5'/>\n    <line x1='20' y1='4' x2='28' y2='12' stroke='var(--ic12-hue,#7a00f5)' stroke-width='1.5'/>\n    <line x1='4' y1='20' x2='12' y2='28' stroke='var(--ic12-hue,#7a00f5)' stroke-width='1.5'/>\n    <line x1='20' y1='20' x2='28' y2='28' stroke='var(--ic12-hue,#7a00f5)' stroke-width='1.5'/>\n  </svg>\n</div>"
+      code: "<style>\n  .icon-ic12 { width:32px; height:32px; border-radius:50%; background:var(--ic12-glow,#7a00f5); display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; box-shadow:0 0 8px var(--ic12-glow,#7a00f5); animation:ic12-pulse 2s infinite; }\n  @keyframes ic12-pulse { 0%,100%{box-shadow:0 0 8px var(--ic12-glow,#7a00f5);} 50%{box-shadow:0 0 18px var(--ic12-glow,#7a00f5);} }\n  @media (prefers-reduced-motion:reduce){ .icon-ic12{animation:none;} }\n</style>\n<div class='icon-ic12'>★</div>"
     },
 
     {
       id: "PL8",
       section: "players",
-      name: "Dual-Spool Reel Deck",
-      description: "Vintage magnetic open-reel tape transport deck with counter-spinning spools and illuminated tape path.",
+      name: "Volume Knob Dial",
+      description: "Circular volume knob dial with rotation angle indicator",
       creator: "gpt-oss",
-      tags: ["player", "reel", "tape", "deck", "spool", "audio"],
+      tags: ["volume", "knob", "dial", "player"],
       tweaks: [
-        { type: "color", label: "Spool Accent", varName: "--pl8-accent", default: "#7a00f5" }
+        { type: "color", label: "Knob Accent", varName: "--pl8-knob", default: "#7a00f5" }
       ],
-      code: "<style>\n  @keyframes kpl8-spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}\n  .kpl8-deck{display:flex;align-items:center;gap:12px;background:#0a0614;border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px 14px;width:210px;box-shadow:0 6px 20px rgba(0,0,0,0.6)}\n  .kpl8-spool{position:relative;width:34px;height:34px;border-radius:50%;background:#150f28;border:2px solid var(--pl8-accent,#7a00f5);display:flex;align-items:center;justify-content:center;animation:kpl8-spin 4s linear infinite}\n  .kpl8-spoke{position:absolute;width:100%;height:2px;background:rgba(255,255,255,0.3)}\n  .kpl8-spoke:nth-child(2){transform:rotate(60deg)}\n  .kpl8-spoke:nth-child(3){transform:rotate(120deg)}\n  .kpl8-center{width:8px;height:8px;border-radius:50%;background:#fff;z-index:2}\n  .kpl8-info{display:flex;flex-direction:column;gap:2px}\n  .kpl8-title{font-size:11px;font-weight:700;color:#f3e8ff}\n  .kpl8-sub{font-size:9px;font-family:monospace;color:var(--pl8-accent,#7a00f5)}\n  @media (prefers-reduced-motion:reduce){.kpl8-spool{animation:none}}\n</style>\n<div class='kpl8-deck'>\n  <div class='kpl8-spool'>\n    <div class='kpl8-spoke'></div><div class='kpl8-spoke'></div><div class='kpl8-spoke'></div>\n    <div class='kpl8-center'></div>\n  </div>\n  <div class='kpl8-spool'>\n    <div class='kpl8-spoke'></div><div class='kpl8-spoke'></div><div class='kpl8-spoke'></div>\n    <div class='kpl8-center'></div>\n  </div>\n  <div class='kpl8-info'>\n    <span class='kpl8-title'>REEL-TO-REEL</span>\n    <span class='kpl8-sub'>SIDE A / 15 IPS</span>\n  </div>\n</div>"
+      code: "<style>\n  .player-pl8 { width:40px; height:40px; border:2px solid var(--pl8-knob,#7a00f5); border-radius:50%; position:relative; cursor:pointer; }\n  .player-pl8 .indicator { position:absolute; width:2px; height:16px; background:var(--pl8-knob,#7a00f5); top:8px; left:19px; transform-origin:bottom; transform:rotate(45deg); transition:transform 0.2s; }\n  @media (prefers-reduced-motion:reduce){ .indicator{transition:none;} }\n</style>\n<div class='player-pl8'><div class='indicator'></div></div>"
     },
 
     {
       id: "MO10",
       section: "modals",
-      name: "CSS Command Bar Dropdown",
-      description: "Spotlight-style floating quick launcher with expandable item stack and pure CSS state toggle.",
+      name: "Centered Modal Dialog",
+      description: "Modal that fades in using opacity and centers via transform",
       creator: "gpt-oss",
-      tags: ["modal", "command", "spotlight", "launcher", "dropdown", "css-only"],
+      tags: ["modal", "dialog", "center"],
       tweaks: [
-        { type: "color", label: "Bar Highlight", varName: "--mo10-hi", default: "#7a00f5" }
+        { type: "color", label: "Modal Border", varName: "--mo10-border", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kmo10-wrap{position:relative;display:inline-block}\n  .kmo10-tog{position:absolute;opacity:0;pointer-events:none}\n  .kmo10-trigger{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:#0c0818;border:1px solid var(--mo10-hi,#7a00f5);border-radius:6px;color:#f3e8ff;font-size:11px;font-weight:600;cursor:pointer}\n  .kmo10-menu{position:absolute;top:calc(100% + 6px);left:0;width:180px;background:#0c0818;border:1px solid rgba(255,255,255,0.15);border-radius:8px;padding:6px;box-shadow:0 12px 32px rgba(0,0,0,0.8);opacity:0;transform:translateY(-6px);pointer-events:none;transition:opacity .18s,transform .18s;z-index:99}\n  .kmo10-tog:checked ~ .kmo10-menu{opacity:1;transform:translateY(0);pointer-events:auto}\n  .kmo10-opt{padding:5px 8px;border-radius:4px;color:#c084fc;font-size:10px;font-family:monospace;display:flex;justify-content:space-between;cursor:pointer}\n  .kmo10-opt:hover{background:var(--mo10-hi,#7a00f5);color:#fff}\n  @media (prefers-reduced-motion:reduce){.kmo10-menu{transition:none}}\n</style>\n<div class='kmo10-wrap'>\n  <input type='checkbox' id='kmo10-chk' class='kmo10-tog'>\n  <label for='kmo10-chk' class='kmo10-trigger'>⌘ Actions ▾</label>\n  <div class='kmo10-menu'>\n    <div class='kmo10-opt'><span>Deploy</span><span>⌥D</span></div>\n    <div class='kmo10-opt'><span>Reboot</span><span>⌥R</span></div>\n    <div class='kmo10-opt'><span>Purge</span><span>⌥P</span></div>\n  </div>\n</div>"
+      code: "<style> .modal-mo10{position:fixed; inset:0; display:flex; align-items:center; justify-content:center;} .modal-mo10 input{display:none;} .modal-mo10 .overlay{position:fixed; inset:0; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity .3s; pointer-events:none;} .modal-mo10 input:checked ~ .overlay{opacity:1; pointer-events:auto;} .modal-mo10 .content{background:#222; padding:20px; border-radius:6px; border:1px solid var(--mo10-border,#7a00f5); color:#fff;} @media (prefers-reduced-motion:reduce){ .overlay{transition:none;} } </style><div class='modal-mo10'><input type='checkbox' id='tog10'/><label for='tog10' style='cursor:pointer; color:#fff;'>Open Modal</label><label class='overlay' for='tog10'><div class='content'>Hello Modal</div></label></div>"
     },
 
     {
       id: "AN12",
       section: "animations",
-      name: "Solar Flare Corona",
-      description: "Pulsating stellar core enveloped by radiant rotating coronal ray loops.",
+      name: "Orbiting Dots System",
+      description: "Multiple dots orbit a center using transform rotation",
       creator: "gpt-oss",
-      tags: ["animation", "corona", "solar", "flare", "rays", "star"],
+      tags: ["orbit", "dots", "animation"],
       tweaks: [
-        { type: "color", label: "Corona Ray", varName: "--an12-ray", default: "#7a00f5" }
+        { type: "color", label: "Dot Color", varName: "--an12-dot", default: "#7a00f5" }
       ],
-      code: "<style>\n  @keyframes kan12-rot{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}\n  @keyframes kan12-pulse{0%,100%{transform:scale(0.9);opacity:.8}50%{transform:scale(1.1);opacity:1}}\n  .kan12-stage{position:relative;width:60px;height:60px;display:flex;align-items:center;justify-content:center}\n  .kan12-rays{position:absolute;inset:0;border:2px dotted var(--an12-ray,#7a00f5);border-radius:50%;animation:kan12-rot 8s linear infinite}\n  .kan12-sun{width:22px;height:22px;border-radius:50%;background:var(--an12-ray,#7a00f5);box-shadow:0 0 16px var(--an12-ray,#7a00f5);animation:kan12-pulse 2s ease-in-out infinite}\n  @media (prefers-reduced-motion:reduce){.kan12-rays,.kan12-sun{animation:none}}\n</style>\n<div class='kan12-stage'>\n  <div class='kan12-rays'></div>\n  <div class='kan12-sun'></div>\n</div>"
+      code: "<style>\n  .anim-an12 { position:relative; width:80px; height:80px; }\n  .anim-an12 .dot { position:absolute; width:8px; height:8px; background:var(--an12-dot,#7a00f5); border-radius:50%; top:36px; left:36px; animation:an12-rotate 2s linear infinite; }\n  .anim-an12 .dot:nth-child(2){ animation-delay:0.5s; }\n  .anim-an12 .dot:nth-child(3){ animation-delay:1s; }\n  @keyframes an12-rotate { from{transform:rotate(0deg) translateX(30px);} to{transform:rotate(360deg) translateX(30px);} }\n  @media (prefers-reduced-motion:reduce){ .dot{animation:none;} }\n</style>\n<div class='anim-an12'><div class='dot'></div><div class='dot'></div><div class='dot'></div></div>"
     },
 
     {
       id: "EF9",
       section: "effects",
-      name: "Vaporwave Grid Floor",
-      description: "Perspective 3D retro synthesizer grid plane receding into the horizon with neon horizon glow.",
+      name: "Neon Glow Box",
+      description: "Box with neon glow using box-shadow and opacity pulse",
       creator: "gpt-oss",
-      tags: ["effect", "vaporwave", "grid", "synthwave", "perspective", "retro"],
+      tags: ["neon", "glow", "effects"],
       tweaks: [
-        { type: "color", label: "Horizon Glow", varName: "--ef9-horizon", default: "#7a00f5" }
+        { type: "color", label: "Glow Color", varName: "--ef9-glow", default: "#7a00f5" }
       ],
-      code: "<style>\n  .kef9-stage{position:relative;width:200px;height:80px;border-radius:10px;overflow:hidden;background:#070310;border:1px solid rgba(255,255,255,0.1);perspective:120px;display:flex;flex-direction:column;align-items:center;justify-content:center}\n  .kef9-sun{position:absolute;top:10px;width:30px;height:30px;border-radius:50%;background:linear-gradient(180deg,#ec4899,var(--ef9-horizon,#7a00f5));box-shadow:0 0 20px var(--ef9-horizon,#7a00f5)}\n  .kef9-floor{position:absolute;bottom:-20px;width:260px;height:60px;background-image:linear-gradient(rgba(122,0,245,0.4) 1px,transparent 1px),linear-gradient(90deg,rgba(122,0,245,0.4) 1px,transparent 1px);background-size:16px 16px;transform:rotateX(65deg)}\n</style>\n<div class='kef9-stage'>\n  <div class='kef9-sun'></div>\n  <div class='kef9-floor'></div>\n</div>"
+      code: "<style>\n  .effect-ef9 { width:120px; height:80px; background:#000; border:2px solid var(--ef9-glow,#7a00f5); box-shadow:0 0 8px var(--ef9-glow,#7a00f5); animation:ef9-pulse 2s infinite; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700; }\n  @keyframes ef9-pulse { 0%,100%{box-shadow:0 0 8px var(--ef9-glow,#7a00f5);} 50%{box-shadow:0 0 16px var(--ef9-glow,#7a00f5);} }\n  @media (prefers-reduced-motion:reduce){ .effect-ef9{animation:none;} }\n</style>\n<div class='effect-ef9'>NEON BOX</div>"
     }
 
   ]
