@@ -37,6 +37,7 @@ const state = {
   section: 'all',
   creator: null,
   favoritesOnly: false,
+  newOnly: false,
   canvas: 'dark',
   densityIndex: 3,
   sort: 'newest',
@@ -608,12 +609,20 @@ function allItems() {
   return LIB.items.concat(importedItems, savedVariants);
 }
 
+function getNewItemsSet() {
+  if (newItemIds && newItemIds.size > 0) return newItemIds;
+  const all = allItems();
+  return new Set(all.slice(Math.max(0, all.length - 8)).map(it => it.id));
+}
+
 function currentPool() {
   const q = state.query.trim().toLowerCase();
+  const newSet = getNewItemsSet();
   let items = allItems().filter(it => {
     if (state.section && state.section !== 'all' && it.section !== state.section) return false;
     if (state.creator && it.creator !== state.creator) return false;
     if (state.favoritesOnly && !favorites.has(it.id)) return false;
+    if (state.newOnly && !newSet.has(it.id)) return false;
     if (q) {
       const sec = sectionOf(it.section);
       const hay = [
@@ -627,15 +636,8 @@ function currentPool() {
     return true;
   });
 
-  const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
-  if (state.sort === 'creator') {
-    items.sort((a, b) =>
-      collator.compare((creatorOf(a.creator) || {}).name || a.creator, (creatorOf(b.creator) || {}).name || b.creator)
-      || collator.compare(a.id, b.id));
-  } else {
-    const order = new Map(allItems().map((it, i) => [it.id, i]));
-    items.sort((a, b) => (order.get(b.id) ?? 0) - (order.get(a.id) ?? 0));
-  }
+  const order = new Map(allItems().map((it, i) => [it.id, i]));
+  items.sort((a, b) => (order.get(b.id) ?? 0) - (order.get(a.id) ?? 0));
 
   if (state.random) items = seededShuffle(items, state.randomSeed).slice(0, RANDOM_PICKS);
   return items;
@@ -869,15 +871,15 @@ function populateSectionDropdown() {
   sel.value = state.section || 'all';
 }
 
-function populateSortDropdown() {
-  const sel = $('#sortSelect');
+function populateCreatorDropdown() {
+  const sel = $('#creatorSelect');
   if (!sel) return;
   const items = allItems();
   sel.innerHTML = '';
 
   const optAll = document.createElement('option');
   optAll.value = 'all';
-  optAll.textContent = `All creators (Newest)`;
+  optAll.textContent = `All creators (${items.length})`;
   sel.appendChild(optAll);
 
   LIB.creators.forEach(cr => {
@@ -894,14 +896,15 @@ function populateSortDropdown() {
 }
 
 function hasActiveFilters() {
-  return !!(state.query.trim() || (state.section !== 'newest' && state.section !== 'all') || state.creator || state.favoritesOnly || state.random);
+  return !!(state.query.trim() || (state.section !== 'newest' && state.section !== 'all') || state.creator || state.favoritesOnly || state.newOnly || state.random);
 }
 
 function syncControlStates() {
   $('#searchInput').value = state.query;
   if ($('#sectionSelect')) $('#sectionSelect').value = state.section;
-  if ($('#sortSelect')) $('#sortSelect').value = state.creator || 'all';
-  $('#favToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
+  if ($('#creatorSelect')) $('#creatorSelect').value = state.creator || 'all';
+  if ($('#favToggle')) $('#favToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
+  if ($('#newToggle')) $('#newToggle').setAttribute('aria-pressed', String(state.newOnly));
 }
 
 function buildShowMore(hidden) {
@@ -982,7 +985,7 @@ function render() {
   const items = currentPool();
 
   populateSectionDropdown();
-  populateSortDropdown();
+  populateCreatorDropdown();
   syncControlStates();
 
   const main = $('#library');
@@ -1002,6 +1005,12 @@ function render() {
   const frag = document.createDocumentFragment();
 
   if (state.random) {
+    frag.appendChild(buildGrid(items));
+  } else if (state.newOnly) {
+    const head = document.createElement('header');
+    head.className = 'group-head';
+    head.innerHTML = '<span class="group-index">FRESH ADDITIONS</span><h2>Newest Arrivals</h2><span class="group-rule"></span><span class="group-count">' + items.length + ' specimen' + (items.length === 1 ? '' : 's') + '</span>';
+    frag.appendChild(head);
     frag.appendChild(buildGrid(items));
   } else if (!state.section || state.section === 'all') {
     LIB.sections.forEach(sec => {
@@ -1483,6 +1492,14 @@ function init() {
   $('#favToggle').addEventListener('click', () => {
     resetRenderLimit();
     state.favoritesOnly = !state.favoritesOnly;
+    if (state.favoritesOnly) state.newOnly = false;
+    saveFilters();
+    render();
+  });
+  $('#newToggle').addEventListener('click', () => {
+    resetRenderLimit();
+    state.newOnly = !state.newOnly;
+    if (state.newOnly) state.favoritesOnly = false;
     saveFilters();
     render();
   });
@@ -1492,7 +1509,7 @@ function init() {
     saveFilters();
     render();
   });
-  $('#sortSelect').addEventListener('change', ev => {
+  $('#creatorSelect').addEventListener('change', ev => {
     resetRenderLimit();
     state.creator = ev.target.value === 'all' ? null : ev.target.value;
     saveFilters();

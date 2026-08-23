@@ -41,6 +41,10 @@
         <button id="favToggle" class="btn btn-ghost btn-icon" aria-pressed="false" title="Show favorites only" aria-label="Show favorites only">
           <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 2.8l2.85 5.98 6.55.62-4.94 4.38 1.44 6.42L12 16.82l-5.9 3.38 1.44-6.42L2.6 9.4l6.55-.62z" fill="currentColor"/></svg>
         </button>
+        <button id="newToggle" class="btn btn-ghost" aria-pressed="false" title="Show fresh additions only" aria-label="Show fresh additions">
+          <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8.5 1.5L2.5 9h5l-1 5.5 7-8h-5z" fill="currentColor"/></svg>
+          New
+        </button>
         <button id="exportModalBtn" class="btn btn-ghost btn-icon" title="Export favorites, style guide, or backup" aria-label="Export options">
           <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
@@ -55,16 +59,16 @@
     <div class="shell">
       <div class="filterbar">
         <label class="sort-wrap">
-          <span class="filter-label">Sort</span>
-          <select id="sortSelect" aria-label="Filter and sort by creator">
-            <option value="all">All creators (Newest)</option>
+          <span class="filter-label">Drawer</span>
+          <select id="sectionSelect" aria-label="Filter by drawer">
+            <option value="all">All drawers</option>
           </select>
         </label>
 
         <label class="sort-wrap">
-          <span class="filter-label">Drawer</span>
-          <select id="sectionSelect" aria-label="Filter by drawer">
-            <option value="all">All drawers</option>
+          <span class="filter-label">Creator</span>
+          <select id="creatorSelect" aria-label="Filter by creator">
+            <option value="all">All creators</option>
           </select>
         </label>
 
