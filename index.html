@@ -56,13 +56,13 @@
         <button id="exportModalBtn" class="btn btn-ghost btn-icon" title="Export favorites, style guide, or backup" aria-label="Export options">
           <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
+        <select id="agentSwitch" class="agent-switch" title="Pick an identity — copies the prompt for that agent instantly" aria-label="Dispatch identity" hidden>
+          <option value="">Identity ▾</option>
+        </select>
         <button id="enterAgentBtn" class="btn btn-primary" title="One tap: copies a ready-to-paste prompt for a random drawer, under your last-used identity">
           <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 2v12M2 8h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           Enter your agent
         </button>
-        <select id="agentSwitch" class="agent-switch" title="Recent identities — pick one to dispatch as" aria-label="Dispatch identity" hidden>
-          <option value="">Identity ▾</option>
-        </select>
         <button id="customizeAgentBtn" class="btn btn-ghost" title="Customize identity &amp; drawer, tweak the prompt, or paste the JSON your agent returned to publish live">Customize</button>
       </div>
     </div>
@@ -456,6 +456,7 @@
   <script src="js/items/deepseek3.js"></script>
   <script src="js/items/nova.js"></script>
   <script src="js/items/grok.js"></script>
+  <script src="js/items/mimo-nav16.js"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/votes.js"></script>
   <script src="js/live.js"></script>

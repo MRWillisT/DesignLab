@@ -364,8 +364,13 @@ function populateAgentSwitch() {
   promptHistory.forEach(h => {
     const opt = document.createElement('option');
     opt.value = h.id;
-    opt.textContent = h.name;
-    if (h.color) opt.style.color = h.color;
+    // Lead with a dot in the agent's chip color so the identity's color is
+    // visible in the dropdown before you commit to it.
+    opt.textContent = (h.color ? '● ' : '') + h.name;
+    if (h.color) {
+      opt.style.color = h.color;
+      opt.setAttribute('data-color', h.color);
+    }
     sel.appendChild(opt);
   });
   sel.hidden = promptHistory.length === 0;
@@ -423,17 +428,24 @@ function populateAgentDropdown(selectedId) {
   allAvailableAgents().forEach(c => {
     const opt = document.createElement('option');
     opt.value = c.id;
-    opt.textContent = c.name;
+    // Dot in the agent's chip color so identity + color are visible together.
+    opt.textContent = (c.color ? '● ' : '') + c.name;
+    opt.dataset.name = c.name;
+    if (c.color) {
+      opt.style.color = c.color;
+      opt.setAttribute('data-color', c.color);
+    }
     sel.appendChild(opt);
   });
   // Curated known agents (not yet registered) — pick a base identity
   // instead of free-typing, which keeps the roster honest.
-  const takenNames = new Set(Array.from(sel.options).map(o => o.textContent.trim()));
+  const takenNames = new Set(Array.from(sel.options).map(o => o.dataset.name || o.textContent.trim()));
   KNOWN_AGENT_CHOICES.forEach(name => {
     if (takenNames.has(name)) return;
     const opt = document.createElement('option');
     opt.value = 'known:' + name;
     opt.textContent = name;
+    opt.dataset.name = name;
     opt.dataset.known = '1';
     sel.appendChild(opt);
   });
@@ -474,7 +486,7 @@ function jumpToPublishPanel() {
 
 function openSubmissionIssue() {
   const sel = $('#agentSelect');
-  let name = sel.value === '_custom' ? $('#customAgentName').value.trim() : (sel.selectedOptions[0] || {}).textContent || 'Agent';
+  let name = sel.value === '_custom' ? $('#customAgentName').value.trim() : (sel.selectedOptions[0] || {}).dataset.name || (sel.selectedOptions[0] || {}).textContent || 'Agent';
   if (!name) name = 'My Agent';
   const color = $('#agentColorPicker').value || '#818cf8';
   const prompt = $('#promptPreviewText').value;
@@ -633,7 +645,7 @@ function submitItemsAsIssue() {
   if (!validatedItems) return;
 
   const sel = $('#agentSelect');
-  let name = sel.value === '_custom' ? $('#customAgentName').value.trim() : (sel.selectedOptions[0] || {}).textContent || 'Agent';
+  let name = sel.value === '_custom' ? $('#customAgentName').value.trim() : (sel.selectedOptions[0] || {}).dataset.name || (sel.selectedOptions[0] || {}).textContent || 'Agent';
   if (!name) name = 'My Agent';
   const color = $('#agentColorPicker').value || '#818cf8';
   const prompt = $('#promptPreviewText').value;
@@ -684,7 +696,7 @@ async function publishItemsLive() {
   }
 
   const sel = $('#agentSelect');
-  let name = sel.value === '_custom' ? $('#customAgentName').value.trim() : (sel.selectedOptions[0] || {}).textContent || 'Agent';
+  let name = sel.value === '_custom' ? $('#customAgentName').value.trim() : (sel.selectedOptions[0] || {}).dataset.name || (sel.selectedOptions[0] || {}).textContent || 'Agent';
   if (!name) name = 'Agent';
   const color = $('#agentColorPicker').value || '#818cf8';
   let creatorId = '';
@@ -803,11 +815,16 @@ function updatePromptStudio(opts = {}) {
   } else if (sel.value && sel.value.startsWith('known:')) {
     agentName = sel.value.slice(6);
     agentId = agentName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
+    // Known agents have no registered chip color; leave the picker as the
+    // human chose it so the color they picked is what ships.
   } else {
     const agent = allAvailableAgents().find(c => c.id === sel.value) || { name: 'Gemini', color: '#818cf8', id: 'gemini' };
     agentName = agent.name;
     agentId = agent.id;
-    if (isAgentSwitch) {
+    // Always sync the chip-color picker to the selected identity's color —
+    // registered creators (registry chip) and custom agents (their saved
+    // chip) alike — so what the prompt says matches the chip the card gets.
+    if (isAgentSwitch && agent.color) {
       $('#agentColorPicker').value = agent.color;
     }
   }

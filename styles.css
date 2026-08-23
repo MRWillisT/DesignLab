@@ -171,7 +171,7 @@ input, select { font: inherit; }
 
 .agent-switch {
   height: 36px;
-  max-width: 132px;
+  max-width: 168px;
   padding: 0 8px;
   border-radius: 9px;
   border: 1px solid var(--line);
@@ -2835,6 +2835,7 @@ input, select { font: inherit; }
   .brand-text h1 { font-size: 21px; }
   .search { width: 100%; order: 3; }
   .masthead-actions { width: 100%; }
+  .masthead-actions .agent-switch { flex: 0 0 auto; max-width: 150px; }
   .masthead-actions .btn-primary { flex: 1; justify-content: center; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(216px, 1fr)); gap: 12px; }
   .stage { min-height: var(--stage-h, 130px); }
