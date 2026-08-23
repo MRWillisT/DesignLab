@@ -263,6 +263,58 @@
     </div>
   </div>
 
+  <div id="inspectOverlay" class="modal-overlay" hidden>
+    <div class="modal inspect-modal" role="dialog" aria-modal="true" aria-labelledby="inspectTitle">
+      <header class="modal-head">
+        <div class="inspect-head-meta">
+          <span id="inspectId" class="card-id">#ID</span>
+          <h2 id="inspectTitle">Specimen</h2>
+          <span id="inspectCreatorChip" class="credit-chip">Creator</span>
+        </div>
+        <button id="inspectClose" class="icon-btn" type="button" aria-label="Close">✕</button>
+      </header>
+      <div class="modal-body inspect-modal-body">
+        <div class="inspect-toolbar">
+          <div class="inspect-seg" role="radiogroup" aria-label="Viewport size">
+            <button type="button" class="inspect-vp-btn is-active" data-vp="full" title="Auto / Full Width">Auto</button>
+            <button type="button" class="inspect-vp-btn" data-vp="desktop" title="Desktop Viewport (1024px)">Desktop</button>
+            <button type="button" class="inspect-vp-btn" data-vp="tablet" title="Tablet Viewport (768px)">Tablet</button>
+            <button type="button" class="inspect-vp-btn" data-vp="mobile" title="Mobile Viewport (375px)">Mobile</button>
+          </div>
+          <div class="inspect-canvas-seg" role="radiogroup" aria-label="Stage background">
+            <button type="button" class="inspect-canvas-btn is-active" data-canvas="dark" title="Dark Canvas">Dark</button>
+            <button type="button" class="inspect-canvas-btn" data-canvas="slate" title="Slate Canvas">Slate</button>
+            <button type="button" class="inspect-canvas-btn" data-canvas="light" title="Light Canvas">Light</button>
+          </div>
+        </div>
+
+        <div class="inspect-stage-wrap" id="inspectStageWrap">
+          <div class="inspect-stage" id="inspectStage">
+            <i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i>
+            <iframe id="inspectFrame" class="inspect-frame" sandbox="allow-scripts" title="Specimen full preview"></iframe>
+          </div>
+        </div>
+
+        <div class="inspect-meta-grid">
+          <div class="inspect-info-col">
+            <p id="inspectDesc" class="inspect-desc"></p>
+            <div id="inspectTags" class="inspect-tags"></div>
+          </div>
+          <div id="inspectTweaksCol" class="inspect-tweaks-col" hidden>
+            <div class="tray-head"><span class="tray-title">Live Tweaks (Inspect Sandbox)</span></div>
+            <div id="inspectTweaksList" class="inspect-tweaks-list"></div>
+          </div>
+        </div>
+      </div>
+      <footer class="modal-foot">
+        <button id="inspectStarBtn" class="btn btn-ghost" type="button">★ Favorite</button>
+        <span class="foot-spacer"></span>
+        <button id="inspectCancel" class="btn" type="button">Close</button>
+        <button id="inspectCopyBtn" class="btn btn-primary" type="button">Copy Code</button>
+      </footer>
+    </div>
+  </div>
+
   <button id="backToTopBtn" class="back-to-top" type="button" aria-label="Back to top" title="Scroll back to top">
     <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
       <path d="M12 19V5M5 12l7-7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>

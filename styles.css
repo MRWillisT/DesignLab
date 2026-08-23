@@ -1488,6 +1488,149 @@ input, select { font: inherit; }
   color: var(--ink-dim);
 }
 
+/* ---------- specimen inspect modal ---------- */
+
+.inspect-modal {
+  width: min(880px, 94vw);
+  max-height: 90vh;
+}
+
+.inspect-head-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.inspect-modal-body {
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.inspect-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.inspect-seg,
+.inspect-canvas-seg {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.inspect-vp-btn,
+.inspect-canvas-btn {
+  border: none;
+  background: transparent;
+  color: var(--ink-faint);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 9px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.inspect-vp-btn:hover,
+.inspect-canvas-btn:hover {
+  color: var(--ink);
+}
+
+.inspect-vp-btn.is-active,
+.inspect-canvas-btn.is-active {
+  background: var(--surface-hover);
+  color: #fff;
+}
+
+.inspect-stage-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 16px;
+  background: #090a0d;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  min-height: 220px;
+  overflow: auto;
+  box-sizing: border-box;
+}
+
+.inspect-stage {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-height: 180px;
+  border-radius: 8px;
+  background: var(--stage-bg, #0d0f13);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inspect-frame {
+  width: 100%;
+  min-height: 180px;
+  border: none;
+  background: transparent;
+  display: block;
+}
+
+.inspect-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.inspect-desc {
+  font-size: 12.5px;
+  color: var(--ink-mid);
+  line-height: 1.5;
+  margin: 0 0 8px;
+}
+
+.inspect-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.inspect-tag-pill {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-faint);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.inspect-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink-faint);
+  padding: 0;
+}
+
+.inspect-btn:hover {
+  color: var(--ink);
+}
+
 /* ------------------------------------------------------------
    Responsive
    ------------------------------------------------------------ */

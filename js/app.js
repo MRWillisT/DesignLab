@@ -457,6 +457,89 @@ async function copyPromptStudio(btn) {
   }
 }
 
+/* ---------- specimen inspect modal ---------- */
+
+let currentInspectItem = null;
+let inspectCanvasMode = 'dark';
+
+function openInspectModal(item) {
+  if (!item) return;
+  currentInspectItem = item;
+  const overlay = $('#inspectOverlay');
+  if (!overlay) return;
+
+  const cr = creatorOf(item.creator);
+  const isFav = favorites.has(item.id);
+
+  $('#inspectId').textContent = '#' + item.id;
+  $('#inspectTitle').textContent = item.name;
+
+  const chip = $('#inspectCreatorChip');
+  chip.textContent = cr ? cr.name : item.creator;
+  chip.style.setProperty('--chip', cr ? cr.color : '#8a8f98');
+
+  $('#inspectDesc').textContent = item.description || '';
+
+  const tagsEl = $('#inspectTags');
+  tagsEl.innerHTML = (item.tags || []).map(t => '<span class="inspect-tag-pill">#' + escapeHtml(t) + '</span>').join('');
+
+  const stage = $('#inspectStage');
+  stage.style.maxWidth = '100%';
+  inspectCanvasMode = 'dark';
+  stage.style.setProperty('--stage-bg', '#0d0f13');
+
+  $$('.inspect-vp-btn').forEach(b => b.classList.toggle('is-active', b.dataset.vp === 'full'));
+  $$('.inspect-canvas-btn').forEach(b => b.classList.toggle('is-active', b.dataset.canvas === 'dark'));
+
+  const frame = $('#inspectFrame');
+  const hasTweaks = !!(item.tweaks && item.tweaks.length);
+  frame.srcdoc = hasTweaks
+    ? previewDoc(String(item.code || ''), currentValues(item), inspectCanvasMode)
+    : previewDoc(String(item.code || ''), null, inspectCanvasMode);
+
+  const tweaksCol = $('#inspectTweaksCol');
+  const tweaksList = $('#inspectTweaksList');
+  if (hasTweaks) {
+    tweaksCol.hidden = false;
+    tweaksList.innerHTML = buildTrayRows(item);
+    const inputs = $$('input', tweaksList);
+    inputs.forEach((input, i) => {
+      const t = item.tweaks[i];
+      const cur = (draftVars.get(item.id) || {})[t.varName] || t.default;
+      input.value = cur;
+      const out = input.closest('.tweak-row').querySelector('output');
+      if (out) out.textContent = t.type === 'range' ? cur + (t.unit || '') : cur;
+      input.addEventListener('input', () => {
+        const draft = Object.assign({}, draftVars.get(item.id));
+        draft[t.varName] = formatVal(t, input.value);
+        draftVars.set(item.id, draft);
+        if (out) out.textContent = t.type === 'range' ? input.value + (t.unit || '') : input.value;
+        pushVars(frame, currentValues(item));
+        const card = document.querySelector('.card[data-id="' + item.id + '"]');
+        if (card) {
+          const cardFrame = $('.stage-frame', card);
+          if (cardFrame) pushVars(cardFrame, currentValues(item));
+          refreshTweakUi(card, item);
+        }
+      });
+    });
+  } else {
+    tweaksCol.hidden = true;
+    tweaksList.innerHTML = '';
+  }
+
+  const starBtn = $('#inspectStarBtn');
+  starBtn.textContent = isFav ? '★ Favorited' : '☆ Favorite';
+
+  overlay.hidden = false;
+}
+
+function closeInspectModal() {
+  const overlay = $('#inspectOverlay');
+  if (overlay) overlay.hidden = true;
+  currentInspectItem = null;
+}
+
 /* ---------- preview stage ---------- */
 
 function canvasBg(canvas) {
@@ -653,6 +736,11 @@ const TWEAK_SVG = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="
   + '<circle cx="10.2" cy="4.5" r="2.1" fill="currentColor"/>'
   + '<circle cx="5.8" cy="11.5" r="2.1" fill="currentColor"/></svg>';
 
+const INSPECT_SVG = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">'
+  + '<circle cx="6.5" cy="6.5" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/>'
+  + '<path d="M10 10l4.2 4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
+  + '</svg>';
+
 function buildTrayRows(item) {
   return (item.tweaks || []).map((t, i) => {
     const inputId = 'tw-' + String(item.id).replace(/[^a-zA-Z0-9_-]/g, '') + '-' + i;
@@ -683,6 +771,7 @@ function buildCard(item) {
   card.dataset.section = item.section || '';
 
   let actions = '';
+  actions += '<button class="icon-btn inspect-btn" type="button" title="Expand preview / inspect (🔍)">' + INSPECT_SVG + '</button>';
   if (hasTweaks) {
     actions += '<button class="icon-btn tweak-btn" type="button" aria-expanded="' + openTrays.has(item.id)
       + '" title="Tune this specimen — affects your copy only">' + TWEAK_SVG + '</button>';
@@ -730,6 +819,8 @@ function buildCard(item) {
     ? previewDoc(String(item.code || ''), currentValues(item))
     : previewDoc(String(item.code || ''));
 
+  $('.inspect-btn', card).addEventListener('click', () => openInspectModal(item));
+  $('.stage', card).addEventListener('dblclick', () => openInspectModal(item));
   $('.star-btn', card).addEventListener('click', () => toggleFavorite(item.id, card));
   $('.copy-btn', card).addEventListener('click', ev => copyItemCode(item, ev.currentTarget));
 
@@ -1526,8 +1617,61 @@ function init() {
     }
   });
 
+  const inspectOverlay = $('#inspectOverlay');
+  if (inspectOverlay) {
+    $('#inspectClose').addEventListener('click', closeInspectModal);
+    $('#inspectCancel').addEventListener('click', closeInspectModal);
+    inspectOverlay.addEventListener('click', ev => {
+      if (ev.target === inspectOverlay) closeInspectModal();
+    });
+
+    $$('.inspect-vp-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $$('.inspect-vp-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        const stage = $('#inspectStage');
+        const vp = btn.dataset.vp;
+        if (vp === 'desktop') stage.style.maxWidth = '1024px';
+        else if (vp === 'tablet') stage.style.maxWidth = '768px';
+        else if (vp === 'mobile') stage.style.maxWidth = '375px';
+        else stage.style.maxWidth = '100%';
+      });
+    });
+
+    $$('.inspect-canvas-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        $$('.inspect-canvas-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        const c = btn.dataset.canvas;
+        inspectCanvasMode = c === 'light' ? 'light' : (c === 'slate' ? 'neutral' : 'dark');
+        const stage = $('#inspectStage');
+        stage.style.setProperty('--stage-bg', c === 'light' ? '#f8fafc' : (c === 'slate' ? '#1e293b' : '#0d0f13'));
+        if (currentInspectItem) {
+          const frame = $('#inspectFrame');
+          const hasTweaks = !!(currentInspectItem.tweaks && currentInspectItem.tweaks.length);
+          frame.srcdoc = hasTweaks
+            ? previewDoc(String(currentInspectItem.code || ''), currentValues(currentInspectItem), inspectCanvasMode)
+            : previewDoc(String(currentInspectItem.code || ''), null, inspectCanvasMode);
+        }
+      });
+    });
+
+    $('#inspectStarBtn').addEventListener('click', () => {
+      if (!currentInspectItem) return;
+      const card = document.querySelector('.card[data-id="' + currentInspectItem.id + '"]');
+      toggleFavorite(currentInspectItem.id, card);
+      const isFav = favorites.has(currentInspectItem.id);
+      $('#inspectStarBtn').textContent = isFav ? '★ Favorited' : '☆ Favorite';
+    });
+
+    $('#inspectCopyBtn').addEventListener('click', ev => {
+      if (currentInspectItem) copyItemCode(currentInspectItem, ev.currentTarget);
+    });
+  }
+
   document.addEventListener('keydown', ev => {
     if (ev.key === 'Escape') {
+      if ($('#inspectOverlay') && !$('#inspectOverlay').hidden) { closeInspectModal(); return; }
       if (!$('#exportOverlay').hidden) { closeExportModal(); return; }
       if (!$('#importOverlay').hidden) { closeImporter(); return; }
       if (!$('#promptOverlay').hidden) { closePromptStudio(); return; }
