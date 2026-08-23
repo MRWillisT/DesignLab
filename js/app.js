@@ -1597,6 +1597,11 @@ function buildCard(item) {
     actions += '<button class="icon-btn variant-del" type="button" title="'
       + (isVariant ? 'Delete this personal variant' : 'Remove this imported specimen') + '">✕</button>';
   }
+  if (modToken && item.live) {
+    const liveDelId = item._rawId || item.id;
+    actions += '<button class="icon-btn live-mod-del" type="button" data-live-del="' + escapeHtml(liveDelId)
+      + '" title="Delete live specimen #' + escapeHtml(item.id) + ' from the site" aria-label="Delete live #' + escapeHtml(item.id) + '">✕</button>';
+  }
 
   card.innerHTML =
     '<header class="card-top">'
@@ -1650,6 +1655,9 @@ function buildCard(item) {
 
   const del = $('.variant-del', card);
   if (del) del.addEventListener('click', () => removePersonal(item.id));
+
+  const liveDel = $('.live-mod-del', card);
+  if (liveDel) liveDel.addEventListener('click', () => deleteLiveItem(liveDel.dataset.liveDel, liveDel));
 
   if (hasTweaks) {
     const tray = $('.tweak-tray', card);
@@ -2221,15 +2229,49 @@ function syncModPanel() {
   const input = $('#communityModToken');
   const unlockBtn = $('#communityModUnlock');
   const lockBtn = $('#communityModLock');
+  const purgeBtn = $('#communityModPurgeDeepSeek');
   if (modToken) {
     if (input) input.hidden = true;
     if (unlockBtn) unlockBtn.hidden = true;
     if (lockBtn) lockBtn.hidden = false;
+    if (purgeBtn) purgeBtn.hidden = false;
   } else {
     if (input) input.hidden = false;
     if (unlockBtn) unlockBtn.hidden = false;
     if (lockBtn) lockBtn.hidden = true;
+    if (purgeBtn) purgeBtn.hidden = true;
   }
+  syncModMode();
+}
+
+function syncModMode() {
+  const bar = $('#modModeBar');
+  if (!bar) return;
+  bar.hidden = !modToken;
+  document.body.classList.toggle('mod-unlocked', !!modToken);
+}
+
+async function verifyModToken() {
+  if (!modToken || !window.DesignLabLive || !DesignLabLive.moderateCheck) return;
+  const res = await DesignLabLive.moderateCheck(modToken);
+  if (!res.ok || !res.valid) {
+    modToken = null;
+    saveModToken();
+    syncModPanel();
+    render();
+  }
+}
+
+function scrollToSpecimen(itemId) {
+  closeCommunity();
+  const card = document.querySelector('.card[data-id="' + CSS.escape(itemId) + '"]');
+  if (!card) {
+    toast('#' + itemId + ' is not on screen — clear filters or open its drawer.');
+    return;
+  }
+  card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  card.classList.add('mod-focus');
+  window.setTimeout(() => card.classList.remove('mod-focus'), 2200);
 }
 
 async function unlockModerator() {
@@ -2260,8 +2302,9 @@ async function unlockModerator() {
   modToken = token;
   saveModToken();
   syncModPanel();
-  setModStatus('Unlocked — delete buttons are live.', false);
+  setModStatus('Unlocked — delete on live cards and in this list.', false);
   renderCommunity();
+  render();
 }
 
 function lockModerator() {
@@ -2271,6 +2314,34 @@ function lockModerator() {
   const status = $('#communityModStatus');
   if (status) status.hidden = true;
   renderCommunity();
+  render();
+}
+
+async function purgeDeepSeekVotes(btn) {
+  if (!modToken) return;
+  if (!window.confirm('Remove ALL votes stamped creator deepseek? Use this to clear test votes from setup.')) return;
+  if (btn) btn.disabled = true;
+  const res = await DesignLabLive.moderatePurgeVotes('deepseek', modToken);
+  if (!res.ok) {
+    if (res.error === 'missing-function') {
+      toast('Run supabase/moderation.sql in the Supabase SQL editor (adds vote purge), or run supabase/purge-deepseek-test-votes.sql once.');
+    } else {
+      toast('Purge failed — ' + res.error);
+    }
+    if (btn) btn.disabled = false;
+    return;
+  }
+  if (res.rejected) {
+    toast('Token rejected — lock and re-enter it.');
+    lockModerator();
+    return;
+  }
+  toast('Purged ' + res.deleted + ' DeepSeek vote' + (res.deleted === 1 ? '' : 's') + '.');
+  if (btn) btn.disabled = false;
+  if (window.DesignLabVotes && DesignLabVotes.refresh) DesignLabVotes.refresh();
+  renderWinnerStrip();
+  if (boardOpen) renderLeaderboard();
+  scheduleRender();
 }
 
 async function deleteLiveItem(itemId, btn) {
@@ -2311,14 +2382,17 @@ async function renderCommunity() {
       const when = it.createdAt ? new Date(it.createdAt).toLocaleString() : 'just now';
       const cr = creatorOf(it.creator);
       const agent = cr ? cr.name : it.creator;
+      const sec = sectionOf(it.section);
+      const secLabel = sec ? sec.name : it.section;
       const targetId = it._rawId || it.id;
       const del = modToken
-        ? '<button class="community-del" type="button" data-del="' + escapeHtml(targetId) + '" title="Delete #' + escapeHtml(targetId) + ' from live specimens" aria-label="Delete #' + escapeHtml(targetId) + '">✕</button>'
+        ? '<button class="community-del" type="button" data-del="' + escapeHtml(targetId) + '" title="Delete #' + escapeHtml(it.id) + ' from live specimens" aria-label="Delete #' + escapeHtml(it.id) + '">✕</button>'
         : '';
       return '<li class="community-row">'
         + '<span class="community-kind is-pr">LIVE</span>'
         + '<span class="community-title">#' + escapeHtml(it.id) + ' · ' + escapeHtml(it.name) + '</span>'
-        + '<span class="community-meta"><span class="community-agent">' + escapeHtml(agent) + '</span> · ' + escapeHtml(it.section) + ' · ' + escapeHtml(when) + '</span>'
+        + '<span class="community-meta"><span class="community-agent">' + escapeHtml(agent) + '</span> · ' + escapeHtml(secLabel) + ' · ' + escapeHtml(when) + '</span>'
+        + '<button class="community-goto" type="button" data-goto="' + escapeHtml(it.id) + '" title="Jump to #' + escapeHtml(it.id) + ' in the library" aria-label="Jump to #' + escapeHtml(it.id) + '">↗</button>'
         + del
         + '</li>';
     }).join('');
@@ -2895,6 +2969,7 @@ function init() {
   loadFavorites();
   loadFilters();
   loadModToken();
+  syncModMode();
   loadCustomAgents();
   loadPromptHistory();
   populateAgentSwitch();
@@ -3075,12 +3150,21 @@ function init() {
   });
   $('#communityModUnlock').addEventListener('click', unlockModerator);
   $('#communityModLock').addEventListener('click', lockModerator);
+  $('#modModeLock').addEventListener('click', lockModerator);
+  $('#communityModPurgeDeepSeek').addEventListener('click', ev => {
+    purgeDeepSeekVotes(ev.currentTarget);
+  });
   $('#communityModToken').addEventListener('keydown', ev => {
     if (ev.key === 'Enter') unlockModerator();
   });
   $('#communityList').addEventListener('click', ev => {
     const del = ev.target.closest('.community-del');
-    if (del) deleteLiveItem(del.dataset.del, del);
+    if (del) {
+      deleteLiveItem(del.dataset.del, del);
+      return;
+    }
+    const goto = ev.target.closest('.community-goto');
+    if (goto) scrollToSpecimen(goto.dataset.goto);
   });
   $('#communityOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closeCommunity();
@@ -3279,7 +3363,7 @@ function init() {
     });
     DesignLabLive.init().then(() => {
       stampLiveNew();
-      render();
+      verifyModToken().then(() => render());
     }).catch(() => {});
   }
 

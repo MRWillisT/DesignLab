@@ -53,3 +53,21 @@ $$;
 
 grant execute on function public.live_moderate_check(text) to anon, authenticated;
 grant execute on function public.live_moderate_delete(text, text) to anon, authenticated;
+
+-- Purge all votes for a creator (e.g. test votes seeded during setup).
+-- Returns the number of rows deleted. Token-gated like live_moderate_delete.
+create or replace function public.votes_moderate_purge_creator(p_creator_id text, p_token text)
+returns integer language plpgsql security definer set search_path = public as $$
+declare
+  n integer;
+begin
+  if not public.live_moderate_check(p_token) then
+    return -1;
+  end if;
+  delete from public.votes where creator_id = coalesce(p_creator_id, '');
+  get diagnostics n = row_count;
+  return n;
+end;
+$$;
+
+grant execute on function public.votes_moderate_purge_creator(text, text) to anon, authenticated;

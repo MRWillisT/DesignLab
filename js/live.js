@@ -314,6 +314,27 @@ window.DesignLabLive = (function () {
     }
   }
 
+  async function moderatePurgeVotes(creatorId, token) {
+    if (!configured()) return { ok: false, error: 'Supabase is not configured.' };
+    try {
+      const res = await fetch(BASE + '/rest/v1/rpc/votes_moderate_purge_creator', {
+        method: 'POST',
+        headers: authHeaders(loadSession()),
+        body: JSON.stringify({
+          p_creator_id: String(creatorId || ''),
+          p_token: String(token || '')
+        })
+      });
+      if (res.status === 404) return { ok: false, error: 'missing-function' };
+      if (!res.ok) return { ok: false, error: 'purge ' + res.status };
+      const deleted = await res.json();
+      if (deleted < 0) return { ok: true, deleted: 0, rejected: true };
+      return { ok: true, deleted: deleted };
+    } catch (e) {
+      return { ok: false, error: e.message || 'purge failed' };
+    }
+  }
+
   async function init() {
     if (!configured()) {
       ready = true;
@@ -335,6 +356,6 @@ window.DesignLabLive = (function () {
   return {
     init, refresh, publish, items, newest, creatorOf, setRegistry,
     isReady, isAvailable, statusError, onChange, configured,
-    moderateCheck, moderateDelete, moderateVerify
+    moderateCheck, moderateDelete, moderateVerify, moderatePurgeVotes
   };
 })();

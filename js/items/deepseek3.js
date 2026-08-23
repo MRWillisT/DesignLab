@@ -138,18 +138,7 @@ window.DESIGN_LAB.items.push(
   },
 
   /* ---------- ALERTS ---------- */
-  {
-    id: "AL14",
-    section: "alerts",
-    name: "Cookie Banner",
-    description: "A bottom-anchored consent bar with accept and manage actions that collapses on choice — the library's consent pattern, distinct from toasts, snackbars, and banners.",
-    creator: "deepseek",
-    tags: ["alert", "cookie", "consent", "banner", "privacy", "actions"],
-    tweaks: [
-      { type: "color", label: "Accent", varName: "--kds-cookie-accent", default: "#3b82f6" }
-    ],
-    code: "<style>\n  .kds-cookie{display:flex;align-items:center;gap:10px;width:236px;padding:11px 12px;background:#161c2a;border:1px solid rgba(255,255,255,.15);border-radius:12px;box-shadow:0 14px 30px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06);animation:kds-cookie-in .4s cubic-bezier(.2,.9,.3,1.1) both;transition:opacity .22s ease,transform .22s ease}\n  .kds-cookie.gone{opacity:0;transform:translateY(10px);pointer-events:none}\n  .kds-cookie-ic{flex:0 0 auto;font-size:19px}\n  .kds-cookie-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}\n  .kds-cookie-txt b{font:700 10.5px/1.2 ui-sans-serif,system-ui,sans-serif;color:#eef2fa}\n  .kds-cookie-txt span{font:600 8.5px/1.35 ui-sans-serif,system-ui,sans-serif;color:#7d8aa6}\n  .kds-cookie-btn{flex:0 0 auto;padding:6px 10px;border-radius:7px;border:none;font:800 8.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.1em;cursor:pointer;transition:transform .1s ease}\n  .kds-cookie-btn:active{transform:scale(.94)}\n  .kds-cookie-btn.ok{background:var(--kds-cookie-accent,#3b82f6);color:#04101f}\n  .kds-cookie-btn.ghost{background:transparent;color:#c3cede;border:1px solid rgba(255,255,255,.18)}\n  @keyframes kds-cookie-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}\n  @media (prefers-reduced-motion:reduce){.kds-cookie{animation:none;transition:none}.kds-cookie-btn{transition:none}}\n</style>\n<div class=\"kds-cookie\" id=\"kds-cookie\" role=\"region\" aria-label=\"Cookie consent\">\n  <span class=\"kds-cookie-ic\">🍪</span>\n  <div class=\"kds-cookie-txt\"><b>We use cookies</b><span>To keep this specimen sticky-sweet.</span></div>\n  <button type=\"button\" class=\"kds-cookie-btn ok\" onclick=\"document.getElementById('kds-cookie').classList.add('gone')\">ACCEPT</button>\n  <button type=\"button\" class=\"kds-cookie-btn ghost\" onclick=\"document.getElementById('kds-cookie').classList.add('gone')\">MANAGE</button>\n</div>"
-  },
+  
 
   /* ---------- ICONS ---------- */
   {

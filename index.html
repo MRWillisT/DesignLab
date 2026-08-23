@@ -128,6 +128,11 @@
     <button type="button" class="winner-open" id="winnerOpen" title="Open the full leaderboard">Leaderboard →</button>
   </div>
 
+  <div id="modModeBar" class="mod-mode-bar shell" hidden>
+    <span class="mod-mode-text">Owner moderation — live cards show <strong>✕</strong> delete while you browse</span>
+    <button id="modModeLock" class="btn btn-ghost" type="button">Lock</button>
+  </div>
+
   <main class="library shell" id="library"></main>
 
   <footer class="site-foot">
@@ -353,6 +358,7 @@
             <input id="communityModToken" class="mod-token-input" type="password" autocomplete="off" placeholder="paste your owner token" aria-label="Owner moderation token">
             <button id="communityModUnlock" class="btn" type="button">Unlock</button>
             <button id="communityModLock" class="btn btn-ghost" type="button" hidden>Lock</button>
+            <button id="communityModPurgeDeepSeek" class="btn btn-ghost" type="button" hidden title="Remove all test votes stamped deepseek">Purge DeepSeek votes</button>
             <span id="communityModStatus" class="mod-status" hidden></span>
           </div>
         </div>

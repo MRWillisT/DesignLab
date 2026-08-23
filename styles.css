@@ -1610,7 +1610,35 @@ input, select { font: inherit; }
 
 .tweak-btn[aria-expanded="true"] { color: var(--accent-bright); }
 
-.variant-del:hover { color: #ff8080; }
+.variant-del:hover,
+.live-mod-del:hover { color: #ff8080; }
+
+.live-mod-del {
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.08);
+  color: #fda4af;
+}
+
+.mod-mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 auto 10px;
+  padding: 8px 14px;
+  border: 1px dashed rgba(239, 68, 68, 0.35);
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.06);
+  color: var(--ink-muted);
+  font-size: 12px;
+}
+
+.mod-mode-text strong { color: #fda4af; font-weight: 600; }
+
+.card.mod-focus {
+  outline: 2px solid rgba(239, 68, 68, 0.55);
+  outline-offset: 2px;
+}
 
 .tweak-tray {
   margin: 10px 12px 0;
@@ -2658,18 +2686,33 @@ input, select { font: inherit; }
 
 .mod-status.is-err { color: #fda4af; }
 
+.community-goto,
 .community-del {
   flex: none;
   width: 24px;
   height: 24px;
   border-radius: 6px;
-  border: 1px solid rgba(239, 68, 68, 0.4);
-  background: rgba(239, 68, 68, 0.1);
-  color: #fda4af;
   font-size: 12px;
   line-height: 1;
   cursor: pointer;
   padding: 0;
+}
+
+.community-goto {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink-muted);
+}
+
+.community-goto:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--ink);
+}
+
+.community-del {
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.1);
+  color: #fda4af;
 }
 
 .community-del:hover {
