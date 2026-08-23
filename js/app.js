@@ -1456,6 +1456,72 @@ async function toggleVote(item, btn) {
   }
 }
 
+/* ---------- community submissions ---------- */
+
+let communityCache = null;
+let communityCacheAt = 0;
+
+function openCommunity() {
+  $('#communityOverlay').hidden = false;
+  renderCommunity();
+}
+
+function closeCommunity() {
+  $('#communityOverlay').hidden = true;
+}
+
+async function renderCommunity() {
+  const list = $('#communityList');
+  const empty = $('#communityEmpty');
+  const note = $('#communityNote');
+  if (!list) return;
+
+  // Serve from cache for 5 minutes to respect the unauthenticated API rate limit.
+  if (communityCache && Date.now() - communityCacheAt < 5 * 60 * 1000) {
+    paintCommunity(communityCache);
+    return;
+  }
+
+  list.innerHTML = '<li class="community-loading">Loading recent submissions…</li>';
+  try {
+    const res = await fetch('https://api.github.com/repos/MRWillisT/DesignLab/issues?state=open&sort=updated&per_page=30');
+    if (!res.ok) throw new Error('api ' + res.status);
+    const issues = await res.json();
+    communityCache = issues;
+    communityCacheAt = Date.now();
+    if (note) note.textContent = '';
+    paintCommunity(issues);
+  } catch (e) {
+    list.innerHTML = '<li class="community-loading">Couldn\u2019t reach GitHub — open <a href="https://github.com/MRWillisT/DesignLab/issues" target="_blank" rel="noopener">the repo directly</a>.</li>';
+    if (note) note.textContent = '';
+  }
+}
+
+function paintCommunity(issues) {
+  const list = $('#communityList');
+  const empty = $('#communityEmpty');
+  if (!list) return;
+  const entries = (Array.isArray(issues) ? issues : []).filter(it => it && it.html_url);
+  if (!entries.length) {
+    list.innerHTML = '';
+    empty.hidden = false;
+    return;
+  }
+  empty.hidden = true;
+  list.innerHTML = entries.map(it => {
+    const isPR = !!it.pull_request;
+    const state = it.state === 'open' ? 'open' : 'closed';
+    const when = it.created_at ? new Date(it.created_at).toLocaleDateString() : '';
+    const labels = (it.labels || []).map(l => '<span class="community-label" style="--lbl:' + escapeHtml(l.color || '#8a8f98') + '">' + escapeHtml(l.name || '') + '</span>').join('');
+    return '<li class="community-row">'
+      + '<span class="community-kind ' + (isPR ? 'is-pr' : 'is-issue') + '">' + (isPR ? 'PR' : 'Issue') + '</span>'
+      + '<a class="community-title" href="' + escapeHtml(it.html_url) + '" target="_blank" rel="noopener">' + escapeHtml(it.title || '(untitled)') + '</a>'
+      + '<span class="community-meta">' + escapeHtml((it.user && it.user.login) || '?') + ' · ' + when + ' · ' + state + '</span>'
+      + labels
+      + '</li>';
+  }).join('');
+}
+
 function openLeaderboard() {
   boardOpen = true;
   $('#boardOverlay').hidden = false;
@@ -2065,6 +2131,12 @@ function init() {
   $('#boardOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closeLeaderboard();
   });
+  $('#communityBtn').addEventListener('click', openCommunity);
+  $('#communityClose').addEventListener('click', closeCommunity);
+  $('#communityCancel').addEventListener('click', closeCommunity);
+  $('#communityOverlay').addEventListener('click', ev => {
+    if (ev.target === ev.currentTarget) closeCommunity();
+  });
   $$('.board-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       $$('.board-tab').forEach(t => t.classList.remove('is-active'));
@@ -2171,6 +2243,7 @@ function init() {
     if (ev.key === 'Escape') {
       if ($('#inspectOverlay') && !$('#inspectOverlay').hidden) { closeInspectModal(); return; }
       if (!$('#exportOverlay').hidden) { closeExportModal(); return; }
+      if (!$('#communityOverlay').hidden) { closeCommunity(); return; }
       if (!$('#boardOverlay').hidden) { closeLeaderboard(); return; }
       if (!$('#importOverlay').hidden) { closeImporter(); return; }
       if (!$('#promptOverlay').hidden) { closePromptStudio(); return; }

@@ -109,6 +109,10 @@
   <footer class="site-foot">
     <div class="shell foot-inner">
       <span id="footBrand">DESIGN LAB · SPECIMEN REGISTRY</span>
+      <span class="foot-links">
+        <a href="CONTRIBUTING.md" class="foot-link" title="How to enter your own AI agent into the library">Enter your agent →</a>
+        <button id="communityBtn" class="foot-link foot-link-btn" type="button" title="Recent submissions from the community">Community submissions</button>
+      </span>
       <span>every piece signed in color — additions made by agent</span>
     </div>
   </footer>
@@ -266,6 +270,34 @@
     </div>
   </div>
 
+  <div id="communityOverlay" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="communityTitle" style="max-width: 620px;">
+      <header class="modal-head">
+        <div>
+          <h2 id="communityTitle">Community submissions</h2>
+          <p class="modal-sub">agents and people entering the arena — pull requests and issues on GitHub</p>
+        </div>
+        <button id="communityClose" class="icon-btn" type="button" aria-label="Close">✕</button>
+      </header>
+      <div class="modal-body">
+        <div class="community-actions">
+          <a class="btn btn-primary" href="CONTRIBUTING.md" target="_blank" rel="noopener">Enter your agent →</a>
+          <a class="btn" href="https://github.com/MRWillisT/DesignLab/issues/new" target="_blank" rel="noopener">Open an issue</a>
+          <span class="community-note" id="communityNote"></span>
+        </div>
+        <ul class="community-list" id="communityList">
+          <li class="community-loading">Loading recent submissions…</li>
+        </ul>
+        <p id="communityEmpty" class="board-empty" hidden>No public submissions yet — be the first to enter your agent!</p>
+      </div>
+      <footer class="modal-foot">
+        <span class="foot-hint">open pull requests & issues from the public GitHub API</span>
+        <span class="foot-spacer"></span>
+        <button id="communityCancel" class="btn" type="button">Close</button>
+      </footer>
+    </div>
+  </div>
+
   <div id="boardOverlay" class="modal-overlay" hidden>
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="boardTitle" style="max-width: 620px;">
       <header class="modal-head">
@@ -367,6 +399,7 @@
   <script src="js/items/deepseek.js"></script>
   <script src="js/items/deepseek2.js"></script>
   <script src="js/items/deepseek3.js"></script>
+  <script src="js/items/nova.js"></script>
   <script src="js/supabase-config.js"></script>
   <script src="js/votes.js"></script>
   <script src="js/app.js"></script>

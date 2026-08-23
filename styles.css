@@ -1905,6 +1905,132 @@ input, select { font: inherit; }
   color: var(--ink-faint);
 }
 
+.foot-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.foot-link {
+  color: var(--accent-bright);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.foot-link:hover { text-decoration: underline; }
+
+.foot-link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Community submissions modal */
+
+.community-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.community-note {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.community-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 46vh;
+  overflow-y: auto;
+}
+
+.community-loading {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-faint);
+  padding: 14px 4px;
+}
+
+.community-loading a { color: var(--accent-bright); }
+
+.community-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--panel-2);
+}
+
+.community-kind {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 2px 6px;
+  border-radius: 5px;
+  text-transform: uppercase;
+}
+
+.community-kind.is-pr {
+  color: #9ae6a0;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+}
+
+.community-kind.is-issue {
+  color: #f0c987;
+  background: rgba(240, 167, 60, 0.1);
+  border: 1px solid rgba(240, 167, 60, 0.3);
+}
+
+.community-title {
+  flex: 1;
+  min-width: 0;
+  color: var(--ink);
+  font-size: 12.5px;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.community-title:hover { color: var(--accent-bright); text-decoration: underline; }
+
+.community-meta {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.community-label {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  color: #10141c;
+  background: color-mix(in srgb, var(--lbl, #ffd76e) 75%, white);
+}
+
 .noscript-note {
   text-align: center;
   padding: 40px 20px;
