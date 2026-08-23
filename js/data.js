@@ -38,7 +38,8 @@ window.DESIGN_LAB = {
     { id: "nemotron", name: "Nemotron", color: "#f97316" },
     { id: "opus",     name: "Opus",     color: "#f5323c" },
     { id: "sonnet",   name: "Sonnet",   color: "#f04c54" },
-    { id: "gpt-oss",  name: "GPT-OSS",  color: "#7a00f5" }
+    { id: "gpt-oss",  name: "GPT-OSS",  color: "#7a00f5" },
+    { id: "grok",     name: "Grok",     color: "#e879f9" }
   ],
 
   /* ----------------------------------------------------------
@@ -1793,6 +1794,402 @@ window.DESIGN_LAB = {
       ],
       code: "<style>\n  .kic14-row{display:flex;align-items:center;gap:16px}\n  .kic14-cube{width:32px;height:32px;position:relative;transform-style:preserve-3d;transform:rotateX(-20deg) rotateY(35deg);cursor:pointer;transition:transform .2s ease}\n  .kic14-cube:hover{transform:rotateX(-20deg) rotateY(35deg) translateY(-3px)}\n  .kic14-face{position:absolute;border:1.5px solid rgba(255,255,255,.12)}\n  .kic14-front{width:22px;height:22px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ic14-color,#06b6d4);transition:background .2s ease,border-color .2s ease}\n  .kic14-cube:hover .kic14-front{background:color-mix(in srgb,var(--ic14-color,#06b6d4) 20%,transparent);border-color:var(--ic14-color,#06b6d4)}\n  .kic14-top{width:22px;height:10px;background:rgba(255,255,255,.04);transform:rotateX(90deg);transform-origin:bottom;position:absolute;top:-10px;left:0}\n  .kic14-right{width:10px;height:22px;background:rgba(255,255,255,.03);transform:rotateY(90deg);transform-origin:left;position:absolute;top:0;left:22px}\n  @media (prefers-reduced-motion:reduce){.kic14-cube{transition:none}}\n</style>\n<div class=\"kic14-row\">\n  <div class=\"kic14-cube\"><div class=\"kic14-face kic14-front\">▶</div><div class=\"kic14-face kic14-top\"></div><div class=\"kic14-face kic14-right\"></div></div>\n  <div class=\"kic14-cube\"><div class=\"kic14-face kic14-front\">⚙</div><div class=\"kic14-face kic14-top\"></div><div class=\"kic14-face kic14-right\"></div></div>\n  <div class=\"kic14-cube\"><div class=\"kic14-face kic14-front\">✦</div><div class=\"kic14-face kic14-top\"></div><div class=\"kic14-face kic14-right\"></div></div>\n  <div class=\"kic14-cube\"><div class=\"kic14-face kic14-front\">♥</div><div class=\"kic14-face kic14-top\"></div><div class=\"kic14-face kic14-right\"></div></div>\n</div>"
     }
+,
+
+    /* ---- Grok additions: structurally distinct specimens across all 14 drawers ---- */
+
+    {
+      id: "AN13",
+      section: "animations",
+      name: "Split-Flap Board",
+      description: "Mechanical Solari split-flap cells that rotateX through a split seam — airport-board motion unlike blobs, orbits, typewriters, or confetti.",
+      creator: "grok",
+      tags: ["animation","split-flap","solari","mechanical","flip","board"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Letter Ink",
+          "varName": "--an13-ink",
+          "default": "#f5e6c8"
+        }
+      ],
+      code: "<style>\n  @keyframes kan13-flip{0%,18%{transform:rotateX(0)}32%{transform:rotateX(-90deg)}33%{transform:rotateX(90deg)}48%,100%{transform:rotateX(0)}}\n  @keyframes kan13-pip{0%,40%{opacity:1}41%,100%{opacity:.22}}\n  .kan13{background:#241e14;padding:8px 8px 6px;border-radius:7px;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 5px 0 #120e09,0 8px 16px rgba(0,0,0,.45);display:inline-flex;flex-direction:column;align-items:center;gap:6px}\n  .kan13-row{display:flex;gap:3px;perspective:240px}\n  .kan13-cell{width:26px;height:36px;background:#14110c;border:1px solid #3a3224;border-radius:2px;position:relative;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}\n  .kan13-face{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:700 18px/1 ui-monospace,Consolas,monospace;color:var(--an13-ink,#f5e6c8);animation:kan13-flip 3.4s ease-in-out infinite;transform-origin:50% 50%;backface-visibility:hidden}\n  .kan13-cell:nth-child(2) .kan13-face{animation-delay:.12s}\n  .kan13-cell:nth-child(3) .kan13-face{animation-delay:.24s}\n  .kan13-cell:nth-child(4) .kan13-face{animation-delay:.36s}\n  .kan13-seam{position:absolute;left:0;right:0;top:50%;height:1px;background:#000;box-shadow:0 1px 0 rgba(255,255,255,.06);z-index:2;pointer-events:none}\n  .kan13-pip{width:5px;height:5px;border-radius:50%;background:#e879f9;box-shadow:0 0 7px #e879f9;animation:kan13-pip 3.4s step-end infinite}\n  @media (prefers-reduced-motion:reduce){.kan13-face,.kan13-pip{animation:none}}\n</style>\n<div class=\"kan13\">\n  <div class=\"kan13-row\">\n    <div class=\"kan13-cell\"><span class=\"kan13-face\">G</span><i class=\"kan13-seam\"></i></div>\n    <div class=\"kan13-cell\"><span class=\"kan13-face\">R</span><i class=\"kan13-seam\"></i></div>\n    <div class=\"kan13-cell\"><span class=\"kan13-face\">O</span><i class=\"kan13-seam\"></i></div>\n    <div class=\"kan13-cell\"><span class=\"kan13-face\">K</span><i class=\"kan13-seam\"></i></div>\n  </div>\n  <i class=\"kan13-pip\"></i>\n</div>"
+    },
+
+    {
+      id: "LO10",
+      section: "loaders",
+      name: "Hourglass Flip",
+      description: "Physical hourglass that 180-flips on a timer while a grain falls through the neck — gravity metaphor unlike rings, dots, grids, or traces.",
+      creator: "grok",
+      tags: ["loader","hourglass","flip","sand","timer"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Sand Color",
+          "varName": "--lo10-sand",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  @keyframes klo10-flip{0%,38%{transform:rotate(0)}50%,88%{transform:rotate(180deg)}100%{transform:rotate(360deg)}}\n  @keyframes klo10-bead{0%{transform:translate(-50%,-11px);opacity:0}12%{opacity:1}40%{transform:translate(-50%,12px);opacity:1}48%,100%{opacity:0;transform:translate(-50%,14px)}}\n  .klo10{width:38px;height:54px;position:relative;animation:klo10-flip 4.4s ease-in-out infinite}\n  .klo10-g{position:absolute;inset:0;border:2px solid rgba(255,255,255,.28);border-radius:5px;background:rgba(255,255,255,.03);display:flex;flex-direction:column;align-items:center;overflow:hidden}\n  .klo10-u{width:22px;height:18px;margin-top:4px;clip-path:polygon(0 0,100% 0,50% 100%);background:color-mix(in srgb,var(--lo10-sand,#e879f9) 55%,transparent)}\n  .klo10-n{width:3px;height:6px;background:var(--lo10-sand,#e879f9);opacity:.7}\n  .klo10-d{width:22px;height:18px;clip-path:polygon(50% 0,0 100%,100% 100%);background:color-mix(in srgb,var(--lo10-sand,#e879f9) 40%,transparent)}\n  .klo10-b{position:absolute;left:50%;top:50%;width:4px;height:4px;border-radius:50%;background:var(--lo10-sand,#e879f9);box-shadow:0 0 6px var(--lo10-sand,#e879f9);animation:klo10-bead 4.4s ease-in infinite}\n  @media (prefers-reduced-motion:reduce){.klo10,.klo10-b{animation:none}}\n</style>\n<div class=\"klo10\">\n  <div class=\"klo10-g\">\n    <div class=\"klo10-u\"></div>\n    <div class=\"klo10-n\"></div>\n    <div class=\"klo10-d\"></div>\n  </div>\n  <i class=\"klo10-b\"></i>\n</div>"
+    },
+
+    {
+      id: "BA9",
+      section: "badges",
+      name: "Perforated Ticket",
+      description: "Admit-one stub with a dashed tear perforation and serial block — a ticket silhouette unlike pills, diamonds, ribbons, or ping rings.",
+      creator: "grok",
+      tags: ["badge","ticket","perforated","stub","serial"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Stub Color",
+          "varName": "--ba9-stub",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .kba9{display:flex;width:168px;height:52px;border-radius:6px;overflow:hidden;box-shadow:0 6px 14px rgba(0,0,0,.4);transform:rotate(-2deg);transition:transform .18s ease;cursor:default}\n  .kba9:hover{transform:rotate(0) translateY(-2px)}\n  .kba9-main{flex:1;background:#16121c;padding:7px 10px 6px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(255,255,255,.08);border-right:none;border-radius:6px 0 0 6px}\n  .kba9-kicker{font-size:8px;letter-spacing:.16em;font-weight:700;color:var(--ba9-stub,#e879f9)}\n  .kba9-title{font-size:13px;font-weight:800;color:#f8fafc;letter-spacing:.02em}\n  .kba9-perf{width:0;border-left:1.5px dashed rgba(255,255,255,.28);background:repeating-linear-gradient(to bottom,transparent 0 5px,#0d0f13 5px 9px)}\n  .kba9-stub{width:46px;background:var(--ba9-stub,#e879f9);color:#1a0a22;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:800;line-height:1.05}\n  .kba9-stub small{font-size:7px;letter-spacing:.14em;opacity:.75}\n  .kba9-stub b{font-size:14px;font-variant-numeric:tabular-nums}\n  @media (prefers-reduced-motion:reduce){.kba9{transition:none;transform:none}}\n</style>\n<div class=\"kba9\">\n  <div class=\"kba9-main\"><span class=\"kba9-kicker\">ADMIT ONE</span><span class=\"kba9-title\">GROK LIVE</span></div>\n  <div class=\"kba9-perf\"></div>\n  <div class=\"kba9-stub\"><small>ROW</small><b>A14</b></div>\n</div>"
+    },
+
+    {
+      id: "BU26",
+      section: "buttons",
+      name: "Safety Cover Latch",
+      description: "Two-step missile-switch: a striped cover must slide aside before the launch button can be pressed — a gated interaction no other button uses.",
+      creator: "grok",
+      tags: ["button","safety","cover","slide","latch","launch"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Launch Color",
+          "varName": "--bu26-go",
+          "default": "#ef4444"
+        }
+      ],
+      code: "<style>\n  .kbu26{position:relative;width:128px;height:40px;border-radius:8px}\n  .kbu26-go{width:100%;height:100%;border:none;border-radius:8px;background:linear-gradient(180deg,color-mix(in srgb,var(--bu26-go,#ef4444) 92%,#fff),var(--bu26-go,#ef4444));color:#fff;font-size:11px;font-weight:800;letter-spacing:.14em;cursor:pointer;box-shadow:0 3px 0 color-mix(in srgb,var(--bu26-go,#ef4444) 55%,#000),0 6px 12px rgba(0,0,0,.35);transition:transform .1s ease}\n  .kbu26-go:active{transform:translateY(2px)}\n  .kbu26-lid{position:absolute;inset:0;border:none;border-radius:8px;cursor:pointer;z-index:2;background:repeating-linear-gradient(-45deg,#facc15 0 7px,#111 7px 14px);color:#111;font-size:9px;font-weight:800;letter-spacing:.12em;text-shadow:0 0 0 #000,0 1px 0 #fde68a;transition:transform .28s cubic-bezier(.2,.8,.2,1);box-shadow:0 3px 0 #3f3f00,inset 0 1px 0 rgba(255,255,255,.25)}\n  .kbu26.is-open .kbu26-lid{transform:translateX(-82%)}\n  @media (prefers-reduced-motion:reduce){.kbu26-lid,.kbu26-go{transition:none}}\n</style>\n<div class=\"kbu26\">\n  <button type=\"button\" class=\"kbu26-go\">LAUNCH</button>\n  <button type=\"button\" class=\"kbu26-lid\" onclick=\"this.parentElement.classList.toggle('is-open')\">SLIDE</button>\n</div>"
+    },
+
+    {
+      id: "BU27",
+      section: "buttons",
+      name: "Ink Stamp Press",
+      description: "Circular office stamp that presses down and leaves a faded ink impression — a press-and-impress model unlike pills, keycaps, or FABs.",
+      creator: "grok",
+      tags: ["button","stamp","ink","press","circular","office"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Ink Color",
+          "varName": "--bu27-ink",
+          "default": "#e879f9"
+        },
+        {
+          "type": "range",
+          "label": "Stamp Size",
+          "varName": "--bu27-size",
+          "min": 52,
+          "max": 80,
+          "step": 2,
+          "unit": "px",
+          "default": 64
+        }
+      ],
+      code: "<style>\n  .kbu27{position:relative;width:var(--bu27-size,64px);height:var(--bu27-size,64px)}\n  .kbu27-mark{position:absolute;inset:4px;border-radius:50%;border:2px solid var(--bu27-ink,#e879f9);opacity:0;transform:translate(4px,6px) scale(.96);pointer-events:none;transition:opacity .18s ease,transform .18s ease}\n  .kbu27-stamp{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;border:3px double var(--bu27-ink,#e879f9);background:radial-gradient(circle at 32% 28%,#4a3424,#1a120c 62%);color:var(--bu27-ink,#e879f9);font-size:8px;font-weight:800;letter-spacing:.1em;cursor:pointer;box-shadow:0 8px 0 #0d0a08,0 12px 16px rgba(0,0,0,.4);transition:transform .12s ease;display:flex;align-items:center;justify-content:center}\n  .kbu27-stamp:hover{transform:translateY(-3px) rotate(-8deg)}\n  .kbu27-stamp:active{transform:translateY(6px) rotate(0)}\n  .kbu27-stamp:active + .kbu27-mark{opacity:.45;transform:scale(1)}\n  @media (prefers-reduced-motion:reduce){.kbu27-stamp,.kbu27-mark{transition:none}}\n</style>\n<div class=\"kbu27\">\n  <button type=\"button\" class=\"kbu27-stamp\">APPROVED</button>\n  <span class=\"kbu27-mark\"></span>\n</div>"
+    },
+
+    {
+      id: "FO11",
+      section: "forms",
+      name: "File Drop Zone",
+      description: "Dashed drop target whose file sheet lands on hover/focus — a file-ingest surface unlike text inputs, steppers, OTP grids, or search morphs.",
+      creator: "grok",
+      tags: ["form","dropzone","file","upload","dashed"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Accent",
+          "varName": "--fo11-accent",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .kfo11{width:168px;height:78px;border:1.5px dashed rgba(255,255,255,.22);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;position:relative;background:rgba(255,255,255,.03);transition:transform .18s ease,border-color .18s ease}\n  .kfo11:hover,.kfo11:focus-within{border-color:var(--fo11-accent,#e879f9);transform:translateY(-2px)}\n  .kfo11-in{position:absolute;inset:0;opacity:0;cursor:pointer}\n  .kfo11-sheet{width:22px;height:28px;background:linear-gradient(180deg,#fff,#e2e8f0);clip-path:polygon(0 0,68% 0,100% 28%,100% 100%,0 100%);transform:translateY(-8px);opacity:.4;transition:transform .22s ease,opacity .22s ease;box-shadow:0 2px 4px rgba(0,0,0,.3)}\n  .kfo11:hover .kfo11-sheet,.kfo11:focus-within .kfo11-sheet{transform:translateY(0);opacity:1}\n  .kfo11-copy{font-size:10px;font-weight:700;letter-spacing:.04em;color:#94a3b8}\n  .kfo11:hover .kfo11-copy,.kfo11:focus-within .kfo11-copy{color:var(--fo11-accent,#e879f9)}\n  @media (prefers-reduced-motion:reduce){.kfo11,.kfo11-sheet{transition:none}}\n</style>\n<label class=\"kfo11\">\n  <input class=\"kfo11-in\" type=\"file\" multiple>\n  <span class=\"kfo11-sheet\"></span>\n  <span class=\"kfo11-copy\">Drop files here</span>\n</label>"
+    },
+
+    {
+      id: "FO12",
+      section: "forms",
+      name: "Mini Calendar Grid",
+      description: "Month-grid date picker where clicking a day selects it — a temporal matrix unlike OTP boxes, dropdowns, or single-line inputs.",
+      creator: "grok",
+      tags: ["form","calendar","date","grid","picker"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Selected Day",
+          "varName": "--fo12-sel",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .kfo12{width:168px;background:#141820;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 8px 6px}\n  .kfo12-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:10px;font-weight:800;letter-spacing:.08em;color:#e2e8f0}\n  .kfo12-dow{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;margin-bottom:2px;font-size:8px;font-weight:700;color:#64748b;text-align:center}\n  .kfo12-g{display:grid;grid-template-columns:repeat(7,1fr);gap:1px}\n  .kfo12-d{height:18px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#cbd5e1;border-radius:4px;cursor:pointer;user-select:none}\n  .kfo12-d.emp{pointer-events:none;cursor:default}\n  .kfo12-d:not(.emp):hover{background:rgba(255,255,255,.06)}\n  .kfo12-d.today{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--fo12-sel,#e879f9) 55%,transparent)}\n  .kfo12-d.sel{background:var(--fo12-sel,#e879f9);color:#1a0a22;font-weight:800}\n</style>\n<div class=\"kfo12\">\n  <div class=\"kfo12-h\"><span>AUG 2026</span><span style=\"color:#64748b;font-weight:600\">SAT 22</span></div>\n  <div class=\"kfo12-dow\"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>\n  <div class=\"kfo12-g\"><span class=\"kfo12-d emp\"></span><span class=\"kfo12-d emp\"></span><span class=\"kfo12-d emp\"></span><span class=\"kfo12-d emp\"></span><span class=\"kfo12-d emp\"></span><span class=\"kfo12-d emp\"></span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">1</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">2</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">3</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">4</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">5</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">6</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">7</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">8</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">9</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">10</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">11</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">12</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">13</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">14</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">15</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">16</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">17</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">18</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">19</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">20</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">21</span><span class=\"kfo12-d today sel\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">22</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">23</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">24</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">25</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">26</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">27</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">28</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">29</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">30</span><span class=\"kfo12-d\" onclick=\"if(this.classList.contains('emp'))return;this.parentElement.querySelectorAll('.kfo12-d').forEach(function(n){n.classList.remove('sel')});this.classList.add('sel')\">31</span></div>\n</div>"
+    },
+
+    {
+      id: "TO12",
+      section: "toggles",
+      name: "Dip Switch Bank",
+      description: "PCB row of vertical dip switches whose rockers translate up/down independently — hardware bank unlike pills, rockers, flips, or rotary cranks.",
+      creator: "grok",
+      tags: ["toggle","dip","switch","pcb","hardware","bank"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "ON Color",
+          "varName": "--to12-on",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .kto12{background:linear-gradient(180deg,#24664c,#163d2e);padding:8px 10px 6px;border-radius:5px;border:1px solid #2f7a5c;box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 3px 0 #0c241c;display:inline-flex;flex-direction:column;align-items:center;gap:4px}\n  .kto12-silk{font-size:7px;font-weight:800;letter-spacing:.2em;color:#a7f3d0}\n  .kto12-row{display:flex;gap:5px}\n  .kto12-sw{width:14px;height:28px;background:#07140f;border-radius:2px;position:relative;display:block;cursor:pointer;box-shadow:inset 0 1px 3px #000}\n  .kto12-sw input{position:absolute;opacity:0;pointer-events:none}\n  .kto12-sw i{position:absolute;left:2px;right:2px;height:12px;bottom:2px;border-radius:1px;background:linear-gradient(#f8fafc,#94a3b8);transition:transform .16s ease;box-shadow:0 1px 1px rgba(0,0,0,.4)}\n  .kto12-sw input:checked + i{transform:translateY(-12px);background:linear-gradient(var(--to12-on,#e879f9),color-mix(in srgb,var(--to12-on,#e879f9) 70%,#000))}\n  .kto12-nums{display:flex;gap:5px;font-size:7px;font-weight:700;color:#6ee7b7;letter-spacing:0}\n  .kto12-nums span{width:14px;text-align:center}\n  @media (prefers-reduced-motion:reduce){.kto12-sw i{transition:none}}\n</style>\n<div class=\"kto12\">\n  <span class=\"kto12-silk\">ON</span>\n  <div class=\"kto12-row\">\n    <label class=\"kto12-sw\"><input type=\"checkbox\" checked><i></i></label>\n    <label class=\"kto12-sw\"><input type=\"checkbox\"><i></i></label>\n    <label class=\"kto12-sw\"><input type=\"checkbox\" checked><i></i></label>\n    <label class=\"kto12-sw\"><input type=\"checkbox\"><i></i></label>\n  </div>\n  <div class=\"kto12-nums\"><span>1</span><span>2</span><span>3</span><span>4</span></div>\n</div>"
+    },
+
+    {
+      id: "SL10",
+      section: "sliders",
+      name: "Mercury Thermometer",
+      description: "Glass tube and bulb whose mercury column scaleY-fills from the bulb — a medical-instrument silhouette unlike tracks, rings, dots, or knobs.",
+      creator: "grok",
+      tags: ["slider","thermometer","mercury","vertical","gauge"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Mercury",
+          "varName": "--sl10-hg",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .ksl10{display:flex;align-items:flex-end;gap:8px;height:100px}\n  .ksl10-col{position:relative;width:24px;height:100px}\n  .ksl10-tube{position:absolute;left:8px;top:0;width:8px;height:82px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.22);border-bottom:none;border-radius:8px 8px 0 0;overflow:hidden}\n  .ksl10-hg{position:absolute;left:1px;right:1px;bottom:0;top:6px;background:var(--sl10-hg,#e879f9);transform:scaleY(var(--ksl10-p,.68));transform-origin:bottom center;border-radius:4px 4px 0 0;box-shadow:0 0 8px var(--sl10-hg,#e879f9)}\n  .ksl10-bulb{position:absolute;left:3px;bottom:0;width:18px;height:18px;border-radius:50%;background:var(--sl10-hg,#e879f9);border:1px solid rgba(255,255,255,.28);box-shadow:0 0 10px var(--sl10-hg,#e879f9)}\n  .ksl10-in{position:absolute;width:100px;height:22px;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-90deg);opacity:0;cursor:ns-resize;margin:0}\n  .ksl10-n{font:700 12px/1 ui-monospace,Consolas,monospace;color:var(--sl10-hg,#e879f9);margin-bottom:2px}\n</style>\n<div class=\"ksl10\" style=\"--ksl10-p:.68\">\n  <div class=\"ksl10-col\">\n    <div class=\"ksl10-tube\"><div class=\"ksl10-hg\"></div></div>\n    <div class=\"ksl10-bulb\"></div>\n    <input class=\"ksl10-in\" type=\"range\" min=\"0\" max=\"100\" value=\"68\" oninput=\"this.closest('.ksl10').style.setProperty('--ksl10-p',this.value/100);this.closest('.ksl10').querySelector('.ksl10-n').textContent=this.value+'°'\">\n  </div>\n  <span class=\"ksl10-n\">68°</span>\n</div>"
+    },
+
+    {
+      id: "CA9",
+      section: "cards",
+      name: "Boarding Pass",
+      description: "Airline boarding pass with stub, IATA pair, seat/gate block, and barcode — a travel-document surface unlike metric tiles, profiles, or feeds.",
+      creator: "grok",
+      tags: ["card","boarding","pass","ticket","travel","barcode"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Airline Accent",
+          "varName": "--ca9-accent",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .kca9{width:220px;display:flex;background:#16121c;border:1px solid rgba(255,255,255,.1);border-radius:8px;overflow:hidden;box-shadow:0 8px 18px rgba(0,0,0,.4)}\n  .kca9-stub{width:58px;background:var(--ca9-accent,#e879f9);color:#1a0a22;padding:8px 6px;display:flex;flex-direction:column;justify-content:space-between}\n  .kca9-airline{font-size:8px;font-weight:800;letter-spacing:.14em}\n  .kca9-gate{font-size:16px;font-weight:800;line-height:1}\n  .kca9-gate small{display:block;font-size:7px;letter-spacing:.12em;opacity:.7}\n  .kca9-body{flex:1;padding:8px 10px 7px;display:flex;flex-direction:column;gap:4px;min-width:0}\n  .kca9-who{font-size:10px;font-weight:700;color:#f1f5f9;letter-spacing:.04em}\n  .kca9-route{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;color:#fff}\n  .kca9-route span{font-size:8px;color:var(--ca9-accent,#e879f9);letter-spacing:.2em}\n  .kca9-meta{display:flex;gap:10px;font-size:8px;color:#94a3b8;font-weight:600}\n  .kca9-meta b{display:block;color:#e2e8f0;font-size:10px}\n  .kca9-bars{display:flex;align-items:end;gap:1px;height:14px;margin-top:2px}\n  .kca9-bars i{width:2px;background:#e2e8f0;opacity:.85;display:block}\n</style>\n<div class=\"kca9\">\n  <div class=\"kca9-stub\"><span class=\"kca9-airline\">GROK AIR</span><span class=\"kca9-gate\"><small>GATE</small>B7</span></div>\n  <div class=\"kca9-body\">\n    <div class=\"kca9-who\">WILL A. · GX 2048</div>\n    <div class=\"kca9-route\">SFO <span>→</span> NRT</div>\n    <div class=\"kca9-meta\"><span>SEAT<b>14A</b></span><span>DEPARTS<b>22:40</b></span><span>ZONE<b>2</b></span></div>\n    <div class=\"kca9-bars\"><i style=\"height:8px\"></i><i style=\"height:14px\"></i><i style=\"height:6px\"></i><i style=\"height:12px\"></i><i style=\"height:14px\"></i><i style=\"height:4px\"></i><i style=\"height:10px\"></i><i style=\"height:14px\"></i><i style=\"height:7px\"></i><i style=\"height:12px\"></i><i style=\"height:5px\"></i><i style=\"height:14px\"></i><i style=\"height:9px\"></i><i style=\"height:6px\"></i><i style=\"height:13px\"></i><i style=\"height:14px\"></i><i style=\"height:4px\"></i><i style=\"height:11px\"></i><i style=\"height:8px\"></i><i style=\"height:14px\"></i></div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "CA10",
+      section: "cards",
+      name: "Polaroid Instant",
+      description: "Tilted instant-photo frame with a fat white caption deck and a CSS sunset — a physical print silhouette unlike tiles, passes, or widgets.",
+      creator: "grok",
+      tags: ["card","polaroid","photo","instant","caption"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Sky Bloom",
+          "varName": "--ca10-sky",
+          "default": "#e879f9"
+        },
+        {
+          "type": "range",
+          "label": "Tilt",
+          "varName": "--ca10-tilt",
+          "min": -12,
+          "max": 12,
+          "step": 1,
+          "unit": "deg",
+          "default": -4
+        }
+      ],
+      code: "<style>\n  .kca10{position:relative;width:96px;background:#f3efe6;padding:7px 7px 24px;box-shadow:0 10px 22px rgba(0,0,0,.45);transform:rotate(var(--ca10-tilt,-4deg));transition:transform .2s ease;cursor:default}\n  .kca10:hover{transform:rotate(0deg) translateY(-5px)}\n  .kca10-pic{height:74px;background:linear-gradient(180deg,#120c28 0%,#2a1458 38%,var(--ca10-sky,#e879f9) 68%,#fbbf24 100%);position:relative;overflow:hidden}\n  .kca10-moon{position:absolute;top:8px;right:9px;width:13px;height:13px;border-radius:50%;background:#fde68a;box-shadow:0 0 8px #fde68a}\n  .kca10-cap{position:absolute;left:0;right:0;bottom:6px;text-align:center;font:italic 800 8px/1 Palatino,Georgia,serif;color:#3f3a36;letter-spacing:.08em}\n  @media (prefers-reduced-motion:reduce){.kca10{transition:none;transform:none}}\n</style>\n<div class=\"kca10\">\n  <div class=\"kca10-pic\"><i class=\"kca10-moon\"></i></div>\n  <div class=\"kca10-cap\">NEON DUSK</div>\n</div>"
+    },
+
+    {
+      id: "NA10",
+      section: "navigation",
+      name: "Numbered Pager",
+      description: "Prev/next plus numbered page squares with a sliding-active fill — document pagination unlike dots, tabs, docks, breadcrumbs, or hamburgers.",
+      creator: "grok",
+      tags: ["navigation","pagination","pager","pages","numbers"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Active Page",
+          "varName": "--na10-on",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .kna10{display:inline-flex;align-items:center;gap:4px}\n  .kna10-n,.kna10-arr{width:26px;height:26px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:#cbd5e1;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .12s ease,opacity .12s ease}\n  .kna10-n:hover,.kna10-arr:hover{transform:translateY(-1px)}\n  .kna10-n.on{background:var(--na10-on,#e879f9);border-color:transparent;color:#1a0a22}\n  .kna10-arr{width:22px;color:#94a3b8}\n  @media (prefers-reduced-motion:reduce){.kna10-n,.kna10-arr{transition:none}}\n</style>\n<div class=\"kna10\">\n  <button type=\"button\" class=\"kna10-arr\" onclick=\"var ns=[].slice.call(this.parentElement.querySelectorAll('.kna10-n')),i=ns.findIndex(function(n){return n.classList.contains('on')});i=Math.max(0,i-1);ns.forEach(function(n){n.classList.remove('on')});ns[i].classList.add('on')\">‹</button>\n  <button type=\"button\" class=\"kna10-n\" onclick=\"this.parentElement.querySelectorAll('.kna10-n').forEach(function(n){n.classList.remove('on')});this.classList.add('on')\">1</button>\n  <button type=\"button\" class=\"kna10-n\" onclick=\"this.parentElement.querySelectorAll('.kna10-n').forEach(function(n){n.classList.remove('on')});this.classList.add('on')\">2</button>\n  <button type=\"button\" class=\"kna10-n on\" onclick=\"this.parentElement.querySelectorAll('.kna10-n').forEach(function(n){n.classList.remove('on')});this.classList.add('on')\">3</button>\n  <button type=\"button\" class=\"kna10-n\" onclick=\"this.parentElement.querySelectorAll('.kna10-n').forEach(function(n){n.classList.remove('on')});this.classList.add('on')\">4</button>\n  <button type=\"button\" class=\"kna10-n\" onclick=\"this.parentElement.querySelectorAll('.kna10-n').forEach(function(n){n.classList.remove('on')});this.classList.add('on')\">5</button>\n  <button type=\"button\" class=\"kna10-arr\" onclick=\"var ns=[].slice.call(this.parentElement.querySelectorAll('.kna10-n')),i=ns.findIndex(function(n){return n.classList.contains('on')});i=Math.min(ns.length-1,i+1);ns.forEach(function(n){n.classList.remove('on')});ns[i].classList.add('on')\">›</button>\n</div>"
+    },
+
+    {
+      id: "AL10",
+      section: "alerts",
+      name: "Speech Bubble Callout",
+      description: "Chat-bubble silhouette with a folded tail that collapses to a chip on dismiss — a conversational callout unlike toasts, banners, or edge glows.",
+      creator: "grok",
+      tags: ["alert","speech","bubble","callout","chat","tail"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Accent",
+          "varName": "--al10-accent",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .kal10{position:relative;width:176px;background:#1c2230;border:1px solid color-mix(in srgb,var(--al10-accent,#e879f9) 45%,transparent);border-radius:14px 14px 14px 5px;padding:10px 12px 11px;box-shadow:0 8px 18px rgba(0,0,0,.35);transition:transform .18s ease,opacity .18s ease;cursor:pointer}\n  .kal10::after{content:\"\";position:absolute;left:16px;bottom:-6px;width:12px;height:12px;background:#1c2230;border-right:1px solid color-mix(in srgb,var(--al10-accent,#e879f9) 45%,transparent);border-bottom:1px solid color-mix(in srgb,var(--al10-accent,#e879f9) 45%,transparent);transform:rotate(45deg)}\n  .kal10-top{display:flex;align-items:center;gap:6px;margin-bottom:3px}\n  .kal10-pip{width:7px;height:7px;border-radius:50%;background:var(--al10-accent,#e879f9);box-shadow:0 0 6px var(--al10-accent,#e879f9)}\n  .kal10-k{font-size:10px;font-weight:800;color:#f1f5f9;flex:1}\n  .kal10-x{border:none;background:transparent;color:#64748b;cursor:pointer;font-size:12px;line-height:1;padding:0}\n  .kal10-b{font-size:10px;color:#94a3b8;line-height:1.35}\n  .kal10.is-min{width:auto;padding:5px 10px;border-radius:999px;display:inline-flex;align-items:center}\n  .kal10.is-min::after,.kal10.is-min .kal10-b,.kal10.is-min .kal10-x{display:none}\n  .kal10.is-min .kal10-top{margin:0}\n  @media (prefers-reduced-motion:reduce){.kal10{transition:none}}\n</style>\n<div class=\"kal10\" onclick=\"if(this.classList.contains('is-min'))this.classList.remove('is-min')\">\n  <div class=\"kal10-top\"><i class=\"kal10-pip\"></i><span class=\"kal10-k\">Cache expired</span><button type=\"button\" class=\"kal10-x\" onclick=\"event.stopPropagation();this.closest('.kal10').classList.add('is-min')\">×</button></div>\n  <div class=\"kal10-b\">Retry the fetch — stale data will not render.</div>\n</div>"
+    },
+
+    {
+      id: "IC15",
+      section: "icons",
+      name: "Seven-Segment LED",
+      description: "Calculator-style 7-segment modules spelling PLAY with LED flicker — a digital-display voice unlike hairline, pixel, ASCII, sketch, or isometric sets.",
+      creator: "grok",
+      tags: ["icon","seven-segment","led","digital","display"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "LED Color",
+          "varName": "--ic15-led",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  @keyframes kic15-flick{0%,92%,100%{opacity:1}93%{opacity:.55}94%{opacity:1}}\n  .kic15{display:flex;gap:10px;animation:kic15-flick 4s step-end infinite}\n  .kic15-d{position:relative;width:18px;height:32px}\n  .kic15-d i{position:absolute;background:var(--ic15-led,#e879f9);box-shadow:0 0 6px var(--ic15-led,#e879f9);opacity:.12;border-radius:1px}\n  .kic15-d i.a{top:0;left:3px;right:3px;height:3px}\n  .kic15-d i.b{top:2px;right:0;width:3px;height:13px}\n  .kic15-d i.c{bottom:2px;right:0;width:3px;height:13px}\n  .kic15-d i.d{bottom:0;left:3px;right:3px;height:3px}\n  .kic15-d i.e{bottom:2px;left:0;width:3px;height:13px}\n  .kic15-d i.f{top:2px;left:0;width:3px;height:13px}\n  .kic15-d i.g{top:14.5px;left:3px;right:3px;height:3px}\n  .kic15-d[data-ch=\"P\"] .a,.kic15-d[data-ch=\"P\"] .b,.kic15-d[data-ch=\"P\"] .e,.kic15-d[data-ch=\"P\"] .f,.kic15-d[data-ch=\"P\"] .g,\n  .kic15-d[data-ch=\"L\"] .d,.kic15-d[data-ch=\"L\"] .e,.kic15-d[data-ch=\"L\"] .f,\n  .kic15-d[data-ch=\"A\"] .a,.kic15-d[data-ch=\"A\"] .b,.kic15-d[data-ch=\"A\"] .c,.kic15-d[data-ch=\"A\"] .e,.kic15-d[data-ch=\"A\"] .f,.kic15-d[data-ch=\"A\"] .g,\n  .kic15-d[data-ch=\"Y\"] .b,.kic15-d[data-ch=\"Y\"] .c,.kic15-d[data-ch=\"Y\"] .d,.kic15-d[data-ch=\"Y\"] .f,.kic15-d[data-ch=\"Y\"] .g{opacity:1}\n  @media (prefers-reduced-motion:reduce){.kic15{animation:none}}\n</style>\n<div class=\"kic15\"><div class=\"kic15-d\" data-ch=\"P\"><i class=\"a\"></i><i class=\"b\"></i><i class=\"c\"></i><i class=\"d\"></i><i class=\"e\"></i><i class=\"f\"></i><i class=\"g\"></i></div><div class=\"kic15-d\" data-ch=\"L\"><i class=\"a\"></i><i class=\"b\"></i><i class=\"c\"></i><i class=\"d\"></i><i class=\"e\"></i><i class=\"f\"></i><i class=\"g\"></i></div><div class=\"kic15-d\" data-ch=\"A\"><i class=\"a\"></i><i class=\"b\"></i><i class=\"c\"></i><i class=\"d\"></i><i class=\"e\"></i><i class=\"f\"></i><i class=\"g\"></i></div><div class=\"kic15-d\" data-ch=\"Y\"><i class=\"a\"></i><i class=\"b\"></i><i class=\"c\"></i><i class=\"d\"></i><i class=\"e\"></i><i class=\"f\"></i><i class=\"g\"></i></div></div>"
+    },
+
+    {
+      id: "PL11",
+      section: "players",
+      name: "Cassette Transport",
+      description: "Dual-reel compact cassette with spinning spools, smoked window, and transport keys — a tape-shell silhouette unlike pills, vinyl, or waveforms.",
+      creator: "grok",
+      tags: ["player","cassette","tape","reels","transport","retro"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Reel Accent",
+          "varName": "--pl11-reel",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  @keyframes kpl11-spin{to{transform:rotate(360deg)}}\n  .kpl11{display:flex;flex-direction:column;align-items:center;gap:8px}\n  .kpl11-shell{width:168px;height:92px;background:linear-gradient(180deg,#2c3038,#181a1f);border:1px solid #3e434c;border-radius:8px;position:relative;box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 8px 16px rgba(0,0,0,.4)}\n  .kpl11-sc{position:absolute;width:6px;height:6px;border-radius:50%;background:#0e1014;border:1px solid #555}\n  .kpl11-sc.a{top:6px;left:6px}.kpl11-sc.b{top:6px;right:6px}.kpl11-sc.c{bottom:6px;left:6px}.kpl11-sc.d{bottom:6px;right:6px}\n  .kpl11-win{position:absolute;left:18px;right:18px;top:14px;height:40px;background:#0b0d11;border:1px solid #111;border-radius:3px;display:flex;align-items:center;justify-content:space-between;padding:6px 10px;overflow:hidden}\n  .kpl11-reel{width:26px;height:26px;border-radius:50%;border:2px solid var(--pl11-reel,#e879f9);background:repeating-conic-gradient(#1a1a1a 0 30deg,#2e2e2e 30deg 60deg);box-shadow:0 0 8px color-mix(in srgb,var(--pl11-reel,#e879f9) 40%,transparent)}\n  .kpl11.on .kpl11-reel{animation:kpl11-spin 1.8s linear infinite}\n  .kpl11.on .kpl11-reel.r2{animation-duration:2.4s;animation-direction:reverse}\n  .kpl11-tape{position:absolute;left:42px;right:42px;top:32px;height:3px;background:var(--pl11-reel,#e879f9);opacity:.55;border-radius:1px}\n  .kpl11-lab{position:absolute;left:18px;right:18px;bottom:10px;height:16px;background:#efe7d6;color:#2a2218;font-size:7px;font-weight:800;letter-spacing:.12em;display:flex;align-items:center;justify-content:center}\n  .kpl11-btns{display:flex;gap:6px}\n  .kpl11-btn{width:24px;height:20px;border:1px solid rgba(255,255,255,.12);background:#1c1f26;color:#e2e8f0;border-radius:4px;font-size:8px;cursor:pointer}\n  .kpl11-play{width:32px;background:var(--pl11-reel,#e879f9);border-color:transparent;color:#1a0a22;font-weight:800}\n  @media (prefers-reduced-motion:reduce){.kpl11-reel{animation:none!important}}\n</style>\n<div class=\"kpl11 on\">\n  <div class=\"kpl11-shell\">\n    <i class=\"kpl11-sc a\"></i><i class=\"kpl11-sc b\"></i><i class=\"kpl11-sc c\"></i><i class=\"kpl11-sc d\"></i>\n    <div class=\"kpl11-win\">\n      <div class=\"kpl11-reel\"></div>\n      <div class=\"kpl11-reel r2\"></div>\n    </div>\n    <i class=\"kpl11-tape\"></i>\n    <div class=\"kpl11-lab\">SIDE A · GROK FM</div>\n  </div>\n  <div class=\"kpl11-btns\">\n    <button type=\"button\" class=\"kpl11-btn\">◀◀</button>\n    <button type=\"button\" class=\"kpl11-btn kpl11-play\" onclick=\"var r=this.closest('.kpl11');r.classList.toggle('on');this.textContent=r.classList.contains('on')?'❚❚':'▶'\">❚❚</button>\n    <button type=\"button\" class=\"kpl11-btn\">▶▶</button>\n  </div>\n</div>"
+    },
+
+    {
+      id: "MO11",
+      section: "modals",
+      name: "Context Action Menu",
+      description: "Right-click style floating menu with shortcuts, a separator, and a destructive row — a contextual list unlike palettes, dialogs, sheets, or tooltips.",
+      creator: "grok",
+      tags: ["modal","context","menu","right-click","shortcuts"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Hover Fill",
+          "varName": "--mo11-hot",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .kmo11{width:168px;background:#161a22;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:5px;box-shadow:0 16px 32px rgba(0,0,0,.5)}\n  .kmo11-row{width:100%;display:flex;align-items:center;justify-content:space-between;border:none;background:transparent;color:#e2e8f0;font-size:11px;font-weight:600;padding:7px 8px;border-radius:6px;cursor:pointer;text-align:left}\n  .kmo11-row span{font-size:9px;color:#64748b;font-weight:600}\n  .kmo11-row:hover{background:color-mix(in srgb,var(--mo11-hot,#e879f9) 22%,transparent);color:#fff}\n  .kmo11-row:hover span{color:#e2e8f0}\n  .kmo11-hr{height:1px;background:rgba(255,255,255,.08);margin:4px 6px}\n  .kmo11-row.danger{color:#fda4af}\n  .kmo11-row.danger:hover{background:rgba(239,68,68,.18)}\n  .kmo11-row.on{background:color-mix(in srgb,var(--mo11-hot,#e879f9) 28%,transparent)}\n</style>\n<div class=\"kmo11\">\n  <button type=\"button\" class=\"kmo11-row on\" onclick=\"this.parentElement.querySelectorAll('.kmo11-row').forEach(function(r){r.classList.remove('on')});this.classList.add('on')\">Open<span>↵</span></button>\n  <button type=\"button\" class=\"kmo11-row\" onclick=\"this.parentElement.querySelectorAll('.kmo11-row').forEach(function(r){r.classList.remove('on')});this.classList.add('on')\">Open in new<span>⌘ N</span></button>\n  <button type=\"button\" class=\"kmo11-row\" onclick=\"this.parentElement.querySelectorAll('.kmo11-row').forEach(function(r){r.classList.remove('on')});this.classList.add('on')\">Rename<span>F2</span></button>\n  <div class=\"kmo11-hr\"></div>\n  <button type=\"button\" class=\"kmo11-row danger\" onclick=\"this.parentElement.querySelectorAll('.kmo11-row').forEach(function(r){r.classList.remove('on')});this.classList.add('on')\">Delete<span>⌫</span></button>\n</div>"
+    },
+
+    {
+      id: "MO12",
+      section: "modals",
+      name: "Spotlight Coach Mark",
+      description: "Scrim with a cut-out hole around a live control and a pointing tip — onboarding spotlight unlike centered dialogs, tooltips, or full lightboxes.",
+      creator: "grok",
+      tags: ["modal","coach","spotlight","onboarding","cutout","tooltip"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Target Color",
+          "varName": "--mo12-accent",
+          "default": "#e879f9"
+        }
+      ],
+      code: "<style>\n  .kmo12{position:relative;width:210px;height:118px;background:#141820;border:1px solid rgba(255,255,255,.08);border-radius:10px;overflow:hidden}\n  .kmo12-bar{display:flex;justify-content:flex-end;padding:10px;position:relative;z-index:3}\n  .kmo12-save{border:none;background:var(--mo12-accent,#e879f9);color:#1a0a22;font-size:11px;font-weight:800;padding:6px 12px;border-radius:7px;cursor:pointer;letter-spacing:.04em}\n  .kmo12-hole{position:absolute;right:7px;top:7px;width:62px;height:32px;border-radius:9px;box-shadow:0 0 0 999px rgba(0,0,0,.62);z-index:2;pointer-events:none;transition:opacity .2s ease}\n  .kmo12-tip{position:absolute;right:10px;top:48px;z-index:3;background:#1c2230;border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 10px;width:128px;font-size:10px;color:#e2e8f0;line-height:1.35;transition:opacity .2s ease,transform .2s ease}\n  .kmo12-tip b{display:block;color:var(--mo12-accent,#e879f9);font-size:9px;letter-spacing:.08em;margin-bottom:2px}\n  .kmo12-tip::before{content:\"\";position:absolute;top:-5px;right:22px;width:8px;height:8px;background:#1c2230;border-left:1px solid rgba(255,255,255,.12);border-top:1px solid rgba(255,255,255,.12);transform:rotate(45deg)}\n  .kmo12.done .kmo12-hole,.kmo12.done .kmo12-tip{opacity:0;pointer-events:none}\n  .kmo12.done .kmo12-tip{transform:translateY(4px)}\n  @media (prefers-reduced-motion:reduce){.kmo12-hole,.kmo12-tip{transition:none}}\n</style>\n<div class=\"kmo12\">\n  <div class=\"kmo12-bar\"><button type=\"button\" class=\"kmo12-save\" onclick=\"this.closest('.kmo12').classList.toggle('done')\">Save</button></div>\n  <div class=\"kmo12-hole\"></div>\n  <div class=\"kmo12-tip\"><b>STEP 2 OF 3</b>Save your draft — nothing ships until you do.</div>\n</div>"
+    },
+
+    {
+      id: "EF10",
+      section: "effects",
+      name: "Halftone Screen",
+      description: "Comic Ben-Day dot screen drifting over a saturated field — print-process texture unlike grain, CRT scanlines, foil, or blueprint grids.",
+      creator: "grok",
+      tags: ["effect","halftone","dots","print","benday","screen"],
+      tweaks: [
+        {
+          "type": "color",
+          "label": "Ink Color",
+          "varName": "--ef10-ink",
+          "default": "#e879f9"
+        },
+        {
+          "type": "range",
+          "label": "Dot Pitch",
+          "varName": "--ef10-pitch",
+          "min": 4,
+          "max": 12,
+          "step": 1,
+          "unit": "px",
+          "default": 6
+        }
+      ],
+      code: "<style>\n  @keyframes kef10-shift{to{transform:translate(var(--ef10-pitch,6px),var(--ef10-pitch,6px))}}\n  .kef10{position:relative;width:148px;height:78px;border-radius:6px;overflow:hidden;background:linear-gradient(135deg,var(--ef10-ink,#e879f9),#6d28d9);display:flex;align-items:center;justify-content:center;color:#0d0f13;font-size:13px;font-weight:900;letter-spacing:.22em}\n  .kef10::before{content:\"\";position:absolute;inset:-12px;background-image:radial-gradient(circle,#0d0f13 1.05px,transparent 1.15px);background-size:var(--ef10-pitch,6px) var(--ef10-pitch,6px);animation:kef10-shift 7s linear infinite;opacity:.78;pointer-events:none}\n  .kef10 span{position:relative;z-index:1}\n  @media (prefers-reduced-motion:reduce){.kef10::before{animation:none}}\n</style>\n<div class=\"kef10\"><span>PRINT</span></div>"
+    }
 
   ]
 };
+
+/* ------------------------------------------------------------
+   AGENT EXPANSION PROMPT
+   The "Copy agent prompt" button hands this to any AI agent so
+   it can grow the library correctly on its own.
+   ------------------------------------------------------------ */
+window.AGENT_PROMPT = [
+  "You are [AGENT NAME]. Everything you add to DESIGN LAB appears under a [COLOR] credit chip.",
+  "",
+  "FILL-IN SLOTS",
+  "[AGENT NAME] and [COLOR] are placeholders that I fill in before sending this prompt to you. [COLOR] should be a hex code (e.g. #f97316) - it drives your credit chip in the UI. If either slot is still an unfilled placeholder when you receive this, stop and ask me who you are before adding anything. Do not guess at your own identity, and do not sign any work until I answer.",
+  "",
+  "TASK",
+  "Expand the section (drawer) of the library that I specify with new specimens.",
+  "",
+  "NON-NEGOTIABLE RULES",
+  "1. Study the drawer first. Read everything already in the section I named before inventing anything.",
+  "2. Difference over variation. Add only items that are stylistically AND structurally different from everything already there: distinct silhouette, unique interaction model and states (hover, press, focus, drag), motion personality, overall feel and visual personality.",
+  "3. No near-duplicates. Never a simple color swap, size tweak, radius change, or minor restyle of an existing entry. If your idea is superficially similar to anything already in the drawer, invent something structurally new instead.",
+  "4. Sign every new item with the name and chip color listed above. Before adding anything, register yourself in the creators array at the top of js/data.js ({ id, name, color }) using a short lowercase id derived from your name. The reserved id \"me\" belongs to the local user - never sign with it.",
+  "5. Follow the existing data and card structure. Match the ITEM SCHEMA documented at the top of js/data.js exactly: unique short id (section initial(s) + next free number), section id, 2-4 word name, one-line description of what makes it structurally distinct, creator id, optional tags, and a self-contained clean code snippet.",
+  "6. Finished quality. Each snippet must be formatted HTML plus scoped, prefixed CSS (no external assets, no frameworks), look complete centered on a dark stage, and survive being pasted anywhere.",
+  "7. Make it tweakable where it fits naturally. One to three simple controls declared in the tweaks array (a color picker or radius/size sliders), backed by CSS custom properties that your snippet consumes via var(--name, fallback), so it still looks complete with zero overrides.",
+  "8. Motion stays cheap by law: CSS-only; animate transform and opacity exclusively; wrap any animation in a prefers-reduced-motion media query.",
+  "9. Additive only. Never modify, restyle, rename, renumber, or delete existing entries or the section registry.",
+  "",
+  "WHEN YOU ARE FINISHED",
+  "List the new items you added with their IDs and names, and give one sentence per item on why it is structurally distinct from its neighbors.",
+  "",
+  "THEN SHIP IT (required)",
+  "Once node --check js/data.js && node --check js/app.js pass:",
+  "  git pull --rebase origin main",
+  "  git add js/data.js",
+  "  git commit -m \"<drawer-code>: add <IDs> (<short names>)\"",
+  "  git push",
+  "If the rebase conflicts inside items[], another agent appended at the same spot: keep BOTH blocks of entries, fix commas until the file parses, node --check again, then git rebase --continue and push. Never force-push, never amend or delete other agents' commits, and if anything goes sideways run git rebase --abort and report back instead of improvising.",
+  "",
+  "The complete working agreement (storage map, console API, definition of done) lives in AGENTS.md next to js/data.js."
+].join("\n");
