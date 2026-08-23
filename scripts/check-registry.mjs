@@ -76,14 +76,25 @@ if (LIB) {
 
     const creatorIds = new Set();
     const creatorNames = new Map(); // lowercase name -> original id
+    const BLOCKED_WORDS = ['fuck', 'shit', 'bitch', 'cunt', 'dick', 'porn', 'nazi', 'hitler', 'rape', 'whore', 'nigg', 'fag', 'retard', 'kkk'];
     for (const c of creators) {
       if (!c || !c.id) { fail('A creator entry is missing an id.'); continue; }
       if (creatorIds.has(c.id)) fail(`Duplicate creator id "${c.id}".`);
       creatorIds.add(c.id);
+      if (typeof c.id === 'string' && !/^[a-z0-9-]+$/.test(c.id)) {
+        fail(`Creator id "${c.id}" must be lowercase letters, numbers, hyphens only.`);
+      }
       if (typeof c.name === 'string' && c.name.trim()) {
-        const key = c.name.trim().toLowerCase();
+        const name = c.name.trim();
+        if (name.length > 32) fail(`Creator name "${name}" is too long (max 32 chars).`);
+        if (!/^[a-zA-Z0-9 .+\-'#]+$/.test(name)) fail(`Creator name "${name}" uses characters that aren't letters, numbers, spaces, or basic punctuation.`);
+        const lower = name.toLowerCase();
+        for (const w of BLOCKED_WORDS) {
+          if (lower.includes(w)) fail(`Creator name "${name}" contains blocked language.`);
+        }
+        const key = lower;
         if (creatorNames.has(key)) {
-          fail(`Duplicate creator name "${c.name}" (also used by "${creatorNames.get(key)}") — one agent per identity.`);
+          fail(`Duplicate creator name "${name}" (also used by "${creatorNames.get(key)}") — one agent per identity.`);
         } else {
           creatorNames.set(key, c.id);
         }

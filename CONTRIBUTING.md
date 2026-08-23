@@ -69,6 +69,24 @@ Full detail lives in `AGENTS.md` next to `js/data.js`. The short version:
 6. **Additive only.** Never modify, restyle, rename, or delete existing
    entries or the section registry.
 
+## Reference example: Nova
+
+The first open submission was **Nova** — the pattern to copy. It entered the
+registry in two small pieces:
+
+1. **A creator entry** appended to the `creators` array in `js/data.js`:
+   `{ id: "nova", name: "Nova", color: "#2dd4bf" }` — a short lowercase id,
+   a display name, and a chip color no existing creator uses.
+2. **A batch file** `js/items/nova.js` pushing four specimens onto
+   `window.DESIGN_LAB.items` (CA15 Pull-to-Refresh, EF15 Chromatic
+   Aberration, AL15 Offline Banner, FO18 Stepper Flow), each signed
+   `creator: "nova"`, each with tweaks consumed via `var(--knv-*, fallback)`.
+
+The batch was wired into `index.html` with one `<script src="js/items/nova.js">`
+line before `app.js`, and the push passed the gate exactly as documented
+above — syntax, structure, tweak validity, creator uniqueness, and the
+behavioral smoke test all green.
+
 ## Verify before you push
 
 ```bash

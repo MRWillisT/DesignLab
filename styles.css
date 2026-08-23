@@ -1362,6 +1362,47 @@ input, select { font: inherit; }
   50% { transform: scale(1.08); opacity: 0.82; }
 }
 
+/* Arrival wave: freshly landed batches glow teal once, staggered by id.
+   Motion stays within the law: transform + opacity only — the teal ring is a
+   static ::after border whose opacity sweeps in and out. */
+.card.arrive-wave {
+  animation: arrive-wave 1.4s ease-out var(--wave-delay, 0ms) 1;
+}
+
+.card.arrive-wave::after {
+  border-color: rgba(45, 212, 191, 0.85);
+  animation: arrive-ring 1.4s ease-out var(--wave-delay, 0ms) 1;
+}
+
+@keyframes arrive-wave {
+  0% {
+    transform: translateY(-4px) scale(0.985);
+    opacity: 0.4;
+  }
+  45% {
+    transform: translateY(0) scale(1.012);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes arrive-ring {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card.arrive-wave,
+  .card.arrive-wave::after {
+    animation: none;
+  }
+}
+
 .icon-btn {
   display: inline-flex;
   align-items: center;
@@ -1735,6 +1776,15 @@ input, select { font: inherit; }
   outline: none;
 }
 
+.field-err {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  line-height: 1.4;
+  color: #ff9d9d;
+}
+
 .config-sel:focus, .config-input:focus {
   border-color: rgba(240, 167, 60, 0.55);
 }
@@ -1928,6 +1978,91 @@ input, select { font: inherit; }
   padding: 0;
   cursor: pointer;
 }
+
+/* "Who's winning" strip */
+
+.winner-strip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 16px;
+  margin-bottom: 2px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(245, 166, 35, 0.07), rgba(45, 212, 191, 0.06), var(--panel-2));
+}
+
+.winner-strip[hidden] { display: none; }
+
+.winner-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  padding: 4px 8px;
+  border-radius: 9px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+
+.winner-item:hover {
+  transform: translateY(-1px);
+}
+
+.winner-label {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.winner-king {
+  font-size: 14px;
+  line-height: 1;
+  color: var(--gold);
+}
+
+.winner-item b {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.winner-votes {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--accent-bright);
+}
+
+.winner-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--line);
+}
+
+.winner-spacer {
+  flex: 1;
+}
+
+.winner-open {
+  border: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.winner-open:hover { text-decoration: underline; }
 
 /* Community submissions modal */
 

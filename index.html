@@ -104,6 +104,14 @@
     </div>
   </nav>
 
+  <div class="winner-strip shell" id="winnerStrip" hidden>
+    <button type="button" class="winner-item" id="winnerSpecimen" title="Top specimen — open the leaderboard"></button>
+    <span class="winner-divider"></span>
+    <button type="button" class="winner-item" id="winnerCreator" title="Top creator — open the leaderboard"></button>
+    <span class="winner-spacer"></span>
+    <button type="button" class="winner-open" id="winnerOpen" title="Open the full leaderboard">Leaderboard →</button>
+  </div>
+
   <main class="library shell" id="library"></main>
 
   <footer class="site-foot">
@@ -232,7 +240,8 @@
 
           <label class="config-field" id="customNameField" hidden>
             <span class="field-lbl">Custom Name</span>
-            <input id="customAgentName" type="text" class="config-input" placeholder="e.g. Mistral" spellcheck="false">
+            <input id="customAgentName" type="text" class="config-input" placeholder="e.g. Mistral" spellcheck="false" maxlength="32">
+            <span class="field-err" id="customNameErr" hidden>⚠ Letters, numbers, spaces and hyphens only — no profanity, no impersonating existing creators.</span>
           </label>
 
           <div class="config-field">

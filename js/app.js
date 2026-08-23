@@ -84,6 +84,7 @@ let favorites = new Set();
 let savedVariants = [];
 let importedItems = [];
 let newItemIds = new Set();
+const wavedIds = new Set(); // new items that already played the arrival wave this session
 const draftVars = new Map();
 const openTrays = new Set();
 let toastTimer = null;
@@ -326,6 +327,38 @@ function loadCustomAgents() {
   } catch (e) { customAgents = []; }
 }
 
+/* Curated known-agent checklist: well-known model families a visitor can pick
+   instead of typing a free-form name. Keeps identity claims honest and blocks
+   the obvious "type anything" abuse path. */
+const KNOWN_AGENT_CHOICES = [
+  'Claude', 'Gemini', 'ChatGPT', 'DeepSeek', 'Grok', 'Llama', 'Mistral',
+  'Qwen', 'Kimi', 'GLM', 'Phi', 'GPT-OSS', 'Mimo', 'Opus', 'Sonnet',
+  'Nemotron', 'Command R', 'Aya', 'Falcon', 'Zephyr', 'Yi'
+];
+
+/* Profanity + abuse blocklist for custom agent names. Lowercased, substring
+   matched against the whole name so "deepseek" stays fine but slurs don't. */
+const NAME_BLOCKLIST = [
+  'fuck', 'shit', 'bitch', 'ass', 'cunt', 'dick', 'porn', 'sex', 'nazi',
+  'hitler', 'rape', 'slave', 'whore', 'nigg', 'fag', 'retard', 'kkk', '666'
+];
+
+function validateAgentName(raw) {
+  const name = String(raw || '').trim();
+  if (!name) return { ok: false, reason: 'empty' };
+  if (name.length < 2) return { ok: false, reason: 'short' };
+  if (name.length > 32) return { ok: false, reason: 'long' };
+  if (!/^[a-zA-Z0-9 .+\-'#]+$/.test(name)) return { ok: false, reason: 'chars' };
+  const lower = name.toLowerCase();
+  for (const bad of NAME_BLOCKLIST) {
+    if (lower.includes(bad)) return { ok: false, reason: 'blocked' };
+  }
+  // No impersonation of existing creators under a different casing.
+  const existing = LIB.creators.some(c => c.id !== ME_ID && c.name.toLowerCase() === lower);
+  if (existing) return { ok: false, reason: 'taken' };
+  return { ok: true, name };
+}
+
 function saveCustomAgents() {
   try {
     localStorage.setItem(LS_CUSTOM_AGENTS, JSON.stringify(customAgents));
@@ -348,6 +381,18 @@ function populateAgentDropdown(selectedId) {
     opt.textContent = c.name;
     sel.appendChild(opt);
   });
+  // Curated known agents (not yet registered) — pick a base identity
+  // instead of free-typing, which keeps the roster honest.
+  const takenNames = new Set(Array.from(sel.options).map(o => o.textContent.trim()));
+  KNOWN_AGENT_CHOICES.forEach(name => {
+    if (takenNames.has(name)) return;
+    const opt = document.createElement('option');
+    opt.value = 'known:' + name;
+    opt.textContent = name;
+    opt.dataset.known = '1';
+    sel.appendChild(opt);
+  });
+
   const customOpt = document.createElement('option');
   customOpt.value = '_custom';
   customOpt.textContent = '+ Custom / New Agent…';
@@ -451,7 +496,11 @@ function updatePromptStudio(opts = {}) {
   let agentId = '';
 
   if (isCustom) {
-    agentName = $('#customAgentName').value.trim() || 'Custom Agent';
+    const v = validateAgentName($('#customAgentName').value);
+    agentName = v.ok ? v.name : 'Custom Agent';
+    agentId = agentName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
+  } else if (sel.value && sel.value.startsWith('known:')) {
+    agentName = sel.value.slice(6);
     agentId = agentName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
   } else {
     const agent = allAvailableAgents().find(c => c.id === sel.value) || { name: 'Gemini', color: '#818cf8', id: 'gemini' };
@@ -505,19 +554,26 @@ async function copyPromptStudio(btn) {
   if (sel.value === '_custom') {
     const name = $('#customAgentName').value.trim();
     const color = $('#agentColorPicker').value;
-    if (name) {
-      const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
-      chosenId = id;
-      const existingIdx = customAgents.findIndex(a => a.id === id);
-      if (existingIdx >= 0) {
-        customAgents[existingIdx].color = color;
-        customAgents[existingIdx].name = name;
-      } else {
-        customAgents.push({ id, name, color });
-      }
-      saveCustomAgents();
-      populateAgentDropdown(id);
+    const v = validateAgentName(name);
+    if (!v.ok) {
+      toast('Pick a clean agent name — letters, numbers, spaces, hyphens only, and no profanity.');
+      return;
     }
+    const id = v.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
+    chosenId = id;
+    const existingIdx = customAgents.findIndex(a => a.id === id);
+    if (existingIdx >= 0) {
+      customAgents[existingIdx].color = color;
+      customAgents[existingIdx].name = v.name;
+    } else {
+      customAgents.push({ id, name: v.name, color });
+    }
+    saveCustomAgents();
+    populateAgentDropdown(id);
+  }
+
+  if (sel.value && sel.value.startsWith('known:')) {
+    chosenId = sel.value.slice(6).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   }
 
   try {
@@ -938,9 +994,14 @@ function buildCard(item) {
   const dirty = hasTweaks && isDirty(item);
   const rank = drawerRankOf(item.id);
   const medal = rank > 0 && rank <= 3 ? ' medal-' + MEDAL_COLORS[rank] : '';
+  const isNew = newItemIds.has(item.id);
+  const wave = isNew && !wavedIds.has(item.id) ? ' arrive-wave' : '';
+  if (wave) wavedIds.add(item.id);
+  const waveDelay = (parseInt(String(item.id).replace(/\D/g, ''), 10) % 8) * 60;
 
   const card = document.createElement('article');
-  card.className = 'card' + (isFav ? ' is-fav' : '') + medal;
+  card.className = 'card' + (isFav ? ' is-fav' : '') + medal + wave;
+  if (wave) card.style.setProperty('--wave-delay', waveDelay + 'ms');
   card.dataset.id = item.id;
   card.dataset.section = item.section || '';
 
@@ -1315,6 +1376,7 @@ function render() {
   renderStats(items.length);
   main.appendChild(frag);
   refreshDrawerTop3();
+  renderWinnerStrip();
 }
 
 /* ---------- actions ---------- */
@@ -1416,6 +1478,45 @@ function renderMedals() {
       badge.remove();
     }
   });
+}
+
+/* "Who's winning" strip under the controls — current #1 specimen + creator. */
+function renderWinnerStrip() {
+  const strip = $('#winnerStrip');
+  if (!strip) return;
+  const fn = state.sort === 'top' ? DesignLabVotes.countOf : DesignLabVotes.countOf;
+  const ranked = allItems()
+    .filter(it => fn(it.id) > 0)
+    .sort((a, b) => fn(b.id) - fn(a.id));
+  const topItem = ranked[0];
+
+  const byCreator = new Map();
+  allItems().forEach(it => {
+    const c = it.creator || '?';
+    byCreator.set(c, (byCreator.get(c) || 0) + fn(it.id));
+  });
+  const topCreator = [...byCreator.entries()].sort((a, b) => b[1] - a[1])[0];
+
+  if (!topItem || !topCreator) {
+    strip.hidden = true;
+    return;
+  }
+  strip.hidden = false;
+
+  const specEl = $('#winnerSpecimen');
+  const specCr = creatorOf(topItem.creator);
+  specEl.innerHTML = '<span class="winner-label">Top specimen</span>'
+    + '<span class="winner-king">♛</span>'
+    + '<b>' + escapeHtml(topItem.id) + ' · ' + escapeHtml(topItem.name) + '</b>'
+    + '<span class="winner-votes">▲ ' + fn(topItem.id) + '</span>';
+
+  const crEl = $('#winnerCreator');
+  const cr = creatorOf(topCreator[0]);
+  crEl.innerHTML = '<span class="winner-label">Top creator</span>'
+    + '<span class="winner-king">♛</span>'
+    + '<span class="credit-chip" style="--chip:' + escapeHtml((cr && cr.color) || '#8a8f98') + '">'
+    + escapeHtml((cr && cr.name) || topCreator[0]) + '</span>'
+    + '<span class="winner-votes">▲ ' + topCreator[1] + '</span>';
 }
 
 function refreshDrawerTop3() {
@@ -2068,7 +2169,11 @@ function init() {
     if (ev.target === ev.currentTarget) closePromptStudio();
   });
   $('#agentSelect').addEventListener('change', () => updatePromptStudio({ isAgentSwitch: true, focusCustom: true }));
-  $('#customAgentName').addEventListener('input', () => updatePromptStudio({ isAgentSwitch: false }));
+  $('#customAgentName').addEventListener('input', () => {
+    const v = validateAgentName($('#customAgentName').value);
+    $('#customNameErr').hidden = v.ok;
+    updatePromptStudio({ isAgentSwitch: false });
+  });
   $('#agentColorPicker').addEventListener('input', () => updatePromptStudio({ isAgentSwitch: false }));
   $('#targetDrawerSelect').addEventListener('change', () => updatePromptStudio({ isAgentSwitch: false }));
 
@@ -2125,6 +2230,9 @@ function init() {
     syncControlStates();
     render();
   });
+  $('#winnerSpecimen').addEventListener('click', openLeaderboard);
+  $('#winnerCreator').addEventListener('click', openLeaderboard);
+  $('#winnerOpen').addEventListener('click', openLeaderboard);
   $('#boardBtn').addEventListener('click', openLeaderboard);
   $('#boardClose').addEventListener('click', closeLeaderboard);
   $('#boardCancel').addEventListener('click', closeLeaderboard);
@@ -2307,6 +2415,7 @@ function init() {
     DesignLabVotes.onChange(() => {
       refreshAllVoteButtons();
       refreshDrawerTop3();
+      renderWinnerStrip();
       checkRankClimbs();
       if (boardOpen) renderLeaderboard();
       if (state.sort === 'top') render();
