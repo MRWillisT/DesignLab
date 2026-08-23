@@ -356,25 +356,105 @@ function recordPromptHistory(entry) {
   populateAgentSwitch();
 }
 
-/* Compact header dropdown of recent identities — pick one to dispatch as. */
+/* ---------- header identity switcher (custom dropdown) ---------- */
+
+function agentSwitchToggle(force) {
+  const box = $('#agentSwitch');
+  const btn = $('#agentSwitchBtn');
+  const menu = $('#agentSwitchMenu');
+  if (!box || !btn || !menu) return;
+  const open = force !== undefined ? force : menu.hidden;
+  menu.hidden = !open;
+  btn.setAttribute('aria-expanded', String(open));
+  if (open) {
+    $('#agentSwitchInput').value = '';
+    $('#agentSwitchInput').focus();
+  }
+}
+
+function agentSwitchItem(id, name, color, tag) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'agent-switch-item';
+  b.dataset.id = id;
+  const dot = document.createElement('span');
+  dot.className = 'sw-dot';
+  dot.style.background = color || '#94a3b8';
+  const txt = document.createElement('span');
+  txt.textContent = name;
+  b.appendChild(dot);
+  b.appendChild(txt);
+  if (tag) {
+    const t = document.createElement('span');
+    t.className = 'sw-tag';
+    t.textContent = tag;
+    b.appendChild(t);
+  }
+  return b;
+}
+
+/* Full roster in the header dropdown: recent identities first, then every
+   available agent (registered + custom + known choices), then a custom
+   text box that dispatches the typed name on Enter. */
 function populateAgentSwitch() {
-  const sel = $('#agentSwitch');
-  if (!sel) return;
-  sel.innerHTML = '<option value="">Identity ▾</option>';
-  promptHistory.forEach(h => {
-    const opt = document.createElement('option');
-    opt.value = h.id;
-    // Lead with a dot in the agent's chip color so the identity's color is
-    // visible in the dropdown before you commit to it.
-    opt.textContent = (h.color ? '● ' : '') + h.name;
-    if (h.color) {
-      opt.style.color = h.color;
-      opt.setAttribute('data-color', h.color);
-    }
-    sel.appendChild(opt);
+  const box = $('#agentSwitch');
+  const recentWrap = $('#agentSwitchRecent');
+  const listWrap = $('#agentSwitchList');
+  if (!box || !recentWrap || !listWrap) return;
+
+  recentWrap.innerHTML = '';
+  if (promptHistory.length) {
+    const head = document.createElement('div');
+    head.className = 'agent-switch-head';
+    head.textContent = 'Recent';
+    recentWrap.appendChild(head);
+    promptHistory.forEach(h => {
+      recentWrap.appendChild(agentSwitchItem(h.id, h.name, h.color, h.id.startsWith('known:') ? 'known' : ''));
+    });
+  }
+
+  listWrap.innerHTML = '';
+  const seen = new Set(promptHistory.map(h => h.id));
+  allAvailableAgents().forEach(c => {
+    if (seen.has(c.id)) return;
+    const reg = LIB.creators.some(r => r.id === c.id);
+    listWrap.appendChild(agentSwitchItem(c.id, c.name, c.color, reg ? 'registered' : ''));
   });
-  sel.hidden = promptHistory.length === 0;
-  sel.value = '';
+  // Known agent choices not yet registered / not in history — cheap pick.
+  const taken = new Set(allAvailableAgents().map(c => c.id));
+  KNOWN_AGENT_CHOICES.forEach(n => {
+    const id = 'known:' + n;
+    if (seen.has(id) || taken.has(id)) return;
+    listWrap.appendChild(agentSwitchItem(id, n, '#94a3b8'));
+  });
+
+  box.hidden = promptHistory.length === 0 && allAvailableAgents().length === 0 && KNOWN_AGENT_CHOICES.length === 0;
+  agentSwitchToggle(false);
+}
+
+/* Turn the typed custom name into a saved identity and dispatch as it. */
+function dispatchCustomSwitchAgent() {
+  const input = $('#agentSwitchInput');
+  const raw = (input.value || '').trim();
+  if (!raw) { agentSwitchToggle(false); return; }
+  const v = validateAgentName(raw);
+  if (!v.ok) {
+    toast('Pick a clean agent name — letters, numbers, spaces, hyphens only.');
+    return;
+  }
+  loadCustomAgents();
+  const id = v.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'agent';
+  let color = '#818cf8';
+  const existing = customAgents.find(a => a.id === id);
+  if (existing) {
+    color = existing.color;
+  } else {
+    color = QUICK_PALETTE[Math.floor(Math.random() * QUICK_PALETTE.length)];
+    customAgents.push({ id, name: v.name, color });
+    saveCustomAgents();
+  }
+  agentSwitchToggle(false);
+  quickDispatch({ id, name: v.name, color });
 }
 
 /* Curated known-agent checklist: well-known model families a visitor can pick
@@ -407,6 +487,26 @@ function validateAgentName(raw) {
   const existing = LIB.creators.some(c => c.id !== ME_ID && c.name.toLowerCase() === lower);
   if (existing) return { ok: false, reason: 'taken' };
   return { ok: true, name };
+}
+
+/* Soft warning: a custom name that is only a punctuation/casing variant of a
+   registered creator (e.g. "mimo" vs registered "mimo-2-5" / "Mimo 2.5")
+   will quietly split that agent's leaderboard row. Warn, don't block.
+   Matcher: strip separators and compare leading tokens, so "mimo" matches
+   "mimo 2.5" / "mimo-2-5" but not "mimosa". */
+function nearRegisteredName(name) {
+  const firstTok = s => {
+    const t = String(s || '').toLowerCase().replace(/[-_.\s]+/g, ' ').trim().split(' ')[0] || '';
+    return t.replace(/[^a-z0-9]/g, '');
+  };
+  const n = firstTok(name);
+  if (!n) return null;
+  for (const c of LIB.creators) {
+    if (c.id === ME_ID) continue;
+    const cn = firstTok(c.name) || firstTok(c.id);
+    if (cn && cn !== n && (cn === n || cn.startsWith(n) || n.startsWith(cn))) return c;
+  }
+  return null;
 }
 
 function saveCustomAgents() {
@@ -2947,14 +3047,44 @@ function init() {
 
   $('#enterAgentBtn').addEventListener('click', quickDispatch);
   if ($('#customizeAgentBtn')) $('#customizeAgentBtn').addEventListener('click', enterAgentFlow);
-  const agentSwitch = $('#agentSwitch');
-  if (agentSwitch) agentSwitch.addEventListener('change', () => {
-    const id = agentSwitch.value;
-    agentSwitch.value = '';
-    if (!id) return;
-    const entry = promptHistory.find(h => h.id === id);
-    quickDispatch(entry || undefined);
-  });
+  const agentSwitchBtn = $('#agentSwitchBtn');
+  const agentSwitchMenu = $('#agentSwitchMenu');
+  if (agentSwitchBtn) {
+    agentSwitchBtn.addEventListener('click', ev => {
+      ev.stopPropagation();
+      agentSwitchToggle();
+    });
+  }
+  if (agentSwitchMenu) {
+    // Delegate: any roster item click dispatches as that identity.
+    agentSwitchMenu.addEventListener('click', ev => {
+      const item = ev.target.closest('.agent-switch-item');
+      if (!item) return;
+      const id = item.dataset.id;
+      agentSwitchToggle(false);
+      if (!id) return;
+      const entry = promptHistory.find(h => h.id === id);
+      if (entry) { quickDispatch(entry); return; }
+      const ag = allAvailableAgents().find(a => a.id === id);
+      if (ag) { quickDispatch(ag); return; }
+      if (id.startsWith('known:')) {
+        const name = id.slice(6);
+        quickDispatch({ id, name, color: '#94a3b8' });
+      }
+    });
+    const swInput = $('#agentSwitchInput');
+    if (swInput) {
+      swInput.addEventListener('keydown', ev => {
+        ev.stopPropagation();
+        if (ev.key === 'Enter') { ev.preventDefault(); dispatchCustomSwitchAgent(); }
+        if (ev.key === 'Escape') agentSwitchToggle(false);
+      });
+    }
+    // Click outside closes the dropdown.
+    document.addEventListener('click', ev => {
+      if (!ev.target.closest('#agentSwitch')) agentSwitchToggle(false);
+    });
+  }
   $('#promptClose').addEventListener('click', closePromptStudio);
   $('#promptCancel').addEventListener('click', closePromptStudio);
   $('#promptSubmitBtn').addEventListener('click', jumpToPublishPanel);
@@ -2973,6 +3103,18 @@ function init() {
   $('#customAgentName').addEventListener('input', () => {
     const v = validateAgentName($('#customAgentName').value);
     $('#customNameErr').hidden = v.ok;
+    const near = nearRegisteredName($('#customAgentName').value);
+    const warn = $('#customNameNear');
+    if (near && !v.ok) {
+      warn.hidden = false;
+      warn.textContent = '⚠ Heads up: "' + $('#customAgentName').value.trim()
+        + '" is a near-match of the registered creator ' + near.name
+        + ' (' + near.id + ', chip ' + near.color + '). Registering it as a separate identity will split ' + near.name
+        + '\u2019s leaderboard row — sign as "' + near.id + '" instead, or pick a clearly different name.';
+    } else {
+      warn.hidden = true;
+      warn.textContent = '';
+    }
     updatePromptStudio({ isAgentSwitch: false });
   });
   $('#agentColorPicker').addEventListener('input', () => updatePromptStudio({ isAgentSwitch: false }));

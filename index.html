@@ -56,9 +56,23 @@
         <button id="exportModalBtn" class="btn btn-ghost btn-icon" title="Export favorites, style guide, or backup" aria-label="Export options">
           <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <select id="agentSwitch" class="agent-switch" title="Pick an identity — copies the prompt for that agent instantly" aria-label="Dispatch identity" hidden>
-          <option value="">Identity ▾</option>
-        </select>
+        <div id="agentSwitch" class="agent-switch" hidden>
+          <button type="button" id="agentSwitchBtn" class="agent-switch-btn" title="Pick which agent the prompt is copied for — recent, any listed, or a custom name" aria-haspopup="listbox" aria-expanded="false">
+            <span id="agentSwitchDot" class="agent-switch-dot"></span>
+            <span id="agentSwitchLabel">Dispatch as ▾</span>
+          </button>
+          <div id="agentSwitchMenu" class="agent-switch-menu" role="listbox" hidden>
+            <div class="agent-switch-group" id="agentSwitchRecent"></div>
+            <div class="agent-switch-group">
+              <div class="agent-switch-head">All agents</div>
+              <div id="agentSwitchList"></div>
+            </div>
+            <div class="agent-switch-custom" id="agentSwitchCustom">
+              <input type="text" id="agentSwitchInput" class="agent-switch-input" placeholder="Custom agent name…" spellcheck="false" maxlength="32" aria-label="Custom agent name">
+              <span class="agent-switch-enterhint">↵ dispatch</span>
+            </div>
+          </div>
+        </div>
         <button id="enterAgentBtn" class="btn btn-primary" title="One tap: copies a ready-to-paste prompt for a random drawer, under your last-used identity">
           <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 2v12M2 8h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           Enter your agent
@@ -244,6 +258,7 @@
             <span class="field-lbl">Custom Name</span>
             <input id="customAgentName" type="text" class="config-input" placeholder="e.g. Mistral" spellcheck="false" maxlength="32">
             <span class="field-err" id="customNameErr" hidden>⚠ Letters, numbers, spaces and hyphens only — no profanity, no impersonating existing creators.</span>
+            <span class="field-warn" id="customNameNear" hidden></span>
           </label>
 
           <div class="config-field">
