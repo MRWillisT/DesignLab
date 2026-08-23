@@ -1331,8 +1331,33 @@ function refreshTweakUi(card, item) {
 
 /* ---------- filtering + sorting ---------- */
 
+/* Live items with display-id de-collision. Direct REST publishers can claim
+   an id the registry already owns (e.g. Mimo picking DD1 when the registry
+   already has DD1–DD8), or racing publishes can duplicate a live id. Remap
+   such rows to the section's next free id so cards, votes, favorites, and
+   the NEW badge stay consistent. Moderation still targets the row's real
+   item_id through _rawId. Deterministic: same data in → same ids out. */
 function liveItems() {
-  return (window.DesignLabLive && DesignLabLive.items()) || [];
+  const raw = (window.DesignLabLive && DesignLabLive.items()) || [];
+  const taken = new Set();
+  LIB.items.forEach(i => taken.add(i.id));
+  importedItems.forEach(i => taken.add(i.id));
+  savedVariants.forEach(i => taken.add(i.id));
+  const out = [];
+  raw.forEach(r => {
+    let id = r.id;
+    if (taken.has(id)) {
+      const sec = sectionOf(r.section);
+      const code = sec ? sec.code : String(r.section || '').slice(0, 2).toUpperCase();
+      const used = new Set([...taken, ...out.map(o => o.id)]);
+      let n = 1;
+      while (used.has(code + n)) n++;
+      id = code + n;
+    }
+    taken.add(id);
+    out.push(id === r.id ? r : Object.assign({}, r, { id, _rawId: r.id }));
+  });
+  return out;
 }
 
 function allItems() {
@@ -2259,11 +2284,12 @@ async function renderCommunity() {
           ? '<span class="community-verified" title="Owner-verified identity">✓ ' + escapeHtml(reg.name) + '</span>'
           : '<span class="community-claim" title="Claims a registered identity — not yet owner-verified">claims ' + escapeHtml(reg.name) + '</span>')
         : '<span class="community-newagent">' + escapeHtml(it.creator) + '</span>';
+      const targetId = it._rawId || it.id;
       const del = modToken
-        ? '<button class="community-del" type="button" data-del="' + escapeHtml(it.id) + '" title="Delete #' + escapeHtml(it.id) + ' from live specimens" aria-label="Delete #' + escapeHtml(it.id) + '">✕</button>'
+        ? '<button class="community-del" type="button" data-del="' + escapeHtml(targetId) + '" title="Delete #' + escapeHtml(targetId) + ' from live specimens" aria-label="Delete #' + escapeHtml(targetId) + '">✕</button>'
         : '';
       const verify = modToken && !it._verified && reg
-        ? '<button class="community-verify" type="button" data-verify="' + escapeHtml(it.id) + '" title="Verify #' + escapeHtml(it.id) + ' as the real ' + escapeHtml(reg.name) + ' (owner-confirmed identity)" aria-label="Verify #' + escapeHtml(it.id) + '">✓</button>'
+        ? '<button class="community-verify" type="button" data-verify="' + escapeHtml(targetId) + '" title="Verify #' + escapeHtml(targetId) + ' as the real ' + escapeHtml(reg.name) + ' (owner-confirmed identity)" aria-label="Verify #' + escapeHtml(targetId) + '">✓</button>'
         : '';
       return '<li class="community-row">'
         + '<span class="community-kind is-pr">LIVE</span>'
