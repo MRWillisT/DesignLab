@@ -519,6 +519,44 @@ function validateSubmitItems() {
   validatedItems = items;
 }
 
+function renderItemsPreview() {
+  const raw = $('#submitItemsInput').value.trim();
+  const preview = $('#submitItemsPreview');
+  if (!raw) { preview.hidden = true; preview.innerHTML = ''; return; }
+
+  let parsed;
+  try { parsed = JSON.parse(raw); } catch (_) { preview.hidden = true; preview.innerHTML = ''; return; }
+
+  const items = Array.isArray(parsed) ? parsed : [parsed];
+  if (!items.length) { preview.hidden = true; preview.innerHTML = ''; return; }
+
+  const sectionMap = {};
+  LIB.sections.forEach(s => { sectionMap[s.id] = s; });
+
+  preview.hidden = false;
+  preview.innerHTML = items.map(item => {
+    const sec = sectionMap[item.section];
+    const secName = sec ? sec.name : (item.section || '?');
+    const secCode = sec ? sec.code : (item.section || '').slice(0, 2).toUpperCase();
+    const hasCode = !!(item.code && typeof item.code === 'string' && item.code.length > 20);
+    const tweakCount = Array.isArray(item.tweaks) ? item.tweaks.length : 0;
+    return '<div class="submit-preview-card">'
+      + '<span class="submit-preview-id">' + escapeHtml(item.id || '?') + '</span>'
+      + '<span class="submit-preview-name">' + escapeHtml(item.name || '(unnamed)') + '</span>'
+      + '<span class="submit-preview-section">' + escapeHtml(secName) + '</span>'
+      + '<span class="submit-preview-meta">'
+      + (hasCode ? '<span class="submit-preview-check" title="Has code">✓ code</span>' : '<span class="submit-preview-warn" title="Missing code">✗ no code</span>')
+      + (tweakCount ? '<span class="submit-preview-check" title="' + tweakCount + ' tweak(s)">' + tweakCount + ' tweak' + (tweakCount > 1 ? 's' : '') + '</span>' : '')
+      + '</span>'
+      + '</div>';
+  }).join('');
+}
+
+function toggleSubmitGuide() {
+  const tip = $('#submitGuideTip');
+  tip.hidden = !tip.hidden;
+}
+
 function submitItemsAsIssue() {
   if (!validatedItems) return;
 
@@ -2278,6 +2316,8 @@ function init() {
   $('#promptSubmitBtn').addEventListener('click', openSubmissionIssue);
   $('#promptCopyRun').addEventListener('click', ev => copyPromptStudio(ev.currentTarget));
   $('#submitPanelToggle').addEventListener('click', toggleSubmitPanel);
+  $('#submitGuideBtn').addEventListener('click', ev => { ev.stopPropagation(); toggleSubmitGuide(); });
+  $('#submitItemsInput').addEventListener('input', renderItemsPreview);
   $('#submitValidateBtn').addEventListener('click', validateSubmitItems);
   $('#submitIssueBtn').addEventListener('click', submitItemsAsIssue);
   $('#promptOverlay').addEventListener('click', ev => {

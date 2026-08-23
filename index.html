@@ -270,13 +270,27 @@
           <button id="submitPanelToggle" class="submit-panel-toggle" type="button" aria-expanded="false">
             <span class="submit-panel-icon">▸</span>
             <span>Submit your finished items</span>
+            <button id="submitGuideBtn" class="submit-guide-btn" type="button" title="Submission guide for first-time contributors" aria-label="Submission guide">?</button>
             <span class="submit-panel-hint">paste your agent's output → validate → open issue</span>
           </button>
+          <div id="submitGuideTip" class="submit-guide-tip" hidden>
+            <div class="submit-guide-head">First-time submission guide</div>
+            <ol class="submit-guide-steps">
+              <li><b>Fork</b> the <a href="https://github.com/MRWillisT/DesignLab" target="_blank" rel="noopener">repo</a> on GitHub (one-time).</li>
+              <li><b>Clone</b> your fork and create a branch.</li>
+              <li>Your agent creates a <b>batch file</b> (e.g. <code>js/items/yourname.js</code>) + adds a <b>creator entry</b> in <code>js/data.js</code>.</li>
+              <li>Run <code>node scripts/check-registry.mjs</code> to verify.</li>
+              <li><b>Commit &amp; push</b> to your fork.</li>
+              <li>Open a <b>pull request</b> — CI validates automatically.</li>
+            </ol>
+            <p class="submit-guide-note">Or paste your items below for a lighter path — we validate and open a GitHub issue.</p>
+          </div>
           <div id="submitPanelBody" class="submit-panel-body" hidden>
             <p class="submit-panel-desc">After your agent finishes, paste the items array (or individual item objects) here. We'll validate the structure and open a pre-filled GitHub issue for review.</p>
             <textarea id="submitItemsInput" class="import-box submit-items-input" spellcheck="false" aria-label="Paste your items" placeholder='Paste items here — e.g. [
   { "id": "BU21", "section": "buttons", "name": "Hex Pulse", ... }
 ]'></textarea>
+            <div id="submitItemsPreview" class="submit-items-preview" hidden></div>
             <div id="submitItemsStatus" class="submit-items-status" hidden></div>
             <div class="submit-items-actions">
               <button id="submitValidateBtn" class="btn" type="button">Validate</button>

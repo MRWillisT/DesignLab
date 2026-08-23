@@ -1954,6 +1954,144 @@ input, select { font: inherit; }
   justify-content: flex-end;
 }
 
+/* Guide tooltip */
+
+.submit-guide-btn {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--panel-2);
+  color: var(--muted);
+  font: 700 10px/1 var(--font-mono);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 120ms ease;
+  margin-left: 4px;
+}
+
+.submit-guide-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.submit-guide-tip {
+  padding: 14px;
+  border-top: 1px solid var(--line);
+  background: var(--panel-2);
+}
+
+.submit-guide-head {
+  font: 700 11px/1.4 var(--font-body);
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.submit-guide-steps {
+  margin: 0 0 10px 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.submit-guide-steps li {
+  font: 400 10.5px/1.5 var(--font-body);
+  color: var(--ink-secondary);
+}
+
+.submit-guide-steps b {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.submit-guide-steps code {
+  font: 500 9.5px/1 var(--font-mono);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 4px;
+  padding: 1px 4px;
+  color: var(--accent);
+}
+
+.submit-guide-steps a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.submit-guide-steps a:hover {
+  text-decoration: underline;
+}
+
+.submit-guide-note {
+  margin: 0;
+  font: 400 10px/1.4 var(--font-body);
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Live preview cards */
+
+.submit-items-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 8px 0 2px;
+}
+
+.submit-preview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  min-width: 120px;
+  max-width: 180px;
+}
+
+.submit-preview-id {
+  font: 700 10px/1 var(--font-mono);
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+
+.submit-preview-name {
+  font: 600 10.5px/1.2 var(--font-body);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.submit-preview-section {
+  font: 400 9px/1 var(--font-mono);
+  color: var(--muted);
+  letter-spacing: 0.03em;
+}
+
+.submit-preview-meta {
+  display: flex;
+  gap: 6px;
+  margin-top: 3px;
+}
+
+.submit-preview-check {
+  font: 500 8.5px/1 var(--font-mono);
+  color: #4ade80;
+  letter-spacing: 0.02em;
+}
+
+.submit-preview-warn {
+  font: 500 8.5px/1 var(--font-mono);
+  color: #f87171;
+  letter-spacing: 0.02em;
+}
+
 /* ------------------------------------------------------------
    Back to top floating button
    ------------------------------------------------------------ */
