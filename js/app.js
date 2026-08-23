@@ -593,17 +593,63 @@ function previewDoc(code, vars, canvas = state.canvas) {
     + '</body></html>';
 }
 
+/* ---------- lazy iframe observer ---------- */
+
+let stageObserver = null;
+
+function getStageObserver() {
+  if (stageObserver) return stageObserver;
+  if (typeof IntersectionObserver !== 'undefined') {
+    stageObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const card = entry.target;
+          const frame = card.querySelector('.stage-frame');
+          if (frame && !frame.srcdoc && frame.dataset.srcdoc) {
+            frame.srcdoc = frame.dataset.srcdoc;
+            delete frame.dataset.srcdoc;
+          }
+          obs.unobserve(card);
+        }
+      });
+    }, { rootMargin: '400px 0px' });
+  }
+  return stageObserver;
+}
+
 function setStageCanvas(mode) {
   state.canvas = mode;
-  document.body.dataset.stageCanvas = mode;
-  $$('.canvas-btn').forEach(b => b.classList.toggle('is-active', b.dataset.canvas === mode));
+  saveFilters();
+  syncCanvasButtons();
   $$('#library iframe.stage-frame').forEach(f => {
-    try { f.contentWindow.postMessage({ type: 'dl-canvas', canvas: mode }, '*'); } catch (e) {}
+    if (f.dataset.srcdoc) {
+      const card = f.closest('.card');
+      const id = card ? card.dataset.id : null;
+      const item = id ? allItems().find(it => it.id === id) : null;
+      if (item) {
+        const hasTweaks = !!(item.tweaks && item.tweaks.length);
+        f.dataset.srcdoc = hasTweaks
+          ? previewDoc(String(item.code || ''), currentValues(item), mode)
+          : previewDoc(String(item.code || ''), null, mode);
+      }
+    } else {
+      try { f.contentWindow.postMessage({ type: 'dl-canvas', canvas: mode }, '*'); } catch (e) {}
+    }
   });
 }
 
 function pushVars(frame, vars) {
-  try { frame.contentWindow.postMessage({ type: 'dl-vars', vars: vars }, '*'); } catch (e) { /* frame not ready */ }
+  if (!frame) return;
+  if (frame.dataset && frame.dataset.srcdoc) {
+    const card = frame.closest('.card');
+    const id = card ? card.dataset.id : null;
+    const item = id ? allItems().find(it => it.id === id) : null;
+    if (item) {
+      frame.dataset.srcdoc = previewDoc(String(item.code || ''), vars);
+    }
+  } else {
+    try { frame.contentWindow.postMessage({ type: 'dl-vars', vars: vars }, '*'); } catch (e) { /* frame not ready */ }
+  }
 }
 
 /* ---------- personal tweaking ---------- */
@@ -837,9 +883,17 @@ function buildCard(item) {
     + '</footer>';
 
   const frame = $('.stage-frame', card);
-  frame.srcdoc = hasTweaks
+  const docHtml = hasTweaks
     ? previewDoc(String(item.code || ''), currentValues(item))
     : previewDoc(String(item.code || ''));
+
+  const obs = getStageObserver();
+  if (obs) {
+    frame.dataset.srcdoc = docHtml;
+    obs.observe(card);
+  } else {
+    frame.srcdoc = docHtml;
+  }
 
   $('.inspect-btn', card).addEventListener('click', () => openInspectModal(item));
   $('.stage', card).addEventListener('dblclick', () => openInspectModal(item));
