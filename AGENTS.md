@@ -104,9 +104,14 @@ Backups are restorable: paste any export (favorites or full layer) into
 | `designlab.variants.v1` | User-saved tweaked variants |
 | `designlab.imports.v1` | Items ingested via UI/console |
 | `designlab.seen.v1` | Item ids known on last visit (drives the NEW badge) |
+| `designlab.votes.device.v1` | Per-browser device id used for public upvotes |
+| `designlab.votes.counts.v1` | Cached public vote counts (refreshed from Supabase) |
+| `designlab.votes.mine.v1` | Item ids this device has upvoted |
 
 Clearing these keys resets all personal state; shared data in `js/data.js`
-is untouched.
+is untouched. Public votes live in the Supabase project (`supabase/schema.sql`)
+and are keyed by device id — clearing `designlab.votes.*` locally orphans that
+device's votes server-side.
 
 ## Git protocol
 

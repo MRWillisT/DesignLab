@@ -203,6 +203,7 @@ function loadFilters() {
       if (!saved.creator || creatorOf(saved.creator)) state.creator = saved.creator || null;
       state.favoritesOnly = !!saved.favoritesOnly;
       if (saved.sort === 'creator') state.sort = 'creator';
+      else if (saved.sort === 'top') state.sort = 'top';
       else state.sort = 'newest';
     }
     const c = localStorage.getItem(LS_CANVAS);
@@ -814,7 +815,14 @@ function currentPool() {
   });
 
   const order = new Map(allItems().map((it, i) => [it.id, i]));
-  items.sort((a, b) => (order.get(b.id) ?? 0) - (order.get(a.id) ?? 0));
+
+  if (state.sort === 'top') {
+    items.sort((a, b) =>
+      (DesignLabVotes.countOf(b.id) - DesignLabVotes.countOf(a.id))
+      || ((order.get(b.id) ?? 0) - (order.get(a.id) ?? 0)));
+  } else {
+    items.sort((a, b) => (order.get(b.id) ?? 0) - (order.get(a.id) ?? 0));
+  }
 
   if (state.random) items = seededShuffle(items, state.randomSeed).slice(0, RANDOM_PICKS);
   return items;
@@ -905,7 +913,13 @@ function buildCard(item) {
     + '<span class="credit-chip" style="--chip:' + (cr ? escapeHtml(cr.color) : '#8a8f98')
     + '" title="Created by ' + escapeHtml(cr ? cr.name : item.creator) + '">'
     + escapeHtml(cr ? cr.name : item.creator) + '</span>'
+    + '<span class="foot-actions">'
+    + '<button class="vote-btn' + (DesignLabVotes.voted(item.id) ? ' is-voted' : '') + '" type="button" data-vote="' + escapeHtml(item.id) + '" aria-pressed="' + DesignLabVotes.voted(item.id) + '" title="' + (DesignLabVotes.voted(item.id) ? 'Remove your upvote' : 'Upvote this specimen') + '">'
+    + '<svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 12.5V3.5m0 0L4.5 7M8 3.5L11.5 7M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    + '<span class="vote-count">' + DesignLabVotes.countOf(item.id) + '</span>'
+    + '</button>'
     + '<button class="copy-btn" type="button">Copy</button>'
+    + '</span>'
     + '</footer>';
 
   const frame = $('.stage-frame', card);
@@ -916,6 +930,8 @@ function buildCard(item) {
   $('.inspect-btn', card).addEventListener('click', () => openInspectModal(item));
   $('.stage', card).addEventListener('dblclick', () => openInspectModal(item));
   $('.star-btn', card).addEventListener('click', () => toggleFavorite(item.id, card));
+  const voteBtn = $('.vote-btn', card);
+  if (voteBtn) voteBtn.addEventListener('click', () => toggleVote(item, voteBtn));
   $('.copy-btn', card).addEventListener('click', ev => copyItemCode(item, ev.currentTarget));
 
   const del = $('.variant-del', card);
@@ -1090,6 +1106,7 @@ function syncControlStates() {
   if ($('#creatorSelect')) $('#creatorSelect').value = state.creator || 'all';
   if ($('#favToggle')) $('#favToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
   if ($('#newToggle')) $('#newToggle').setAttribute('aria-pressed', String(state.newOnly));
+  if ($('#topToggle')) $('#topToggle').setAttribute('aria-pressed', String(state.sort === 'top'));
 }
 
 function buildShowMore(hidden) {
@@ -1236,6 +1253,110 @@ function toggleFavorite(id, card) {
   }
 
   if (state.favoritesOnly) render();
+}
+
+/* ---------- public votes ---------- */
+
+let boardOpen = false;
+let boardTab = 'specimens';
+
+function refreshVoteButton(btn, item) {
+  if (!btn) return;
+  const voted = DesignLabVotes.voted(item.id);
+  btn.classList.toggle('is-voted', voted);
+  btn.setAttribute('aria-pressed', String(voted));
+  btn.title = voted ? 'Remove your upvote' : 'Upvote this specimen';
+  const n = btn.querySelector('.vote-count');
+  if (n) n.textContent = DesignLabVotes.countOf(item.id);
+}
+
+function refreshAllVoteButtons() {
+  $$('.vote-btn').forEach(btn => {
+    const id = btn.dataset.vote;
+    if (!id) return;
+    const item = allItems().find(it => it.id === id);
+    if (item) refreshVoteButton(btn, item);
+  });
+}
+
+async function toggleVote(item, btn) {
+  const res = await DesignLabVotes.toggle(item);
+  if (res.ok) {
+    refreshVoteButton(btn, item);
+    if (state.sort === 'top') render();
+    if (boardOpen) renderLeaderboard();
+    toast(res.voted ? 'Upvoted #' + item.id + ' ▲' : 'Removed upvote for #' + item.id);
+  } else if (res.reason === 'unconfigured') {
+    toast('Votes aren\u2019t wired up yet — paste your Supabase anon key into js/supabase-config.js.');
+  } else {
+    toast('Vote failed — ' + res.reason);
+  }
+}
+
+function openLeaderboard() {
+  boardOpen = true;
+  $('#boardOverlay').hidden = false;
+  renderLeaderboard();
+}
+
+function closeLeaderboard() {
+  boardOpen = false;
+  $('#boardOverlay').hidden = true;
+}
+
+function boardRow(rank, label, creator, n) {
+  const chip = creator
+    ? '<span class="credit-chip" style="--chip:' + escapeHtml(creator.color || '#8a8f98') + '">' + escapeHtml(creator.name) + '</span>'
+    : '';
+  return '<li class="board-row">'
+    + '<span class="board-rank">' + rank + '</span>'
+    + chip
+    + '<span class="board-label">' + escapeHtml(label) + '</span>'
+    + '<span class="board-votes">▲ ' + n + '</span>'
+    + '</li>';
+}
+
+function renderLeaderboard() {
+  const list = $('#boardList');
+  const empty = $('#boardEmpty');
+  const totalEl = $('#boardTotalVotes');
+  if (!list) return;
+  if (totalEl) totalEl.textContent = DesignLabVotes.total();
+
+  let rows = [];
+  if (boardTab === 'specimens') {
+    rows = allItems()
+      .filter(it => DesignLabVotes.countOf(it.id) > 0)
+      .sort((a, b) => DesignLabVotes.countOf(b.id) - DesignLabVotes.countOf(a.id))
+      .slice(0, 25)
+      .map((it, i) => boardRow(i + 1, it.id + ' · ' + it.name, creatorOf(it.creator), DesignLabVotes.countOf(it.id)));
+  } else if (boardTab === 'creators') {
+    const byCreator = new Map();
+    allItems().forEach(it => {
+      const c = it.creator || '?';
+      byCreator.set(c, (byCreator.get(c) || 0) + DesignLabVotes.countOf(it.id));
+    });
+    rows = [...byCreator.entries()]
+      .filter(([, n]) => n > 0)
+      .sort((a, b) => b[1] - a[1])
+      .map(([cid, n], i) => boardRow(i + 1, (creatorOf(cid) || {}).name || cid, creatorOf(cid), n));
+  } else {
+    const bySec = new Map();
+    allItems().forEach(it => {
+      const s = it.section || '?';
+      bySec.set(s, (bySec.get(s) || 0) + DesignLabVotes.countOf(it.id));
+    });
+    rows = [...bySec.entries()]
+      .filter(([, n]) => n > 0)
+      .sort((a, b) => b[1] - a[1])
+      .map(([sid, n], i) => {
+        const sec = sectionOf(sid);
+        return boardRow(i + 1, sec ? sec.name : sid, null, n);
+      });
+  }
+
+  list.innerHTML = rows.join('');
+  empty.hidden = rows.length > 0;
 }
 
 function setQuery(value) {
@@ -1683,6 +1804,27 @@ function init() {
     saveFilters();
     render();
   });
+  $('#topToggle').addEventListener('click', () => {
+    resetRenderLimit();
+    state.sort = state.sort === 'top' ? 'newest' : 'top';
+    saveFilters();
+    syncControlStates();
+    render();
+  });
+  $('#boardBtn').addEventListener('click', openLeaderboard);
+  $('#boardClose').addEventListener('click', closeLeaderboard);
+  $('#boardCancel').addEventListener('click', closeLeaderboard);
+  $('#boardOverlay').addEventListener('click', ev => {
+    if (ev.target === ev.currentTarget) closeLeaderboard();
+  });
+  $$('.board-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      $$('.board-tab').forEach(t => t.classList.remove('is-active'));
+      tab.classList.add('is-active');
+      boardTab = tab.dataset.boardTab;
+      renderLeaderboard();
+    });
+  });
   $('#sectionSelect').addEventListener('change', ev => {
     resetRenderLimit();
     state.section = ev.target.value;
@@ -1758,6 +1900,7 @@ function init() {
     if (ev.key === 'Escape') {
       if ($('#inspectOverlay') && !$('#inspectOverlay').hidden) { closeInspectModal(); return; }
       if (!$('#exportOverlay').hidden) { closeExportModal(); return; }
+      if (!$('#boardOverlay').hidden) { closeLeaderboard(); return; }
       if (!$('#importOverlay').hidden) { closeImporter(); return; }
       if (!$('#promptOverlay').hidden) { closePromptStudio(); return; }
     }
@@ -1815,6 +1958,15 @@ function init() {
     exportLayer: exportLayer,
     setCanvas: setStageCanvas
   };
+
+  if (window.DesignLabVotes) {
+    DesignLabVotes.onChange(() => {
+      refreshAllVoteButtons();
+      if (boardOpen) renderLeaderboard();
+      if (state.sort === 'top') render();
+    });
+    DesignLabVotes.init();
+  }
 
   render();
 }
