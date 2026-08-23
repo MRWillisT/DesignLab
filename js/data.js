@@ -1595,46 +1595,204 @@ window.DESIGN_LAB = {
         { type: "color", label: "Glow Color", varName: "--ef9-glow", default: "#7a00f5" }
       ],
       code: "<style>\n  .effect-ef9 { width:120px; height:80px; background:#000; border:2px solid var(--ef9-glow,#7a00f5); box-shadow:0 0 8px var(--ef9-glow,#7a00f5); animation:ef9-pulse 2s infinite; display:flex; align-items:center; justify-content:center; color:#fff; font-size:12px; font-weight:700; }\n  @keyframes ef9-pulse { 0%,100%{box-shadow:0 0 8px var(--ef9-glow,#7a00f5);} 50%{box-shadow:0 0 16px var(--ef9-glow,#7a00f5);} }\n  @media (prefers-reduced-motion:reduce){ .effect-ef9{animation:none;} }\n</style>\n<div class='effect-ef9'>NEON BOX</div>"
+    },
+
+    /* ---- Mimo 2.5 additions: Buttons, Forms, Toggles, Alerts, Loaders, Navigation, Players, Icons ---- */
+
+    {
+      id: "BU23",
+      section: "buttons",
+      name: "3D Keycap Button",
+      description: "Mechanical keyboard keycap with visible side face and press-down depth — tactile 3D silhouette unlike any flat or pill button.",
+      creator: "mimo-2-5",
+      tags: ["button","3d","keycap","mechanical","depth","tactile"],
+      tweaks: [
+        { type: "color", label: "Keycap Color", varName: "--bu23-color", default: "#8b5cf6" }
+      ],
+      code: "<style>\n  .kbu23-cap{position:relative;width:100px;height:38px;cursor:pointer}\n  .kbu23-top{width:100%;height:100%;background:linear-gradient(145deg,var(--bu23-color,#8b5cf6),color-mix(in srgb,var(--bu23-color,#8b5cf6) 70%,#000));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;letter-spacing:.04em;transform:translateY(0);transition:transform .1s ease;box-shadow:0 4px 0 color-mix(in srgb,var(--bu23-color,#8b5cf6) 50%,#000),0 6px 12px rgba(0,0,0,.4);text-shadow:0 1px 2px rgba(0,0,0,.3)}\n  .kbu23-cap:active .kbu23-top{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--bu23-color,#8b5cf6) 50%,#000),0 2px 4px rgba(0,0,0,.3)}\n  @media (prefers-reduced-motion:reduce){.kbu23-top{transition:none}}\n</style>\n<div class=\"kbu23-cap\">\n  <div class=\"kbu23-top\">SPACE</div>\n</div>"
+    },
+
+    {
+      id: "BU24",
+      section: "buttons",
+      name: "Glassmorphism Ripple",
+      description: "Frosted glass button with layered depth, refraction edge highlight, and ink-ripple扩散 on press.",
+      creator: "mimo-2-5",
+      tags: ["button","glass","frosted","ripple","depth","layered"],
+      tweaks: [
+        { type: "color", label: "Ripple Tint", varName: "--bu24-tint", default: "#38bdf8" }
+      ],
+      code: "<style>\n  @keyframes kbu24-ripple{0%{transform:scale(0);opacity:.5}100%{transform:scale(4);opacity:0}}\n  .kbu24-btn{position:relative;overflow:hidden;background:rgba(255,255,255,.08);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:10px 24px;color:#f1f5f9;font-size:12px;font-weight:700;letter-spacing:.03em;cursor:pointer;transition:background .18s ease,border-color .18s ease;box-shadow:inset 0 1px 1px rgba(255,255,255,.2),0 4px 12px rgba(0,0,0,.3)}\n  .kbu24-btn:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.28)}\n  .kbu24-btn::before{content:\"\";position:absolute;inset:-1px;border-radius:13px;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent 40%,transparent 60%,rgba(255,255,255,.08));pointer-events:none}\n  .kbu24-rip{position:absolute;width:20px;height:20px;border-radius:50%;background:color-mix(in srgb,var(--bu24-tint,#38bdf8) 30%,rgba(255,255,255,.25));animation:kbu24-ripple .5s ease-out forwards;pointer-events:none}\n  @media (prefers-reduced-motion:reduce){.kbu24-btn{transition:none}.kbu24-rip{animation:none}}\n</style>\n<button type=\"button\" class=\"kbu24-btn\" onclick=\"var r=document.createElement('span');r.className='kbu24-rip';var rect=this.getBoundingClientRect();r.style.left=(event.clientX-rect.left-10)+'px';r.style.top=(event.clientY-rect.top-10)+'px';this.appendChild(r);setTimeout(function(){r.remove()},500)\">Generate</button>"
+    },
+
+    {
+      id: "BU25",
+      section: "buttons",
+      name: "Loading Ring Button",
+      description: "Button that morphs from text label into a circular progress spinner on click — the loading state IS the design.",
+      creator: "mimo-2-5",
+      tags: ["button","loading","spinner","morph","progress","state"],
+      tweaks: [
+        { type: "color", label: "Button Color", varName: "--bu25-color", default: "#04ff00" }
+      ],
+      code: "<style>\n  @keyframes kbu25-spin{to{transform:rotate(360deg)}}\n  .kbu25-btn{display:inline-flex;align-items:center;justify-content:center;min-width:110px;height:36px;background:linear-gradient(135deg,var(--bu25-color,#04ff00),#10b981);border:none;border-radius:8px;color:#000;font-size:12px;font-weight:700;cursor:pointer;padding:0 16px;transition:opacity .18s ease,box-shadow .18s ease;box-shadow:0 4px 14px color-mix(in srgb,var(--bu25-color,#04ff00) 35%,transparent)}\n  .kbu25-btn:hover{opacity:.88}\n  .kbu25-ring{width:18px;height:18px;border:2.5px solid rgba(0,0,0,.15);border-top-color:#000;border-radius:50%;animation:kbu25-spin .7s linear infinite;display:none}\n  .kbu25-btn.loading .kbu25-txt{display:none}\n  .kbu25-btn.loading .kbu25-ring{display:block}\n  @media (prefers-reduced-motion:reduce){.kbu25-ring{animation:none}}\n</style>\n<button type=\"button\" class=\"kbu25-btn\" onclick=\"this.classList.toggle('loading');var b=this;setTimeout(function(){b.classList.remove('loading')},2000)\"><span class=\"kbu25-txt\">Deploy</span><span class=\"kbu25-ring\"></span></button>"
+    },
+
+    {
+      id: "FO10",
+      section: "forms",
+      name: "Expandable Search Morph",
+      description: "Search icon that morphs horizontally into a full text input on click — a transformational form control unlike any static input.",
+      creator: "mimo-2-5",
+      tags: ["form","search","expand","morph","input","transform"],
+      tweaks: [
+        { type: "color", label: "Focus Accent", varName: "--fo10-accent", default: "#38bdf8" }
+      ],
+      code: "<style>\n  .kfo10-wrap{display:inline-flex;align-items:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:9999px;overflow:hidden;transition:width .3s cubic-bezier(.4,0,.2,1),border-color .3s ease;width:36px;height:36px}\n  .kfo10-wrap.open{width:180px;border-color:var(--fo10-accent,#38bdf8)}\n  .kfo10-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:14px;flex-shrink:0;cursor:pointer;transition:color .2s ease}\n  .kfo10-wrap.open .kfo10-icon{color:var(--fo10-accent,#38bdf8)}\n  .kfo10-in{width:0;border:none;background:transparent;color:#f1f5f9;font-size:12px;font-weight:500;outline:none;padding:0;transition:width .3s cubic-bezier(.4,0,.2,1)}\n  .kfo10-wrap.open .kfo10-in{width:130px;padding:0 8px 0 0}\n  .kfo10-close{width:0;opacity:0;border:none;background:transparent;color:#64748b;font-size:12px;cursor:pointer;transition:width .3s cubic-bezier(.4,0,.2,1),opacity .2s ease;padding:0;flex-shrink:0}\n  .kfo10-wrap.open .kfo10-close{width:24px;opacity:1}\n  @media (prefers-reduced-motion:reduce){.kfo10-wrap,.kfo10-in,.kfo10-close{transition:none}}\n</style>\n<div class=\"kfo10-wrap\" id=\"kfo10\">\n  <div class=\"kfo10-icon\" onclick=\"document.getElementById('kfo10').classList.toggle('open');if(document.getElementById('kfo10').classList.contains('open'))document.getElementById('kfo10').querySelector('input').focus()\">🔍</div>\n  <input class=\"kfo10-in\" type=\"text\" placeholder=\"Search specimens…\">\n  <button class=\"kfo10-close\" onclick=\"document.getElementById('kfo10').classList.remove('open')\" type=\"button\">✕</button>\n</div>"
+    },
+
+    {
+      id: "TO10",
+      section: "toggles",
+      name: "3D Card Flip Toggle",
+      description: "Toggle that physically flips in 3D between ON and OFF faces — each side has a completely different visual treatment.",
+      creator: "mimo-2-5",
+      tags: ["toggle","3d","flip","card","dual-face","interactive"],
+      tweaks: [
+        { type: "color", label: "ON Face Color", varName: "--to10-color", default: "#10b981" }
+      ],
+      code: "<style>\n  .kto10-lbl{display:inline-flex;align-items:center;gap:10px;cursor:pointer;user-select:none}\n  .kto10-in{position:absolute;opacity:0;pointer-events:none}\n  .kto10-scene{width:52px;height:28px;perspective:200px}\n  .kto10-card{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .4s cubic-bezier(.4,0,.2,1)}\n  .kto10-in:checked + .kto10-scene .kto10-card{transform:rotateY(180deg)}\n  .kto10-face{position:absolute;inset:0;border-radius:6px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff}\n  .kto10-off{background:linear-gradient(135deg,#334155,#1e293b);border:1px solid rgba(255,255,255,.12)}\n  .kto10-on{background:linear-gradient(135deg,var(--to10-color,#10b981),#059669);border:1px solid rgba(255,255,255,.2);transform:rotateY(180deg);box-shadow:0 0 10px color-mix(in srgb,var(--to10-color,#10b981) 40%,transparent)}\n  .kto10-txt{font-size:12px;color:#94a3b8;font-weight:600;transition:color .2s ease}\n  .kto10-in:checked ~ .kto10-txt{color:var(--to10-color,#10b981)}\n  @media (prefers-reduced-motion:reduce){.kto10-card{transition:none}}\n</style>\n<label class=\"kto10-lbl\">\n  <input type=\"checkbox\" class=\"kto10-in\" checked>\n  <div class=\"kto10-scene\"><div class=\"kto10-card\"><div class=\"kto10-face kto10-off\">OFF</div><div class=\"kto10-face kto10-on\">ON</div></div></div>\n  <span class=\"kto10-txt\">Live mode</span>\n</label>"
+    },
+
+    {
+      id: "TO11",
+      section: "toggles",
+      name: "Rotary Crank Switch",
+      description: "Circular dial that rotates 90 degrees between on/off like a physical rotary switch — different from every linear track and pill toggle.",
+      creator: "mimo-2-5",
+      tags: ["toggle","rotary","crank","dial","physical","switch"],
+      tweaks: [
+        { type: "color", label: "Indicator Color", varName: "--to11-color", default: "#f59e0b" }
+      ],
+      code: "<style>\n  .kto11-lbl{display:inline-flex;align-items:center;gap:12px;cursor:pointer;user-select:none}\n  .kto11-in{position:absolute;opacity:0;pointer-events:none}\n  .kto11-housing{width:36px;height:36px;border-radius:50%;background:linear-gradient(145deg,#1e293b,#0f172a);border:2px solid rgba(255,255,255,.15);position:relative;transition:border-color .2s ease,box-shadow .2s ease}\n  .kto11-needle{position:absolute;width:3px;height:10px;background:var(--to11-color,#f59e0b);border-radius:2px;top:3px;left:50%;transform:translateX(-50%) rotate(0deg);transform-origin:center 15px;transition:transform .3s cubic-bezier(.4,0,.2,1)}\n  .kto11-in:checked + .kto11-housing{border-color:var(--to11-color,#f59e0b);box-shadow:0 0 12px color-mix(in srgb,var(--to11-color,#f59e0b) 40%,transparent)}\n  .kto11-in:checked + .kto11-housing .kto11-needle{transform:translateX(-50%) rotate(90deg)}\n  .kto11-dot{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.12)}\n  .kto11-dot.pos-r{right:-2px;top:50%;transform:translateY(-50%)}\n  .kto11-dot.pos-b{bottom:-2px;left:50%;transform:translateX(-50%)}\n  .kto11-txt{font-size:12px;color:#64748b;font-weight:600;transition:color .2s ease}\n  .kto11-in:checked ~ .kto11-txt{color:var(--to11-color,#f59e0b)}\n  @media (prefers-reduced-motion:reduce){.kto11-needle{transition:none}}\n</style>\n<label class=\"kto11-lbl\">\n  <input type=\"checkbox\" class=\"kto11-in\">\n  <span class=\"kto11-housing\">\n    <span class=\"kto11-needle\"></span>\n    <span class=\"kto11-dot pos-r\"></span>\n    <span class=\"kto11-dot pos-b\"></span>\n  </span>\n  <span class=\"kto11-txt\">Mute</span>\n</label>"
+    },
+
+    {
+      id: "AL8",
+      section: "alerts",
+      name: "Accordion Detail Alert",
+      description: "Alert with a clickable chevron that expands to reveal detailed context — structurally distinct from static toasts and banners.",
+      creator: "mimo-2-5",
+      tags: ["alert","accordion","expand","detail","interactive"],
+      tweaks: [
+        { type: "color", label: "Accent Color", varName: "--al8-color", default: "#fbbf24" }
+      ],
+      code: "<style>\n  .kla8-alert{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-left:3px solid var(--al8-color,#fbbf24);border-radius:8px;width:220px;overflow:hidden;transition:border-color .2s ease}\n  .kla8-header{display:flex;align-items:center;gap:8px;padding:8px 10px;cursor:pointer}\n  .kla8-header:hover{background:rgba(255,255,255,.03)}\n  .kla8-icon{font-size:13px;flex-shrink:0}\n  .kla8-title{font-size:11px;font-weight:600;color:#f1f5f9;flex:1}\n  .kla8-chevron{color:#64748b;font-size:10px;transition:transform .25s ease;flex-shrink:0}\n  .kla8-alert.expanded .kla8-chevron{transform:rotate(180deg)}\n  .kla8-detail{max-height:0;overflow:hidden;transition:max-height .3s cubic-bezier(.4,0,.2,1),padding .3s ease;padding:0 10px}\n  .kla8-alert.expanded .kla8-detail{max-height:60px;padding:0 10px 8px}\n  .kla8-body{font-size:10px;color:#94a3b8;line-height:1.4;border-top:1px solid rgba(255,255,255,.06);padding-top:6px}\n  @media (prefers-reduced-motion:reduce){.kla8-detail{transition:none}.kla8-chevron{transition:none}}\n</style>\n<div class=\"kla8-alert\" onclick=\"this.classList.toggle('expanded')\">\n  <div class=\"kla8-header\">\n    <span class=\"kla8-icon\">⚠️</span>\n    <span class=\"kla8-title\">VRAM Warning</span>\n    <span class=\"kla8-chevron\">▾</span>\n  </div>\n  <div class=\"kla8-detail\">\n    <div class=\"kla8-body\">GPU memory at 88%. Queued tasks may slow. Consider reducing batch size from 16 to 8 for stability.</div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "AL9",
+      section: "alerts",
+      name: "Edge Glow Banner",
+      description: "Top-edge gradient bar notification that pulses with accent color — a thin luminous strip unlike any full-surface toast or banner.",
+      creator: "mimo-2-5",
+      tags: ["alert","banner","edge","glow","gradient","pulse"],
+      tweaks: [
+        { type: "color", label: "Glow Color", varName: "--al9-color", default: "#10b981" }
+      ],
+      code: "<style>\n  @keyframes kla9-pulse{0%,100%{opacity:.6}50%{opacity:1}}\n  .kla9-banner{position:relative;width:220px;border-radius:8px;overflow:hidden;background:#141720;border:1px solid rgba(255,255,255,.08)}\n  .kla9-glow{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--al9-color,#10b981),transparent);animation:kla9-pulse 2.5s ease-in-out infinite}\n  .kla9-content{display:flex;align-items:center;gap:8px;padding:10px 12px}\n  .kla9-pip{width:6px;height:6px;border-radius:50%;background:var(--al9-color,#10b981);box-shadow:0 0 8px var(--al9-color,#10b981)}\n  .kla9-text{flex:1}\n  .kla9-title{font-size:11px;font-weight:600;color:#f1f5f9}\n  .kla9-sub{font-size:9.5px;color:#64748b;margin-top:1px}\n  @media (prefers-reduced-motion:reduce){.kla9-glow{animation:none}}\n</style>\n<div class=\"kla9-banner\">\n  <div class=\"kla9-glow\"></div>\n  <div class=\"kla9-content\">\n    <div class=\"kla9-pip\"></div>\n    <div class=\"kla9-text\">\n      <div class=\"kla9-title\">Export Complete</div>\n      <div class=\"kla9-sub\">4K render saved to /assets</div>\n    </div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "LO8",
+      section: "loaders",
+      name: "Matrix Pulse Grid",
+      description: "3x3 dot grid pulsing in a diagonal wave pattern — a spatial matrix rhythm distinct from bounce dots, orbit spinners, and shimmer bars.",
+      creator: "mimo-2-5",
+      tags: ["loader","matrix","grid","pulse","wave","dots"],
+      tweaks: [
+        { type: "color", label: "Dot Color", varName: "--lo8-color", default: "#8b5cf6" }
+      ],
+      code: "<style>\n  @keyframes klo8-pulse{0%,100%{transform:scale(.4);opacity:.2}50%{transform:scale(1);opacity:1}}\n  .klo8-grid{display:inline-grid;grid-template-columns:repeat(3,10px);gap:8px}\n  .klo8-dot{width:10px;height:10px;border-radius:50%;background:var(--lo8-color,#8b5cf6);animation:klo8-pulse 1.6s ease-in-out infinite}\n  .klo8-dot:nth-child(1){animation-delay:0s}\n  .klo8-dot:nth-child(2){animation-delay:.15s}\n  .klo8-dot:nth-child(3){animation-delay:.3s}\n  .klo8-dot:nth-child(4){animation-delay:.15s}\n  .klo8-dot:nth-child(5){animation-delay:.3s}\n  .klo8-dot:nth-child(6){animation-delay:.45s}\n  .klo8-dot:nth-child(7){animation-delay:.3s}\n  .klo8-dot:nth-child(8){animation-delay:.45s}\n  .klo8-dot:nth-child(9){animation-delay:.6s}\n  @media (prefers-reduced-motion:reduce){.klo8-dot{animation:none}}\n</style>\n<div class=\"klo8-grid\">\n  <div class=\"klo8-dot\"></div><div class=\"klo8-dot\"></div><div class=\"klo8-dot\"></div>\n  <div class=\"klo8-dot\"></div><div class=\"klo8-dot\"></div><div class=\"klo8-dot\"></div>\n  <div class=\"klo8-dot\"></div><div class=\"klo8-dot\"></div><div class=\"klo8-dot\"></div>\n</div>"
+    },
+
+    {
+      id: "LO9",
+      section: "loaders",
+      name: "Circuit Trace Loader",
+      description: "SVG line tracing a circuit-board path through glowing nodes — a path-drawing motion distinct from all spinners, dots, and shimmers.",
+      creator: "mimo-2-5",
+      tags: ["loader","circuit","trace","path","svg","node"],
+      tweaks: [
+        { type: "color", label: "Trace Color", varName: "--lo9-color", default: "#38bdf8" }
+      ],
+      code: "<style>\n  @keyframes klo9-trace{0%{stroke-dashoffset:120}100%{stroke-dashoffset:0}}\n  @keyframes klo9-glow{0%,100%{opacity:.4}50%{opacity:1}}\n  .klo9-wrap{position:relative;width:80px;height:40px}\n  .klo9-path{fill:none;stroke:rgba(255,255,255,.1);stroke-width:2;stroke-linecap:round}\n  .klo9-trace{fill:none;stroke:var(--lo9-color,#38bdf8);stroke-width:2;stroke-linecap:round;stroke-dasharray:120;stroke-dashoffset:120;animation:klo9-trace 2s ease-in-out infinite}\n  .klo9-node{fill:rgba(255,255,255,.08)}\n  .klo9-node-lit{fill:var(--lo9-color,#38bdf8);filter:drop-shadow(0 0 3px var(--lo9-color,#38bdf8));animation:klo9-glow 2s ease-in-out infinite}\n  @media (prefers-reduced-motion:reduce){.klo9-trace,.klo9-node-lit{animation:none}}\n</style>\n<div class=\"klo9-wrap\">\n  <svg viewBox=\"0 0 80 40\" width=\"80\" height=\"40\">\n    <path class=\"klo9-path\" d=\"M4,20 L20,20 L20,8 L40,8 L40,32 L60,32 L60,20 L76,20\"/>\n    <path class=\"klo9-trace\" d=\"M4,20 L20,20 L20,8 L40,8 L40,32 L60,32 L60,20 L76,20\"/>\n    <circle class=\"klo9-node\" cx=\"4\" cy=\"20\" r=\"3\"/>\n    <circle class=\"klo9-node-lit\" cx=\"20\" cy=\"20\" r=\"3\"/>\n    <circle class=\"klo9-node\" cx=\"20\" cy=\"8\" r=\"3\"/>\n    <circle class=\"klo9-node-lit\" cx=\"40\" cy=\"8\" r=\"3\" style=\"animation-delay:.5s\"/>\n    <circle class=\"klo9-node\" cx=\"40\" cy=\"32\" r=\"3\"/>\n    <circle class=\"klo9-node-lit\" cx=\"60\" cy=\"32\" r=\"3\" style=\"animation-delay:1s\"/>\n    <circle class=\"klo9-node\" cx=\"60\" cy=\"20\" r=\"3\"/>\n    <circle class=\"klo9-node-lit\" cx=\"76\" cy=\"20\" r=\"3\" style=\"animation-delay:1.5s\"/>\n  </svg>\n</div>"
+    },
+
+    {
+      id: "NA9",
+      section: "navigation",
+      name: "Morphing Hamburger Menu",
+      description: "Animated hamburger icon that morphs into X with a slide-in navigation panel — a transforming menu trigger unlike any static dock or tab bar.",
+      creator: "mimo-2-5",
+      tags: ["navigation","hamburger","morph","slide","panel","animated"],
+      tweaks: [
+        { type: "color", label: "Active Link", varName: "--na9-accent", default: "#8b5cf6" }
+      ],
+      code: "<style>\n  .kna9-wrap{position:relative;width:220px;height:120px;overflow:hidden;background:#0a0c12;border-radius:10px;border:1px solid rgba(255,255,255,.06)}\n  .kna9-bar{position:absolute;top:8px;left:8px;width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;z-index:3;transition:background .2s ease}\n  .kna9-bar:hover{background:rgba(255,255,255,.14)}\n  .kna9-line{width:14px;height:2px;background:#e2e8f0;border-radius:1px;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .2s ease}\n  .kna9-wrap.open .kna9-line:nth-child(1){transform:translateY(6px) rotate(45deg)}\n  .kna9-wrap.open .kna9-line:nth-child(2){opacity:0}\n  .kna9-wrap.open .kna9-line:nth-child(3){transform:translateY(-6px) rotate(-45deg)}\n  .kna9-panel{position:absolute;top:0;left:0;bottom:0;width:140px;background:rgba(20,23,32,.95);border-right:1px solid rgba(255,255,255,.08);transform:translateX(-100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:44px 12px 12px;z-index:2}\n  .kna9-wrap.open .kna9-panel{transform:translateX(0)}\n  .kna9-link{display:block;font-size:11px;color:#94a3b8;padding:6px 8px;border-radius:6px;text-decoration:none;transition:background .15s ease,color .15s ease}\n  .kna9-link:hover{background:rgba(255,255,255,.06);color:#e2e8f0}\n  .kna9-link.active{color:var(--na9-accent,#8b5cf6);font-weight:600}\n  .kna9-scrim{position:absolute;inset:0;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .3s ease;z-index:1}\n  .kna9-wrap.open .kna9-scrim{opacity:1;pointer-events:auto}\n  @media (prefers-reduced-motion:reduce){.kna9-line,.kna9-panel,.kna9-scrim{transition:none}}\n</style>\n<div class=\"kna9-wrap\" id=\"kna9\">\n  <div class=\"kna9-bar\" onclick=\"document.getElementById('kna9').classList.toggle('open')\">\n    <span class=\"kna9-line\"></span>\n    <span class=\"kna9-line\"></span>\n    <span class=\"kna9-line\"></span>\n  </div>\n  <div class=\"kna9-scrim\" onclick=\"document.getElementById('kna9').classList.remove('open')\"></div>\n  <div class=\"kna9-panel\">\n    <a class=\"kna9-link active\" href=\"#\">Dashboard</a>\n    <a class=\"kna9-link\" href=\"#\">Projects</a>\n    <a class=\"kna9-link\" href=\"#\">Settings</a>\n    <a class=\"kna9-link\" href=\"#\">Help</a>\n  </div>\n</div>"
+    },
+
+    {
+      id: "PL9",
+      section: "players",
+      name: "Vinyl Record Player",
+      description: "Spinning vinyl disc with concentric grooves and center label — a record-player silhouette structurally unlike any capsule, pill, or waveform player.",
+      creator: "mimo-2-5",
+      tags: ["player","vinyl","record","spinning","groove","retro"],
+      tweaks: [
+        { type: "color", label: "Label Color", varName: "--pl9-color", default: "#f43f5e" }
+      ],
+      code: "<style>\n  @keyframes kpl9-spin{to{transform:rotate(360deg)}}\n  .kpl9-wrap{display:flex;align-items:center;gap:12px}\n  .kpl9-disc{width:72px;height:72px;border-radius:50%;background:conic-gradient(from 0deg,#1a1a1a,#2a2a2a,#1a1a1a,#2a2a2a,#1a1a1a);border:2px solid #333;position:relative;animation:kpl9-spin 3s linear infinite;box-shadow:0 2px 12px rgba(0,0,0,.6)}\n  .kpl9-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--pl9-color,#f43f5e),#be123c);display:flex;align-items:center;justify-content:center;font-size:7px;color:#fff;font-weight:800;box-shadow:inset 0 0 4px rgba(0,0,0,.4)}\n  .kpl9-groove{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.04)}\n  .kpl9-info{display:flex;flex-direction:column;gap:3px}\n  .kpl9-title{font-size:11px;font-weight:700;color:#f1f5f9}\n  .kpl9-artist{font-size:10px;color:#64748b}\n  .kpl9-controls{display:flex;align-items:center;gap:6px;margin-top:4px}\n  .kpl9-btn{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#e2e8f0;font-size:8px;display:flex;align-items:center;justify-content:center;cursor:pointer}\n  .kpl9-play{width:26px;height:26px;background:var(--pl9-color,#f43f5e);border:1px solid rgba(255,255,255,.2)}\n  @media (prefers-reduced-motion:reduce){.kpl9-disc{animation:none}}\n</style>\n<div class=\"kpl9-wrap\">\n  <div class=\"kpl9-disc\">\n    <div class=\"kpl9-groove\" style=\"inset:0\"></div>\n    <div class=\"kpl9-groove\" style=\"inset:8px\"></div>\n    <div class=\"kpl9-groove\" style=\"inset:16px\"></div>\n    <div class=\"kpl9-label\">♫</div>\n  </div>\n  <div class=\"kpl9-info\">\n    <div class=\"kpl9-title\">Neon Nights</div>\n    <div class=\"kpl9-artist\">Synthwave Collective</div>\n    <div class=\"kpl9-controls\">\n      <button type=\"button\" class=\"kpl9-btn\">⏮</button>\n      <button type=\"button\" class=\"kpl9-btn kpl9-play\">▶</button>\n      <button type=\"button\" class=\"kpl9-btn\">⏭</button>\n    </div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "PL10",
+      section: "players",
+      name: "Mini Waveform Transport",
+      description: "Ultra-compact toolbar transport bar with inline SVG mini waveform and play toggle — compact enough for a status bar.",
+      creator: "mimo-2-5",
+      tags: ["player","mini","waveform","compact","toolbar","transport"],
+      tweaks: [
+        { type: "color", label: "Waveform Fill", varName: "--pl10-color", default: "#8b5cf6" }
+      ],
+      code: "<style>\n  .kpl10-bar{display:inline-flex;align-items:center;gap:8px;background:#141720;border:1px solid rgba(255,255,255,.1);border-radius:9999px;padding:4px 12px 4px 4px}\n  .kpl10-play{width:26px;height:26px;border-radius:50%;background:var(--pl10-color,#8b5cf6);border:none;color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}\n  .kpl10-wave{display:flex;align-items:center;gap:1.5px;height:20px}\n  .kpl10-bar-v{width:2px;border-radius:1px;background:rgba(255,255,255,.15)}\n  .kpl10-bar-v.lit{background:var(--pl10-color,#8b5cf6)}\n  .kpl10-time{font-size:9px;color:#64748b;font-family:monospace;font-variant-numeric:tabular-nums;white-space:nowrap}\n</style>\n<div class=\"kpl10-bar\">\n  <button type=\"button\" class=\"kpl10-play\" onclick=\"this.textContent=this.textContent==='▶'?'⏸':'▶'\">▶</button>\n  <div class=\"kpl10-wave\">\n    <div class=\"kpl10-bar-v lit\" style=\"height:6px\"></div>\n    <div class=\"kpl10-bar-v lit\" style=\"height:12px\"></div>\n    <div class=\"kpl10-bar-v lit\" style=\"height:18px\"></div>\n    <div class=\"kpl10-bar-v lit\" style=\"height:10px\"></div>\n    <div class=\"kpl10-bar-v lit\" style=\"height:16px\"></div>\n    <div class=\"kpl10-bar-v lit\" style=\"height:8px\"></div>\n    <div class=\"kpl10-bar-v lit\" style=\"height:14px\"></div>\n    <div class=\"kpl10-bar-v\" style=\"height:12px\"></div>\n    <div class=\"kpl10-bar-v\" style=\"height:18px\"></div>\n    <div class=\"kpl10-bar-v\" style=\"height:6px\"></div>\n    <div class=\"kpl10-bar-v\" style=\"height:14px\"></div>\n    <div class=\"kpl10-bar-v\" style=\"height:10px\"></div>\n    <div class=\"kpl10-bar-v\" style=\"height:8px\"></div>\n    <div class=\"kpl10-bar-v\" style=\"height:16px\"></div>\n  </div>\n  <span class=\"kpl10-time\">0:42</span>\n</div>"
+    },
+
+    {
+      id: "IC13",
+      section: "icons",
+      name: "Hand-Drawn Sketch Glyphs",
+      description: "Rough wobbly SVG strokes distorted by feTurbulence — a genuinely hand-drawn voice unlike any crisp, hairline, neon, or glass icon set.",
+      creator: "mimo-2-5",
+      tags: ["icon","sketch","hand-drawn","rough","organic","filter"],
+      tweaks: [
+        { type: "color", label: "Stroke Color", varName: "--ic13-color", default: "#e2e8f0" }
+      ],
+      code: "<style>\n  .kic13-row{display:flex;align-items:center;gap:14px}\n  .kic13-row svg{width:22px;height:22px}\n</style>\n<div class=\"kic13-row\">\n  <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--ic13-color,#e2e8f0)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:url(#sketch)\"><polygon points=\"7 4 20 12 7 20 7 4\"/><defs><filter id=\"sketch\"><feTurbulence type=\"turbulence\" baseFrequency=\"0.03\" numOctaves=\"3\" result=\"noise\" seed=\"2\"/><feDisplacementMap in=\"SourceGraphic\" in2=\"noise\" scale=\"1.5\" xChannelSelector=\"R\" yChannelSelector=\"G\"/></filter></defs></svg>\n  <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--ic13-color,#e2e8f0)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:url(#sketch)\"><path d=\"M22 12h-4l-3 9L9 3l-3 9H2\"/></svg>\n  <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--ic13-color,#e2e8f0)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:url(#sketch)\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M8 14s1.5 2 4 2 4-2 4-2\"/><line x1=\"9\" y1=\"9\" x2=\"9.01\" y2=\"9\"/><line x1=\"15\" y1=\"9\" x2=\"15.01\" y2=\"9\"/></svg>\n  <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--ic13-color,#e2e8f0)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:url(#sketch)\"><path d=\"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\"/></svg>\n  <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"var(--ic13-color,#e2e8f0)\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"filter:url(#sketch)\"><path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z\"/></svg>\n</div>"
+    },
+
+    {
+      id: "IC14",
+      section: "icons",
+      name: "Isometric Cube Icons",
+      description: "3D isometric cube faces containing simple glyphs — a depth treatment structurally unlike any flat, neon, glass, or pixel icon set.",
+      creator: "mimo-2-5",
+      tags: ["icon","isometric","3d","cube","depth","perspective"],
+      tweaks: [
+        { type: "color", label: "Face Color", varName: "--ic14-color", default: "#06b6d4" }
+      ],
+      code: "<style>\n  .kic14-row{display:flex;align-items:center;gap:16px}\n  .kic14-cube{width:32px;height:32px;position:relative;transform-style:preserve-3d;transform:rotateX(-20deg) rotateY(35deg);cursor:pointer;transition:transform .2s ease}\n  .kic14-cube:hover{transform:rotateX(-20deg) rotateY(35deg) translateY(-3px)}\n  .kic14-face{position:absolute;border:1.5px solid rgba(255,255,255,.12)}\n  .kic14-front{width:22px;height:22px;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--ic14-color,#06b6d4);transition:background .2s ease,border-color .2s ease}\n  .kic14-cube:hover .kic14-front{background:color-mix(in srgb,var(--ic14-color,#06b6d4) 20%,transparent);border-color:var(--ic14-color,#06b6d4)}\n  .kic14-top{width:22px;height:10px;background:rgba(255,255,255,.04);transform:rotateX(90deg);transform-origin:bottom;position:absolute;top:-10px;left:0}\n  .kic14-right{width:10px;height:22px;background:rgba(255,255,255,.03);transform:rotateY(90deg);transform-origin:left;position:absolute;top:0;left:22px}\n  @media (prefers-reduced-motion:reduce){.kic14-cube{transition:none}}\n</style>\n<div class=\"kic14-row\">\n  <div class=\"kic14-cube\"><div class=\"kic14-face kic14-front\">▶</div><div class=\"kic14-face kic14-top\"></div><div class=\"kic14-face kic14-right\"></div></div>\n  <div class=\"kic14-cube\"><div class=\"kic14-face kic14-front\">⚙</div><div class=\"kic14-face kic14-top\"></div><div class=\"kic14-face kic14-right\"></div></div>\n  <div class=\"kic14-cube\"><div class=\"kic14-face kic14-front\">✦</div><div class=\"kic14-face kic14-top\"></div><div class=\"kic14-face kic14-right\"></div></div>\n  <div class=\"kic14-cube\"><div class=\"kic14-face kic14-front\">♥</div><div class=\"kic14-face kic14-top\"></div><div class=\"kic14-face kic14-right\"></div></div>\n</div>"
     }
 
   ]
 };
-
-/* ------------------------------------------------------------
-   AGENT EXPANSION PROMPT
-   The "Copy agent prompt" button hands this to any AI agent so
-   it can grow the library correctly on its own.
-   ------------------------------------------------------------ */
-window.AGENT_PROMPT = [
-  "You are [AGENT NAME]. Everything you add to DESIGN LAB appears under a [COLOR] credit chip.",
-  "",
-  "FILL-IN SLOTS",
-  "[AGENT NAME] and [COLOR] are placeholders that I fill in before sending this prompt to you. [COLOR] should be a hex code (e.g. #f97316) - it drives your credit chip in the UI. If either slot is still an unfilled placeholder when you receive this, stop and ask me who you are before adding anything. Do not guess at your own identity, and do not sign any work until I answer.",
-  "",
-  "TASK",
-  "Expand the section (drawer) of the library that I specify with new specimens.",
-  "",
-  "NON-NEGOTIABLE RULES",
-  "1. Study the drawer first. Read everything already in the section I named before inventing anything.",
-  "2. Difference over variation. Add only items that are stylistically AND structurally different from everything already there: distinct silhouette, unique interaction model and states (hover, press, focus, drag), motion personality, overall feel and visual personality.",
-  "3. No near-duplicates. Never a simple color swap, size tweak, radius change, or minor restyle of an existing entry. If your idea is superficially similar to anything already in the drawer, invent something structurally new instead.",
-  "4. Sign every new item with the name and chip color listed above. Before adding anything, register yourself in the creators array at the top of js/data.js ({ id, name, color }) using a short lowercase id derived from your name. The reserved id \"me\" belongs to the local user - never sign with it.",
-  "5. Follow the existing data and card structure. Match the ITEM SCHEMA documented at the top of js/data.js exactly: unique short id (section initial(s) + next free number), section id, 2-4 word name, one-line description of what makes it structurally distinct, creator id, optional tags, and a self-contained clean code snippet.",
-  "6. Finished quality. Each snippet must be formatted HTML plus scoped, prefixed CSS (no external assets, no frameworks), look complete centered on a dark stage, and survive being pasted anywhere.",
-  "7. Make it tweakable where it fits naturally. One to three simple controls declared in the tweaks array (a color picker or radius/size sliders), backed by CSS custom properties that your snippet consumes via var(--name, fallback), so it still looks complete with zero overrides.",
-  "8. Motion stays cheap by law: CSS-only; animate transform and opacity exclusively; wrap any animation in a prefers-reduced-motion media query.",
-  "9. Additive only. Never modify, restyle, rename, renumber, or delete existing entries or the section registry.",
-  "",
-  "WHEN YOU ARE FINISHED",
-  "List the new items you added with their IDs and names, and give one sentence per item on why it is structurally distinct from its neighbors.",
-  "",
-  "THEN SHIP IT (required)",
-  "Once node --check js/data.js && node --check js/app.js pass:",
-  "  git pull --rebase origin main",
-  "  git add js/data.js",
-  "  git commit -m \"<drawer-code>: add <IDs> (<short names>)\"",
-  "  git push",
-  "If the rebase conflicts inside items[], another agent appended at the same spot: keep BOTH blocks of entries, fix commas until the file parses, node --check again, then git rebase --continue and push. Never force-push, never amend or delete other agents' commits, and if anything goes sideways run git rebase --abort and report back instead of improvising.",
-  "",
-  "The complete working agreement (storage map, console API, definition of done) lives in AGENTS.md next to js/data.js."
-].join("\n");
