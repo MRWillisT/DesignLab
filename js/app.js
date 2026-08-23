@@ -994,7 +994,8 @@ function buildGroupHeader(sec, count) {
     '<span class="group-index">DRAWER ' + drawerNumber(sec.id) + '</span>'
     + '<h2>' + escapeHtml(sec.name) + '</h2>'
     + '<span class="group-rule"></span>'
-    + '<span class="group-count">' + count + ' specimen' + (count === 1 ? '' : 's') + '</span>';
+    + '<span class="group-count">' + count + ' specimen' + (count === 1 ? '' : 's') + '</span>'
+    + '<span class="drawer-top3" data-section="' + escapeHtml(sec.id) + '"></span>';
   return head;
 }
 
@@ -1139,7 +1140,8 @@ function buildCarouselRow(sec, items) {
     '<span class="group-index">DRAWER ' + drawerNumber(sec.id) + '</span>'
     + '<h2>' + escapeHtml(sec.name) + '</h2>'
     + '<span class="group-rule"></span>'
-    + '<span class="group-count">' + items.length + ' specimen' + (items.length === 1 ? '' : 's') + '</span>';
+    + '<span class="group-count">' + items.length + ' specimen' + (items.length === 1 ? '' : 's') + '</span>'
+    + '<span class="drawer-top3" data-section="' + escapeHtml(sec.id) + '"></span>';
 
   const nav = document.createElement('div');
   nav.className = 'carousel-nav-btns';
@@ -1236,6 +1238,7 @@ function render() {
 
   renderStats(items.length);
   main.appendChild(frag);
+  refreshDrawerTop3();
 }
 
 /* ---------- actions ---------- */
@@ -1279,6 +1282,28 @@ function refreshAllVoteButtons() {
   });
 }
 
+function refreshDrawerTop3() {
+  $$('.drawer-top3').forEach(el => {
+    const secId = el.dataset.section;
+    if (!secId) return;
+    const top = allItems()
+      .filter(it => it.section === secId && DesignLabVotes.countOf(it.id) > 0)
+      .sort((a, b) => DesignLabVotes.countOf(b.id) - DesignLabVotes.countOf(a.id))
+      .slice(0, 3);
+    if (!top.length) {
+      el.hidden = true;
+      el.textContent = '';
+      return;
+    }
+    el.hidden = false;
+    el.title = 'Top voted in this drawer';
+    el.innerHTML = top.map(it =>
+      '<span class="dt3-id">' + escapeHtml(it.id) + '</span>'
+      + '<span class="dt3-v">' + DesignLabVotes.countOf(it.id) + '</span>'
+    ).join('');
+  });
+}
+
 async function toggleVote(item, btn) {
   const res = await DesignLabVotes.toggle(item);
   if (res.ok) {
@@ -1288,6 +1313,8 @@ async function toggleVote(item, btn) {
     toast(res.voted ? 'Upvoted #' + item.id + ' ▲' : 'Removed upvote for #' + item.id);
   } else if (res.reason === 'unconfigured') {
     toast('Votes aren\u2019t wired up yet — paste your Supabase anon key into js/supabase-config.js.');
+  } else if (res.reason === 'cap') {
+    toast('Daily vote limit reached (' + DesignLabVotes.DAILY_CAP + ' per 24h) — come back tomorrow.');
   } else {
     toast('Vote failed — ' + res.reason);
   }
@@ -1320,8 +1347,10 @@ function renderLeaderboard() {
   const list = $('#boardList');
   const empty = $('#boardEmpty');
   const totalEl = $('#boardTotalVotes');
+  const dayEl = $('#boardDayLeft');
   if (!list) return;
   if (totalEl) totalEl.textContent = DesignLabVotes.total();
+  if (dayEl) dayEl.textContent = DesignLabVotes.votesLeftToday();
 
   let rows = [];
   if (boardTab === 'specimens') {
@@ -1962,6 +1991,7 @@ function init() {
   if (window.DesignLabVotes) {
     DesignLabVotes.onChange(() => {
       refreshAllVoteButtons();
+      refreshDrawerTop3();
       if (boardOpen) renderLeaderboard();
       if (state.sort === 'top') render();
     });

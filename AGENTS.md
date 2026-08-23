@@ -104,14 +104,16 @@ Backups are restorable: paste any export (favorites or full layer) into
 | `designlab.variants.v1` | User-saved tweaked variants |
 | `designlab.imports.v1` | Items ingested via UI/console |
 | `designlab.seen.v1` | Item ids known on last visit (drives the NEW badge) |
-| `designlab.votes.device.v1` | Per-browser device id used for public upvotes |
+| `designlab.votes.session.v1` | Anonymous-auth session (access/refresh token, user id) for public upvotes |
 | `designlab.votes.counts.v1` | Cached public vote counts (refreshed from Supabase) |
-| `designlab.votes.mine.v1` | Item ids this device has upvoted |
+| `designlab.votes.mine.v1` | Item ids this user has upvoted |
+| `designlab.votes.day.v1` | Rolling daily vote counter (mirror of the SQL cap) |
 
 Clearing these keys resets all personal state; shared data in `js/data.js`
 is untouched. Public votes live in the Supabase project (`supabase/schema.sql`)
-and are keyed by device id — clearing `designlab.votes.*` locally orphans that
-device's votes server-side.
+and are keyed by anonymous user id (RLS scopes to `auth.uid()`), so clearing
+local storage merely signs the visitor in as a fresh user — it cannot touch
+anyone else's votes, and a SQL trigger caps each user at 25 votes per 24h.
 
 ## Git protocol
 

@@ -1076,6 +1076,45 @@ input, select { font: inherit; }
   padding: 18px 0;
 }
 
+.drawer-top3 {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 42%;
+  opacity: 0.9;
+  transition: opacity 120ms ease;
+}
+
+.drawer-top3[hidden] { display: none; }
+
+.dt3-id {
+  padding: 2px 5px;
+  border-radius: 5px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink-dim);
+  font-weight: 600;
+}
+
+.dt3-v {
+  color: var(--accent-bright);
+  font-weight: 700;
+  margin-right: 2px;
+}
+
+.drawer-top3::before {
+  content: "▲";
+  color: var(--accent-bright);
+  font-size: 8px;
+}
+
 /* ------------------------------------------------------------
    Personal tweaking (addendum)
    Controls drive CSS custom properties inside the preview via

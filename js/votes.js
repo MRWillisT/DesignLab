@@ -1,10 +1,14 @@
-/* Design Lab — public upvotes & leaderboard engine.
-   Talks to Supabase PostgREST directly via fetch (no SDK, works over
-   file:// too). Identity = a per-browser device id in localStorage,
-   so one vote per device per specimen. Counts are cached locally and
-   refreshed from the server; optimistic toggling keeps the UI snappy
-   and rolls back if the network call fails. If SUPABASE_CONFIG is not
-   wired up yet, every method degrades to a no-op / zero counts. */
+/* Design Lab — public upvotes & leaderboard engine (v2: per-user identity).
+   Talks to Supabase PostgREST via fetch (no SDK, works over file:// too).
+   Each visitor signs in anonymously (Auth /v1/signup) and gets a real
+   server-side user id, so RLS scopes reads/deletes to auth.uid() — clearing
+   browser storage cannot resurrect old votes or touch someone else's.
+
+   A daily cap (25 votes per rolling 24h) is enforced twice: server-side by
+   the votes_daily_cap trigger in supabase/schema.sql, and mirrored here so
+   the UI can warn before the server rejects. Toggling is optimistic with
+   rollback. If SUPABASE_CONFIG is not wired up yet, everything degrades to
+   a no-op / zero counts. */
 
 window.DesignLabVotes = (function () {
   'use strict';
@@ -13,14 +17,17 @@ window.DesignLabVotes = (function () {
   const BASE = (CFG.url || '').replace(/\/+$/, '');
   const KEY = CFG.anonKey || '';
 
-  const LS_DEVICE = 'designlab.votes.device.v1';
+  const DAILY_CAP = 25;
+  const LS_SESSION = 'designlab.votes.session.v1';
   const LS_COUNTS = 'designlab.votes.counts.v1';
   const LS_MINE = 'designlab.votes.mine.v1';
+  const LS_DAY = 'designlab.votes.day.v1';
 
   let counts = new Map();   // itemId -> vote count
-  let mine = new Set();     // item ids this device has upvoted
+  let mine = new Set();     // item ids this user has upvoted
   let ready = false;
   const subs = new Set();   // change listeners
+  let session = null;       // { access_token, refresh_token, expires_at, user_id }
 
   /* ---------- helpers ---------- */
 
@@ -28,24 +35,9 @@ window.DesignLabVotes = (function () {
     return !!(BASE && KEY);
   }
 
-  function deviceId() {
-    try {
-      let d = localStorage.getItem(LS_DEVICE);
-      if (!d) {
-        d = (crypto && crypto.randomUUID)
-          ? crypto.randomUUID()
-          : 'd' + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
-        localStorage.setItem(LS_DEVICE, d);
-      }
-      return d;
-    } catch (e) {
-      return 'anon';
-    }
-  }
-
   function authHeaders() {
     const h = { apikey: KEY, 'Content-Type': 'application/json' };
-    if (configured()) h['x-device-id'] = deviceId();
+    if (session && session.access_token) h['Authorization'] = 'Bearer ' + session.access_token;
     return h;
   }
 
@@ -56,6 +48,91 @@ window.DesignLabVotes = (function () {
 
   function onChange(fn) { subs.add(fn); return () => subs.delete(fn); }
   function emit() { subs.forEach(fn => { try { fn(); } catch (e) { /* never let a listener break the app */ } }); }
+
+  /* ---------- anonymous auth session ---------- */
+
+  function loadSession() {
+    try {
+      const s = JSON.parse(localStorage.getItem(LS_SESSION) || 'null');
+      if (s && s.access_token && s.user_id) session = s;
+    } catch (e) { /* ignore */ }
+  }
+
+  function saveSession() {
+    try { localStorage.setItem(LS_SESSION, JSON.stringify(session)); } catch (e) { /* ignore */ }
+  }
+
+  function clearSession() {
+    session = null;
+    try { localStorage.removeItem(LS_SESSION); } catch (e) { /* ignore */ }
+  }
+
+  async function ensureSession() {
+    if (session && session.access_token && session.user_id && session.expires_at > Date.now()) return true;
+    // Try refreshing an expired session first.
+    if (session && session.refresh_token) {
+      try {
+        const res = await fetch(BASE + '/auth/v1/token?grant_type=refresh_token', {
+          method: 'POST',
+          headers: { apikey: KEY, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ refresh_token: session.refresh_token })
+        });
+        if (res.ok) {
+          const j = await res.json();
+          session = {
+            access_token: j.access_token,
+            refresh_token: j.refresh_token || session.refresh_token,
+            expires_at: Date.now() + ((j.expires_in || 3600) * 1000),
+            user_id: (j.user && j.user.id) || session.user_id
+          };
+          saveSession();
+          return true;
+        }
+      } catch (e) { /* fall through to fresh signup */ }
+      clearSession();
+    }
+    // Anonymous signup — creates a real user id server-side.
+    const res = await fetch(BASE + '/auth/v1/signup', {
+      method: 'POST',
+      headers: { apikey: KEY, 'Content-Type': 'application/json' },
+      body: '{}'
+    });
+    if (!res.ok) throw new Error('anon signup ' + res.status);
+    const j = await res.json();
+    session = {
+      access_token: j.access_token,
+      refresh_token: j.refresh_token,
+      expires_at: Date.now() + ((j.expires_in || 3600) * 1000),
+      user_id: j.user && j.user.id
+    };
+    saveSession();
+    return true;
+  }
+
+  /* ---------- daily cap (client mirror of the SQL trigger) ---------- */
+
+  function todayKey() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function dayState() {
+    try {
+      const d = JSON.parse(localStorage.getItem(LS_DAY) || 'null');
+      if (d && d.date === todayKey() && typeof d.count === 'number') return d;
+    } catch (e) { /* ignore */ }
+    return { date: todayKey(), count: 0 };
+  }
+
+  function votesLeftToday() {
+    if (!configured()) return 0;
+    return Math.max(0, DAILY_CAP - dayState().count);
+  }
+
+  function bumpDay(delta) {
+    const d = dayState();
+    d.count = Math.max(0, d.count + delta);
+    try { localStorage.setItem(LS_DAY, JSON.stringify(d)); } catch (e) { /* ignore */ }
+  }
 
   /* ---------- persistence ---------- */
 
@@ -82,8 +159,9 @@ window.DesignLabVotes = (function () {
   }
 
   async function loadMine() {
-    const dev = encodeURIComponent(deviceId());
-    const res = await fetch(BASE + '/rest/v1/votes?select=item_id&device_id=eq.' + dev, { headers: authHeaders() });
+    if (!session || !session.user_id) return;
+    const uid = encodeURIComponent(session.user_id);
+    const res = await fetch(BASE + '/rest/v1/votes?select=item_id&user_id=eq.' + uid, { headers: authHeaders() });
     if (!res.ok) throw new Error('mine ' + res.status);
     const rows = await res.json();
     mine = new Set((rows || []).map(r => r.item_id));
@@ -94,6 +172,7 @@ window.DesignLabVotes = (function () {
     loadCached();
     if (!configured()) { emit(); return; }
     try {
+      await ensureSession();
       await Promise.all([loadCounts(), loadMine()]);
       ready = true;
     } catch (e) {
@@ -103,13 +182,16 @@ window.DesignLabVotes = (function () {
   }
 
   /* Toggle an upvote on/off for one specimen. Returns { ok, voted, reason }.
-     Optimistic: flips local state immediately, then reconciles with the
-     server, rolling back on failure. */
+     Reasons: 'unconfigured' | 'cap' | network error message. Optimistic, with
+     rollback — and the server (trigger + RLS) is the final authority. */
   async function toggle(item) {
     if (!configured()) return { ok: false, reason: 'unconfigured' };
     const id = item.id;
     const wasVoted = mine.has(id);
 
+    if (!wasVoted && votesLeftToday() <= 0) return { ok: false, reason: 'cap' };
+
+    // optimistic flip
     if (wasVoted) {
       mine.delete(id);
       counts.set(id, Math.max(0, countOf(id) - 1));
@@ -120,21 +202,35 @@ window.DesignLabVotes = (function () {
     saveCounts(); saveMine(); emit();
 
     try {
+      await ensureSession();
+      if (!session || !session.user_id) throw new Error('no session');
+
       if (wasVoted) {
         const q = 'item_id=eq.' + encodeURIComponent(id)
-          + '&device_id=eq.' + encodeURIComponent(deviceId());
-        await fetch(BASE + '/rest/v1/votes?' + q, { method: 'DELETE', headers: authHeaders() });
+          + '&user_id=eq.' + encodeURIComponent(session.user_id);
+        const res = await fetch(BASE + '/rest/v1/votes?' + q, { method: 'DELETE', headers: authHeaders() });
+        if (res.status !== 204 && !res.ok) throw new Error('delete ' + res.status);
+        bumpDay(-1);
       } else {
-        await fetch(BASE + '/rest/v1/votes', {
+        const res = await fetch(BASE + '/rest/v1/votes', {
           method: 'POST',
           headers: authHeaders(),
-          body: JSON.stringify({ item_id: id, creator_id: item.creator || '', device_id: deviceId() })
+          body: JSON.stringify({ item_id: id, creator_id: item.creator || '' })
         });
+        if (res.status === 400) {
+          // the SQL trigger rejected the insert (daily cap)
+          throw { cap: true };
+        }
+        if (!res.ok && res.status !== 201 && res.status !== 200) {
+          throw new Error('vote ' + res.status);
+        }
+        bumpDay(1);
       }
       await loadCounts(); // re-sync the authoritative count
       emit();
       return { ok: true, voted: !wasVoted };
     } catch (e) {
+      // rollback
       if (wasVoted) {
         mine.add(id);
         counts.set(id, countOf(id) + 1);
@@ -143,13 +239,14 @@ window.DesignLabVotes = (function () {
         counts.set(id, Math.max(0, countOf(id) - 1));
       }
       saveCounts(); saveMine(); emit();
-      return { ok: false, reason: String((e && e.message) || e) };
+      return { ok: false, reason: e && e.cap ? 'cap' : String((e && e.message) || e) };
     }
   }
 
   return {
     configured, isReady, init, toggle,
     countOf, voted, onChange, total,
+    votesLeftToday, DAILY_CAP,
     countsMap: () => counts,
     mineSet: () => mine
   };
