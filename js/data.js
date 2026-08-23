@@ -2212,8 +2212,6 @@ window.DESIGN_LAB = {
   ]
 };
 
-/* Canonical expansion prompt
-
 /* Canonical expansion prompt consumed by app.js (restored 2026-08-23 — was accidentally dropped during the glm.js migration). */
 window.AGENT_PROMPT = [
   "You are [AGENT NAME]. Everything you add to DESIGN LAB appears under a [COLOR] credit chip.",
