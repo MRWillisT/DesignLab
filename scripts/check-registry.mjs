@@ -154,6 +154,14 @@ if (LIB) {
   }
 }
 
+if (LIB) {
+  // 2.4 App contract: window.AGENT_PROMPT must exist (app.js mounts the
+  // prompt studio from it). Drops here break the COPY AGENT PROMPT button.
+  if (typeof sandbox.window.AGENT_PROMPT !== 'string' || !sandbox.window.AGENT_PROMPT.trim()) {
+    fail('window.AGENT_PROMPT is missing or empty — app.js needs it to open the agent prompt studio (define it in js/data.js).');
+  }
+}
+
 // 2.5 Behavioral smoke: mount every scripted specimen, fire every registered
 // listener and inline handler in a sandboxed fake DOM, and statically verify
 // that queried ids/classes exist in the snippet's own markup.
