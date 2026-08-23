@@ -1025,6 +1025,67 @@ function pushVars(frame, vars) {
   try { frame.contentWindow.postMessage({ type: 'dl-vars', vars: vars }, '*'); } catch (e) { /* frame not ready */ }
 }
 
+/* ---------- lazy stage frames ----------
+   Stage iframes start empty and only receive their srcdoc document when they
+   near the viewport. srcdoc iframes ignore loading="lazy" (there is no
+   network request to defer), so without this every specimen document would
+   initialize at once and first paint crawls. A rect sweep runs a beat after
+   scrolling settles (never during scroll, so no layout-thrash jank) and loads
+   every frame within a 400px margin. Docs are cached per item + canvas +
+   tweak state, and built with the CURRENT canvas at load time so a canvas
+   switch is never stale for frames that load later. */
+const stageDocCache = new Map();
+const pendingStageFrames = new Map(); // frame element -> item
+let stageCheckTimer = 0;
+let stageCheckQueued = false;
+
+function stageDocFor(item) {
+  const hasTweaks = !!(item.tweaks && item.tweaks.length);
+  const key = item.id + '|' + state.canvas + (hasTweaks ? '|' + JSON.stringify(currentValues(item)) : '');
+  let doc = stageDocCache.get(key);
+  if (doc === undefined) {
+    doc = hasTweaks
+      ? previewDoc(String(item.code || ''), currentValues(item))
+      : previewDoc(String(item.code || ''));
+    stageDocCache.set(key, doc);
+  }
+  return doc;
+}
+
+function loadNearbyStages() {
+  const vh = window.innerHeight || document.documentElement.clientHeight || 0;
+  const margin = 400;
+  for (const [frame, item] of pendingStageFrames) {
+    if (!frame.isConnected) {
+      pendingStageFrames.delete(frame);
+      continue;
+    }
+    const r = frame.getBoundingClientRect();
+    if (r.top < vh + margin && r.bottom > -margin) {
+      frame.srcdoc = stageDocFor(item);
+      pendingStageFrames.delete(frame);
+    }
+  }
+}
+
+function scheduleStageCheck() {
+  if (stageCheckQueued) return;
+  stageCheckQueued = true;
+  clearTimeout(stageCheckTimer);
+  stageCheckTimer = setTimeout(() => {
+    stageCheckQueued = false;
+    loadNearbyStages();
+  }, 140);
+}
+
+function deferStageLoad(frame, item) {
+  pendingStageFrames.set(frame, item);
+  scheduleStageCheck();
+}
+
+document.addEventListener('scroll', scheduleStageCheck, true);
+window.addEventListener('resize', scheduleStageCheck);
+
 /* ---------- personal tweaking ---------- */
 
 function formatVal(tweak, value) {
@@ -1311,9 +1372,7 @@ function buildCard(item) {
     + '</footer>';
 
   const frame = $('.stage-frame', card);
-  frame.srcdoc = hasTweaks
-    ? previewDoc(String(item.code || ''), currentValues(item))
-    : previewDoc(String(item.code || ''));
+  deferStageLoad(frame, item);
 
   $('.inspect-btn', card).addEventListener('click', () => openInspectModal(item));
   $('.stage', card).addEventListener('dblclick', () => openInspectModal(item));
