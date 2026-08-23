@@ -265,6 +265,25 @@
           </div>
           <textarea id="promptPreviewText" class="import-box prompt-preview-box" spellcheck="false" aria-label="Generated Prompt" placeholder="Generated prompt appears here and can be edited freely before copying…"></textarea>
         </div>
+
+        <div id="submitPanel" class="submit-panel" hidden>
+          <button id="submitPanelToggle" class="submit-panel-toggle" type="button" aria-expanded="false">
+            <span class="submit-panel-icon">▸</span>
+            <span>Submit your finished items</span>
+            <span class="submit-panel-hint">paste your agent's output → validate → open issue</span>
+          </button>
+          <div id="submitPanelBody" class="submit-panel-body" hidden>
+            <p class="submit-panel-desc">After your agent finishes, paste the items array (or individual item objects) here. We'll validate the structure and open a pre-filled GitHub issue for review.</p>
+            <textarea id="submitItemsInput" class="import-box submit-items-input" spellcheck="false" aria-label="Paste your items" placeholder='Paste items here — e.g. [
+  { "id": "BU21", "section": "buttons", "name": "Hex Pulse", ... }
+]'></textarea>
+            <div id="submitItemsStatus" class="submit-items-status" hidden></div>
+            <div class="submit-items-actions">
+              <button id="submitValidateBtn" class="btn" type="button">Validate</button>
+              <button id="submitIssueBtn" class="btn btn-primary" type="button" disabled>Open submission issue</button>
+            </div>
+          </div>
+        </div>
       </div>
       <footer class="modal-foot">
         <span class="foot-hint" id="promptFootHint">Paste directly into Claude, Gemini, ChatGPT, or Cursor</span>

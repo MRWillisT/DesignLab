@@ -1866,6 +1866,95 @@ input, select { font: inherit; }
 }
 
 /* ------------------------------------------------------------
+   Submit panel (paste validated items → GitHub issue)
+   ------------------------------------------------------------ */
+
+.submit-panel {
+  margin-top: 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.submit-panel-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--panel-2);
+  border: none;
+  cursor: pointer;
+  font: 600 11px/1.4 var(--font-body);
+  color: var(--ink);
+  text-align: left;
+  transition: opacity 120ms ease;
+}
+
+.submit-panel-toggle:hover {
+  background: var(--panel);
+}
+
+.submit-panel-icon {
+  font-size: 10px;
+  color: var(--muted);
+  transition: transform 150ms ease;
+}
+
+.submit-panel-hint {
+  margin-left: auto;
+  font: 400 9.5px/1 var(--font-mono);
+  color: var(--muted);
+  letter-spacing: 0.03em;
+}
+
+.submit-panel-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.submit-panel-desc {
+  margin: 0;
+  font: 400 10.5px/1.5 var(--font-body);
+  color: var(--muted);
+}
+
+.submit-items-input {
+  min-height: 120px;
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+}
+
+.submit-items-status {
+  font: 500 10.5px/1.4 var(--font-body);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+}
+
+.submit-items-status--ok {
+  color: #4ade80;
+  border-color: rgba(74, 222, 128, 0.25);
+  background: rgba(74, 222, 128, 0.06);
+}
+
+.submit-items-status--err {
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.25);
+  background: rgba(248, 113, 113, 0.06);
+}
+
+.submit-items-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* ------------------------------------------------------------
    Back to top floating button
    ------------------------------------------------------------ */
 

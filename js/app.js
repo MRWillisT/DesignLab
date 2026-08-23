@@ -411,6 +411,7 @@ function enterAgentFlow() {
   $('#agentSelect').value = '_custom';
   $('#customAgentName').value = '';
   $('#promptSubmitBtn').hidden = false;
+  $('#submitPanel').hidden = false;
   $('#promptFootHint').textContent = 'Enter your agent\u2019s name, pick a chip color, copy the prompt — then open a submission issue.';
   updatePromptStudio({ isAgentSwitch: true, focusCustom: true });
 }
@@ -444,6 +445,122 @@ function openSubmissionIssue() {
     + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
   window.open(url, '_blank', 'noopener');
   toast('Submission issue opened — fill in your additions and hit submit.');
+}
+
+/* ---------- submit panel: paste validated items → GitHub issue ---------- */
+
+let validatedItems = null;
+
+function toggleSubmitPanel() {
+  const body = $('#submitPanelBody');
+  const toggle = $('#submitPanelToggle');
+  const expanded = toggle.getAttribute('aria-expanded') === 'true';
+  toggle.setAttribute('aria-expanded', String(!expanded));
+  body.hidden = expanded;
+  const icon = toggle.querySelector('.submit-panel-icon');
+  if (icon) icon.textContent = expanded ? '▸' : '▾';
+}
+
+function validateSubmitItems() {
+  const raw = $('#submitItemsInput').value.trim();
+  const status = $('#submitItemsStatus');
+  const submitBtn = $('#submitIssueBtn');
+
+  if (!raw) {
+    status.hidden = false;
+    status.className = 'submit-items-status submit-items-status--err';
+    status.textContent = 'Paste your items first.';
+    submitBtn.disabled = true;
+    validatedItems = null;
+    return;
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch (e) {
+    status.hidden = false;
+    status.className = 'submit-items-status submit-items-status--err';
+    status.textContent = 'Invalid JSON — ' + e.message;
+    submitBtn.disabled = true;
+    validatedItems = null;
+    return;
+  }
+
+  const items = Array.isArray(parsed) ? parsed : [parsed];
+  const errors = [];
+  const knownSections = new Set(LIB.sections.map(s => s.id));
+  const knownCreators = new Set(LIB.creators.map(c => c.id));
+
+  items.forEach((item, i) => {
+    const tag = item.id || '(item ' + (i + 1) + ')';
+    if (!item.id) errors.push(tag + ': missing id');
+    if (!item.section) errors.push(tag + ': missing section');
+    else if (!knownSections.has(item.section)) errors.push(tag + ': unknown section "' + item.section + '"');
+    if (!item.name) errors.push(tag + ': missing name');
+    if (!item.creator) errors.push(tag + ': missing creator');
+    else if (!knownCreators.has(item.creator)) errors.push(tag + ': creator "' + item.creator + '" not in registry (add yourself to creators[] first)');
+    if (!item.code || typeof item.code !== 'string') errors.push(tag + ': missing or invalid code');
+  });
+
+  if (errors.length) {
+    status.hidden = false;
+    status.className = 'submit-items-status submit-items-status--err';
+    status.innerHTML = errors.map(e => '⚠ ' + escapeHtml(e)).join('<br>');
+    submitBtn.disabled = true;
+    validatedItems = null;
+    return;
+  }
+
+  status.hidden = false;
+  status.className = 'submit-items-status submit-items-status--ok';
+  status.textContent = '✓ Valid — ' + items.length + ' item' + (items.length === 1 ? '' : 's') + ' ready to submit.';
+  submitBtn.disabled = false;
+  validatedItems = items;
+}
+
+function submitItemsAsIssue() {
+  if (!validatedItems) return;
+
+  const sel = $('#agentSelect');
+  let name = sel.value === '_custom' ? $('#customAgentName').value.trim() : (sel.selectedOptions[0] || {}).textContent || 'Agent';
+  if (!name) name = 'My Agent';
+  const color = $('#agentColorPicker').value || '#818cf8';
+  const prompt = $('#promptPreviewText').value;
+
+  const itemList = validatedItems.map(item => {
+    return '- **' + item.id + '** (' + item.section + '): ' + (item.name || '(unnamed)');
+  }).join('\n');
+
+  const body = [
+    '**Agent**: ' + name,
+    '**Chip color**: ' + color,
+    '**Items**: ' + validatedItems.length,
+    '',
+    '---',
+    '',
+    '### Items submitted',
+    itemList,
+    '',
+    '### Specimen code',
+    '```json',
+    JSON.stringify(validatedItems, null, 2),
+    '```',
+    '',
+    '### Prompt used',
+    '```',
+    prompt,
+    '```',
+    '',
+    'Read CONTRIBUTING.md for the submission rules — the CI gate validates every PR.',
+    'My fork branch is ready at: <paste your PR link here>'
+  ].join('\n');
+
+  const title = 'Agent entry: ' + name + ' (' + validatedItems.map(i => i.id).join(', ') + ')';
+  const url = 'https://github.com/MRWillisT/DesignLab/issues/new?title='
+    + encodeURIComponent(title) + '&body=' + encodeURIComponent(body);
+  window.open(url, '_blank', 'noopener');
+  toast('Submission issue opened with ' + validatedItems.length + ' validated item(s) — submit the issue on GitHub.');
 }
 
 function openPromptStudio() {
@@ -2160,6 +2277,9 @@ function init() {
   $('#promptCancel').addEventListener('click', closePromptStudio);
   $('#promptSubmitBtn').addEventListener('click', openSubmissionIssue);
   $('#promptCopyRun').addEventListener('click', ev => copyPromptStudio(ev.currentTarget));
+  $('#submitPanelToggle').addEventListener('click', toggleSubmitPanel);
+  $('#submitValidateBtn').addEventListener('click', validateSubmitItems);
+  $('#submitIssueBtn').addEventListener('click', submitItemsAsIssue);
   $('#promptOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closePromptStudio();
   });
