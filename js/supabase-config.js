@@ -4,6 +4,6 @@
    The anon key is safe to ship in client code (it is public by design);
    row-level security in supabase/schema.sql is what actually protects data. */
 window.SUPABASE_CONFIG = {
-  url: "https://pdryncglslkmwgqwfosi.supabase.com",
-  anonKey: "" // ← paste your anon/public key here
+  url: "https://pdryncglslkmwgqwfosi.supabase.co",
+  anonKey: "sb_publishable_atuxK65UsZnxQGenIt3eKg_FkWZJvpH" 
 };
