@@ -37,7 +37,8 @@ window.DESIGN_LAB = {
     { id: "mimo-2-5", name: "Mimo 2.5",    color: "#04ff00" },
     { id: "nemotron", name: "Nemotron", color: "#f97316" },
     { id: "opus",     name: "Opus",     color: "#f5323c" },
-    { id: "sonnet",   name: "Sonnet",   color: "#f04c54" }
+    { id: "sonnet",   name: "Sonnet",   color: "#f04c54" },
+    { id: "gpt-oss",  name: "GPT-OSS",  color: "#7a00f5" }
   ],
 
   /* ----------------------------------------------------------
@@ -1524,6 +1525,190 @@ window.DESIGN_LAB = {
         { type: "color", label: "Accent Color", varName: "--an11-color", default: "#f04c54" }
       ],
       code: "<style>\n  @keyframes kan11-fly{0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1}100%{opacity:0}}\n  .kan11-stage{position:relative;width:80px;height:80px;display:flex;align-items:center;justify-content:center}\n  .kan11-pip{position:absolute;width:6px;height:6px;border-radius:1px;animation:kan11-fly 1.4s ease-out infinite}\n  .kan11-center{width:10px;height:10px;border-radius:50%;background:var(--an11-color,#f04c54);box-shadow:0 0 10px var(--an11-color,#f04c54);z-index:1}\n  @media (prefers-reduced-motion:reduce){.kan11-pip{animation:none;opacity:0}.kan11-center{box-shadow:none}}\n</style>\n<div style=\"display:flex;align-items:center;justify-content:center;width:100%;height:100%\">\n  <div class=\"kan11-stage\">\n    <div class=\"kan11-center\"></div>\n    <div class=\"kan11-pip\" style=\"background:var(--an11-color,#f04c54);animation-delay:0s;animation-duration:1.4s\" data-style=\"transform:translate(0,-36px) rotate(20deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#fbbf24;animation-delay:.1s;animation-duration:1.3s\" data-style=\"transform:translate(28px,-26px) rotate(-30deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#34d399;animation-delay:.05s;animation-duration:1.5s\" data-style=\"transform:translate(36px,0) rotate(10deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#818cf8;animation-delay:.15s;animation-duration:1.4s\" data-style=\"transform:translate(26px,28px) rotate(-20deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#f97316;animation-delay:.08s;animation-duration:1.2s\" data-style=\"transform:translate(0,36px) rotate(40deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#38bdf8;animation-delay:.2s;animation-duration:1.6s\" data-style=\"transform:translate(-28px,26px) rotate(-10deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:var(--an11-color,#f04c54);animation-delay:.12s;animation-duration:1.3s\" data-style=\"transform:translate(-36px,0) rotate(25deg) scale(0)\"></div>\n    <div class=\"kan11-pip\" style=\"background:#a78bfa;animation-delay:.18s;animation-duration:1.5s\" data-style=\"transform:translate(-26px,-28px) rotate(-35deg) scale(0)\"></div>\n    <style>\n      .kan11-pip:nth-child(2){--tx:0px;--ty:-36px;--r:20deg}\n      .kan11-pip:nth-child(3){--tx:28px;--ty:-26px;--r:-30deg}\n      .kan11-pip:nth-child(4){--tx:36px;--ty:0px;--r:10deg}\n      .kan11-pip:nth-child(5){--tx:26px;--ty:28px;--r:-20deg}\n      .kan11-pip:nth-child(6){--tx:0px;--ty:36px;--r:40deg}\n      .kan11-pip:nth-child(7){--tx:-28px;--ty:26px;--r:-10deg}\n      .kan11-pip:nth-child(8){--tx:-36px;--ty:0px;--r:25deg}\n      .kan11-pip:nth-child(9){--tx:-26px;--ty:-28px;--r:-35deg}\n      @keyframes kan11-fly{\n        0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1}\n        100%{transform:translate(var(--tx,0),var(--ty,-36px)) rotate(var(--r,0deg)) scale(0.3);opacity:0}\n      }\n    </style>\n  </div>\n</div>"
+    },
+
+    /* ---- GPT-OSS additions: structurally distinct specimens signed under #7a00f5 ---- */
+
+    {
+      id: "BU23",
+      section: "buttons",
+      name: "Prism Refractor",
+      description: "Interactive button with pseudo-element prism refraction sheen that glides and flares across faceted gradient borders on hover.",
+      creator: "gpt-oss",
+      tags: ["button", "prism", "refractor", "gradient", "flare"],
+      tweaks: [
+        { type: "color", label: "Prism Core", varName: "--bu23-core", default: "#7a00f5" }
+      ],
+      code: "<style>\n  .kbu23-btn{position:relative;background:#0e0b16;color:#f3e8ff;border:1px solid rgba(122,0,245,0.4);border-radius:10px;padding:0 24px;height:42px;font-weight:700;font-size:13px;letter-spacing:.06em;cursor:pointer;overflow:hidden;box-shadow:0 0 15px rgba(122,0,245,0.15);transition:border-color .2s,box-shadow .2s}\n  .kbu23-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,0.3) 45%,rgba(122,0,245,0.6) 50%,transparent 70%);transform:translateX(-100%);transition:transform .5s cubic-bezier(.2,.8,.2,1);pointer-events:none}\n  .kbu23-btn:hover{border-color:var(--bu23-core,#7a00f5);box-shadow:0 0 24px color-mix(in srgb,var(--bu23-core,#7a00f5) 45%,transparent)}\n  .kbu23-btn:hover::before{transform:translateX(100%)}\n  .kbu23-lbl{position:relative;z-index:1;color:#fff;text-shadow:0 0 10px var(--bu23-core,#7a00f5)}\n  @media (prefers-reduced-motion:reduce){.kbu23-btn::before{transition:none}}\n</style>\n<button type='button' class='kbu23-btn'>\n  <span class='kbu23-lbl'>PRISM FLIGHT</span>\n</button>"
+    },
+
+    {
+      id: "FO9",
+      section: "forms",
+      name: "Terminal Prompt Input",
+      description: "Monospace CLI prompt field with blinking block caret, dynamic status marker, and command prefix badge.",
+      creator: "gpt-oss",
+      tags: ["form", "input", "terminal", "cli", "prompt"],
+      tweaks: [
+        { type: "color", label: "Prompt Color", varName: "--fo9-prompt", default: "#7a00f5" }
+      ],
+      code: "<style>\n  @keyframes kfo9-blink{0%,100%{opacity:1}50%{opacity:0}}\n  .kfo9-box{display:inline-flex;align-items:center;background:#090611;border:1.5px solid rgba(122,0,245,0.35);border-radius:8px;padding:6px 12px;gap:8px;font-family:monospace;width:240px;box-shadow:0 4px 16px rgba(0,0,0,0.5)}\n  .kfo9-prefix{color:var(--fo9-prompt,#7a00f5);font-size:12px;font-weight:700;user-select:none}\n  .kfo9-input{background:transparent;border:none;outline:none;color:#e9d5ff;font-family:monospace;font-size:12px;width:100%}\n  .kfo9-cursor{width:7px;height:14px;background:var(--fo9-prompt,#7a00f5);animation:kfo9-blink 1s steps(1) infinite;flex-shrink:0}\n  .kfo9-box:focus-within{border-color:var(--fo9-prompt,#7a00f5);box-shadow:0 0 12px color-mix(in srgb,var(--fo9-prompt,#7a00f5) 30%,transparent)}\n  @media (prefers-reduced-motion:reduce){.kfo9-cursor{animation:none;opacity:1}}\n</style>\n<div class='kfo9-box'>\n  <span class='kfo9-prefix'>root@dev:~#</span>\n  <input type='text' class='kfo9-input' value='run build' aria-label='Terminal input'>\n  <div class='kfo9-cursor'></div>\n</div>"
+    },
+
+    {
+      id: "TO9",
+      section: "toggles",
+      name: "Quantum Segment Lock",
+      description: "Dual-tier binary interlock toggle with illuminated track segments and floating magnetic pip.",
+      creator: "gpt-oss",
+      tags: ["toggle", "switch", "quantum", "lock", "binary"],
+      tweaks: [
+        { type: "color", label: "Active Glow", varName: "--to9-glow", default: "#7a00f5" }
+      ],
+      code: "<style>\n  .kto9-wrap{display:inline-flex;align-items:center;gap:12px;cursor:pointer;user-select:none}\n  .kto9-input{position:absolute;opacity:0;pointer-events:none}\n  .kto9-track{position:relative;width:52px;height:26px;border-radius:13px;background:#110c1d;border:1.5px solid rgba(122,0,245,0.3);transition:border-color .2s,box-shadow .2s;display:flex;align-items:center;padding:2px}\n  .kto9-thumb{width:18px;height:18px;border-radius:50%;background:#4c1d95;transform:translateX(0);transition:transform .25s cubic-bezier(.3,1.4,.5,1),background .25s,box-shadow .25s}\n  .kto9-input:checked + .kto9-track{border-color:var(--to9-glow,#7a00f5);box-shadow:0 0 14px color-mix(in srgb,var(--to9-glow,#7a00f5) 35%,transparent)}\n  .kto9-input:checked + .kto9-track .kto9-thumb{transform:translateX(26px);background:var(--to9-glow,#7a00f5);box-shadow:0 0 10px var(--to9-glow,#7a00f5)}\n  .kto9-label{font-size:12px;font-weight:600;color:#c084fc}\n  @media (prefers-reduced-motion:reduce){.kto9-thumb{transition:none}}\n</style>\n<label class='kto9-wrap'>\n  <input type='checkbox' class='kto9-input' checked>\n  <span class='kto9-track'>\n    <span class='kto9-thumb'></span>\n  </span>\n  <span class='kto9-label'>OVERDRIVE</span>\n</label>"
+    },
+
+    {
+      id: "SL9",
+      section: "sliders",
+      name: "Neon VU Step Bar",
+      description: "Segmented multi-cell progress meter mimicking physical VU audio mastering racks with peak threshold indicator.",
+      creator: "gpt-oss",
+      tags: ["slider", "progress", "vu", "meter", "bars", "audio"],
+      tweaks: [
+        { type: "color", label: "Hot Bar Color", varName: "--sl9-hot", default: "#a855f7" }
+      ],
+      code: "<style>\n  .ksl9-wrap{background:#0a0713;border:1px solid rgba(122,0,245,0.25);border-radius:8px;padding:10px 14px;width:220px;display:flex;flex-direction:column;gap:6px}\n  .ksl9-head{display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.08em;color:#a855f7}\n  .ksl9-val{font-family:monospace;color:#e9d5ff}\n  .ksl9-ladder{display:flex;gap:3px;height:14px;align-items:center}\n  .ksl9-cell{flex:1;height:100%;border-radius:2px;background:rgba(255,255,255,0.06);transition:background .15s,box-shadow .15s}\n  .ksl9-cell.on{background:var(--sl9-hot,#a855f7);box-shadow:0 0 6px var(--sl9-hot,#a855f7)}\n  .ksl9-cell.peak{background:#ec4899;box-shadow:0 0 8px #ec4899}\n  @media (prefers-reduced-motion:reduce){.ksl9-cell{transition:none}}\n</style>\n<div class='ksl9-wrap'>\n  <div class='ksl9-head'>\n    <span>SYSTEM LOAD</span>\n    <span class='ksl9-val'>78%</span>\n  </div>\n  <div class='ksl9-ladder'>\n    <div class='ksl9-cell on'></div>\n    <div class='ksl9-cell on'></div>\n    <div class='ksl9-cell on'></div>\n    <div class='ksl9-cell on'></div>\n    <div class='ksl9-cell on'></div>\n    <div class='ksl9-cell on'></div>\n    <div class='ksl9-cell on'></div>\n    <div class='ksl9-cell on'></div>\n    <div class='ksl9-cell peak'></div>\n    <div class='ksl9-cell'></div>\n    <div class='ksl9-cell'></div>\n    <div class='ksl9-cell'></div>\n  </div>\n</div>"
+    },
+
+    {
+      id: "CA9",
+      section: "cards",
+      name: "HUD Mission Dossier",
+      description: "Tactical telemetry card with corner reticle brackets, live telemetry readout, and holographic scanline backing.",
+      creator: "gpt-oss",
+      tags: ["card", "hud", "tactical", "dossier", "panel"],
+      tweaks: [
+        { type: "color", label: "Reticle Color", varName: "--ca9-reticle", default: "#7a00f5" }
+      ],
+      code: "<style>\n  .kca9-card{position:relative;width:230px;background:#0a0614;border:1px solid color-mix(in srgb,var(--ca9-reticle,#7a00f5) 30%,transparent);border-radius:6px;padding:14px;box-shadow:0 8px 30px rgba(0,0,0,0.7);overflow:hidden}\n  .kca9-corner{position:absolute;width:6px;height:6px;border-color:var(--ca9-reticle,#7a00f5);border-style:solid;pointer-events:none}\n  .kca9-tl{top:0;left:0;border-width:2px 0 0 2px}\n  .kca9-tr{top:0;right:0;border-width:2px 2px 0 0}\n  .kca9-bl{bottom:0;left:0;border-width:0 0 2px 2px}\n  .kca9-br{bottom:0;right:0;border-width:0 2px 2px 0}\n  .kca9-tag{font-size:9px;font-family:monospace;letter-spacing:.15em;color:var(--ca9-reticle,#7a00f5);text-transform:uppercase}\n  .kca9-title{font-size:14px;font-weight:700;color:#f3e8ff;margin:4px 0 8px}\n  .kca9-body{font-size:11px;line-height:1.4;color:#a855f7}\n  .kca9-foot{display:flex;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px dashed rgba(122,0,245,0.25);font-size:10px;font-family:monospace;color:#c084fc}\n</style>\n<div class='kca9-card'>\n  <div class='kca9-corner kca9-tl'></div>\n  <div class='kca9-corner kca9-tr'></div>\n  <div class='kca9-corner kca9-bl'></div>\n  <div class='kca9-corner kca9-br'></div>\n  <div class='kca9-tag'>NODE [SECTOR-9]</div>\n  <div class='kca9-title'>Orbital Uplink</div>\n  <div class='kca9-body'>Signal latency stabilized at 14ms across quantum telemetry relay.</div>\n  <div class='kca9-foot'>\n    <span>SYS_ACT</span>\n    <span>ONLINE</span>\n  </div>\n</div>"
+    },
+
+    {
+      id: "NA8",
+      section: "navigation",
+      name: "Hexagon Dock Cluster",
+      description: "Geometric honeycomb navigation dock with floating hexagonal icon nodes and active node aura.",
+      creator: "gpt-oss",
+      tags: ["navigation", "dock", "hexagon", "honeycomb", "cluster"],
+      tweaks: [
+        { type: "color", label: "Aura Color", varName: "--na8-aura", default: "#7a00f5" }
+      ],
+      code: "<style>\n  .kna8-dock{display:inline-flex;gap:6px;background:#0c0915;padding:8px 12px;border-radius:30px;border:1px solid rgba(122,0,245,0.3);box-shadow:0 6px 20px rgba(0,0,0,0.6)}\n  .kna8-item{width:32px;height:32px;clip-path:polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;color:#c084fc;font-size:11px;cursor:pointer;transition:transform .2s,background .2s}\n  .kna8-item:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--na8-aura,#7a00f5) 40%,transparent);color:#fff}\n  .kna8-item.active{background:var(--na8-aura,#7a00f5);color:#fff;box-shadow:0 0 12px var(--na8-aura,#7a00f5)}\n  @media (prefers-reduced-motion:reduce){.kna8-item{transition:none}}\n</style>\n<nav class='kna8-dock' aria-label='Hexagon Dock'>\n  <div class='kna8-item active'>◆</div>\n  <div class='kna8-item'>▲</div>\n  <div class='kna8-item'>●</div>\n  <div class='kna8-item'>■</div>\n</nav>"
+    },
+
+    {
+      id: "BA8",
+      section: "badges",
+      name: "Beacon Pulse Tag",
+      description: "Security pill badge featuring an animated dual-ring concentric radar ping dot.",
+      creator: "gpt-oss",
+      tags: ["badge", "beacon", "radar", "pulse", "pill"],
+      tweaks: [
+        { type: "color", label: "Beacon Glow", varName: "--ba8-beacon", default: "#7a00f5" }
+      ],
+      code: "<style>\n  @keyframes kba8-ping{0%{transform:scale(1);opacity:.9}100%{transform:scale(2.4);opacity:0}}\n  .kba8-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(122,0,245,0.12);border:1px solid color-mix(in srgb,var(--ba8-beacon,#7a00f5) 45%,transparent);border-radius:999px;padding:4px 12px;color:#f3e8ff;font-size:11px;font-weight:700;letter-spacing:.06em}\n  .kba8-dot-wrap{position:relative;width:8px;height:8px}\n  .kba8-dot{position:absolute;inset:0;border-radius:50%;background:var(--ba8-beacon,#7a00f5)}\n  .kba8-ring{position:absolute;inset:0;border-radius:50%;background:var(--ba8-beacon,#7a00f5);animation:kba8-ping 1.6s ease-out infinite}\n  @media (prefers-reduced-motion:reduce){.kba8-ring{animation:none;display:none}}\n</style>\n<div class='kba8-tag'>\n  <span class='kba8-dot-wrap'>\n    <span class='kba8-ring'></span>\n    <span class='kba8-dot'></span>\n  </span>\n  <span>BEACON ACTIVE</span>\n</div>"
+    },
+
+    {
+      id: "AL7",
+      section: "alerts",
+      name: "Cyber Incident Banner",
+      description: "High-priority critical alert strip with diagonal hazard stripe edge and dismiss control.",
+      creator: "gpt-oss",
+      tags: ["alert", "toast", "cyber", "hazard", "incident"],
+      tweaks: [
+        { type: "color", label: "Hazard Color", varName: "--al7-hazard", default: "#7a00f5" }
+      ],
+      code: "<style>\n  .kal7-bar{display:flex;align-items:center;gap:12px;background:#0d0818;border:1px solid rgba(122,0,245,0.4);border-left:5px solid var(--al7-hazard,#7a00f5);border-radius:6px;padding:10px 14px;width:250px;box-shadow:0 4px 20px rgba(0,0,0,0.6)}\n  .kal7-icon{width:20px;height:20px;border-radius:4px;background:rgba(122,0,245,0.2);display:flex;align-items:center;justify-content:center;color:var(--al7-hazard,#7a00f5);font-weight:900;font-size:11px;flex-shrink:0}\n  .kal7-content{flex:1}\n  .kal7-title{font-size:12px;font-weight:700;color:#f3e8ff}\n  .kal7-sub{font-size:10px;color:#c084fc}\n  .kal7-close{background:none;border:none;color:#9333ea;font-size:14px;cursor:pointer;padding:0}\n</style>\n<div class='kal7-bar' role='alert'>\n  <div class='kal7-icon'>!</div>\n  <div class='kal7-content'>\n    <div class='kal7-title'>Security Shield</div>\n    <div class='kal7-sub'>Firewall sync completed</div>\n  </div>\n  <button type='button' class='kal7-close' aria-label='Dismiss'>×</button>\n</div>"
+    },
+
+    {
+      id: "LO7",
+      section: "loaders",
+      name: "Orbital Synapse Spinner",
+      description: "Nested dual-axis spinning rings with counter-rotating phase pips for quantum calculation states.",
+      creator: "gpt-oss",
+      tags: ["loader", "spinner", "orbital", "synapse", "rings"],
+      tweaks: [
+        { type: "color", label: "Ring Light", varName: "--lo7-light", default: "#7a00f5" }
+      ],
+      code: "<style>\n  @keyframes klo7-spin-cw{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}\n  @keyframes klo7-spin-ccw{0%{transform:rotate(0deg)}100%{transform:rotate(-360deg)}}\n  .klo7-stage{position:relative;width:56px;height:56px;display:flex;align-items:center;justify-content:center}\n  .klo7-outer{position:absolute;inset:0;border:2px dashed var(--lo7-light,#7a00f5);border-radius:50%;animation:klo7-spin-cw 3s linear infinite;opacity:.85}\n  .klo7-inner{position:absolute;inset:8px;border:2px solid transparent;border-top-color:#c084fc;border-bottom-color:#c084fc;border-radius:50%;animation:klo7-spin-ccw 1.5s ease-in-out infinite}\n  .klo7-core{width:8px;height:8px;border-radius:50%;background:var(--lo7-light,#7a00f5);box-shadow:0 0 10px var(--lo7-light,#7a00f5)}\n  @media (prefers-reduced-motion:reduce){.klo7-outer,.klo7-inner{animation:none}}\n</style>\n<div class='klo7-stage' aria-label='Loading'>\n  <div class='klo7-outer'></div>\n  <div class='klo7-inner'></div>\n  <div class='klo7-core'></div>\n</div>"
+    },
+
+    {
+      id: "IC12",
+      section: "icons",
+      name: "Prism Laser Glyph",
+      description: "Precision vector prism icon with refracting lightbeam paths rendered via pure SVG geometry.",
+      creator: "gpt-oss",
+      tags: ["icon", "glyph", "prism", "laser", "vector"],
+      tweaks: [
+        { type: "color", label: "Beam Color", varName: "--ic12-beam", default: "#7a00f5" }
+      ],
+      code: "<style>\n  .kic12-box{width:48px;height:48px;border-radius:10px;background:#0c0915;border:1px solid rgba(122,0,245,0.3);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,0.5)}\n  .kic12-svg{width:28px;height:28px}\n</style>\n<div class='kic12-box'>\n  <svg class='kic12-svg' viewBox='0 0 32 32' fill='none'>\n    <polygon points='16,4 28,26 4,26' stroke='rgba(255,255,255,0.35)' stroke-width='2' fill='rgba(122,0,245,0.1)'/>\n    <line x1='2' y1='18' x2='16' y2='15' stroke='var(--ic12-beam,#7a00f5)' stroke-width='2' stroke-linecap='round'/>\n    <line x1='16' y1='15' x2='30' y2='10' stroke='#ec4899' stroke-width='2' stroke-linecap='round'/>\n    <line x1='16' y1='15' x2='30' y2='18' stroke='var(--ic12-beam,#7a00f5)' stroke-width='2' stroke-linecap='round'/>\n    <line x1='16' y1='15' x2='30' y2='24' stroke='#38bdf8' stroke-width='2' stroke-linecap='round'/>\n  </svg>\n</div>"
+    },
+
+    {
+      id: "PL8",
+      section: "players",
+      name: "Rotary Dial Volume Node",
+      description: "Tactile circular knob controller with illuminated dial position indicator and step tick notches.",
+      creator: "gpt-oss",
+      tags: ["player", "volume", "knob", "dial", "audio"],
+      tweaks: [
+        { type: "color", label: "Indicator Color", varName: "--pl8-color", default: "#7a00f5" }
+      ],
+      code: "<style>\n  .kpl8-wrap{background:#0e0a19;border:1px solid rgba(122,0,245,0.3);border-radius:12px;padding:12px 18px;display:flex;align-items:center;gap:14px;width:200px}\n  .kpl8-knob{position:relative;width:44px;height:44px;border-radius:50%;background:#181126;border:2px solid rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,0.6);cursor:pointer}\n  .kpl8-pointer{position:absolute;top:4px;width:3px;height:12px;border-radius:2px;background:var(--pl8-color,#7a00f5);box-shadow:0 0 6px var(--pl8-color,#7a00f5);transform-origin:50% 18px;transform:rotate(45deg)}\n  .kpl8-meta{display:flex;flex-direction:column;gap:2px}\n  .kpl8-title{font-size:11px;font-weight:700;color:#f3e8ff}\n  .kpl8-val{font-size:10px;font-family:monospace;color:var(--pl8-color,#7a00f5)}\n</style>\n<div class='kpl8-wrap'>\n  <div class='kpl8-knob' aria-label='Volume Dial'>\n    <div class='kpl8-pointer'></div>\n  </div>\n  <div class='kpl8-meta'>\n    <span class='kpl8-title'>MASTER GAIN</span>\n    <span class='kpl8-val'>+3.5 dB</span>\n  </div>\n</div>"
+    },
+
+    {
+      id: "MO10",
+      section: "modals",
+      name: "CSS Toggle Dialog Blade",
+      description: "Full CSS-only triggerable modal dialog with pure CSS checkbox state and backdrop blur overlay.",
+      creator: "gpt-oss",
+      tags: ["modal", "dialog", "overlay", "css-only", "trigger"],
+      tweaks: [
+        { type: "color", label: "Dialog Border", varName: "--mo10-border", default: "#7a00f5" }
+      ],
+      code: "<style>\n  .kmo10-tog{position:absolute;opacity:0;pointer-events:none}\n  .kmo10-btn{display:inline-block;padding:8px 16px;background:rgba(122,0,245,0.2);border:1px solid var(--mo10-border,#7a00f5);border-radius:6px;color:#f3e8ff;font-size:11px;font-weight:700;cursor:pointer}\n  .kmo10-overlay{position:fixed;inset:0;background:rgba(5,2,10,0.75);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s ease;z-index:99}\n  .kmo10-box{background:#0e0a1a;border:1.5px solid var(--mo10-border,#7a00f5);border-radius:10px;padding:18px;width:240px;transform:scale(0.95);transition:transform .25s ease;box-shadow:0 12px 40px rgba(0,0,0,0.8);position:relative}\n  .kmo10-box h4{margin:0 0 6px;color:#fff;font-size:13px}\n  .kmo10-box p{margin:0 0 12px;color:#c084fc;font-size:11px;line-height:1.4}\n  .kmo10-tog:checked ~ .kmo10-overlay{opacity:1;pointer-events:auto}\n  .kmo10-tog:checked ~ .kmo10-overlay .kmo10-box{transform:scale(1)}\n  @media (prefers-reduced-motion:reduce){.kmo10-overlay,.kmo10-box{transition:none}}\n</style>\n<div>\n  <input type='checkbox' id='mo10-check' class='kmo10-tog'>\n  <label for='mo10-check' class='kmo10-btn'>Launch Dialog</label>\n  <label for='mo10-check' class='kmo10-overlay'>\n    <div class='kmo10-box' onclick='event.stopPropagation()'>\n      <h4>System Protocol</h4>\n      <p>Initiate hyperdrive vector jump sequence across verified coordinates.</p>\n      <label for='mo10-check' class='kmo10-btn' style='display:inline-block'>Acknowledge</label>\n    </div>\n  </label>\n</div>"
+    },
+
+    {
+      id: "AN12",
+      section: "animations",
+      name: "Stroboscopic Wave Cascade",
+      description: "Dynamic staggered waveform bars that oscillate height with wave harmonic delays.",
+      creator: "gpt-oss",
+      tags: ["animation", "wave", "cascade", "stroboscopic", "bars"],
+      tweaks: [
+        { type: "color", label: "Wave Luminescence", varName: "--an12-lume", default: "#7a00f5" }
+      ],
+      code: "<style>\n  @keyframes kan12-rise{0%,100%{transform:scaleY(0.2);opacity:.4}50%{transform:scaleY(1);opacity:1}}\n  .kan12-stage{display:flex;align-items:center;gap:4px;height:40px;padding:0 12px}\n  .kan12-bar{width:4px;height:32px;background:var(--an12-lume,#7a00f5);border-radius:2px;animation:kan12-rise 1.2s ease-in-out infinite;box-shadow:0 0 8px var(--an12-lume,#7a00f5)}\n  .kan12-bar:nth-child(1){animation-delay:0s}\n  .kan12-bar:nth-child(2){animation-delay:.15s}\n  .kan12-bar:nth-child(3){animation-delay:.3s}\n  .kan12-bar:nth-child(4){animation-delay:.45s}\n  .kan12-bar:nth-child(5){animation-delay:.6s}\n  .kan12-bar:nth-child(6){animation-delay:.75s}\n  .kan12-bar:nth-child(7){animation-delay:.9s}\n  @media (prefers-reduced-motion:reduce){.kan12-bar{animation:none;transform:scaleY(0.7);opacity:1}}\n</style>\n<div class='kan12-stage'>\n  <div class='kan12-bar'></div>\n  <div class='kan12-bar'></div>\n  <div class='kan12-bar'></div>\n  <div class='kan12-bar'></div>\n  <div class='kan12-bar'></div>\n  <div class='kan12-bar'></div>\n  <div class='kan12-bar'></div>\n</div>"
+    },
+
+    {
+      id: "EF9",
+      section: "effects",
+      name: "Cyber Circuit Matrix",
+      description: "Glowing circuit motherboard grid lines with subtle pulsating data-stream luminescent traces.",
+      creator: "gpt-oss",
+      tags: ["effect", "circuit", "cyber", "matrix", "glow"],
+      tweaks: [
+        { type: "color", label: "Trace Luminescence", varName: "--ef9-lume", default: "#7a00f5" }
+      ],
+      code: "<style>\n  .kef9-panel{position:relative;width:200px;height:75px;border-radius:10px;overflow:hidden;background:#080410;border:1px solid color-mix(in srgb,var(--ef9-lume,#7a00f5) 40%,transparent);display:flex;align-items:center;justify-content:center}\n  .kef9-grid{position:absolute;inset:0;background-image:radial-gradient(color-mix(in srgb,var(--ef9-lume,#7a00f5) 25%,transparent) 1px,transparent 1px),linear-gradient(to right,rgba(122,0,245,0.06) 1px,transparent 1px),linear-gradient(to bottom,rgba(122,0,245,0.06) 1px,transparent 1px);background-size:16px 16px;opacity:.8}\n  .kef9-lbl{position:relative;z-index:1;font-family:monospace;font-size:11px;font-weight:700;letter-spacing:.2em;color:#f3e8ff;text-shadow:0 0 12px var(--ef9-lume,#7a00f5)}\n</style>\n<div class='kef9-panel'>\n  <div class='kef9-grid'></div>\n  <span class='kef9-lbl'>CYBER MATRIX</span>\n</div>"
     }
 
   ]
