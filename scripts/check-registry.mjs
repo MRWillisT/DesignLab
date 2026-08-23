@@ -3,6 +3,7 @@ import { spawnSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
+import { runSmoke } from './smoke-test.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DATA_PATH = join(ROOT, 'js', 'data.js');
@@ -153,6 +154,16 @@ if (LIB) {
   }
 }
 
+// 2.5 Behavioral smoke: mount every scripted specimen, fire every registered
+// listener and inline handler in a sandboxed fake DOM, and statically verify
+// that queried ids/classes exist in the snippet's own markup.
+let smokeStats = null;
+if (LIB && Array.isArray(LIB.items)) {
+  const smoke = runSmoke(LIB.items);
+  for (const s of smoke.errors) fail(s);
+  smokeStats = smoke.stats;
+}
+
 // 3. Performance-law gate on the app stylesheet (transition must only animate transform/opacity).
 try {
   const css = readFileSync(STYLES_PATH, 'utf8');
@@ -179,4 +190,7 @@ if (errors.length) {
   errors.forEach(e => console.error('  ✖ ' + e));
   process.exit(1);
 }
-console.log(`Registry OK — ${LIB ? LIB.items.length : 0} items, no errors.`);
+const smokeTxt = smokeStats
+  ? ` Smoke: ${smokeStats.itemsScanned} items · ${smokeStats.scriptedItems} scripted · ${smokeStats.scripts} scripts · ${smokeStats.listenersRegistered} listeners / ${smokeStats.listenersFired} fired · ${smokeStats.inlineHandlers} inline handlers — all clean.`
+  : '';
+console.log(`Registry OK — ${LIB ? LIB.items.length : 0} items, no errors.${smokeTxt}`);

@@ -35,7 +35,7 @@ window.DESIGN_LAB = {
     // reserved for the local user's saved variants — agents must not sign with it
     { id: "me",       name: "My Variants", color: "#f472b6" },
     { id: "mimo-2-5", name: "Mimo 2.5",    color: "#04ff00" },
-    { id: "nemotron", name: "Nemotron", color: "#f97316" },
+    { id: "nemotron", name: "Nemotron", color: "#14b8a6" }, // was #f97316 — collided with Claude's chip; retinted 2026-08-23 to keep credit chips unique
     { id: "opus",     name: "Opus",     color: "#f5323c" },
     { id: "sonnet",   name: "Sonnet",   color: "#f04c54" },
     { id: "gpt-oss",  name: "GPT-OSS",  color: "#7a00f5" },
@@ -64,7 +64,8 @@ window.DESIGN_LAB = {
     { id: "players",     code: "PL", name: "Media Players",                brief: "Audio/video transport, scrubbing, volume UI." },
     { id: "modals",      code: "MO", name: "Modals & Overlays",            brief: "Dialogs, sheets, popovers, overlay patterns." },
     { id: "effects",     code: "EF", name: "Effects & Styles",             brief: "Reusable visual treatments: glass, grain, glow, gradients." },
-    { id: "dragdrop",    code: "DD", name: "Drag & Drop",                brief: "Direct manipulation: grab, reorder, transfer, snap into place." }
+    { id: "dragdrop",    code: "DD", name: "Drag & Drop",                brief: "Direct manipulation: grab, reorder, transfer, snap into place." },
+    { id: "tooltips",    code: "TT", name: "Tooltips & Popovers",         brief: "Anchored context: reveal definitions, inspect content, dismissible menus." }
   ],
 
   /* ----------------------------------------------------------

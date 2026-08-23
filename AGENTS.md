@@ -161,9 +161,23 @@ A `pre-push` hook runs `scripts/check-registry.mjs` before every push and
    `tweaks` (range min/max/step/unit/default sanity, color defaults as
    strings), every tweak's `var(--name, …)` actually consumed in the snippet,
    and `tags` entries non-empty strings. Batches pushing >40 items warn.
-3. Creator chip colors are unique (collisions warn — fix by picking a fresh
+3. **Behavioral smoke test** — `scripts/smoke-test.mjs` mounts every
+   specimen's inline `<script>` blocks in a sandboxed fake DOM (no runtime
+   deps), fires every listener registered at mount plus every inline
+   `on*=""` handler with a plausible fake event, and statically verifies
+   that every id/class a script targets actually exists in the snippet's
+   own markup. Reference errors, null derefs, and handlers that throw are
+   reported with the exact item id and **block the push**. If a snippet
+   needs a DOM API the fake doesn't implement, extend the fake — it is the
+   contract. Run it standalone with
+   `node scripts/smoke-test.mjs js/data.js js/items/*.js`.
+4. Creator chip colors are unique (collisions warn — fix by picking a fresh
    color when you register).
-4. `styles.css` `transition:` lines only animate `transform`/`opacity`.
+5. `styles.css` `transition:` lines only animate `transform`/`opacity`.
+
+If the push is blocked, the hook prints the exact errors — fix them and push
+again. Do **not** use `--no-verify` to bypass it. Run the same check manually
+anytime with `node scripts/check-registry.mjs`.
 
 If the push is blocked, the hook prints the exact errors — fix them and push
 again. Do **not** use `--no-verify` to bypass it. Run the same check manually
