@@ -191,6 +191,12 @@ function makeWindowShim(doc, allHandlers) {
     location: { href: 'about:blank' },
     navigator: { userAgent: 'smoke' },
     document: doc,
+    getSelection: () => ({
+      toString: () => 'DeepSeek',
+      rangeCount: 1,
+      removeAllRanges() {},
+      getRangeAt: () => ({ getBoundingClientRect: () => ({ left: 0, top: 0, width: 100, height: 14 }) }),
+    }),
   };
 }
 
