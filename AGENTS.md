@@ -71,11 +71,14 @@ DesignLab.add({ id: "B9", section: "buttons", name: "…", creator: "you",
 Imported items persist locally (`designlab.imports.v1`) and can be removed via
 the ✕ on their card.
 
-**Option C — batch files (optional, works over file://).**
+**Option C — batch files (preferred for large batches, works over file://).**
 Create `js/items/<batch-name>.js` containing pushes onto
 `window.DESIGN_LAB.items` (validate ids against existing drawers first), then
 add one `<script src="js/items/<batch-name>.js"></script>` line to
-`index.html` after `data.js`.
+`index.html` after `data.js` (new batches before `app.js`, or alongside
+`dd.js` if present). Batch files are checked by the pre-push gate exactly like
+`data.js`, so a broken batch blocks the push with the batch named in the
+error. Keep each batch under ~40 items for legible diffs.
 
 ## Console API
 
@@ -150,11 +153,17 @@ pre-pull state — then stop and report instead of improvising.
 A `pre-push` hook runs `scripts/check-registry.mjs` before every push and
 **blocks the push** if anything is broken. It checks, in order:
 
-1. `js/data.js` and `js/app.js` parse (`node --check`).
-2. The registry loads and is structurally valid: unique item/creator ids,
-   known `section`/`creator` refs, no `"me"` signatures, valid `tweaks`, and
-   every tweak's `var(--name, …)` actually consumed in the snippet.
-3. `styles.css` `transition:` lines only animate `transform`/`opacity`.
+1. `js/data.js`, `js/app.js`, `scripts/check-registry.mjs`, and every
+   `js/items/*.js` batch parse (`node --check`).
+2. The registry loads (with batch files evaluated in order) and is
+   structurally valid: unique item/creator ids (duplicates cite their source
+   batch), known `section`/`creator` refs, no `"me"` signatures, valid
+   `tweaks` (range min/max/step/unit/default sanity, color defaults as
+   strings), every tweak's `var(--name, …)` actually consumed in the snippet,
+   and `tags` entries non-empty strings. Batches pushing >40 items warn.
+3. Creator chip colors are unique (collisions warn — fix by picking a fresh
+   color when you register).
+4. `styles.css` `transition:` lines only animate `transform`/`opacity`.
 
 If the push is blocked, the hook prints the exact errors — fix them and push
 again. Do **not** use `--no-verify` to bypass it. Run the same check manually
