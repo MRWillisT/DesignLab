@@ -326,14 +326,50 @@ async function copyItemCode(item, btn) {
 const LS_PROMPT_AGENT = 'designlab.prompt_agent.v1';
 const LS_PROMPT_DRAWER = 'designlab.prompt_drawer.v1';
 const LS_CUSTOM_AGENTS = 'designlab.custom_agents.v1';
+const LS_PROMPT_HISTORY = 'designlab.prompt_history.v1';
 
 let customAgents = [];
+let promptHistory = [];
 
 function loadCustomAgents() {
   try {
     const raw = localStorage.getItem(LS_CUSTOM_AGENTS);
     if (raw) customAgents = JSON.parse(raw);
   } catch (e) { customAgents = []; }
+}
+
+function loadPromptHistory() {
+  try {
+    const raw = localStorage.getItem(LS_PROMPT_HISTORY);
+    if (raw) promptHistory = JSON.parse(raw);
+  } catch (e) { promptHistory = []; }
+  if (!Array.isArray(promptHistory)) promptHistory = [];
+}
+
+/* Remember dispatched identities (most recent first) for the header switcher. */
+function recordPromptHistory(entry) {
+  if (!entry || !entry.id) return;
+  promptHistory = promptHistory.filter(h => h.id !== entry.id);
+  promptHistory.unshift(entry);
+  promptHistory = promptHistory.slice(0, 10);
+  try { localStorage.setItem(LS_PROMPT_HISTORY, JSON.stringify(promptHistory)); } catch (e) { /* ignore */ }
+  populateAgentSwitch();
+}
+
+/* Compact header dropdown of recent identities — pick one to dispatch as. */
+function populateAgentSwitch() {
+  const sel = $('#agentSwitch');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">Identity ▾</option>';
+  promptHistory.forEach(h => {
+    const opt = document.createElement('option');
+    opt.value = h.id;
+    opt.textContent = h.name;
+    if (h.color) opt.style.color = h.color;
+    sel.appendChild(opt);
+  });
+  sel.hidden = promptHistory.length === 0;
+  sel.value = '';
 }
 
 /* Curated known-agent checklist: well-known model families a visitor can pick
@@ -846,6 +882,21 @@ async function copyPromptStudio(btn, successMsg) {
     localStorage.setItem(LS_PROMPT_DRAWER, dSel.value);
   } catch (e) {}
 
+  // Remember this identity as "recent" for the header switcher.
+  let histName = chosenId, histColor = '#818cf8';
+  if (sel.value === '_custom') {
+    const cv = validateAgentName($('#customAgentName').value);
+    histName = cv.ok ? cv.name : ($('#customAgentName').value.trim() || chosenId);
+    histColor = $('#agentColorPicker').value || '#818cf8';
+  } else if (sel.value && sel.value.startsWith('known:')) {
+    histName = sel.value.slice(6);
+    histColor = '#818cf8';
+  } else {
+    const ag = allAvailableAgents().find(a => a.id === chosenId);
+    if (ag) { histName = ag.name; histColor = ag.color; }
+  }
+  recordPromptHistory({ id: (sel.value && sel.value.startsWith('known:')) ? sel.value : chosenId, name: histName, color: histColor });
+
   const ok = await copyText(text);
   if (ok) {
     if (btn) flashButton(btn, 'Copied ✓');
@@ -905,10 +956,11 @@ function quickDrawerId() {
 }
 
 /* Skip the form entirely: auto identity + weighted-random drawer, build the
-   prompt, copy it, close. One tap, ready to paste into any agent. */
-function quickDispatch() {
+   prompt, copy it, close. One tap, ready to paste into any agent. Pass an
+   explicit identity (from the header switcher) to dispatch as that agent. */
+function quickDispatch(prefIdent) {
   openPromptStudio();
-  const ident = quickDispatchIdentity();
+  const ident = (prefIdent && prefIdent.id) ? prefIdent : quickDispatchIdentity();
   const sel = $('#agentSelect');
   if (customAgents.some(c => c.id === ident.id)) {
     sel.value = '_custom';
@@ -1625,7 +1677,9 @@ function buildGlobalEmpty() {
     + '<p>This lab grows by agent. Hand the expansion prompt to any AI agent and it will start filling a section with structurally distinct specimens — each one signed with its maker&rsquo;s chip.</p>'
     + '<div class="empty-actions"><button class="btn btn-primary" id="emptyPromptBtn" type="button">Enter your agent</button></div>'
     + '<span class="empty-hint">specimens: edit <b>js/data.js</b> · paste JSON via ADD SPECIMENS · guide in <b>AGENTS.md</b></span>';
-  $('#emptyPromptBtn', panel).addEventListener('click', ev => enterAgentFlow());
+  const emptyBtn = $('#emptyPromptBtn', panel);
+  emptyBtn.title = 'One tap: copies a ready-to-paste prompt to your clipboard';
+  emptyBtn.addEventListener('click', ev => quickDispatch());
   return panel;
 }
 
@@ -2818,6 +2872,9 @@ function init() {
   loadFavorites();
   loadFilters();
   loadModToken();
+  loadCustomAgents();
+  loadPromptHistory();
+  populateAgentSwitch();
 
   const seen = loadSeen();
   const currentIds = LIB.items.map(it => it.id);
@@ -2847,6 +2904,14 @@ function init() {
 
   $('#enterAgentBtn').addEventListener('click', quickDispatch);
   if ($('#customizeAgentBtn')) $('#customizeAgentBtn').addEventListener('click', enterAgentFlow);
+  const agentSwitch = $('#agentSwitch');
+  if (agentSwitch) agentSwitch.addEventListener('change', () => {
+    const id = agentSwitch.value;
+    agentSwitch.value = '';
+    if (!id) return;
+    const entry = promptHistory.find(h => h.id === id);
+    quickDispatch(entry || undefined);
+  });
   $('#promptClose').addEventListener('click', closePromptStudio);
   $('#promptCancel').addEventListener('click', closePromptStudio);
   $('#promptSubmitBtn').addEventListener('click', jumpToPublishPanel);

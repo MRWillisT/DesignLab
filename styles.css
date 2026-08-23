@@ -169,6 +169,25 @@ input, select { font: inherit; }
 
 .btn-ghost { background: transparent; }
 
+.agent-switch {
+  height: 36px;
+  max-width: 132px;
+  padding: 0 8px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--ink-dim);
+  cursor: pointer;
+  outline: none;
+}
+
+.agent-switch:hover { border-color: rgba(240, 167, 60, 0.55); }
+
+.agent-switch option { color: var(--ink); background: #16181f; }
+
 .btn-icon {
   width: 36px;
   padding: 0;
