@@ -557,47 +557,6 @@ input, select { font: inherit; }
 
 .sort-wrap select option { background: var(--panel); color: var(--ink); text-transform: none; }
 
-.active-filters {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-left: auto;
-}
-
-.af-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 6px 4px 10px;
-  border-radius: 999px;
-  border: 1px solid var(--line-strong);
-  background: var(--panel-2);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.05em;
-  color: var(--ink-dim);
-}
-
-.af-chip.is-accent { border-color: rgba(240, 167, 60, 0.5); color: var(--accent-bright); }
-
-.af-x, .af-reroll {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 17px;
-  height: 17px;
-  border: none;
-  border-radius: 50%;
-  background: transparent;
-  color: inherit;
-  font-size: 11px;
-  line-height: 1;
-  padding: 0;
-}
-
-.af-x:hover, .af-reroll:hover { background: rgba(255, 255, 255, 0.1); }
-
 /* ------------------------------------------------------------
    Library grid + group headers
    ------------------------------------------------------------ */
@@ -922,7 +881,7 @@ input, select { font: inherit; }
 }
 
 /* XXS is 140px wide — the top icon buttons (inspect/tweak/star) don't fit
-   next to the id + LIVE + claims badges without spilling off the card.
+   next to the id + NEW badge without spilling off the card.
    Hide them; every action still lives one double-click away in the inspect
    modal (favorite, tweaks, copy) or in the footer (vote, copy). */
 [data-density="XXS"] .top-actions {
@@ -934,8 +893,6 @@ input, select { font: inherit; }
   padding: 5px 6px 3px;
 }
 
-[data-density="XXS"] .live-badge,
-[data-density="XXS"] .claims-badge,
 [data-density="XXS"] .new-badge,
 [data-density="XXS"] .medal-badge {
   font-size: 7px;
@@ -1087,12 +1044,6 @@ input, select { font: inherit; }
 }
 [data-stage-canvas="neutral"] .stage-frame {
   background: #1e232d;
-}
-
-.show-more {
-  display: flex;
-  justify-content: center;
-  padding: 26px 0 10px;
 }
 
 .card-body { padding: 10px 13px 3px; }
@@ -1601,37 +1552,6 @@ input, select { font: inherit; }
 @keyframes new-pop {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.08); opacity: 0.82; }
-}
-
-.live-badge {
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  padding: 2px 7px;
-  border-radius: 999px;
-  color: #041016;
-  background: #2dd4bf;
-  box-shadow: 0 0 0 1px rgba(45, 212, 191, 0.45);
-}
-
-.claims-badge {
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  padding: 2px 7px;
-  border-radius: 999px;
-  color: #f0c987;
-  background: rgba(240, 167, 60, 0.1);
-  border: 1px solid rgba(240, 167, 60, 0.35);
-}
-
-.claims-badge.is-verified {
-  color: #9ae6a0;
-  background: rgba(52, 211, 153, 0.12);
-  border: 1px solid rgba(52, 211, 153, 0.35);
-}
 }
 
 /* Arrival wave: freshly landed batches glow teal once, staggered by id.
@@ -2156,13 +2076,21 @@ input, select { font: inherit; }
   overflow: hidden;
 }
 
+.submit-panel-head {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  background: var(--panel-2);
+}
+
 .submit-panel-toggle {
   display: flex;
   align-items: center;
   gap: 8px;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   padding: 10px 14px;
-  background: var(--panel-2);
+  background: transparent;
   border: none;
   cursor: pointer;
   font: 600 11px/1.4 var(--font-body);
@@ -2240,6 +2168,8 @@ input, select { font: inherit; }
   flex: 0 0 auto;
   width: 18px;
   height: 18px;
+  align-self: center;
+  margin-right: 10px;
   border-radius: 50%;
   border: 1px solid var(--line-strong);
   background: var(--panel-2);
@@ -2250,7 +2180,6 @@ input, select { font: inherit; }
   align-items: center;
   justify-content: center;
   transition: opacity 120ms ease;
-  margin-left: 4px;
 }
 
 .submit-guide-btn:hover {
@@ -2753,39 +2682,7 @@ input, select { font: inherit; }
   cursor: default;
 }
 
-.community-verify {
-  flex: none;
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  border: 1px solid rgba(52, 211, 153, 0.4);
-  background: rgba(52, 211, 153, 0.1);
-  color: #9ae6a0;
-  font-size: 12px;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0;
-}
-
-.community-verify:hover {
-  background: rgba(52, 211, 153, 0.22);
-  color: #fff;
-}
-
-.community-verify:disabled {
-  opacity: 0.4;
-  cursor: default;
-}
-
-.community-claim {
-  color: #f0c987;
-}
-
-.community-verified {
-  color: #9ae6a0;
-}
-
-.community-newagent {
+.community-agent {
   color: var(--ink-dim);
 }
 
@@ -2954,7 +2851,6 @@ input, select { font: inherit; }
   .grid { grid-template-columns: repeat(auto-fill, minmax(216px, 1fr)); gap: 12px; }
   .stage { min-height: var(--stage-h, 130px); }
   .stage-frame { height: var(--stage-h, 130px); }
-  .active-filters { margin-left: 0; width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

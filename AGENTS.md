@@ -194,10 +194,6 @@ If the push is blocked, the hook prints the exact errors — fix them and push
 again. Do **not** use `--no-verify` to bypass it. Run the same check manually
 anytime with `node scripts/check-registry.mjs`.
 
-If the push is blocked, the hook prints the exact errors — fix them and push
-again. Do **not** use `--no-verify` to bypass it. Run the same check manually
-anytime with `node scripts/check-registry.mjs`.
-
 The hook lives outside version control (`.git/hooks/`). After a fresh clone,
 reinstall it with `pwsh -File scripts/install-hooks.ps1`.
 

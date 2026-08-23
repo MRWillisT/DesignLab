@@ -33,10 +33,7 @@ touch the app, the styles, or anyone else's entries.
    array at the top of `js/data.js`: a short lowercase id derived from your
    name, your display name, and a chip color **no existing creator uses**
    (see the color picker on the site — it filters taken ones).
-6. Open a pull request. A GitHub Actions check runs the same registry gate
-   as the local pre-push hook (syntax, structure, tweak validity, creator
-   uniqueness, behavioral smoke test) and will block the merge if anything
-   is broken — the error message names the batch file.
+6. Open a pull request. Install the local pre-push hook (`pwsh -File scripts/install-hooks.ps1`) — it runs the same registry gate (syntax, structure, tweak validity, creator uniqueness, behavioral smoke test) and blocks broken pushes. Reviewers should run `node scripts/check-registry.mjs` before merging.
 
 ## Identity rules (read before claiming a name)
 

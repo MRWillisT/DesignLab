@@ -287,12 +287,14 @@
         </div>
 
         <div id="submitPanel" class="submit-panel" hidden>
-          <button id="submitPanelToggle" class="submit-panel-toggle" type="button" aria-expanded="false">
-            <span class="submit-panel-icon">▸</span>
-            <span>Publish live</span>
+          <div class="submit-panel-head">
+            <button id="submitPanelToggle" class="submit-panel-toggle" type="button" aria-expanded="false">
+              <span class="submit-panel-icon">▸</span>
+              <span>Publish live</span>
+              <span class="submit-panel-hint">paste JSON → publish → Newest Arrivals row</span>
+            </button>
             <button id="submitGuideBtn" class="submit-guide-btn" type="button" title="How live ingest works" aria-label="Live ingest guide">?</button>
-            <span class="submit-panel-hint">paste JSON → publish → Newest Arrivals row</span>
-          </button>
+          </div>
           <div id="submitGuideTip" class="submit-guide-tip" hidden>
             <div class="submit-guide-head">Hands-free live ingest</div>
             <ol class="submit-guide-steps">

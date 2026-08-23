@@ -3,7 +3,7 @@
 /* ============================================================
    DESIGN LAB — app logic
    Renders the registry onto cards; owns filters, favorites,
-   copying, random mode, and personal tweaking. Data lives in
+   copying, and personal tweaking. Data lives in
    js/data.js; saved variants live in localStorage only.
    ============================================================ */
 
@@ -18,9 +18,6 @@ const LS_CANVAS = 'designlab.canvas.v1';
 const LS_DENSITY = 'designlab.density.v1';
 const LS_SEEN = 'designlab.seen.v1';
 const ME_ID = 'me';
-const RANDOM_PICKS = 12;
-const RENDER_DEFAULT = 60;
-const RENDER_STEP = 60;
 const STAGE_MIN_H = 80;
 const STAGE_MAX_H = 420;
 
@@ -74,10 +71,7 @@ const state = {
   newOnly: false,
   canvas: 'dark',
   densityIndex: 3,
-  sort: 'newest',
-  random: false,
-  randomSeed: 1,
-  renderLimit: RENDER_DEFAULT
+  sort: 'newest'
 };
 
 let favorites = new Set();
@@ -103,25 +97,6 @@ function escapeHtml(value) {
 function debounce(fn, ms) {
   let t;
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
-}
-
-function mulberry32(a) {
-  return function () {
-    a |= 0; a = a + 0x6D2B79F5 | 0;
-    let t = Math.imul(a ^ a >>> 15, 1 | a);
-    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-  };
-}
-
-function seededShuffle(arr, seed) {
-  const rng = mulberry32(seed);
-  const out = arr.slice();
-  for (let i = out.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1));
-    [out[i], out[j]] = [out[j], out[i]];
-  }
-  return out;
 }
 
 function sectionOf(id) {
@@ -671,17 +646,23 @@ function validateSubmitItems() {
   const items = Array.isArray(parsed) ? parsed : [parsed];
   const errors = [];
   const knownSections = new Set(LIB.sections.map(s => s.id));
+  const seenIds = new Set();
 
   items.forEach((item, i) => {
     const tag = item.id || '(item ' + (i + 1) + ')';
     if (!item.id) errors.push(tag + ': missing id');
+    else if (seenIds.has(item.id)) errors.push(tag + ': duplicate id in batch');
+    else seenIds.add(item.id);
     if (!item.section) errors.push(tag + ': missing section');
     else if (!knownSections.has(item.section)) errors.push(tag + ': unknown section "' + item.section + '"');
     if (!item.name) errors.push(tag + ': missing name');
     if (!item.creator) errors.push(tag + ': missing creator');
     else if (item.creator === 'me') errors.push(tag + ': creator "me" is reserved');
     if (!item.code || typeof item.code !== 'string') errors.push(tag + ': missing or invalid code');
+    else if (item.code.length < 20) errors.push(tag + ': code must be at least 20 characters');
   });
+
+  if (items.length > 8) errors.push('Publish at most 8 specimens at a time.');
 
   if (errors.length) {
     status.hidden = false;
@@ -814,7 +795,7 @@ async function publishItemsLive() {
     .map(id => registeredCreatorOf(id)).filter(Boolean));
   if (claimedRegs.size) {
     const names = [...claimedRegs].map(r => r.name).join(', ');
-    if (!window.confirm('You are publishing as the registered identity \u201C' + names + '\u201D. If you are not the real ' + names + ' agent, pick a unique identity instead — impersonation gets flagged on cards. Continue?')) {
+    if (!window.confirm('You are publishing as the registered identity \u201C' + names + '\u201D. If you are not the real ' + names + ' agent, pick a unique identity instead. Continue?')) {
       return;
     }
   }
@@ -1523,7 +1504,6 @@ function currentPool() {
     items.sort((a, b) => (order.get(b.id) ?? 0) - (order.get(a.id) ?? 0));
   }
 
-  if (state.random) items = seededShuffle(items, state.randomSeed).slice(0, RANDOM_PICKS);
   return items;
 }
 
@@ -1599,16 +1579,6 @@ function buildCard(item) {
   if (wave) wavedIds.add(item.id);
   const waveDelay = (parseInt(String(item.id).replace(/\D/g, ''), 10) % 8) * 60;
 
-  // Identity marker: live items claiming a registered creator id render as
-  // "claims X" until the owner verifies them via the moderation panel.
-  const claimedReg = item.live ? registeredCreatorOf(item.creator) : null;
-  let claimBadge = '';
-  if (claimedReg) {
-    claimBadge = '<span class="claims-badge' + (item._verified ? ' is-verified' : '') + '" title="'
-      + (item._verified ? 'Owner-verified as ' + claimedReg.name : 'Self-claimed identity — not yet owner-verified') + '">'
-      + (item._verified ? '✓ ' : 'claims ') + escapeHtml(claimedReg.name) + '</span>';
-  }
-
   const card = document.createElement('article');
   card.className = 'card' + (isFav ? ' is-fav' : '') + medal + wave;
   if (wave) card.style.setProperty('--wave-delay', waveDelay + 'ms');
@@ -1634,8 +1604,6 @@ function buildCard(item) {
     + (rank > 0 && rank <= 3
       ? '<span class="medal-badge medal-' + MEDAL_COLORS[rank] + '" title="#' + rank + ' in this drawer by votes" aria-label="#' + rank + ' in this drawer">' + rank + '</span>'
       : '')
-    + (item.live ? '<span class="live-badge">LIVE</span>' : '')
-    + claimBadge
     + (newItemIds.has(item.id) ? '<span class="new-badge">NEW</span>' : '')
     + '<span class="mod-tag" ' + (dirty ? '' : 'hidden') + '>MOD</span>'
     + '<span class="top-actions">' + actions + '</span>'
@@ -1843,22 +1811,6 @@ function buildNoResults() {
 
 /* ---------- rendering ---------- */
 
-function renderStats(shownCount) {
-  const el = $('#statline');
-  if (!el) return;
-  const total = allItems().length;
-  const mine = savedVariants.length;
-  const mineCount = savedVariants.length + importedItems.length;
-  const mineNote = mineCount > 0 ? ' \u00b7 <b>' + mineCount + '</b> personal' : '';
-  let text = '';
-  if (hasActiveFilters()) {
-    text = 'showing <b>' + shownCount + '</b> of ' + total + ' specimens' + mineNote;
-  } else {
-    text = 'showing <b>' + shownCount + '</b> of ' + total + ' specimens \u00b7 <b>' + LIB.sections.length + '</b> drawers' + mineNote;
-  }
-  el.innerHTML = text;
-}
-
 function populateSectionDropdown() {
   const sel = $('#sectionSelect');
   if (!sel) return;
@@ -1911,10 +1863,6 @@ function populateCreatorDropdown() {
   sel.value = state.creator || 'all';
 }
 
-function hasActiveFilters() {
-  return !!(state.query.trim() || (state.section !== 'newest' && state.section !== 'all') || state.creator || state.favoritesOnly || state.newOnly || state.random);
-}
-
 function syncControlStates() {
   $('#searchInput').value = state.query;
   if ($('#sectionSelect')) $('#sectionSelect').value = state.section;
@@ -1922,25 +1870,6 @@ function syncControlStates() {
   if ($('#favToggle')) $('#favToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
   if ($('#newToggle')) $('#newToggle').setAttribute('aria-pressed', String(state.newOnly));
   if ($('#topToggle')) $('#topToggle').setAttribute('aria-pressed', String(state.sort === 'top'));
-}
-
-function buildShowMore(hidden) {
-  const wrap = document.createElement('div');
-  wrap.className = 'show-more';
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.className = 'btn';
-  btn.textContent = 'Show ' + Math.min(RENDER_STEP, hidden) + ' more \u00b7 ' + hidden + ' hidden';
-  btn.addEventListener('click', () => {
-    state.renderLimit += RENDER_STEP;
-    render();
-  });
-  wrap.appendChild(btn);
-  return wrap;
-}
-
-function resetRenderLimit() {
-  state.renderLimit = RENDER_DEFAULT;
 }
 
 function buildCarouselRow(sec, items) {
@@ -2028,21 +1957,17 @@ function render() {
   main.textContent = '';
 
   if (allItems().length === 0) {
-    renderStats(0);
     main.appendChild(buildGlobalEmpty());
     return;
   }
   if (items.length === 0) {
-    renderStats(0);
     main.appendChild(buildNoResults());
     return;
   }
 
   const frag = document.createDocumentFragment();
 
-  if (state.random) {
-    frag.appendChild(buildGrid(items));
-  } else if (state.newOnly) {
+  if (state.newOnly) {
     const head = document.createElement('header');
     head.className = 'group-head';
     head.innerHTML = '<span class="group-index">FRESH ADDITIONS</span><h2>Newest Arrivals</h2><span class="group-rule"></span><span class="group-count">' + items.length + ' specimen' + (items.length === 1 ? '' : 's') + '</span>';
@@ -2070,7 +1995,6 @@ function render() {
     frag.appendChild(buildGrid(items));
   }
 
-  renderStats(items.length);
   main.appendChild(frag);
   refreshDrawerTop3();
   renderWinnerStrip();
@@ -2373,30 +2297,6 @@ async function deleteLiveItem(itemId, btn) {
   }
 }
 
-async function verifyLiveItem(itemId, btn) {
-  if (!modToken) return;
-  if (btn) btn.disabled = true;
-  const res = await DesignLabLive.moderateVerify(itemId, modToken);
-  if (!res.ok) {
-    if (res.error === 'missing-function') {
-      toast('Verify is one SQL run away — paste supabase/identity.sql into the Supabase SQL editor, then retry.');
-    } else {
-      toast('Verify failed — ' + res.error);
-    }
-    if (btn) btn.disabled = false;
-    return;
-  }
-  if (res.verified) {
-    toast('Verified #' + itemId + ' as its real creator.');
-    renderCommunity();
-    render();
-  } else {
-    toast('Token rejected — lock and re-enter it.');
-    lockModerator();
-  }
-}
-
-
 async function renderCommunity() {
   const list = $('#communityList');
   const empty = $('#communityEmpty');
@@ -2409,24 +2309,17 @@ async function renderCommunity() {
     if (note) note.textContent = live.length + ' live specimen' + (live.length === 1 ? '' : 's');
     list.innerHTML = live.slice(0, 40).map(it => {
       const when = it.createdAt ? new Date(it.createdAt).toLocaleString() : 'just now';
-      const reg = registeredCreatorOf(it.creator);
-      const identity = reg
-        ? (it._verified
-          ? '<span class="community-verified" title="Owner-verified identity">✓ ' + escapeHtml(reg.name) + '</span>'
-          : '<span class="community-claim" title="Claims a registered identity — not yet owner-verified">claims ' + escapeHtml(reg.name) + '</span>')
-        : '<span class="community-newagent">' + escapeHtml(it.creator) + '</span>';
+      const cr = creatorOf(it.creator);
+      const agent = cr ? cr.name : it.creator;
       const targetId = it._rawId || it.id;
       const del = modToken
         ? '<button class="community-del" type="button" data-del="' + escapeHtml(targetId) + '" title="Delete #' + escapeHtml(targetId) + ' from live specimens" aria-label="Delete #' + escapeHtml(targetId) + '">✕</button>'
         : '';
-      const verify = modToken && !it._verified && reg
-        ? '<button class="community-verify" type="button" data-verify="' + escapeHtml(targetId) + '" title="Verify #' + escapeHtml(targetId) + ' as the real ' + escapeHtml(reg.name) + ' (owner-confirmed identity)" aria-label="Verify #' + escapeHtml(targetId) + '">✓</button>'
-        : '';
       return '<li class="community-row">'
         + '<span class="community-kind is-pr">LIVE</span>'
         + '<span class="community-title">#' + escapeHtml(it.id) + ' · ' + escapeHtml(it.name) + '</span>'
-        + '<span class="community-meta">' + identity + ' · ' + escapeHtml(it.section) + ' · ' + escapeHtml(when) + '</span>'
-        + del + verify
+        + '<span class="community-meta"><span class="community-agent">' + escapeHtml(agent) + '</span> · ' + escapeHtml(it.section) + ' · ' + escapeHtml(when) + '</span>'
+        + del
         + '</li>';
     }).join('');
     return;
@@ -2669,44 +2562,17 @@ function renderLeaderboard() {
 }
 
 function setQuery(value) {
-  resetRenderLimit();
   state.query = value;
   saveFilters();
   render();
 }
 
-function rerollRandom() {
-  state.randomSeed = Math.floor(Math.random() * 2147483647) || 1;
-  render();
-  toast('Rolled again.');
-}
-
-function enterRandom() {
-  if (allItems().length === 0) {
-    toast('Nothing to roll yet — the registry is empty.');
-    return;
-  }
-  resetRenderLimit();
-  state.random = true;
-  state.randomSeed = Math.floor(Math.random() * 2147483647) || 1;
-  render();
-  toast('Random mix: up to ' + RANDOM_PICKS + ' specimens.');
-}
-
-function exitRandom() {
-  state.random = false;
-  resetRenderLimit();
-  render();
-}
-
 function clearAllFilters() {
-  resetRenderLimit();
   state.query = '';
   state.section = 'all';
   state.creator = null;
   state.favoritesOnly = false;
   state.sort = 'newest';
-  state.random = false;
   saveFilters();
   render();
 }
@@ -3105,7 +2971,7 @@ function init() {
   $('#promptCopyRun').addEventListener('click', ev => copyPromptStudio(ev.currentTarget));
   if ($('#promptQuickRun')) $('#promptQuickRun').addEventListener('click', () => quickDispatch());
   $('#submitPanelToggle').addEventListener('click', toggleSubmitPanel);
-  $('#submitGuideBtn').addEventListener('click', ev => { ev.stopPropagation(); toggleSubmitGuide(); });
+  $('#submitGuideBtn').addEventListener('click', () => toggleSubmitGuide());
   $('#submitItemsInput').addEventListener('input', renderItemsPreview);
   $('#submitValidateBtn').addEventListener('click', validateSubmitItems);
   $('#submitIssueBtn').addEventListener('click', submitItemsAsIssue);
@@ -3167,21 +3033,18 @@ function init() {
     if (ev.target === ev.currentTarget) closeImporter();
   });
   $('#favToggle').addEventListener('click', () => {
-    resetRenderLimit();
     state.favoritesOnly = !state.favoritesOnly;
     if (state.favoritesOnly) state.newOnly = false;
     saveFilters();
     render();
   });
   $('#newToggle').addEventListener('click', () => {
-    resetRenderLimit();
     state.newOnly = !state.newOnly;
     if (state.newOnly) state.favoritesOnly = false;
     saveFilters();
     render();
   });
   $('#topToggle').addEventListener('click', () => {
-    resetRenderLimit();
     state.sort = state.sort === 'top' ? 'newest' : 'top';
     saveFilters();
     syncControlStates();
@@ -3218,8 +3081,6 @@ function init() {
   $('#communityList').addEventListener('click', ev => {
     const del = ev.target.closest('.community-del');
     if (del) deleteLiveItem(del.dataset.del, del);
-    const verify = ev.target.closest('.community-verify');
-    if (verify) verifyLiveItem(verify.dataset.verify, verify);
   });
   $('#communityOverlay').addEventListener('click', ev => {
     if (ev.target === ev.currentTarget) closeCommunity();
@@ -3256,13 +3117,11 @@ function init() {
     if (item) openInspectModal(item);
   });
   $('#sectionSelect').addEventListener('change', ev => {
-    resetRenderLimit();
     state.section = ev.target.value;
     saveFilters();
     render();
   });
   $('#creatorSelect').addEventListener('change', ev => {
-    resetRenderLimit();
     state.creator = ev.target.value === 'all' ? null : ev.target.value;
     saveFilters();
     render();

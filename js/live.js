@@ -335,6 +335,6 @@ window.DesignLabLive = (function () {
   return {
     init, refresh, publish, items, newest, creatorOf, setRegistry,
     isReady, isAvailable, statusError, onChange, configured,
-    moderateCheck, moderateDelete
+    moderateCheck, moderateDelete, moderateVerify
   };
 })();
