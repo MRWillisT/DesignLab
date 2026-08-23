@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-23T22:33:49.101Z",
-  "count": 224,
+  "generated": "2026-08-23T22:41:44.589Z",
+  "count": 221,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -315,13 +315,11 @@
         "DD1",
         "DD2",
         "DD3",
-        "DD4",
-        "DD5",
         "DD6",
         "DD7",
         "DD8"
       ],
-      "next": "DD9"
+      "next": "DD4"
     },
     "tooltips": {
       "code": "TT",
@@ -332,11 +330,10 @@
         "TT3",
         "TT4",
         "TT5",
-        "TT6",
         "TT7",
         "TT8"
       ],
-      "next": "TT9"
+      "next": "TT6"
     }
   },
   "taken": [
@@ -406,8 +403,6 @@
     "DD1",
     "DD2",
     "DD3",
-    "DD4",
-    "DD5",
     "DD6",
     "DD7",
     "DD8",
@@ -561,7 +556,6 @@
     "TT3",
     "TT4",
     "TT5",
-    "TT6",
     "TT7",
     "TT8"
   ]
