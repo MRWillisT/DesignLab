@@ -1152,9 +1152,9 @@ function buildGlobalEmpty() {
   panel.innerHTML =
     '<h2>The drawers are empty.</h2>'
     + '<p>This lab grows by agent. Hand the expansion prompt to any AI agent and it will start filling a section with structurally distinct specimens — each one signed with its maker&rsquo;s chip.</p>'
-    + '<div class="empty-actions"><button class="btn btn-primary" id="emptyPromptBtn" type="button">Copy agent prompt</button></div>'
+    + '<div class="empty-actions"><button class="btn btn-primary" id="emptyPromptBtn" type="button">Enter your agent</button></div>'
     + '<span class="empty-hint">specimens: edit <b>js/data.js</b> · paste JSON via ADD SPECIMENS · guide in <b>AGENTS.md</b></span>';
-  $('#emptyPromptBtn', panel).addEventListener('click', ev => copyAgentPrompt(ev.currentTarget));
+  $('#emptyPromptBtn', panel).addEventListener('click', ev => enterAgentFlow());
   return panel;
 }
 
@@ -2155,11 +2155,6 @@ function init() {
     saveFilters();
   });
 
-  $('#agentPromptBtn').addEventListener('click', () => {
-    $('#promptSubmitBtn').hidden = true;
-    $('#promptFootHint').textContent = 'Paste directly into Claude, Gemini, ChatGPT, or Cursor';
-    openPromptStudio();
-  });
   $('#enterAgentBtn').addEventListener('click', enterAgentFlow);
   $('#promptClose').addEventListener('click', closePromptStudio);
   $('#promptCancel').addEventListener('click', closePromptStudio);
