@@ -627,16 +627,34 @@ function populateAgentDropdown(selectedId) {
 function applyLastIdentityToStudio() {
   const ident = lastDispatchIdentity();
   if (!ident) return;
+  selectStudioIdentity(ident);
+  updatePromptStudio({ isAgentSwitch: true });
+}
+
+/* Point the prompt-studio agent <select> at a roster chip (registry, live,
+   or saved custom). Never bounce a known live identity into the empty
+   "+ Custom" field — that path re-validates the name and wrongly rejects
+   chips that already exist (e.g. picking Muse Spark). */
+function selectStudioIdentity(ident) {
   const sel = $('#agentSelect');
-  if (!sel) return;
-  if (ident.id && $(`option[value="${ident.id}"]`, sel)) {
-    sel.value = ident.id;
+  if (!sel || !ident) return;
+  const options = Array.from(sel.options);
+  const has = (value) => options.some(o => o.value === value);
+  const id = ident.id;
+
+  if (id && has(id)) {
+    sel.value = id;
+  } else if (ident.name && has('known:' + ident.name)) {
+    sel.value = 'known:' + ident.name;
+  } else if (id && String(id).startsWith('known:') && has(id)) {
+    sel.value = id;
   } else {
     sel.value = '_custom';
-    if (ident.name) $('#customAgentName').value = ident.name;
+    const field = $('#customNameField');
+    if (field) field.hidden = false;
+    if (ident.name && $('#customAgentName')) $('#customAgentName').value = ident.name;
   }
-  if (ident.color) $('#agentColorPicker').value = ident.color;
-  updatePromptStudio({ isAgentSwitch: true });
+  if (ident.color && $('#agentColorPicker')) $('#agentColorPicker').value = ident.color;
 }
 
 function setStudioMode(mode) {
@@ -1110,22 +1128,38 @@ async function copyPromptStudio(btn, successMsg) {
   if (sel.value === '_custom') {
     const name = $('#customAgentName').value.trim();
     const color = $('#agentColorPicker').value;
-    const v = validateAgentName(name);
-    if (!v.ok) {
-      toast('Pick a clean agent name — letters, numbers, spaces, hyphens only, and no profanity.');
-      return;
-    }
-    const id = v.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
-    chosenId = id;
-    const existingIdx = customAgents.findIndex(a => a.id === id);
-    if (existingIdx >= 0) {
-      customAgents[existingIdx].color = color;
-      customAgents[existingIdx].name = v.name;
+    // Prefer an existing roster chip when the typed name already belongs to
+    // one (live Muse Spark, registered Mimo 2.5, etc.) instead of failing
+    // validation with a confusing "clean agent name" toast.
+    const rosterHit = allAvailableAgents().find(a =>
+      normAgentLabel(a.name) === normAgentLabel(name)
+      || a.id === agentIdSlug(name)
+    );
+    if (rosterHit) {
+      sel.value = rosterHit.id;
+      chosenId = rosterHit.id;
+      if (rosterHit.color) $('#agentColorPicker').value = rosterHit.color;
     } else {
-      customAgents.push({ id, name: v.name, color });
+      const v = validateAgentName(name);
+      if (!v.ok) {
+        const tip = v.reason === 'taken'
+          ? 'That name is already on the roster — pick it from the list.'
+          : 'Pick a clean agent name — letters, numbers, spaces, hyphens only, and no profanity.';
+        toast(tip);
+        return;
+      }
+      const id = v.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'custom';
+      chosenId = id;
+      const existingIdx = customAgents.findIndex(a => a.id === id);
+      if (existingIdx >= 0) {
+        customAgents[existingIdx].color = color;
+        customAgents[existingIdx].name = v.name;
+      } else {
+        customAgents.push({ id, name: v.name, color });
+      }
+      saveCustomAgents();
+      populateAgentDropdown(id);
     }
-    saveCustomAgents();
-    populateAgentDropdown(id);
   }
 
   if (sel.value && sel.value.startsWith('known:')) {
@@ -1219,16 +1253,9 @@ function quickDrawerId() {
 function quickDispatch(prefIdent) {
   openPromptStudio({ silent: true });
   const ident = (prefIdent && prefIdent.id) ? prefIdent : quickDispatchIdentity();
-  const sel = $('#agentSelect');
-  if (customAgents.some(c => c.id === ident.id)) {
-    sel.value = '_custom';
-    $('#customAgentName').value = ident.name;
-  } else if (LIB.creators.some(c => c.id === ident.id)) {
-    sel.value = ident.id;
-  } else {
-    sel.value = 'known:' + ident.name;
-  }
-  $('#agentColorPicker').value = ident.color;
+  // Live / registry / custom chips must stay on their real <option> — forcing
+  // _custom re-runs name validation and rejects names already on the roster.
+  selectStudioIdentity(ident);
   const drawerId = quickDrawerId();
   $('#targetDrawerSelect').value = drawerId;
   updatePromptStudio({ isAgentSwitch: true });
