@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-24T14:04:51.392Z",
-  "count": 225,
+  "generated": "2026-08-24T14:19:52.480Z",
+  "count": 251,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -331,73 +331,98 @@
       "code": "SB",
       "name": "Sidebars & Rails",
       "taken": [
-        "SB1"
+        "SB1",
+        "SB2",
+        "SB3",
+        "SB4"
       ],
-      "next": "SB2"
+      "next": "SB5"
     },
     "charts": {
       "code": "CH",
       "name": "Charts & Data Viz",
       "taken": [
-        "CH1"
+        "CH1",
+        "CH2",
+        "CH3",
+        "CH4"
       ],
-      "next": "CH2"
+      "next": "CH5"
     },
     "tables": {
       "code": "TB",
       "name": "Tables & Data",
       "taken": [
-        "TB1"
+        "TB1",
+        "TB2",
+        "TB3",
+        "TB4"
       ],
-      "next": "TB2"
+      "next": "TB5"
     },
     "accordions": {
       "code": "AC",
       "name": "Accordions & Disclosure",
       "taken": [
-        "AC1"
+        "AC1",
+        "AC2",
+        "AC3",
+        "AC4"
       ],
-      "next": "AC2"
+      "next": "AC5"
     },
     "pages": {
       "code": "PS",
       "name": "Page Sections",
       "taken": [
-        "PS1"
+        "PS1",
+        "PS2",
+        "PS3",
+        "PS4"
       ],
-      "next": "PS2"
+      "next": "PS5"
     },
     "avatars": {
       "code": "AV",
       "name": "Avatars & Presence",
       "taken": [
-        "AV1"
+        "AV1",
+        "AV2",
+        "AV3",
+        "AV4"
       ],
-      "next": "AV2"
+      "next": "AV5"
     },
     "feeds": {
       "code": "FD",
       "name": "Feeds & Chat",
       "taken": [
-        "FD1"
+        "FD1",
+        "FD2",
+        "FD3",
+        "FD4"
       ],
-      "next": "FD2"
+      "next": "FD5"
     },
     "calendars": {
       "code": "CL",
       "name": "Calendars & Scheduling",
       "taken": [
-        "CL1"
+        "CL1",
+        "CL2",
+        "CL3",
+        "CL4"
       ],
-      "next": "CL2"
+      "next": "CL5"
     },
     "steps": {
       "code": "ST",
       "name": "Steps & Timelines",
       "taken": [
-        "ST1"
+        "ST1",
+        "ST2"
       ],
-      "next": "ST2"
+      "next": "ST3"
     },
     "empty": {
       "code": "EM",
@@ -405,13 +430,17 @@
       "taken": [
         "EM1",
         "EM2",
-        "EM3"
+        "EM3",
+        "EM4"
       ],
-      "next": "EM4"
+      "next": "EM5"
     }
   },
   "taken": [
     "AC1",
+    "AC2",
+    "AC3",
+    "AC4",
     "AL10",
     "AL11",
     "AL12",
@@ -445,6 +474,9 @@
     "AN8",
     "AN9",
     "AV1",
+    "AV2",
+    "AV3",
+    "AV4",
     "BA10",
     "BA11",
     "BA13",
@@ -472,7 +504,13 @@
     "CA8",
     "CA9",
     "CH1",
+    "CH2",
+    "CH3",
+    "CH4",
     "CL1",
+    "CL2",
+    "CL3",
+    "CL4",
     "DD1",
     "DD2",
     "DD3",
@@ -497,7 +535,11 @@
     "EM1",
     "EM2",
     "EM3",
+    "EM4",
     "FD1",
+    "FD2",
+    "FD3",
+    "FD4",
     "FO1",
     "FO10",
     "FO11",
@@ -596,7 +638,13 @@
     "PL8",
     "PL9",
     "PS1",
+    "PS2",
+    "PS3",
+    "PS4",
     "SB1",
+    "SB2",
+    "SB3",
+    "SB4",
     "SL1",
     "SL10",
     "SL11",
@@ -611,7 +659,11 @@
     "SL8",
     "SL9",
     "ST1",
+    "ST2",
     "TB1",
+    "TB2",
+    "TB3",
+    "TB4",
     "TO1",
     "TO10",
     "TO11",
