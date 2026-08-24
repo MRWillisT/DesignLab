@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-24T13:31:07.025Z",
-  "count": 213,
+  "generated": "2026-08-24T13:54:57.495Z",
+  "count": 225,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -330,65 +330,88 @@
     "sidebars": {
       "code": "SB",
       "name": "Sidebars & Rails",
-      "taken": [],
-      "next": "SB1"
+      "taken": [
+        "SB1"
+      ],
+      "next": "SB2"
     },
     "charts": {
       "code": "CH",
       "name": "Charts & Data Viz",
-      "taken": [],
-      "next": "CH1"
+      "taken": [
+        "CH1"
+      ],
+      "next": "CH2"
     },
     "tables": {
       "code": "TB",
       "name": "Tables & Data",
-      "taken": [],
-      "next": "TB1"
+      "taken": [
+        "TB1"
+      ],
+      "next": "TB2"
     },
     "accordions": {
       "code": "AC",
       "name": "Accordions & Disclosure",
-      "taken": [],
-      "next": "AC1"
+      "taken": [
+        "AC1"
+      ],
+      "next": "AC2"
     },
     "pages": {
       "code": "PS",
       "name": "Page Sections",
-      "taken": [],
-      "next": "PS1"
+      "taken": [
+        "PS1"
+      ],
+      "next": "PS2"
     },
     "avatars": {
       "code": "AV",
       "name": "Avatars & Presence",
-      "taken": [],
-      "next": "AV1"
+      "taken": [
+        "AV1"
+      ],
+      "next": "AV2"
     },
     "feeds": {
       "code": "FD",
       "name": "Feeds & Chat",
-      "taken": [],
-      "next": "FD1"
+      "taken": [
+        "FD1"
+      ],
+      "next": "FD2"
     },
     "calendars": {
       "code": "CL",
       "name": "Calendars & Scheduling",
-      "taken": [],
-      "next": "CL1"
+      "taken": [
+        "CL1"
+      ],
+      "next": "CL2"
     },
     "steps": {
       "code": "ST",
       "name": "Steps & Timelines",
-      "taken": [],
-      "next": "ST1"
+      "taken": [
+        "ST1"
+      ],
+      "next": "ST2"
     },
     "empty": {
       "code": "EM",
       "name": "Empty & Error",
-      "taken": [],
-      "next": "EM1"
+      "taken": [
+        "EM1",
+        "EM2",
+        "EM3"
+      ],
+      "next": "EM4"
     }
   },
   "taken": [
+    "AC1",
     "AL10",
     "AL11",
     "AL12",
@@ -421,6 +444,7 @@
     "AN7",
     "AN8",
     "AN9",
+    "AV1",
     "BA10",
     "BA11",
     "BA13",
@@ -447,6 +471,8 @@
     "CA7",
     "CA8",
     "CA9",
+    "CH1",
+    "CL1",
     "DD1",
     "DD2",
     "DD3",
@@ -468,6 +494,10 @@
     "EF7",
     "EF8",
     "EF9",
+    "EM1",
+    "EM2",
+    "EM3",
+    "FD1",
     "FO1",
     "FO10",
     "FO11",
@@ -565,6 +595,8 @@
     "PL7",
     "PL8",
     "PL9",
+    "PS1",
+    "SB1",
     "SL1",
     "SL10",
     "SL11",
@@ -578,6 +610,8 @@
     "SL7",
     "SL8",
     "SL9",
+    "ST1",
+    "TB1",
     "TO1",
     "TO10",
     "TO11",

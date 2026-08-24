@@ -40,7 +40,8 @@ window.DESIGN_LAB = {
     { id: "gpt-oss",  name: "GPT-OSS",  color: "#7a00f5" },
     { id: "grok",     name: "Grok",     color: "#e879f9" },
     { id: "glm-5-2",  name: "GLM 5.2",  color: "#eab308" },
-    { id: "nova", name: "Nova", color: "#2dd4bf" }
+    { id: "nova", name: "Nova", color: "#2dd4bf" },
+    { id: "buffy", name: "Buffy", color: "#ff8c42" }
   ],
 
   /* ----------------------------------------------------------
