@@ -1706,6 +1706,379 @@ window.DESIGN_LAB.items.push(
     <button class="gcl3-btn">03:45 PM</button>
   </div>
 </div>`
+  },
+
+  /* ==========================================================
+     DRAWER 25: STEPS & TIMELINES (ST)
+     ========================================================== */
+
+  {
+    id: "ST3",
+    section: "steps",
+    name: "Horizontal Pill Stepper",
+    description: "Horizontal checkout progress ribbon with glowing active step node, completed checks, and status connector line.",
+    creator: "gemini",
+    tags: ["steps", "stepper", "horizontal", "wizard", "checkout", "progress"],
+    tweaks: [
+      { type: "color", label: "Active Accent", varName: "--gst3-accent", default: "#818cf8" }
+    ],
+    code: `<style>
+  .gst3-wrap {
+    width: 100%;
+    max-width: 360px;
+    background: #0f121d;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  .gst3-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+  }
+  .gst3-track {
+    position: absolute;
+    top: 14px;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    z-index: 0;
+  }
+  .gst3-fill {
+    position: absolute;
+    top: 14px;
+    left: 20px;
+    width: 45%;
+    height: 2px;
+    background: var(--gst3-accent, #818cf8);
+    box-shadow: 0 0 8px var(--gst3-accent, #818cf8);
+    z-index: 0;
+  }
+  .gst3-step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .gst3-pill {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #141828;
+    border: 2px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: #64748b;
+  }
+  .gst3-step.done .gst3-pill {
+    background: var(--gst3-accent, #818cf8);
+    border-color: var(--gst3-accent, #818cf8);
+    color: #090b14;
+  }
+  .gst3-step.active .gst3-pill {
+    background: #0f121d;
+    border-color: var(--gst3-accent, #818cf8);
+    color: #fff;
+    box-shadow: 0 0 14px color-mix(in srgb, var(--gst3-accent, #818cf8) 50%, transparent);
+  }
+  .gst3-label { font-size: 10px; font-weight: 700; color: #64748b; }
+  .gst3-step.active .gst3-label { color: #f1f5f9; }
+  .gst3-step.done .gst3-label { color: #cbd5e1; }
+</style>
+<div class="gst3-wrap">
+  <div class="gst3-bar">
+    <div class="gst3-track"></div>
+    <div class="gst3-fill"></div>
+    <div class="gst3-step done">
+      <div class="gst3-pill">✓</div>
+      <span class="gst3-label">Account</span>
+    </div>
+    <div class="gst3-step active">
+      <div class="gst3-pill">2</div>
+      <span class="gst3-label">Billing</span>
+    </div>
+    <div class="gst3-step">
+      <div class="gst3-pill">3</div>
+      <span class="gst3-label">Deploy</span>
+    </div>
+  </div>
+</div>`
+  },
+
+  {
+    id: "ST4",
+    section: "steps",
+    name: "Branching Milestone Tree",
+    description: "Chronological release roadmap tree with status rings, canary badges, and descriptive task summaries.",
+    creator: "gemini",
+    tags: ["steps", "timeline", "milestone", "branch", "roadmap", "releases"],
+    tweaks: [
+      { type: "color", label: "Milestone Glow", varName: "--gst4-glow", default: "#818cf8" },
+      { type: "color", label: "Canary Stage", varName: "--gst4-stage", default: "#f59e0b" }
+    ],
+    code: `<style>
+  .gst4-tree {
+    width: 100%;
+    max-width: 360px;
+    background: #0e111a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  .gst4-row {
+    display: flex;
+    gap: 12px;
+    position: relative;
+  }
+  .gst4-row:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 22px;
+    bottom: -12px;
+    width: 2px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .gst4-node {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #141828;
+    border: 2px solid var(--gst4-glow, #818cf8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: #fff;
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .gst4-node.stage { border-color: var(--gst4-stage, #f59e0b); }
+  .gst4-node.queue { border-color: #475569; color: #64748b; }
+  .gst4-content { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .gst4-top { display: flex; align-items: center; justify-content: space-between; }
+  .gst4-name { font-size: 11px; font-weight: 700; color: #f8fafc; }
+  .gst4-tag {
+    font-size: 8px;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(129, 140, 248, 0.12);
+    color: var(--gst4-glow, #818cf8);
+  }
+  .gst4-tag.st { background: rgba(245, 158, 11, 0.12); color: var(--gst4-stage, #f59e0b); }
+  .gst4-sub { font-size: 10px; color: #64748b; line-height: 1.4; }
+</style>
+<div class="gst4-tree">
+  <div class="gst4-row">
+    <div class="gst4-node">●</div>
+    <div class="gst4-content">
+      <div class="gst4-top">
+        <span class="gst4-name">v2.0 Core Engine</span>
+        <span class="gst4-tag">SHIPPED</span>
+      </div>
+      <div class="gst4-sub">Zero-copy memory pipelines & WebAssembly runtime.</div>
+    </div>
+  </div>
+  <div class="gst4-row">
+    <div class="gst4-node stage">◈</div>
+    <div class="gst4-content">
+      <div class="gst4-top">
+        <span class="gst4-name">Edge Mesh Routing</span>
+        <span class="gst4-tag st">CANARY</span>
+      </div>
+      <div class="gst4-sub">Regional load balancer rollout across 42 zones.</div>
+    </div>
+  </div>
+  <div class="gst4-row">
+    <div class="gst4-node queue">○</div>
+    <div class="gst4-content">
+      <div class="gst4-top">
+        <span class="gst4-name">Vector Indexing</span>
+        <span class="gst4-tag" style="background:#1e293b;color:#64748b">QUEUED</span>
+      </div>
+      <div class="gst4-sub">HNSW graph compression and quantizer tuning.</div>
+    </div>
+  </div>
+</div>`
+  },
+
+  /* ==========================================================
+     DRAWER 26: EMPTY & ERROR (EM)
+     ========================================================== */
+
+  {
+    id: "EM5",
+    section: "empty",
+    name: "Zero Keys Vault",
+    description: "Security credentials zero-state featuring floating holographic padlock aperture and primary key creation action.",
+    creator: "gemini",
+    tags: ["empty", "vault", "keys", "security", "credentials", "zero-data"],
+    tweaks: [
+      { type: "color", label: "Vault Glow", varName: "--gem5-accent", default: "#818cf8" }
+    ],
+    code: `<style>
+  .gem5-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 28px 20px;
+    background: #0f121d;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 320px;
+    gap: 14px;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  .gem5-hologram {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(circle, color-mix(in srgb, var(--gem5-accent, #818cf8) 20%, transparent) 0%, transparent 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed color-mix(in srgb, var(--gem5-accent, #818cf8) 40%, transparent);
+  }
+  .gem5-icon {
+    font-size: 24px;
+    color: var(--gem5-accent, #818cf8);
+    filter: drop-shadow(0 0 10px var(--gem5-accent, #818cf8));
+  }
+  .gem5-title { font-size: 14px; font-weight: 800; color: #f1f5f9; }
+  .gem5-desc { font-size: 11px; color: #64748b; line-height: 1.5; max-width: 240px; margin-top: -4px; }
+  .gem5-btn {
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: none;
+    background: var(--gem5-accent, #818cf8);
+    color: #0a0d16;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 14px color-mix(in srgb, var(--gem5-accent, #818cf8) 40%, transparent);
+    transition: transform 0.15s ease;
+  }
+  .gem5-btn:hover { transform: translateY(-1px); }
+  @media (prefers-reduced-motion: reduce) {
+    .gem5-btn { transition: none; }
+  }
+</style>
+<div class="gem5-box">
+  <div class="gem5-hologram">
+    <span class="gem5-icon">🔒</span>
+  </div>
+  <div>
+    <div class="gem5-title">No API Keys Found</div>
+    <div class="gem5-desc">Generate your first project secret key to start querying production database instances.</div>
+  </div>
+  <button class="gem5-btn">+ Create API Key</button>
+</div>`
+  },
+
+  {
+    id: "EM6",
+    section: "empty",
+    name: "Disconnected Radar Pulse",
+    description: "Hardware telemetry lost zero-state with scanning conic radar sweep, error diagnostic pill, and retry CTA.",
+    creator: "gemini",
+    tags: ["empty", "error", "radar", "offline", "disconnect", "hardware"],
+    tweaks: [
+      { type: "color", label: "Radar Beam", varName: "--gem6-accent", default: "#818cf8" }
+    ],
+    code: `<style>
+  .gem6-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+    background: #0d0f17;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 320px;
+    gap: 12px;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+  .gem6-radar {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, #131726 0%, #0d0f17 100%);
+    overflow: hidden;
+  }
+  .gem6-sweep {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, color-mix(in srgb, var(--gem6-accent, #818cf8) 40%, transparent) 0deg, transparent 60deg, transparent 360deg);
+    animation: gem6-spin 3s linear infinite;
+  }
+  @keyframes gem6-spin {
+    to { transform: rotate(360deg); }
+  }
+  .gem6-ping {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gem6-accent, #818cf8);
+    box-shadow: 0 0 10px var(--gem6-accent, #818cf8);
+    z-index: 1;
+  }
+  .gem6-title { font-size: 14px; font-weight: 800; color: #f1f5f9; }
+  .gem6-desc { font-size: 11px; color: #64748b; line-height: 1.5; max-width: 220px; }
+  .gem6-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #f87171;
+    font-size: 10px;
+    font-weight: 700;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .gem6-sweep { animation: none; opacity: 0.3; }
+  }
+</style>
+<div class="gem6-card">
+  <div class="gem6-radar">
+    <div class="gem6-sweep"></div>
+    <div class="gem6-ping"></div>
+  </div>
+  <div>
+    <div class="gem6-title">Hardware Unreachable</div>
+    <div class="gem6-desc">Telemetry link timed out after 3 retries. Check local gateway antenna connection.</div>
+  </div>
+  <span class="gem6-badge">⚠ ERR_CONN_LOST</span>
+</div>`
   }
 
 );
+

@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-24T14:22:01.760Z",
-  "count": 251,
+  "generated": "2026-08-24T14:59:56.406Z",
+  "count": 255,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -420,9 +420,11 @@
       "name": "Steps & Timelines",
       "taken": [
         "ST1",
-        "ST2"
+        "ST2",
+        "ST3",
+        "ST4"
       ],
-      "next": "ST3"
+      "next": "ST5"
     },
     "empty": {
       "code": "EM",
@@ -431,9 +433,11 @@
         "EM1",
         "EM2",
         "EM3",
-        "EM4"
+        "EM4",
+        "EM5",
+        "EM6"
       ],
-      "next": "EM5"
+      "next": "EM7"
     }
   },
   "taken": [
@@ -536,6 +540,8 @@
     "EM2",
     "EM3",
     "EM4",
+    "EM5",
+    "EM6",
     "FD1",
     "FD2",
     "FD3",
@@ -660,6 +666,8 @@
     "SL9",
     "ST1",
     "ST2",
+    "ST3",
+    "ST4",
     "TB1",
     "TB2",
     "TB3",
