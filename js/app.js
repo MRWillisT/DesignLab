@@ -329,22 +329,46 @@ function recordPromptHistory(entry) {
   promptHistory = promptHistory.slice(0, 10);
   try { localStorage.setItem(LS_PROMPT_HISTORY, JSON.stringify(promptHistory)); } catch (e) { /* ignore */ }
   populateAgentSwitch();
+  syncEnterAgentFace();
 }
 
 /* ---------- header identity switcher (custom dropdown) ---------- */
 
-function agentSwitchToggle(force) {
-  const box = $('#agentSwitch');
-  const btn = $('#agentSwitchBtn');
-  const menu = $('#agentSwitchMenu');
-  if (!box || !btn || !menu) return;
+/* ---------- contribute menu (identity roster + customize) ---------- */
+
+function lastDispatchIdentity() {
+  if (promptHistory[0] && promptHistory[0].name) return promptHistory[0];
+  loadCustomAgents();
+  let lastId = '';
+  try { lastId = localStorage.getItem(LS_PROMPT_AGENT) || ''; } catch (e) { /* ignore */ }
+  if (!lastId) return null;
+  const custom = customAgents.find(c => c.id === lastId);
+  if (custom) return custom;
+  const reg = LIB.creators.find(c => c.id === lastId && c.id !== ME_ID);
+  if (reg) return reg;
+  const known = KNOWN_AGENT_CHOICES.find(n => n.toLowerCase().replace(/[^a-z0-9]+/g, '-') === lastId);
+  if (known) return { id: 'known:' + known, name: known, color: '#818cf8' };
+  return null;
+}
+
+function syncEnterAgentFace() {
+  const sub = $('#enterAgentSub');
+  if (!sub) return;
+  const ident = lastDispatchIdentity();
+  sub.textContent = ident ? ident.name : 'Pick a model';
+}
+
+function contributeMenuToggle(force) {
+  const menu = $('#contributeMenu');
+  const btn = $('#enterAgentBtn');
+  if (!menu || !btn) return;
   const open = force !== undefined ? force : menu.hidden;
   menu.hidden = !open;
   btn.setAttribute('aria-expanded', String(open));
-  if (open) {
-    $('#agentSwitchInput').value = '';
-    $('#agentSwitchInput').focus();
-  }
+}
+
+function agentSwitchToggle(force) {
+  contributeMenuToggle(force);
 }
 
 function agentSwitchItem(id, name, color, tag) {
@@ -372,10 +396,9 @@ function agentSwitchItem(id, name, color, tag) {
    available agent (registered + custom + known choices), then a custom
    text box that dispatches the typed name on Enter. */
 function populateAgentSwitch() {
-  const box = $('#agentSwitch');
   const recentWrap = $('#agentSwitchRecent');
   const listWrap = $('#agentSwitchList');
-  if (!box || !recentWrap || !listWrap) return;
+  if (!recentWrap || !listWrap) return;
 
   recentWrap.innerHTML = '';
   if (promptHistory.length) {
@@ -403,8 +426,7 @@ function populateAgentSwitch() {
     listWrap.appendChild(agentSwitchItem(id, n, '#94a3b8'));
   });
 
-  box.hidden = promptHistory.length === 0 && allAvailableAgents().length === 0 && KNOWN_AGENT_CHOICES.length === 0;
-  agentSwitchToggle(false);
+  contributeMenuToggle(false);
 }
 
 /* Turn the typed custom name into a saved identity and dispatch as it. */
@@ -1154,6 +1176,7 @@ function openInspectModal(item) {
   chip.style.setProperty('--chip', cr ? cr.color : '#8a8f98');
 
   $('#inspectDesc').textContent = item.description || '';
+  $('#inspectDesc').hidden = !item.description;
 
   const tagsEl = $('#inspectTags');
   tagsEl.innerHTML = (item.tags || []).map(t => '<span class="inspect-tag-pill">#' + escapeHtml(t) + '</span>').join('');
@@ -1230,20 +1253,45 @@ function previewDoc(code, vars, canvas = state.canvas) {
   const overrides = entries.length
     ? '<style>:root{' + entries.map(([k, v]) => k + ':' + v).join(';') + '}</style>'
     : '';
+  const fitScript =
+    '(function(){'
+    + 'function fit(){'
+    + 'var vp=document.getElementById("dl-viewport");var sc=document.getElementById("dl-scale");var el=document.getElementById("dl-spec");'
+    + 'if(!vp||!sc||!el)return;'
+    + 'sc.style.transform="none";sc.style.width="";sc.style.height="";'
+    + 'var w=el.scrollWidth,h=el.scrollHeight;'
+    + 'if(w<1||h<1)return;'
+    + 'var s=Math.min(1,(vp.clientWidth-4)/w,(vp.clientHeight-4)/h);'
+    + 'sc.style.width=w+"px";sc.style.height=h+"px";'
+    + 'sc.style.transform="scale("+s+")";'
+    + '}'
+    + 'function run(){fit();requestAnimationFrame(fit);}'
+    + 'window.dlFitPreview=fit;'
+    + 'if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",run);else run();'
+    + 'window.addEventListener("load",run);'
+    + 'new ResizeObserver(run).observe(document.documentElement);'
+    + '})();';
   return '<!doctype html><html><head><meta charset="utf-8"><style>'
     + 'html,body{height:100%;margin:0;overflow:hidden}'
-    + 'body{display:flex;align-items:center;justify-content:center;padding:6px 8px;'
-    + 'background:' + c.bg + ';color:' + c.color + ';font-family:system-ui,-apple-system,"Segoe UI",sans-serif;'
-    + 'overflow:hidden;scrollbar-width:none;}'
+    + '#dl-viewport{width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden}'
+    + '#dl-scale{transform-origin:center center;flex:none}'
+    + 'body{background:' + c.bg + ';color:' + c.color + ';font-family:system-ui,-apple-system,"Segoe UI",sans-serif;'
+    + 'scrollbar-width:none;}'
     + 'body::-webkit-scrollbar{display:none}'
     + '*{box-sizing:border-box}'
-    + '</style></head><body>' + overrides + code
+    + '</style></head><body>'
+    + '<div id="dl-viewport"><div id="dl-scale"><div id="dl-spec">'
+    + overrides + code
+    + '</div></div></div>'
     + '<scr' + 'ipt>'
+    + fitScript
     + 'addEventListener("message",function(e){var d=e.data;if(!d)return;'
-    + 'if(d.type==="dl-vars"){var s=document.documentElement.style,v=d.vars||{};for(var k in v){s.setProperty(k,v[k]);}}'
+    + 'if(d.type==="dl-vars"){var s=document.documentElement.style,v=d.vars||{};for(var k in v){s.setProperty(k,v[k]);}requestAnimationFrame(function(){if(window.dlFitPreview)window.dlFitPreview();});}'
     + 'if(d.type==="dl-canvas"){var b=document.body;if(d.canvas==="light"){b.style.background="#f8fafc";b.style.color="#0f172a";}'
     + 'else if(d.canvas==="neutral"){b.style.background="#1e232d";b.style.color="#f1f5f9";}'
-    + 'else{b.style.background="#0d0f13";b.style.color="#ebe9e2";}}});</scr' + 'ipt>'
+    + 'else{b.style.background="#0d0f13";b.style.color="#ebe9e2";}}'
+    + 'if(d.type==="dl-refit"&&window.dlFitPreview)requestAnimationFrame(window.dlFitPreview);'
+    + '});</scr' + 'ipt>'
     + '</body></html>';
 }
 
@@ -1517,11 +1565,6 @@ const TWEAK_SVG = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="
   + '<circle cx="10.2" cy="4.5" r="2.1" fill="currentColor"/>'
   + '<circle cx="5.8" cy="11.5" r="2.1" fill="currentColor"/></svg>';
 
-const INSPECT_SVG = '<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">'
-  + '<circle cx="6.5" cy="6.5" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/>'
-  + '<path d="M10 10l4.2 4.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
-  + '</svg>';
-
 function buildTrayRows(item) {
   return (item.tweaks || []).map((t, i) => {
     const inputId = 'tw-' + String(item.id).replace(/[^a-zA-Z0-9_-]/g, '') + '-' + i;
@@ -1586,7 +1629,6 @@ function buildCard(item) {
   card.dataset.section = item.section || '';
 
   let actions = '';
-  actions += '<button class="icon-btn inspect-btn" type="button" title="Expand preview / inspect (🔍)">' + INSPECT_SVG + '</button>';
   if (hasTweaks) {
     actions += '<button class="icon-btn tweak-btn" type="button" aria-expanded="' + openTrays.has(item.id)
       + '" title="Tune this specimen — affects your copy only">' + TWEAK_SVG + '</button>';
@@ -1604,22 +1646,27 @@ function buildCard(item) {
   }
 
   card.innerHTML =
-    '<header class="card-top">'
-    + '<span class="card-id">#' + escapeHtml(item.id) + '</span>'
+    '<div class="stage">'
+    + '<i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i>'
+    + '<div class="stage-meta">'
+    + '<div class="stage-pills">'
+    + (isNew ? '<span class="stage-status">NEW</span>' : '')
     + (rank > 0 && rank <= 3
       ? '<span class="medal-badge medal-' + MEDAL_COLORS[rank] + '" title="#' + rank + ' in this drawer by votes" aria-label="#' + rank + ' in this drawer">' + rank + '</span>'
       : '')
-    + (newItemIds.has(item.id) ? '<span class="new-badge">NEW</span>' : '')
     + '<span class="mod-tag" ' + (dirty ? '' : 'hidden') + '>MOD</span>'
-    + '<span class="top-actions">' + actions + '</span>'
-    + '</header>'
-    + '<div class="stage">'
-    + '<i class="tick tl"></i><i class="tick tr"></i><i class="tick bl"></i><i class="tick br"></i>'
+    + '</div>'
+    + '</div>'
     + '<iframe class="stage-frame" loading="lazy" sandbox="allow-scripts" title="' + escapeHtml(item.name) + ' live preview"></iframe>'
+    + '<button type="button" class="stage-hit" aria-label="Inspect ' + escapeHtml(item.name) + '" title="Click to inspect"></button>'
     + '</div>'
     + '<div class="card-body">'
+    + '<div class="card-title-row">'
     + '<h3 class="card-name">' + escapeHtml(item.name) + '</h3>'
-    + '<p class="card-desc">' + escapeHtml(item.description || '') + '</p>'
+    + '<span class="credit-chip" style="--chip:' + (cr ? escapeHtml(cr.color) : '#8a8f98')
+    + '" title="Created by ' + escapeHtml(cr ? cr.name : item.creator) + '">'
+    + escapeHtml(cr ? cr.name : item.creator) + '</span>'
+    + '</div>'
     + '</div>'
     + (hasTweaks
       ? '<div class="tweak-tray" ' + (openTrays.has(item.id) ? '' : 'hidden') + '>'
@@ -1631,10 +1678,9 @@ function buildCard(item) {
         + '</div>'
       : '')
     + '<footer class="card-foot">'
-    + '<span class="credit-chip" style="--chip:' + (cr ? escapeHtml(cr.color) : '#8a8f98')
-    + '" title="Created by ' + escapeHtml(cr ? cr.name : item.creator) + '">'
-    + escapeHtml(cr ? cr.name : item.creator) + '</span>'
+    + '<span class="card-id">#' + escapeHtml(item.id) + '</span>'
     + '<span class="foot-actions">'
+    + '<span class="top-actions">' + actions + '</span>'
     + '<button class="vote-btn' + (DesignLabVotes.voted(item.id) ? ' is-voted' : '') + '" type="button" data-vote="' + escapeHtml(item.id) + '" aria-pressed="' + DesignLabVotes.voted(item.id) + '" title="' + (DesignLabVotes.voted(item.id) ? 'Remove your upvote' : 'Upvote this specimen') + '">'
     + '<svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 12.5V3.5m0 0L4.5 7M8 3.5L11.5 7M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
     + '<span class="vote-count">' + DesignLabVotes.countOf(item.id) + '</span>'
@@ -1646,8 +1692,7 @@ function buildCard(item) {
   const frame = $('.stage-frame', card);
   deferStageLoad(frame, item);
 
-  $('.inspect-btn', card).addEventListener('click', () => openInspectModal(item));
-  $('.stage', card).addEventListener('dblclick', () => openInspectModal(item));
+  $('.stage-hit', card).addEventListener('click', () => openInspectModal(item));
   $('.star-btn', card).addEventListener('click', () => toggleFavorite(item.id, card));
   const voteBtn = $('.vote-btn', card);
   if (voteBtn) voteBtn.addEventListener('click', () => toggleVote(item, voteBtn));
@@ -1875,9 +1920,18 @@ function syncControlStates() {
   $('#searchInput').value = state.query;
   if ($('#sectionSelect')) $('#sectionSelect').value = state.section;
   if ($('#creatorSelect')) $('#creatorSelect').value = state.creator || 'all';
-  if ($('#favToggle')) $('#favToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
-  if ($('#newToggle')) $('#newToggle').setAttribute('aria-pressed', String(state.newOnly));
-  if ($('#topToggle')) $('#topToggle').setAttribute('aria-pressed', String(state.sort === 'top'));
+  if ($('#favToggle')) {
+    $('#favToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
+    $('#favToggle').classList.toggle('is-active', state.favoritesOnly);
+  }
+  if ($('#newToggle')) {
+    $('#newToggle').setAttribute('aria-pressed', String(state.newOnly));
+    $('#newToggle').classList.toggle('is-active', state.newOnly);
+  }
+  if ($('#topToggle')) {
+    $('#topToggle').setAttribute('aria-pressed', String(state.sort === 'top'));
+    $('#topToggle').classList.toggle('is-active', state.sort === 'top');
+  }
 }
 
 function buildCarouselRow(sec, items) {
@@ -2946,6 +3000,16 @@ function nextIdFor(sectionId) {
   return code + (max + 1);
 }
 
+function refitStageFrames() {
+  $$('#library iframe.stage-frame').forEach(f => {
+    try { f.contentWindow.postMessage({ type: 'dl-refit' }, '*'); } catch (e) { /* frame not ready */ }
+  });
+  const inspect = $('#inspectFrame');
+  if (inspect) {
+    try { inspect.contentWindow.postMessage({ type: 'dl-refit' }, '*'); } catch (e) { /* ignore */ }
+  }
+}
+
 function applyDensity(idx) {
   state.densityIndex = Math.max(0, Math.min(DENSITY_TIERS.length - 1, idx));
   const tier = DENSITY_TIERS[state.densityIndex];
@@ -2958,6 +3022,8 @@ function applyDensity(idx) {
   const inBtn = $('#zoomInBtn');
   if (outBtn) outBtn.disabled = state.densityIndex === 0;
   if (inBtn) inBtn.disabled = state.densityIndex === DENSITY_TIERS.length - 1;
+  stageDocCache.clear();
+  requestAnimationFrame(() => refitStageFrames());
 }
 
 /* ---------- init ---------- */
@@ -2973,6 +3039,7 @@ function init() {
   loadCustomAgents();
   loadPromptHistory();
   populateAgentSwitch();
+  syncEnterAgentFace();
 
   const seen = loadSeen();
   const currentIds = LIB.items.map(it => it.id);
@@ -3000,23 +3067,21 @@ function init() {
     saveFilters();
   });
 
-  $('#enterAgentBtn').addEventListener('click', quickDispatch);
-  if ($('#customizeAgentBtn')) $('#customizeAgentBtn').addEventListener('click', enterAgentFlow);
-  const agentSwitchBtn = $('#agentSwitchBtn');
-  const agentSwitchMenu = $('#agentSwitchMenu');
-  if (agentSwitchBtn) {
-    agentSwitchBtn.addEventListener('click', ev => {
-      ev.stopPropagation();
-      agentSwitchToggle();
-    });
-  }
-  if (agentSwitchMenu) {
-    // Delegate: any roster item click dispatches as that identity.
-    agentSwitchMenu.addEventListener('click', ev => {
+  $('#enterAgentBtn').addEventListener('click', ev => {
+    ev.stopPropagation();
+    contributeMenuToggle();
+  });
+  if ($('#customizeAgentBtn')) $('#customizeAgentBtn').addEventListener('click', () => {
+    contributeMenuToggle(false);
+    enterAgentFlow();
+  });
+  const contributeMenu = $('#contributeMenu');
+  if (contributeMenu) {
+    contributeMenu.addEventListener('click', ev => {
       const item = ev.target.closest('.agent-switch-item');
       if (!item) return;
       const id = item.dataset.id;
-      agentSwitchToggle(false);
+      contributeMenuToggle(false);
       if (!id) return;
       const entry = promptHistory.find(h => h.id === id);
       if (entry) { quickDispatch(entry); return; }
@@ -3032,12 +3097,11 @@ function init() {
       swInput.addEventListener('keydown', ev => {
         ev.stopPropagation();
         if (ev.key === 'Enter') { ev.preventDefault(); dispatchCustomSwitchAgent(); }
-        if (ev.key === 'Escape') agentSwitchToggle(false);
+        if (ev.key === 'Escape') contributeMenuToggle(false);
       });
     }
-    // Click outside closes the dropdown.
     document.addEventListener('click', ev => {
-      if (!ev.target.closest('#agentSwitch')) agentSwitchToggle(false);
+      if (!ev.target.closest('.contribute')) contributeMenuToggle(false);
     });
   }
   $('#promptClose').addEventListener('click', closePromptStudio);
@@ -3096,7 +3160,10 @@ function init() {
     closeExportModal();
   });
 
-  $('#importBtn').addEventListener('click', openImporter);
+  $('#importBtn').addEventListener('click', () => {
+    contributeMenuToggle(false);
+    openImporter();
+  });
   $('#importClose').addEventListener('click', closeImporter);
   $('#importCancel').addEventListener('click', closeImporter);
   $('#importRun').addEventListener('click', runImport);
