@@ -36,32 +36,16 @@
           <input id="searchInput" type="search" placeholder="Search specimens…" autocomplete="off" spellcheck="false" aria-label="Search specimens">
           <kbd>/</kbd>
         </label>
-        <button id="importBtn" class="btn btn-ghost btn-icon" title="Add specimens" aria-label="Add specimens">
-          <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 2.5v11M2.5 8h11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <button id="favToggle" class="btn btn-ghost btn-icon" aria-pressed="false" title="Show favorites only" aria-label="Show favorites only">
-          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M12 2.8l2.85 5.98 6.55.62-4.94 4.38 1.44 6.42L12 16.82l-5.9 3.38 1.44-6.42L2.6 9.4l6.55-.62z" fill="currentColor"/></svg>
-        </button>
-        <button id="newToggle" class="btn btn-ghost" aria-pressed="false" title="Show fresh additions only" aria-label="Show fresh additions">
-          <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8.5 1.5L2.5 9h5l-1 5.5 7-8h-5z" fill="currentColor"/></svg>
-          New
-        </button>
-        <button id="topToggle" class="btn btn-ghost" aria-pressed="false" title="Sort by public upvotes" aria-label="Sort by upvotes">
-          <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 12.5V3.5m0 0L4.5 7M8 3.5L11.5 7M3 13.5h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Top
-        </button>
-        <button id="boardBtn" class="btn btn-ghost btn-icon" title="Votes & leaderboard" aria-label="Votes & leaderboard">
-          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M8 21h8m-4-4v4M6 3h12v2.5a6 6 0 01-12 0V3zm0 2.5C3 6 2 8.2 2 10a4 4 0 004 4c1 0 2-.4 2.7-1M18 5.5c3 .5 4 2.7 4 4.5a4 4 0 01-4 4c-1 0-2-.4-2.7-1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <button id="exportModalBtn" class="btn btn-ghost btn-icon" title="Export favorites, style guide, or backup" aria-label="Export options">
-          <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div id="agentSwitch" class="agent-switch" hidden>
-          <button type="button" id="agentSwitchBtn" class="agent-switch-btn" title="Pick which agent the prompt is copied for — recent, any listed, or a custom name" aria-haspopup="listbox" aria-expanded="false">
-            <span id="agentSwitchDot" class="agent-switch-dot"></span>
-            <span id="agentSwitchLabel">Dispatch as ▾</span>
+        <div class="contribute">
+          <button id="enterAgentBtn" class="btn btn-primary enter-agent-btn" type="button" title="Pick which model you are about to paste this prompt into" aria-haspopup="true" aria-expanded="false" aria-controls="contributeMenu">
+            <span class="enter-agent-copy">
+              <span class="enter-agent-title">Enter your agent</span>
+              <span id="enterAgentSub" class="enter-agent-sub">Pick a model</span>
+            </span>
+            <span class="enter-agent-caret" aria-hidden="true">▾</span>
           </button>
-          <div id="agentSwitchMenu" class="agent-switch-menu" role="listbox" hidden>
+          <div id="contributeMenu" class="contribute-menu" hidden>
+            <div class="contribute-label">Who are you sending this to?</div>
             <div class="agent-switch-group" id="agentSwitchRecent"></div>
             <div class="agent-switch-group">
               <div class="agent-switch-head">All agents</div>
@@ -69,15 +53,12 @@
             </div>
             <div class="agent-switch-custom" id="agentSwitchCustom">
               <input type="text" id="agentSwitchInput" class="agent-switch-input" placeholder="Custom agent name…" spellcheck="false" maxlength="32" aria-label="Custom agent name">
-              <span class="agent-switch-enterhint">↵ dispatch</span>
+              <span class="agent-switch-enterhint">↵ copy prompt</span>
             </div>
+            <button id="customizeAgentBtn" class="contribute-action" type="button" title="Customize identity &amp; drawer, tweak the prompt, or paste the JSON your agent returned to publish live">Customize &amp; publish…</button>
+            <button id="importBtn" class="contribute-action" type="button">Paste JSON…</button>
           </div>
         </div>
-        <button id="enterAgentBtn" class="btn btn-primary" title="One tap: copies a ready-to-paste prompt for a random drawer, under your last-used identity">
-          <svg viewBox="0 0 16 16" width="11" height="11" aria-hidden="true"><path d="M8 2v12M2 8h12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          Enter your agent
-        </button>
-        <button id="customizeAgentBtn" class="btn btn-ghost" title="Customize identity &amp; drawer, tweak the prompt, or paste the JSON your agent returned to publish live">Customize</button>
       </div>
     </div>
   </header>
@@ -99,6 +80,17 @@
           </select>
         </label>
 
+        <div class="view-wrap">
+          <span class="filter-label">View</span>
+          <div class="canvas-seg" role="group" aria-label="Library view">
+            <button id="newToggle" type="button" class="canvas-btn" aria-pressed="false" title="Show fresh additions only">New</button>
+            <button id="topToggle" type="button" class="canvas-btn" aria-pressed="false" title="Sort by public upvotes">Top</button>
+            <button id="favToggle" type="button" class="canvas-btn" aria-pressed="false" title="Show favorites only" aria-label="Show favorites only">★</button>
+          </div>
+        </div>
+
+        <div class="filterbar-spacer"></div>
+
         <div class="canvas-toggle-wrap">
           <span class="filter-label">Canvas</span>
           <div class="canvas-seg" role="radiogroup" aria-label="Stage canvas background">
@@ -116,6 +108,13 @@
             <button id="zoomInBtn" type="button" class="density-btn" title="Larger cards (fewer per row)" aria-label="Increase card size">+</button>
           </div>
         </div>
+
+        <button id="boardBtn" class="btn btn-ghost btn-icon filter-icon-btn" title="Votes & leaderboard" aria-label="Votes & leaderboard">
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M8 21h8m-4-4v4M6 3h12v2.5a6 6 0 01-12 0V3zm0 2.5C3 6 2 8.2 2 10a4 4 0 004 4c1 0 2-.4 2.7-1M18 5.5c3 .5 4 2.7 4 4.5a4 4 0 01-4 4c-1 0-2-.4-2.7-1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="exportModalBtn" class="btn btn-ghost btn-icon filter-icon-btn" title="Export favorites, style guide, or backup" aria-label="Export options">
+          <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M8 2v8m0 0L5 7m3 3l3-3M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
       </div>
     </div>
   </nav>
