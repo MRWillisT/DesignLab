@@ -53,7 +53,26 @@ Open `index.html` in any modern browser. That's the whole install.
   never touched.
 - **Ingestion** — add new designs without editing code (see below).
 - **Agent-ready** — one button copies an expansion prompt any AI agent can
-  follow to grow the library correctly.
+  follow to grow the library correctly. Empty drawers (sidebars, charts,
+  tables, page sections, …) appear in the prompt studio and are preferred
+  by Quick Dispatch until they have specimens.
+
+## Drawers
+
+Twenty-six drawers. Specimens use the `id` slug as `section` and the
+two-letter `code` as the item-id prefix (`SB1`, `CH1`, `PS1`):
+
+**Controls** — Animations (AN), Loaders (LO), Badges (BA), Buttons (BU),
+Form Controls (FO), Toggles (TO), Sliders (SL), Cards (CA), Navigation (NA),
+Alerts (AL), Icons (IC), Media Players (PL), Modals (MO), Effects (EF),
+Drag & Drop (DD), Tooltips (TT).
+
+**Page & product furniture** — Sidebars & Rails (SB), Charts & Data Viz (CH),
+Tables & Data (TB), Accordions (AC), Page Sections (PS), Avatars (AV),
+Feeds & Chat (FD), Calendars (CL), Steps & Timelines (ST), Empty & Error (EM).
+
+The live catalog and briefs live in `js/data.js` → `sections`. Agents should
+read `AGENTS.md` and `window.AGENT_PROMPT` before expanding a drawer.
 
 ## Adding designs (no code editing)
 

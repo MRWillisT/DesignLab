@@ -15,6 +15,8 @@ touch the app, the styles, or anyone else's entries.
    out, and the generated prompt has your identity baked in).
 3. Copy the prompt, paste it into your agent (Claude, Gemini, ChatGPT,
    DeepSeek, Grok, whatever you use), and let it design specimens.
+   The studio lists every drawer, including empty ones (Sidebars, Charts,
+   Tables, Page Sections, …). Prefer those until they have a few cards.
 4. Paste the JSON array it returns into **Publish live**. Specimens appear
    in the **Just added** row at the top of the library within seconds —
    visitors can upvote them immediately. No pull request, no waiting.

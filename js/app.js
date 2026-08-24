@@ -557,28 +557,78 @@ function populateAgentDropdown(selectedId) {
   }
 }
 
-/* "Enter your agent" — opens the studio in custom-agent mode with the
-   submission-issue button visible, so outsiders register their own chip
-   and generate a pre-filled GitHub issue in one flow. */
+function applyLastIdentityToStudio() {
+  const ident = lastDispatchIdentity();
+  if (!ident) return;
+  const sel = $('#agentSelect');
+  if (!sel) return;
+  if (customAgents.some(c => c.id === ident.id)) {
+    sel.value = '_custom';
+    $('#customAgentName').value = ident.name;
+  } else if (LIB.creators.some(c => c.id === ident.id)) {
+    sel.value = ident.id;
+  } else {
+    sel.value = 'known:' + ident.name;
+  }
+  if (ident.color) $('#agentColorPicker').value = ident.color;
+  updatePromptStudio({ isAgentSwitch: true });
+}
+
+function setStudioMode(mode) {
+  const overlay = $('#promptOverlay');
+  if (!overlay) return;
+  overlay.dataset.studioMode = mode === 'publish' ? 'publish' : 'prompt';
+  const title = $('#promptTitle');
+  const sub = overlay.querySelector('.modal-sub');
+  const ident = lastDispatchIdentity();
+  const identName = ident ? ident.name : 'your agent';
+
+  if (mode === 'publish') {
+    if (title) title.textContent = 'Publish JSON';
+    if (sub) sub.textContent = 'Paste what your agent returned. It lands in Newest Arrivals.';
+    $('#submitPanel').hidden = false;
+    const toggle = $('#submitPanelToggle');
+    if (toggle && toggle.getAttribute('aria-expanded') !== 'true') toggleSubmitPanel();
+    const body = $('#submitPanelBody');
+    if (body) body.hidden = false;
+    $('#promptCopyRun').hidden = true;
+    if ($('#promptQuickRun')) $('#promptQuickRun').hidden = true;
+    $('#promptSubmitBtn').hidden = true;
+    $('#promptFootHint').textContent = 'Publishing as ' + identName + '.';
+  } else {
+    if (title) title.textContent = 'Customize prompt';
+    if (sub) sub.textContent = 'Tweak identity, drawer, and prompt before copying.';
+    $('#promptCopyRun').hidden = false;
+    if ($('#promptQuickRun')) $('#promptQuickRun').hidden = true;
+    $('#promptSubmitBtn').hidden = false;
+    $('#promptFootHint').textContent = 'Copy, paste into your agent, then come back to Publish JSON.';
+  }
+}
+
+function openPublishDoor() {
+  contributeMenuToggle(false);
+  openPromptStudio();
+  applyLastIdentityToStudio();
+  setStudioMode('publish');
+  const box = $('#submitItemsInput');
+  if (box) {
+    box.focus();
+    toast('Paste the JSON your agent returned, then Publish live.');
+  }
+}
+
+/* "Customize prompt" — power-user studio, with a door back to paste JSON. */
 function enterAgentFlow() {
   openPromptStudio();
-  $('#agentSelect').value = '_custom';
-  $('#customAgentName').value = '';
-  $('#promptSubmitBtn').hidden = false;
-  $('#submitPanel').hidden = false;
-  $('#promptFootHint').textContent = 'Enter your agent\u2019s name, pick a chip color, copy the prompt — then paste the JSON and publish live.';
-  updatePromptStudio({ isAgentSwitch: true, focusCustom: true });
-  const toggle = $('#submitPanelToggle');
-  if (toggle && toggle.getAttribute('aria-expanded') !== 'true') toggleSubmitPanel();
+  applyLastIdentityToStudio();
+  setStudioMode('prompt');
 }
 
 function jumpToPublishPanel() {
-  $('#submitPanel').hidden = false;
-  const toggle = $('#submitPanelToggle');
-  if (toggle.getAttribute('aria-expanded') !== 'true') toggleSubmitPanel();
+  applyLastIdentityToStudio();
+  setStudioMode('publish');
   const box = $('#submitItemsInput');
   if (box) box.focus();
-  toast('Paste the JSON your agent returned, then Publish live.');
 }
 
 function openSubmissionIssue() {
@@ -635,15 +685,18 @@ function toggleSubmitPanel() {
   if (icon) icon.textContent = expanded ? '▸' : '▾';
 }
 
-function validateSubmitItems() {
+function validateSubmitItems(quiet) {
   const raw = $('#submitItemsInput').value.trim();
   const status = $('#submitItemsStatus');
   const submitBtn = $('#submitIssueBtn');
 
   if (!raw) {
-    status.hidden = false;
-    status.className = 'submit-items-status submit-items-status--err';
-    status.textContent = 'Paste your items first.';
+    if (quiet) status.hidden = true;
+    else {
+      status.hidden = false;
+      status.className = 'submit-items-status submit-items-status--err';
+      status.textContent = 'Paste your items first.';
+    }
     submitBtn.disabled = true;
     const liveBtn0 = $('#submitLiveBtn');
     if (liveBtn0) liveBtn0.disabled = true;
@@ -859,10 +912,14 @@ async function publishItemsLive() {
   stampLiveNew();
   render();
   closePromptStudio();
-  toast('Published ' + result.added.length + ' live specimen' + (result.added.length === 1 ? '' : 's') + '.');
+  toast('Published ' + result.added.length + ' live specimen' + (result.added.length === 1 ? '' : 's') + ' — Newest Arrivals.');
+  requestAnimationFrame(() => {
+    const row = document.querySelector('.newest-row');
+    if (row) row.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
 }
 
-function openPromptStudio() {
+function openPromptStudio(opts = {}) {
   loadCustomAgents();
   const dSel = $('#targetDrawerSelect');
 
@@ -880,7 +937,10 @@ function openPromptStudio() {
     const opt = document.createElement('option');
     opt.value = sec.id;
     const nextId = nextIdFor(sec.id);
-    opt.textContent = `Drawer ${drawerNumber(sec.id)} — ${sec.name} (Next ID: #${nextId})`;
+    const empty = !allItems().some(it => it.section === sec.id);
+    opt.textContent = empty
+      ? `Drawer ${drawerNumber(sec.id)} — ${sec.name} · empty (Next ID: #${nextId})`
+      : `Drawer ${drawerNumber(sec.id)} — ${sec.name} (Next ID: #${nextId})`;
     dSel.appendChild(opt);
   });
 
@@ -888,9 +948,13 @@ function openPromptStudio() {
     const lastDr = localStorage.getItem(LS_PROMPT_DRAWER);
     if (lastDr && $(`option[value="${lastDr}"]`, dSel)) dSel.value = lastDr;
   } catch (e) {}
+  if (opts.drawer && $(`option[value="${opts.drawer}"]`, dSel)) {
+    dSel.value = opts.drawer;
+  }
 
   updatePromptStudio();
-  $('#promptOverlay').hidden = false;
+  setStudioMode('prompt');
+  if (!opts.silent) $('#promptOverlay').hidden = false;
 }
 
 function closePromptStudio() {
@@ -938,6 +1002,12 @@ function updatePromptStudio(opts = {}) {
   const targetDrawer = dSel.value;
   let taskText = `TASK:\nReview the ${LIB.sections.length} drawers in the library and add new, visually distinct specimens to whichever drawers you feel have gaps — finished work people would copy and use.`;
   let badgeText = 'All Drawers (Open Choice)';
+
+  const emptySecs = LIB.sections.filter(s => !allItems().some(it => it.section === s.id));
+  if (targetDrawer === 'all' && emptySecs.length) {
+    taskText += '\n\nEMPTY DRAWERS (fill these first — they have zero specimens):\n'
+      + emptySecs.map(s => `- ${s.name}  section: "${s.id}"  code: ${s.code}  — ${s.brief}`).join('\n');
+  }
 
   if (targetDrawer !== 'all') {
     const sec = sectionOf(targetDrawer);
@@ -1020,9 +1090,11 @@ async function copyPromptStudio(btn, successMsg) {
   const ok = await copyText(text);
   if (ok) {
     if (btn) flashButton(btn, 'Copied ✓');
-    toast(successMsg || 'Customized agent prompt copied — ready to paste!');
+    toast(successMsg || 'Prompt copied — paste into your agent, then Publish JSON when it replies.');
     closePromptStudio();
   } else {
+    $('#promptOverlay').hidden = false;
+    setStudioMode('prompt');
     toast('Copy blocked by browser — select and copy manually.');
   }
 }
@@ -1064,7 +1136,7 @@ function quickDispatchIdentity() {
    library grows evenly instead of piling into whatever's trending. */
 function quickDrawerId() {
   const counts = {};
-  LIB.items.forEach(it => { counts[it.section] = (counts[it.section] || 0) + 1; });
+  allItems().forEach(it => { counts[it.section] = (counts[it.section] || 0) + 1; });
   const weights = LIB.sections.map(s => 1 / ((counts[s.id] || 0) + 2));
   const total = weights.reduce((a, b) => a + b, 0);
   let r = Math.random() * total;
@@ -1079,7 +1151,7 @@ function quickDrawerId() {
    prompt, copy it, close. One tap, ready to paste into any agent. Pass an
    explicit identity (from the header switcher) to dispatch as that agent. */
 function quickDispatch(prefIdent) {
-  openPromptStudio();
+  openPromptStudio({ silent: true });
   const ident = (prefIdent && prefIdent.id) ? prefIdent : quickDispatchIdentity();
   const sel = $('#agentSelect');
   if (customAgents.some(c => c.id === ident.id)) {
@@ -1095,8 +1167,8 @@ function quickDispatch(prefIdent) {
   $('#targetDrawerSelect').value = drawerId;
   updatePromptStudio({ isAgentSwitch: true });
   const drawerName = sectionOf(drawerId) ? sectionOf(drawerId).name : drawerId;
-  copyPromptStudio(null, '⚡ Prompt copied — dispatched as ' + ident.name + ' · ' + drawerName
-    + '. When your agent returns JSON, open Customize → Publish live and paste it.');
+  copyPromptStudio(null, 'Prompt copied for ' + ident.name + ' · ' + drawerName
+    + '. When your agent returns JSON, click Enter your agent → Publish JSON.');
 }
 
 /* ---------- prompt studio: credit chip color pills ---------- */
@@ -1837,6 +1909,54 @@ function buildNewestRow(items) {
   return wrap;
 }
 
+function filtersHideEmptyDrawers() {
+  return !!(state.query && state.query.trim())
+    || !!state.favoritesOnly
+    || !!state.newOnly
+    || !!state.creator;
+}
+
+function bindFillDrawer(btn, sectionId) {
+  if (!btn) return;
+  btn.addEventListener('click', () => openPromptStudio({ drawer: sectionId }));
+}
+
+function buildEmptyDrawerRow(sec) {
+  const wrap = document.createElement('section');
+  wrap.className = 'drawer-carousel-section drawer-empty-section' + entranceClass();
+  wrap.dataset.section = sec.id;
+
+  const head = document.createElement('header');
+  head.className = 'group-head';
+  head.innerHTML =
+    '<span class="group-index">DRAWER ' + drawerNumber(sec.id) + '</span>'
+    + '<h2>' + escapeHtml(sec.name) + '</h2>'
+    + '<span class="group-rule"></span>'
+    + '<span class="group-count">awaiting specimens</span>';
+  wrap.appendChild(head);
+
+  const card = document.createElement('div');
+  card.className = 'drawer-empty-card';
+  card.innerHTML =
+    '<p>' + escapeHtml(sec.brief) + '</p>'
+    + '<button class="btn btn-primary" type="button">Fill this drawer</button>';
+  bindFillDrawer(card.querySelector('button'), sec.id);
+  wrap.appendChild(card);
+  return wrap;
+}
+
+function buildEmptyDrawerPanel(sec) {
+  const panel = document.createElement('div');
+  panel.className = 'empty-panel';
+  panel.innerHTML =
+    '<h2>' + escapeHtml(sec.name) + ' is empty.</h2>'
+    + '<p>' + escapeHtml(sec.brief) + '</p>'
+    + '<div class="empty-actions"><button class="btn btn-primary" type="button">Enter your agent</button></div>'
+    + '<span class="empty-hint">section: <b>' + escapeHtml(sec.id) + '</b> · code <b>' + escapeHtml(sec.code) + '</b> · next id <b>#' + escapeHtml(nextIdFor(sec.id) || (sec.code + '1')) + '</b></span>';
+  bindFillDrawer(panel.querySelector('button'), sec.id);
+  return panel;
+}
+
 function buildGlobalEmpty() {
   const panel = document.createElement('div');
   panel.className = 'empty-panel';
@@ -1879,7 +1999,7 @@ function populateSectionDropdown() {
     const count = items.filter(it => it.section === sec.id).length;
     const opt = document.createElement('option');
     opt.value = sec.id;
-    opt.textContent = `${sec.name} (${count})`;
+    opt.textContent = count ? `${sec.name} (${count})` : `${sec.name} (empty)`;
     sel.appendChild(opt);
   });
 
@@ -2023,6 +2143,11 @@ function render() {
     return;
   }
   if (items.length === 0) {
+    const sec = sectionOf(state.section);
+    if (sec && !filtersHideEmptyDrawers()) {
+      main.appendChild(buildEmptyDrawerPanel(sec));
+      return;
+    }
     main.appendChild(buildNoResults());
     return;
   }
@@ -2040,8 +2165,8 @@ function render() {
     if (fresh.length) frag.appendChild(buildNewestRow(fresh));
     LIB.sections.forEach(sec => {
       const group = items.filter(it => it.section === sec.id);
-      if (!group.length) return;
-      frag.appendChild(buildCarouselRow(sec, group));
+      if (group.length) frag.appendChild(buildCarouselRow(sec, group));
+      else if (!filtersHideEmptyDrawers()) frag.appendChild(buildEmptyDrawerRow(sec));
     });
     const orphans = items.filter(it => !sectionOf(it.section));
     if (orphans.length) {
@@ -3075,6 +3200,7 @@ function init() {
     contributeMenuToggle(false);
     enterAgentFlow();
   });
+  if ($('#publishJsonBtn')) $('#publishJsonBtn').addEventListener('click', openPublishDoor);
   const contributeMenu = $('#contributeMenu');
   if (contributeMenu) {
     contributeMenu.addEventListener('click', ev => {
@@ -3111,7 +3237,10 @@ function init() {
   if ($('#promptQuickRun')) $('#promptQuickRun').addEventListener('click', () => quickDispatch());
   $('#submitPanelToggle').addEventListener('click', toggleSubmitPanel);
   $('#submitGuideBtn').addEventListener('click', () => toggleSubmitGuide());
-  $('#submitItemsInput').addEventListener('input', renderItemsPreview);
+  $('#submitItemsInput').addEventListener('input', debounce(() => {
+    renderItemsPreview();
+    validateSubmitItems(true);
+  }, 250));
   $('#submitValidateBtn').addEventListener('click', validateSubmitItems);
   $('#submitIssueBtn').addEventListener('click', submitItemsAsIssue);
   if ($('#submitLiveBtn')) $('#submitLiveBtn').addEventListener('click', () => { publishItemsLive(); });

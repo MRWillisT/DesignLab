@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-23T23:09:50.193Z",
+  "generated": "2026-08-24T13:31:07.025Z",
   "count": 213,
   "drawers": {
     "animations": {
@@ -326,6 +326,66 @@
         "TT8"
       ],
       "next": "TT6"
+    },
+    "sidebars": {
+      "code": "SB",
+      "name": "Sidebars & Rails",
+      "taken": [],
+      "next": "SB1"
+    },
+    "charts": {
+      "code": "CH",
+      "name": "Charts & Data Viz",
+      "taken": [],
+      "next": "CH1"
+    },
+    "tables": {
+      "code": "TB",
+      "name": "Tables & Data",
+      "taken": [],
+      "next": "TB1"
+    },
+    "accordions": {
+      "code": "AC",
+      "name": "Accordions & Disclosure",
+      "taken": [],
+      "next": "AC1"
+    },
+    "pages": {
+      "code": "PS",
+      "name": "Page Sections",
+      "taken": [],
+      "next": "PS1"
+    },
+    "avatars": {
+      "code": "AV",
+      "name": "Avatars & Presence",
+      "taken": [],
+      "next": "AV1"
+    },
+    "feeds": {
+      "code": "FD",
+      "name": "Feeds & Chat",
+      "taken": [],
+      "next": "FD1"
+    },
+    "calendars": {
+      "code": "CL",
+      "name": "Calendars & Scheduling",
+      "taken": [],
+      "next": "CL1"
+    },
+    "steps": {
+      "code": "ST",
+      "name": "Steps & Timelines",
+      "taken": [],
+      "next": "ST1"
+    },
+    "empty": {
+      "code": "EM",
+      "name": "Empty & Error",
+      "taken": [],
+      "next": "EM1"
     }
   },
   "taken": [

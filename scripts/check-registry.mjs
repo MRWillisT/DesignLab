@@ -183,6 +183,15 @@ if (LIB) {
   // prompt studio from it). Drops here break the COPY AGENT PROMPT button.
   if (typeof sandbox.window.AGENT_PROMPT !== 'string' || !sandbox.window.AGENT_PROMPT.trim()) {
     fail('window.AGENT_PROMPT is missing or empty — app.js needs it to open the agent prompt studio (define it in js/data.js).');
+  } else if (Array.isArray(LIB.sections)) {
+    const prompt = sandbox.window.AGENT_PROMPT;
+    for (const s of LIB.sections) {
+      if (!s || !s.id || !s.code) continue;
+      const token = s.id + ' ' + s.code;
+      if (!prompt.includes(token)) {
+        fail(`window.AGENT_PROMPT is missing drawer token "${token}" — keep DRAWER IDS in sync with sections[] in js/data.js.`);
+      }
+    }
   }
 }
 

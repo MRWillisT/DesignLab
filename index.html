@@ -55,8 +55,9 @@
               <input type="text" id="agentSwitchInput" class="agent-switch-input" placeholder="Custom agent name…" spellcheck="false" maxlength="32" aria-label="Custom agent name">
               <span class="agent-switch-enterhint">↵ copy prompt</span>
             </div>
-            <button id="customizeAgentBtn" class="contribute-action" type="button" title="Customize identity &amp; drawer, tweak the prompt, or paste the JSON your agent returned to publish live">Customize &amp; publish…</button>
-            <button id="importBtn" class="contribute-action" type="button">Paste JSON…</button>
+            <button id="publishJsonBtn" class="contribute-action contribute-action-primary" type="button">Publish JSON</button>
+            <button id="customizeAgentBtn" class="contribute-action" type="button" title="Tweak identity, drawer, and prompt before copying">Customize prompt…</button>
+            <button id="importBtn" class="contribute-action" type="button" title="Import specimens into this browser only — not the public site">This browser only…</button>
           </div>
         </div>
       </div>
@@ -239,8 +240,8 @@
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="promptTitle">
       <header class="modal-head">
         <div>
-          <h2 id="promptTitle">Customize &amp; Publish</h2>
-          <p class="modal-sub">pick an identity and drawer, tweak the prompt, or paste the JSON your agent returned to publish live</p>
+          <h2 id="promptTitle">Customize prompt</h2>
+          <p class="modal-sub">tweak identity, drawer, and prompt before copying</p>
         </div>
         <button id="promptClose" class="icon-btn" type="button" aria-label="Close">✕</button>
       </header>
@@ -265,7 +266,7 @@
             <span class="field-warn" id="customNameNear" hidden></span>
           </label>
 
-          <div class="config-field">
+          <div class="config-field config-field-prompt">
             <span class="field-lbl">Credit Chip Color</span>
             <div class="color-picker-row">
               <input id="agentColorPicker" type="color" class="color-swatch-input" value="#818cf8" title="Custom color picker">
@@ -274,7 +275,7 @@
             </div>
           </div>
 
-          <label class="config-field">
+          <label class="config-field config-field-prompt">
             <span class="field-lbl">Target Drawer</span>
             <select id="targetDrawerSelect" class="config-sel" aria-label="Target Drawer">
               <option value="all">Any Drawer (General Expansion)</option>
@@ -310,7 +311,7 @@
             <p class="submit-guide-note">GitHub PRs are optional — only if you want the specimen in the canonical git registry. Live ingest is the default arena.</p>
           </div>
           <div id="submitPanelBody" class="submit-panel-body" hidden>
-            <p class="submit-panel-desc">Paste the JSON array your agent returned. We validate it and publish it to the live library — it shows up in Newest Arrivals for everyone.</p>
+            <p class="submit-panel-desc">Paste the JSON array your agent returned. Valid items publish to Newest Arrivals for everyone.</p>
             <textarea id="submitItemsInput" class="import-box submit-items-input" spellcheck="false" aria-label="Paste your items" placeholder='Paste items here — e.g. [
   { "id": "BU21", "section": "buttons", "name": "Hex Pulse", ... }
 ]'></textarea>
@@ -325,11 +326,11 @@
         </div>
       </div>
       <footer class="modal-foot">
-        <span class="foot-hint" id="promptFootHint">Paste directly into Claude, Gemini, ChatGPT, or Cursor</span>
+        <span class="foot-hint" id="promptFootHint">Copy, paste into your agent, then come back to Publish JSON.</span>
         <span class="foot-spacer"></span>
         <button id="promptCancel" class="btn" type="button">Cancel</button>
-        <button id="promptSubmitBtn" class="btn" type="button" hidden title="Jump to the live publish panel">Paste &amp; publish</button>
-        <button id="promptQuickRun" class="btn" type="button" title="Skip the form — auto identity, weighted-random drawer, copies instantly">⚡ Quick Dispatch</button>
+        <button id="promptSubmitBtn" class="btn" type="button" title="Paste the JSON your agent returned">I have JSON</button>
+        <button id="promptQuickRun" class="btn" type="button" hidden title="Skip the form — auto identity, weighted-random drawer, copies instantly">⚡ Quick Dispatch</button>
         <button id="promptCopyRun" class="btn btn-primary" type="button">Copy Prompt</button>
       </footer>
     </div>

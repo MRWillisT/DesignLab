@@ -39,15 +39,56 @@ before touching anything.
   variants of originals, and JSON-imported items. They never mutate the shared
   registry.
 
+## Drawers (sections)
+
+The `sections` array in `js/data.js` is the source of truth. **Append** new
+drawers at the tail; never reorder, rename, or renumber existing ones. Every
+specimen's `section` must match a `sections.id`; its `id` must start with that
+drawer's two-letter `code`. Empty drawers are valid — fill them via live
+publish; do not invent placeholder items.
+
+| id | code | name | Belongs here |
+| --- | --- | --- | --- |
+| `animations` | AN | Animations | Motion demos where the movement is the design |
+| `loaders` | LO | Loaders & Skeletons | Spinners, shimmer, waiting — not empty/zero-data |
+| `badges` | BA | Badges & Tags | Status dots, counters, pills — not avatars |
+| `buttons` | BU | Buttons | Click targets |
+| `forms` | FO | Form Controls | Inputs, selects, textareas — not full calendars |
+| `toggles` | TO | Toggles & Switches | Binary controls |
+| `sliders` | SL | Sliders & Progress | Scrubbers and progress — not wizards/timelines |
+| `cards` | CA | Cards & Panels | Self-contained surfaces — not tables or page sections |
+| `navigation` | NA | Navigation | Menus, tabs, breadcrumbs, paginators — not sidebars |
+| `alerts` | AL | Alerts & Toasts | Inline callouts and toasts — not 404/empty pages |
+| `icons` | IC | Icons & Glyphs | Glyph sets |
+| `players` | PL | Media Players | Audio/video transport |
+| `modals` | MO | Modals & Overlays | Dialogs, sheets, off-canvas drawers |
+| `effects` | EF | Effects & Styles | Glass, grain, glow, gradients |
+| `dragdrop` | DD | Drag & Drop | Grab, reorder, transfer |
+| `tooltips` | TT | Tooltips & Popovers | Anchored context |
+| `sidebars` | SB | Sidebars & Rails | Persistent left/right chrome, icon rails |
+| `charts` | CH | Charts & Data Viz | Designed CSS/SVG charts — not a charting library |
+| `tables` | TB | Tables & Data | Tabular data, sticky columns, invoices |
+| `accordions` | AC | Accordions & Disclosure | FAQ / expand-collapse |
+| `pages` | PS | Page Sections | One hero/pricing/footer/CTA block — not a full page |
+| `avatars` | AV | Avatars & Presence | Identity stacks, rings, initials |
+| `feeds` | FD | Feeds & Chat | Activity, comments, message bubbles |
+| `calendars` | CL | Calendars & Scheduling | Month grids, booking slots |
+| `steps` | ST | Steps & Timelines | Wizards, onboarding, history |
+| `empty` | EM | Empty & Error | Zero-data, 404, no-results, first-run |
+
+`window.AGENT_PROMPT` must list every `id` + `code` pair (the registry gate
+fails the push if a drawer is missing from the prompt). After adding a
+drawer, regenerate `ids.json`.
+
 ## Adding specimens
 
 **Option A — registry entry (preferred for shared work).**
 Append an object to `items: []` in `js/data.js`, following the ITEM SCHEMA
 comment at the top of that file exactly:
 
-- `id`: unique, short — drawer code + next free number (`BU21`, `PL7`). Every
-  section carries its two-letter `code`; `DesignLab.nextId("buttons")`
-  computes the next free id for you.
+- `id`: unique, short — drawer code + next free number (`BU21`, `PL7`, `SB1`).
+  Every section carries its two-letter `code`; `DesignLab.nextId("buttons")`
+  (or `"sidebars"`, `"charts"`, …) computes the next free id for you.
 - `section`: must match an existing `sections.id`.
 - `name` / `description`: 2–4 words; one line on what makes it structurally
   distinct.
@@ -178,6 +219,8 @@ A `pre-push` hook runs `scripts/check-registry.mjs` before every push and
    `tweaks` (range min/max/step/unit/default sanity, color defaults as
    strings), every tweak's `var(--name, …)` actually consumed in the snippet,
    and `tags` entries non-empty strings. Batches pushing >40 items warn.
+   `window.AGENT_PROMPT` must list every drawer as `id CODE` (e.g. `sidebars SB`)
+   so agent prompts cannot drift from `sections[]`.
 3. **Behavioral smoke test** — `scripts/smoke-test.mjs` mounts every
    specimen's inline `<script>` blocks in a sandboxed fake DOM (no runtime
    deps), fires every listener registered at mount plus every inline

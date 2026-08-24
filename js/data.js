@@ -18,7 +18,7 @@ window.DESIGN_LAB = {
 
   meta: {
     name: "Design Lab",
-    version: "0.5.0"
+    version: "0.6.0"
   },
 
   /* ----------------------------------------------------------
@@ -46,26 +46,36 @@ window.DESIGN_LAB = {
   /* ----------------------------------------------------------
      SECTIONS — fixed registry of drawers. Reference by id.
      `code` is the two-letter prefix every item id in that drawer
-     must use (BU1, PL7, ...). `brief` tells agents what belongs.
-     Do not reorder or renumber existing drawers.
+     must use (BU1, PL7, SB1, ...). `brief` tells agents what belongs.
+     Append new drawers at the tail. Do not reorder or renumber existing drawers.
      ---------------------------------------------------------- */
   sections: [
     { id: "animations",  code: "AN", name: "Animations",                   brief: "Motion demos where the movement IS the design." },
-    { id: "loaders",     code: "LO", name: "Loaders & Skeletons",          brief: "Spinners, shimmer placeholders, waiting states." },
-    { id: "badges",      code: "BA", name: "Badges & Tags",                brief: "Status dots, counters, labels, pills." },
+    { id: "loaders",     code: "LO", name: "Loaders & Skeletons",          brief: "Spinners, shimmer placeholders, waiting states. Not empty or zero-data screens." },
+    { id: "badges",      code: "BA", name: "Badges & Tags",                brief: "Status dots, counters, labels, pills. Not avatars or presence stacks." },
     { id: "buttons",     code: "BU", name: "Buttons",                      brief: "Click targets. Vary silhouette, anatomy, feedback." },
-    { id: "forms",       code: "FO", name: "Form Controls",                brief: "Inputs, selects, textareas, steppers, comboboxes." },
+    { id: "forms",       code: "FO", name: "Form Controls",                brief: "Inputs, selects, textareas, steppers, comboboxes. Full calendars belong in Calendars & Scheduling." },
     { id: "toggles",     code: "TO", name: "Toggles & Switches",           brief: "Binary controls: switches, check-states, segmented binaries." },
-    { id: "sliders",     code: "SL", name: "Sliders & Progress",           brief: "Value scrubbers, range inputs, progress indicators." },
-    { id: "cards",       code: "CA", name: "Cards & Panels",               brief: "Self-contained surfaces: profiles, tiles, content panels." },
-    { id: "navigation",  code: "NA", name: "Navigation",                   brief: "Menus, tab bars, breadcrumbs, paginators." },
-    { id: "alerts",      code: "AL", name: "Alerts & Toasts",              brief: "Inline callouts and transient notifications." },
+    { id: "sliders",     code: "SL", name: "Sliders & Progress",           brief: "Value scrubbers, range inputs, progress indicators. Not step wizards or timelines." },
+    { id: "cards",       code: "CA", name: "Cards & Panels",               brief: "Self-contained surfaces: profiles, tiles, content panels. Not data tables or full page sections." },
+    { id: "navigation",  code: "NA", name: "Navigation",                   brief: "Menus, tab bars, breadcrumbs, paginators. Persistent sidebars and icon rails belong in Sidebars & Rails." },
+    { id: "alerts",      code: "AL", name: "Alerts & Toasts",              brief: "Inline callouts and transient notifications. Not empty/error/404 pages." },
     { id: "icons",       code: "IC", name: "Icons & Glyphs",               brief: "Glyph sets and icon systems with a unified voice." },
     { id: "players",     code: "PL", name: "Media Players",                brief: "Audio/video transport, scrubbing, volume UI." },
-    { id: "modals",      code: "MO", name: "Modals & Overlays",            brief: "Dialogs, sheets, popovers, overlay patterns." },
+    { id: "modals",      code: "MO", name: "Modals & Overlays",            brief: "Dialogs, sheets, popovers, overlay patterns. Off-canvas drawers live here; persistent sidebars do not." },
     { id: "effects",     code: "EF", name: "Effects & Styles",             brief: "Reusable visual treatments: glass, grain, glow, gradients." },
     { id: "dragdrop",    code: "DD", name: "Drag & Drop",                brief: "Direct manipulation: grab, reorder, transfer, snap into place." },
-    { id: "tooltips",    code: "TT", name: "Tooltips & Popovers",         brief: "Anchored context: reveal definitions, inspect content, dismissible menus." }
+    { id: "tooltips",    code: "TT", name: "Tooltips & Popovers",         brief: "Anchored context: reveal definitions, inspect content, dismissible menus." },
+    { id: "sidebars",    code: "SB", name: "Sidebars & Rails",            brief: "Persistent left/right chrome: icon rails, nested trees, workspace switchers, collapsible nav. Overlay/off-canvas drawers belong in Modals." },
+    { id: "charts",      code: "CH", name: "Charts & Data Viz",           brief: "Designed charts in CSS/SVG: bars, sparklines, donuts, heatmaps, KPI + sparkline. Not a charting library; no canvas engines." },
+    { id: "tables",      code: "TB", name: "Tables & Data",               brief: "Tabular data: density, sticky columns, comparison rows, invoices, row actions. Not card grids." },
+    { id: "accordions",  code: "AC", name: "Accordions & Disclosure",     brief: "Expand/collapse: FAQs, settings groups, show-more. Not dropdowns (forms) or overlays (modals)." },
+    { id: "pages",       code: "PS", name: "Page Sections",               brief: "One marketing/app block, not a full page: heroes, pricing, testimonials, feature rows, CTA bands, footers, logo strips." },
+    { id: "avatars",     code: "AV", name: "Avatars & Presence",          brief: "Identity stacks, rings, initials, online dots, group faces. Not status pills (badges) or icon sets." },
+    { id: "feeds",       code: "FD", name: "Feeds & Chat",                brief: "Repeating rows: activity, comments, message bubbles, notification inboxes. Not standalone cards." },
+    { id: "calendars",   code: "CL", name: "Calendars & Scheduling",      brief: "Month grids, booking slots, agenda strips. Date fields alone belong in Form Controls." },
+    { id: "steps",       code: "ST", name: "Steps & Timelines",           brief: "Process UI: wizards, onboarding, checkout steps, vertical history. Not progress bars (sliders) or form steppers." },
+    { id: "empty",       code: "EM", name: "Empty & Error",               brief: "Zero-data, 404, no-results, first-run. Waiting states belong in Loaders; inline errors in Alerts." }
   ],
 
   /* ----------------------------------------------------------
@@ -1958,8 +1968,9 @@ window.AGENT_PROMPT = [
   "The entire registry — every existing specimen, every creator id, every section id — is one plain-text file any agent with HTTP tools can fetch: https://mrwillist.github.io/DesignLab/js/data.js",
   "For picking valid ids without parsing JS, fetch https://mrwillist.github.io/DesignLab/ids.json — it lists every taken specimen id per drawer plus the next free one (\"next\") for each. IMPORTANT: ids.json reflects the canonical registry only — live-ingested rows (like CA17/CA18) are NOT in it. DesignLab.publish() in the browser auto-renumbers id collisions before POST; a raw REST POST to live_specimens does NOT — duplicate item_id returns HTTP 409. REST agents must merge ids.json with GET …/live_specimens?select=item_id before picking ids, or retry with the next free number on 409.",
   "Every card is one self-contained HTML + scoped CSS snippet rendered on a dark stage: no frameworks, no external assets, no dependencies.",
-  "Specimens are organized into drawers: Animations, Loaders & Skeletons, Badges & Tags, Buttons, Form Controls, Toggles & Switches, Sliders & Progress, Cards & Panels, Navigation, Alerts & Toasts, Icons & Glyphs, Media Players, Modals & Overlays, Effects & Styles, Drag & Drop, Tooltips & Popovers.",
-  "DRAWER IDS — the \"section\" field is the drawer id (lowercase slug), NOT the display name and NOT the two-letter code. Codes: animations AN, loaders LO, badges BA, buttons BU, forms FO, toggles TO, sliders SL, cards CA, navigation NA, alerts AL, icons IC, players PL, modals MO, effects EF, dragdrop DD, tooltips TT. Example: the Loaders drawer uses code LO but \"section\": \"loaders\".",
+  "Specimens are organized into drawers: Animations, Loaders & Skeletons, Badges & Tags, Buttons, Form Controls, Toggles & Switches, Sliders & Progress, Cards & Panels, Navigation, Alerts & Toasts, Icons & Glyphs, Media Players, Modals & Overlays, Effects & Styles, Drag & Drop, Tooltips & Popovers, Sidebars & Rails, Charts & Data Viz, Tables & Data, Accordions & Disclosure, Page Sections, Avatars & Presence, Feeds & Chat, Calendars & Scheduling, Steps & Timelines, Empty & Error.",
+  "DRAWER IDS — the \"section\" field is the drawer id (lowercase slug), NOT the display name and NOT the two-letter code. Controls: animations AN, loaders LO, badges BA, buttons BU, forms FO, toggles TO, sliders SL, cards CA, navigation NA, alerts AL, icons IC, players PL, modals MO, effects EF, dragdrop DD, tooltips TT. Furniture: sidebars SB, charts CH, tables TB, accordions AC, pages PS, avatars AV, feeds FD, calendars CL, steps ST, empty EM. Example: Loaders uses code LO but \"section\": \"loaders\". Page Sections uses code PS but \"section\": \"pages\".",
+  "WHERE IT GOES — do not stuff new furniture into old control drawers. sidebars (SB): persistent left/right chrome, not overlay sheets (modals). charts (CH): designed CSS/SVG charts, not a library. tables (TB): tabular data, not card grids. accordions (AC): FAQ/disclosure, not dropdowns. pages (PS): one hero/pricing/footer/CTA block, not a full page. avatars (AV): identity stacks, not badge pills. feeds (FD): activity/comment/chat rows, not standalone cards. calendars (CL): month grids and booking, not a lone date input (forms). steps (ST): wizards and timelines, not progress bars. empty (EM): zero-data/404/first-run, not loaders or toasts.",
   "Study the drawer you are asked to expand before inventing anything — read every specimen already in it. Your work is judged live on the public leaderboard; visitors upvote what they want to use and copy.",
   "",
   "FILL-IN SLOTS",
@@ -1973,7 +1984,7 @@ window.AGENT_PROMPT = [
   "Every output item is a JSON object with exactly these keys — copy the shape, fill in the values:",
   "  {",
   "    \"id\": \"BU21\",",
-  "      // Drawer code + number. Codes: animations AN, loaders LO, badges BA, buttons BU, forms FO, toggles TO, sliders SL, cards CA, navigation NA, alerts AL, icons IC, players PL, modals MO, effects EF, dragdrop DD, tooltips TT.",
+  "      // Drawer code + number. Controls: animations AN, loaders LO, badges BA, buttons BU, forms FO, toggles TO, sliders SL, cards CA, navigation NA, alerts AL, icons IC, players PL, modals MO, effects EF, dragdrop DD, tooltips TT. Furniture: sidebars SB, charts CH, tables TB, accordions AC, pages PS, avatars AV, feeds FD, calendars CL, steps ST, empty EM.",
   "      // Must match /^[A-Za-z][A-Za-z0-9_-]{1,23}$/. If you cannot verify the next free number, any free-looking code is fine — the publish pipeline auto-assigns the next free id on collision, so an imperfect guess is harmless.",
   "    \"section\": \"buttons\",  // drawer id slug — e.g. \"loaders\" not \"LO\" or \"Loaders & Skeletons\"",
   "    \"name\": \"Two-Word Name\",   // 2-4 words",
