@@ -1,6 +1,6 @@
 'use strict';
 
-/* Buffy — 10 specimens for empty drawers 17–26 */
+/* Mimo 2.5 — specimens for empty drawers 17–26 (sidebars through empty) */
 
 window.DESIGN_LAB.items.push(
   {
@@ -8,7 +8,7 @@ window.DESIGN_LAB.items.push(
     section: "sidebars",
     name: "Icon Rail Sidebar",
     description: "Dark chrome vertical icon rail with frosted hover labels and CSS-only collapse.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["sidebar", "icon-rail", "collapsible", "dark"],
     tweaks: [
       { type: "color", label: "Rail Accent", varName: "--sb1-accent", default: "#ff8c42" }
@@ -21,7 +21,7 @@ window.DESIGN_LAB.items.push(
     section: "charts",
     name: "Animated Donut Chart",
     description: "Pure SVG donut with staggered segment reveal, center stat, and inline legend.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["chart", "donut", "svg", "animated", "legend"],
     tweaks: [
       { type: "color", label: "Segment 1", varName: "--ch1-a", default: "#ff8c42" },
@@ -36,7 +36,7 @@ window.DESIGN_LAB.items.push(
     section: "tables",
     name: "Sticky Column Table",
     description: "Data table with frozen left column, alternating tints, and row-hover glow.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["table", "sticky", "data", "frozen-column"],
     tweaks: [
       { type: "color", label: "Hover Glow", varName: "--tb1-glow", default: "#ff8c42" }
@@ -49,7 +49,7 @@ window.DESIGN_LAB.items.push(
     section: "accordions",
     name: "FAQ Accordion",
     description: "Smooth expand/collapse with animated chevron, divider lines, CSS-only.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["accordion", "faq", "css-only", "expand"],
     tweaks: [
       { type: "color", label: "Accent", varName: "--ac1-accent", default: "#ff8c42" }
@@ -62,7 +62,7 @@ window.DESIGN_LAB.items.push(
     section: "pages",
     name: "Gradient Hero Block",
     description: "Layered radial-gradient hero with bold headline and dual CTA buttons.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["hero", "gradient", "cta", "marketing"],
     tweaks: [
       { type: "color", label: "Hero Tint", varName: "--ps1-tint", default: "#ff8c42" }
@@ -75,7 +75,7 @@ window.DESIGN_LAB.items.push(
     section: "avatars",
     name: "Avatar Stack with Presence",
     description: "Overlapping circular avatars with colored presence dots and overflow badge.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["avatar", "stack", "presence", "online"],
     tweaks: [
       { type: "color", label: "Online Dot", varName: "--av1-online", default: "#34d399" }
@@ -88,7 +88,7 @@ window.DESIGN_LAB.items.push(
     section: "feeds",
     name: "Chat Bubbles",
     description: "Two-tone chat layout with sender avatars, timestamps, and read receipts.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["chat", "messages", "bubbles", "feed"],
     tweaks: [
       { type: "color", label: "Sender Color", varName: "--fd1-sender", default: "#ff8c42" }
@@ -101,7 +101,7 @@ window.DESIGN_LAB.items.push(
     section: "calendars",
     name: "Month Grid Calendar",
     description: "Clean month grid with today ring, event dot indicators, and day headers.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["calendar", "month", "grid", "schedule"],
     tweaks: [
       { type: "color", label: "Today Ring", varName: "--cl1-today", default: "#ff8c42" }
@@ -114,7 +114,7 @@ window.DESIGN_LAB.items.push(
     section: "steps",
     name: "Vertical Stepper",
     description: "Three-step vertical wizard with completed, active, and pending states.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["stepper", "wizard", "vertical", "onboarding"],
     tweaks: [
       { type: "color", label: "Active Color", varName: "--st1-active", default: "#ff8c42" }
@@ -127,7 +127,7 @@ window.DESIGN_LAB.items.push(
     section: "empty",
     name: "No Results Empty State",
     description: "Centered empty state with subtle illustration, helpful copy, and action button.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["empty", "no-results", "zero-data", "illustration"],
     tweaks: [
       { type: "color", label: "Illustration Tint", varName: "--em1-tint", default: "#ff8c42" }
@@ -140,7 +140,7 @@ window.DESIGN_LAB.items.push(
     section: "empty",
     name: "404 Glitch Page",
     description: "Large 404 numeral with CSS glitch flicker and a back-home link.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["404", "error", "glitch", "page"],
     tweaks: [
       { type: "color", label: "Glitch Tint", varName: "--em2-tint", default: "#f87171" }
@@ -153,7 +153,7 @@ window.DESIGN_LAB.items.push(
     section: "empty",
     name: "First-Run Inbox",
     description: "Welcoming first-use state with dashed frame, friendly copy, and CTA button.",
-    creator: "buffy",
+    creator: "mimo-2-5",
     tags: ["empty", "first-run", "inbox", "onboarding"],
     tweaks: [
       { type: "color", label: "Accent", varName: "--em3-accent", default: "#ff8c42" }

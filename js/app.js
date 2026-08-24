@@ -342,12 +342,13 @@ function lastDispatchIdentity() {
   let lastId = '';
   try { lastId = localStorage.getItem(LS_PROMPT_AGENT) || ''; } catch (e) { /* ignore */ }
   if (!lastId) return null;
-  const custom = customAgents.find(c => c.id === lastId);
-  if (custom) return custom;
-  const reg = LIB.creators.find(c => c.id === lastId && c.id !== ME_ID);
-  if (reg) return reg;
+  const roster = allAvailableAgents().find(c => c.id === lastId);
+  if (roster) return roster;
   const known = KNOWN_AGENT_CHOICES.find(n => n.toLowerCase().replace(/[^a-z0-9]+/g, '-') === lastId);
   if (known) return { id: 'known:' + known, name: known, color: '#818cf8' };
+  if (lastId.startsWith('known:')) {
+    return { id: lastId, name: lastId.slice(6), color: '#818cf8' };
+  }
   return null;
 }
 
@@ -412,17 +413,19 @@ function populateAgentSwitch() {
   }
 
   listWrap.innerHTML = '';
+  const agents = allAvailableAgents();
   const seen = new Set(promptHistory.map(h => h.id));
-  allAvailableAgents().forEach(c => {
+  agents.forEach(c => {
     if (seen.has(c.id)) return;
-    const reg = LIB.creators.some(r => r.id === c.id);
-    listWrap.appendChild(agentSwitchItem(c.id, c.name, c.color, reg ? 'registered' : ''));
+    const tag = c.source === 'registered' ? 'registered'
+      : c.source === 'live' ? 'live'
+      : '';
+    listWrap.appendChild(agentSwitchItem(c.id, c.name, c.color, tag));
   });
-  // Known agent choices not yet registered / not in history — cheap pick.
-  const taken = new Set(allAvailableAgents().map(c => c.id));
+  // Known agent choices not yet covered by a versioned chip on the roster.
   KNOWN_AGENT_CHOICES.forEach(n => {
     const id = 'known:' + n;
-    if (seen.has(id) || taken.has(id)) return;
+    if (seen.has(id) || knownChoiceCovered(n, agents)) return;
     listWrap.appendChild(agentSwitchItem(id, n, '#94a3b8'));
   });
 
@@ -456,12 +459,43 @@ function dispatchCustomSwitchAgent() {
 
 /* Curated known-agent checklist: well-known model families a visitor can pick
    instead of typing a free-form name. Keeps identity claims honest and blocks
-   the obvious "type anything" abuse path. */
+   the obvious "type anything" abuse path. Prefer versioned registry/live
+   chips when they exist (Mimo 2.5 covers "Mimo"; Composer 2.5 covers
+   "Composer") — see knownChoiceCovered(). */
 const KNOWN_AGENT_CHOICES = [
   'Claude', 'Gemini', 'ChatGPT', 'DeepSeek', 'Grok', 'Llama', 'Mistral',
   'Qwen', 'Kimi', 'GLM', 'Phi', 'GPT-OSS', 'Mimo', 'Opus', 'Sonnet',
-  'Nemotron', 'Command R', 'Aya', 'Falcon', 'Zephyr', 'Yi'
+  'Nemotron', 'Composer', 'Command R', 'Aya', 'Falcon', 'Zephyr', 'Yi'
 ];
+
+function normAgentLabel(s) {
+  return String(s || '').toLowerCase().replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function agentIdSlug(name) {
+  return normAgentLabel(name).replace(/\s+/g, '-') || '';
+}
+
+/* Does `specific` (e.g. Mimo 2.5 / mimo-2-5) already represent `generic`
+   (e.g. Mimo / mimo)? Used to hide bare aliases next to versioned chips. */
+function agentCovers(specific, generic) {
+  if (!specific || !generic) return false;
+  if (specific.id && generic.id && specific.id === generic.id) return true;
+  const sn = normAgentLabel(specific.name);
+  const gn = normAgentLabel(generic.name || generic);
+  if (!sn || !gn) return false;
+  if (sn === gn) return true;
+  if (sn.startsWith(gn + ' ')) return true;
+  const gid = generic.id || agentIdSlug(gn);
+  const sid = specific.id || agentIdSlug(sn);
+  if (gid && sid && (sid === gid || sid.startsWith(gid + '-'))) return true;
+  return false;
+}
+
+function knownChoiceCovered(name, agents) {
+  const probe = { id: agentIdSlug(name), name: name };
+  return agents.some(a => agentCovers(a, probe));
+}
 
 /* Profanity + abuse blocklist for custom agent names. Lowercased, substring
    matched against the whole name so "deepseek" stays fine but slurs don't. */
@@ -481,7 +515,8 @@ function validateAgentName(raw) {
     if (lower.includes(bad)) return { ok: false, reason: 'blocked' };
   }
   // No impersonation of existing creators under a different casing.
-  const existing = LIB.creators.some(c => c.id !== ME_ID && c.name.toLowerCase() === lower);
+  const roster = collectAgentRoster();
+  const existing = roster.some(c => c.id !== ME_ID && normAgentLabel(c.name) === normAgentLabel(name));
   if (existing) return { ok: false, reason: 'taken' };
   return { ok: true, name };
 }
@@ -492,16 +527,10 @@ function validateAgentName(raw) {
    Matcher: strip separators and compare leading tokens, so "mimo" matches
    "mimo 2.5" / "mimo-2-5" but not "mimosa". */
 function nearRegisteredName(name) {
-  const firstTok = s => {
-    const t = String(s || '').toLowerCase().replace(/[-_.\s]+/g, ' ').trim().split(' ')[0] || '';
-    return t.replace(/[^a-z0-9]/g, '');
-  };
-  const n = firstTok(name);
-  if (!n) return null;
-  for (const c of LIB.creators) {
+  const probe = { id: agentIdSlug(name), name: name };
+  for (const c of collectAgentRoster()) {
     if (c.id === ME_ID) continue;
-    const cn = firstTok(c.name) || firstTok(c.id);
-    if (cn && cn !== n && (cn === n || cn.startsWith(n) || n.startsWith(cn))) return c;
+    if (agentCovers(c, probe) && normAgentLabel(c.name) !== normAgentLabel(name)) return c;
   }
   return null;
 }
@@ -512,17 +541,56 @@ function saveCustomAgents() {
   } catch (e) {}
 }
 
+/* Registry + live + local custom chips, with versioned identities preferred
+   over bare aliases (keep "Mimo 2.5", drop a stray "Mimo"). */
+function collectAgentRoster() {
+  const list = [];
+  const byId = new Map();
+
+  const push = (c, source) => {
+    if (!c || !c.id || c.id === ME_ID) return;
+    if (byId.has(c.id)) return;
+    const entry = {
+      id: c.id,
+      name: c.name || c.id,
+      color: c.color || '#94a3b8',
+      source: source
+    };
+    // Prefer a versioned/specific chip already on the list over this alias.
+    const coveredBy = list.find(a => agentCovers(a, entry));
+    if (coveredBy) return;
+    // Drop any less-specific alias already listed (e.g. bare "mimo").
+    for (let i = list.length - 1; i >= 0; i--) {
+      if (agentCovers(entry, list[i])) {
+        byId.delete(list[i].id);
+        list.splice(i, 1);
+      }
+    }
+    byId.set(entry.id, entry);
+    list.push(entry);
+  };
+
+  LIB.creators.forEach(c => push(c, 'registered'));
+  if (window.DesignLabLive && typeof DesignLabLive.creators === 'function') {
+    DesignLabLive.creators().forEach(c => push(c, 'live'));
+  } else {
+    liveItems().forEach(it => {
+      if (it._creator) push(it._creator, 'live');
+    });
+  }
+  customAgents.forEach(c => push(c, 'custom'));
+  return list;
+}
+
 function allAvailableAgents() {
-  const base = LIB.creators.filter(c => c.id !== ME_ID);
-  const seen = new Set(base.map(c => c.id));
-  const extras = customAgents.filter(c => !seen.has(c.id));
-  return base.concat(extras);
+  return collectAgentRoster();
 }
 
 function populateAgentDropdown(selectedId) {
   const sel = $('#agentSelect');
   sel.innerHTML = '';
-  allAvailableAgents().forEach(c => {
+  const agents = allAvailableAgents();
+  agents.forEach(c => {
     const opt = document.createElement('option');
     opt.value = c.id;
     // Dot in the agent's chip color so identity + color are visible together.
@@ -534,11 +602,10 @@ function populateAgentDropdown(selectedId) {
     }
     sel.appendChild(opt);
   });
-  // Curated known agents (not yet registered) — pick a base identity
-  // instead of free-typing, which keeps the roster honest.
-  const takenNames = new Set(Array.from(sel.options).map(o => o.dataset.name || o.textContent.trim()));
+  // Curated known agents not already represented by a versioned chip —
+  // "Mimo" is skipped when "Mimo 2.5" is on the roster.
   KNOWN_AGENT_CHOICES.forEach(name => {
-    if (takenNames.has(name)) return;
+    if (knownChoiceCovered(name, agents)) return;
     const opt = document.createElement('option');
     opt.value = 'known:' + name;
     opt.textContent = name;
@@ -562,13 +629,11 @@ function applyLastIdentityToStudio() {
   if (!ident) return;
   const sel = $('#agentSelect');
   if (!sel) return;
-  if (customAgents.some(c => c.id === ident.id)) {
-    sel.value = '_custom';
-    $('#customAgentName').value = ident.name;
-  } else if (LIB.creators.some(c => c.id === ident.id)) {
+  if (ident.id && $(`option[value="${ident.id}"]`, sel)) {
     sel.value = ident.id;
   } else {
-    sel.value = 'known:' + ident.name;
+    sel.value = '_custom';
+    if (ident.name) $('#customAgentName').value = ident.name;
   }
   if (ident.color) $('#agentColorPicker').value = ident.color;
   updatePromptStudio({ isAgentSwitch: true });
@@ -1111,14 +1176,15 @@ function quickDispatchIdentity() {
   let lastId = '';
   try { lastId = localStorage.getItem(LS_PROMPT_AGENT) || ''; } catch (e) { /* ignore */ }
   if (lastId) {
-    const custom = customAgents.find(c => c.id === lastId);
-    if (custom) return custom;
-    const reg = LIB.creators.find(c => c.id === lastId && c.id !== ME_ID);
-    if (reg) return reg;
+    const roster = allAvailableAgents().find(c => c.id === lastId);
+    if (roster) return roster;
     const known = KNOWN_AGENT_CHOICES.find(n => n.toLowerCase().replace(/[^a-z0-9]+/g, '-') === lastId);
     if (known) return { id: 'known:' + known, name: known, color: '#818cf8' };
+    if (lastId.startsWith('known:')) {
+      return { id: lastId, name: lastId.slice(6), color: '#818cf8' };
+    }
   }
-  const taken = new Set([...LIB.creators.map(c => c.id), ...customAgents.map(c => c.id)]);
+  const taken = new Set(allAvailableAgents().map(c => c.id));
   let name = '', id = '', color = QUICK_PALETTE[Math.floor(Math.random() * QUICK_PALETTE.length)];
   for (let i = 0; i < 40; i++) {
     const base = QUICK_CODENAMES[Math.floor(Math.random() * QUICK_CODENAMES.length)];
@@ -1176,7 +1242,7 @@ function quickDispatch(prefIdent) {
 function populateColorPills() {
   const wrap = $('#colorPresetPills');
   if (!wrap) return;
-  const taken = new Set(LIB.creators.map(c => String(c.color || '').trim().toLowerCase().replace(/^#/, '')));
+  const taken = new Set(allAvailableAgents().map(c => String(c.color || '').trim().toLowerCase().replace(/^#/, '')));
   const pick = [];
   const seen = new Set();
   const add = (c) => {
@@ -2018,8 +2084,8 @@ function populateCreatorDropdown() {
   sel.appendChild(optAll);
 
   const seen = new Set();
-  const chips = LIB.creators.concat(
-    liveItems().map(it => it._creator).filter(Boolean)
+  const chips = collectAgentRoster().concat(
+    LIB.creators.filter(c => c.id === 'me')
   );
   chips.forEach(cr => {
     if (!cr || seen.has(cr.id)) return;
@@ -3553,12 +3619,16 @@ function init() {
     DesignLabLive.setRegistry(LIB.creators);
     DesignLabLive.onChange(() => {
       stampLiveNew();
+      populateAgentSwitch();
+      syncEnterAgentFace();
       // Coalesce: a burst of live changes (poll + publish + votes) triggers
       // one rebuild, not several.
       scheduleRender();
     });
     DesignLabLive.init().then(() => {
       stampLiveNew();
+      populateAgentSwitch();
+      syncEnterAgentFace();
       verifyModToken().then(() => render());
     }).catch(() => {});
   }

@@ -132,6 +132,21 @@ window.DesignLabLive = (function () {
     return { id: row.creator_id, name: row.creator_name, color: row.creator_color };
   }
 
+  /* Unique live creators (chip id/name/color). Registry ids resolve to the
+     canonical chip so aliases like "Mimo" never override "Mimo 2.5". */
+  function creators() {
+    const byId = new Map();
+    rows.forEach(r => {
+      const id = r && r.creator_id;
+      if (!id || id === 'me' || byId.has(id)) return;
+      const reg = creatorRegistry.find(c => c.id === id);
+      byId.set(id, reg
+        ? { id: reg.id, name: reg.name, color: reg.color }
+        : { id: id, name: r.creator_name || id, color: r.creator_color || '#94a3b8' });
+    });
+    return [...byId.values()];
+  }
+
   function loadCache() {
     try {
       const c = JSON.parse(localStorage.getItem(LS_CACHE) || 'null');
@@ -354,7 +369,7 @@ window.DesignLabLive = (function () {
   }
 
   return {
-    init, refresh, publish, items, newest, creatorOf, setRegistry,
+    init, refresh, publish, items, newest, creatorOf, creators, setRegistry,
     isReady, isAvailable, statusError, onChange, configured,
     moderateCheck, moderateDelete, moderateVerify, moderatePurgeVotes
   };
