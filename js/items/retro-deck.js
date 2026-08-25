@@ -1,6 +1,6 @@
 'use strict';
 
-/* Codebuff — "Neon Deck": a matching retro sci-fi HUD theme, one specimen per drawer (26 items).
+/* DeepSeek — "Neon Deck": a matching retro sci-fi HUD theme, one specimen per drawer (26 items).
    Every snippet shares the same design tokens so the set reads as one product:
      --rt-void  #04070d   deep space void
      --rt-deep  #0a1120   panel base
@@ -18,7 +18,7 @@ window.DESIGN_LAB.items.push(
     section: "animations",
     name: "Radar Sweep",
     description: "Rotating radar scope with range rings and pulsing contact blips.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["radar", "sweep", "hud", "scan", "sci-fi"],
     code: `<style>
@@ -63,7 +63,7 @@ window.DESIGN_LAB.items.push(
     section: "loaders",
     name: "Orbital Core",
     description: "Three satellites orbit a pulsing reactor core on dashed tracks.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["orbit", "spinner", "core", "loading", "sci-fi"],
     code: `<style>
@@ -98,7 +98,7 @@ window.DESIGN_LAB.items.push(
     section: "badges",
     name: "Status Pills",
     description: "LED telemetry pills with corner brackets and blink rates per state.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["status", "pill", "led", "system", "sci-fi"],
     code: `<style>
@@ -136,7 +136,7 @@ window.DESIGN_LAB.items.push(
     section: "buttons",
     name: "Laser Slab",
     description: "Armored button with glowing light slits and a traveling energy sweep on hover.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["button", "laser", "glow", "sci-fi", "cta"],
     tweaks: [
@@ -166,7 +166,7 @@ window.DESIGN_LAB.items.push(
     section: "forms",
     name: "Terminal Command",
     description: "Command-line field with prompt arrow, block caret, and an expanding focus beam.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["input", "terminal", "command", "mono", "sci-fi"],
     code: `<style>
@@ -203,7 +203,7 @@ window.DESIGN_LAB.items.push(
     section: "toggles",
     name: "Reactor Breaker",
     description: "Vertical breaker switch that slides between ON and OFF with glowing captions.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["toggle", "switch", "breaker", "power", "sci-fi"],
     code: `<style>
@@ -247,7 +247,7 @@ window.DESIGN_LAB.items.push(
     section: "sliders",
     name: "Segment Fuel Gauge",
     description: "Twelve-cell power meter that pops in segment by segment with a frontier pulse.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["slider", "gauge", "fuel", "energy", "progress"],
     code: `<style>
@@ -297,7 +297,7 @@ window.DESIGN_LAB.items.push(
     section: "cards",
     name: "HUD Panel",
     description: "Bracketed telemetry card with LED header, spec rows, and a bar sparkline.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["card", "hud", "telemetry", "panel", "sci-fi"],
     tweaks: [
@@ -352,7 +352,7 @@ window.DESIGN_LAB.items.push(
     section: "navigation",
     name: "Deck Tabs",
     description: "Radio-driven mission tabs with a glowing active beam and corner tick.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["tabs", "navigation", "radio", "mission", "sci-fi"],
     tweaks: [
@@ -386,7 +386,7 @@ window.DESIGN_LAB.items.push(
     section: "alerts",
     name: "Hazard Callout",
     description: "Warning banner with hazard-stripe rail, blinking status dot, and ack action.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["alert", "warning", "hazard", "toast", "sci-fi"],
     tweaks: [
@@ -421,7 +421,7 @@ window.DESIGN_LAB.items.push(
     section: "icons",
     name: "HUD Glyphs",
     description: "Five stroked line glyphs in bracket tiles with micro labels.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["icons", "glyph", "hud", "svg", "sci-fi"],
     code: `<style>
@@ -447,7 +447,7 @@ window.DESIGN_LAB.items.push(
     section: "players",
     name: "Cassette Deck",
     description: "Tape transport with spinning reels, transport keys, timecode, and a VU meter.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["player", "cassette", "tape", "retro", "audio"],
     code: `<style>
@@ -502,7 +502,7 @@ window.DESIGN_LAB.items.push(
     section: "modals",
     name: "Uplink Dialog",
     description: "Terminal confirm dialog on a grid backdrop with a blinking block cursor.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["modal", "dialog", "terminal", "confirm", "sci-fi"],
     code: `<style>
@@ -546,7 +546,7 @@ window.DESIGN_LAB.items.push(
     section: "effects",
     name: "CRT Phosphor",
     description: "Scanline screen treatment with chromatic glow, vignette, and phosphor type.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["effect", "crt", "phosphor", "scanline", "glow"],
     code: `<style>
@@ -570,7 +570,7 @@ window.DESIGN_LAB.items.push(
     section: "dragdrop",
     name: "Cargo Hold",
     description: "Grabbable cargo pods with grip handles and a pulsing drop zone.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["drag", "drop", "reorder", "cargo", "sci-fi"],
     code: `<style>
@@ -601,7 +601,7 @@ window.DESIGN_LAB.items.push(
     section: "tooltips",
     name: "Datalink Tip",
     description: "Bracket-framed hover tooltip with a rotated caret and live telemetry rows.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["tooltip", "hover", "datalink", "popover", "sci-fi"],
     code: `<style>
@@ -637,7 +637,7 @@ window.DESIGN_LAB.items.push(
     section: "sidebars",
     name: "Station Rail",
     description: "Icon rail with active beam, hover caret markers, and a magenta power slot.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["sidebar", "rail", "icons", "nav", "sci-fi"],
     code: `<style>
@@ -669,7 +669,7 @@ window.DESIGN_LAB.items.push(
     section: "charts",
     name: "Telemetry Wave",
     description: "SVG signal chart with animated draw-in, gradient fill, and gridlines.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["chart", "signal", "waveform", "svg", "telemetry"],
     tweaks: [
@@ -715,7 +715,7 @@ window.DESIGN_LAB.items.push(
     section: "tables",
     name: "Manifest Table",
     description: "Cargo manifest with LED status cells, tabular masses, and row-hover glow.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["table", "manifest", "data", "cargo", "sci-fi"],
     code: `<style>
@@ -762,7 +762,7 @@ window.DESIGN_LAB.items.push(
     section: "accordions",
     name: "Hull Systems",
     description: "Engineering disclosure panels with rotating markers and spec rows.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["accordion", "disclosure", "systems", "engineering", "sci-fi"],
     code: `<style>
@@ -806,7 +806,7 @@ window.DESIGN_LAB.items.push(
     section: "pages",
     name: "Hero Band",
     description: "Terminal hero with grid backdrop, glowing headline, blinking cursor, and CTA pair.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["hero", "page", "landing", "cta", "terminal"],
     tweaks: [
@@ -845,7 +845,7 @@ window.DESIGN_LAB.items.push(
     section: "avatars",
     name: "Crew Tags",
     description: "Hexagonal crew roster tags with initials, rank, and presence LEDs.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["avatar", "hex", "crew", "presence", "initials"],
     code: `<style>
@@ -894,7 +894,7 @@ window.DESIGN_LAB.items.push(
     section: "feeds",
     name: "Comms Log",
     description: "Monospace comms transcript with timestamps, tagged senders, and a typing indicator.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["feed", "chat", "comms", "log", "messages"],
     code: `<style>
@@ -931,7 +931,7 @@ window.DESIGN_LAB.items.push(
     section: "calendars",
     name: "Stardate Grid",
     description: "Month grid with duty-shift markers, weekend tint, and a glowing today cell.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["calendar", "grid", "schedule", "stardate", "sci-fi"],
     code: `<style>
@@ -1000,7 +1000,7 @@ window.DESIGN_LAB.items.push(
     section: "steps",
     name: "Launch Sequence",
     description: "Vertical launch checklist with lit rail segments and a pulsing current step.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["steps", "launch", "checklist", "timeline", "sci-fi"],
     code: `<style>
@@ -1046,7 +1046,7 @@ window.DESIGN_LAB.items.push(
     section: "empty",
     name: "Signal Lost",
     description: "No-signal screen with flickering static, a broken-link glyph, and a retry action.",
-    creator: "codebuff",
+    creator: "deepseek",
     set: "neon-deck",
     tags: ["empty", "error", "signal", "static", "retry"],
     code: `<style>

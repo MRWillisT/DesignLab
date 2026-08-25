@@ -1,6 +1,6 @@
 'use strict';
 
-/* Codebuff — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion (rounds 1-5, complete 26/26).
+/* DeepSeek — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion (rounds 1-5, complete 26/26).
    Every snippet shares the same design tokens so the set reads as one product:
      --aur-g   #7cf5c0   aurora green   (primary)
      --aur-t   #4fd8d4   borealis teal  (secondary)
@@ -19,7 +19,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Transport",
     description: "Glass play/stop cluster with a soft aurora disc and pulsing play ring.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["transport", "play", "pause", "stop", "skip", "player", "video", "aurora"],
     code: `<style>
   .apl18{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -86,7 +86,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Timeline",
     description: "Segmented clip scrubber with glowing playhead and IN/OUT marks.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["timeline", "scrubber", "video", "clip", "playhead", "in-out", "aurora"],
     code: `<style>
   .asl15{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -152,7 +152,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Formats",
     description: "Model and file-type glyph tiles: LTX, WAN, H3, MP4, WAV, MP3, WEBM.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["ltx", "wan", "h3", "mp4", "wav", "mp3", "webm", "formats", "models", "glyphs", "aurora"],
     code: `<style>
   .aic22{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -207,7 +207,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora FX Rack",
     description: "Selectable video-effect tiles — glow, blur, grain, speed, chroma, vignette.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["effects", "fx", "glow", "blur", "grain", "speed", "chroma", "vignette", "editing", "aurora"],
     tweaks: [
       { type: "color", label: "Aurora accent", varName: "--aef18-accent", default: "#7cf5c0" }
@@ -267,7 +267,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Generate",
     description: "Gradient CTA with sparkle mark and a ghost Queue twin.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["generate", "cta", "primary", "sparkle", "queue", "video", "aurora"],
     code: `<style>
   .abu34{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -313,7 +313,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Render Ring",
     description: "Gradient arc spinner orbiting a breathing percentage.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["render", "spinner", "ring", "progress", "loading", "percentage", "aurora"],
     code: `<style>
   .alo23{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -357,7 +357,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Model Badges",
     description: "Pill cluster of model tags and live status with glow dots.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["badges", "model", "ltx", "wan", "h3", "status", "pill", "aurora"],
     code: `<style>
   .aba15{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -395,7 +395,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Render Toast",
     description: "Slide-in render-complete toast with gradient check badge.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["toast", "alert", "complete", "render", "notification", "aurora"],
     code: `<style>
   .aal18{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -442,7 +442,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Dropzone",
     description: "Dashed upload zone with real file input and browse pill.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["dropzone", "upload", "drag", "drop", "footage", "file", "aurora"],
     code: `<style>
   .add10{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -486,7 +486,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Output Card",
     description: "Rendered-clip card: aurora thumbnail, play overlay, export row.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["card", "gallery", "output", "thumbnail", "render", "clip", "aurora"],
     code: `<style>
   .aca18{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -546,7 +546,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Prompt Field",
     description: "Generation textarea with aurora glow ring and sparkle enhance chip.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["prompt", "textarea", "field", "form", "input", "generate", "aurora"],
     code: `<style>
   .afo21{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -594,7 +594,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Quality Toggles",
     description: "Slider switches with gradient fill for upscale and loop options.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["toggle", "switch", "upscale", "quality", "settings", "aurora"],
     code: `<style>
   .ato19{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -639,7 +639,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Queue Tabs",
     description: "Render-queue tab bar with gradient counts and a new-job button.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["tabs", "navigation", "queue", "rendering", "count", "aurora"],
     code: `<style>
   .ana18{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -679,7 +679,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Job Modal",
     description: "Backdrop dialog with model and resolution pickers, cancel and start render.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["modal", "dialog", "settings", "job", "render", "model", "resolution", "aurora"],
     code: `<style>
   .amo17{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -751,7 +751,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Pipeline Steps",
     description: "Four-stage render tracker with pulsing active ring.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["steps", "pipeline", "tracker", "wizard", "render", "progress", "aurora"],
     code: `<style>
   .ast6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -810,7 +810,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Empty State",
     description: "No-renders-yet panel with film glyph and start CTA.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["empty", "state", "no-renders", "first-run", "placeholder", "zero-data", "aurora"],
     code: `<style>
   .aem8{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -848,7 +848,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Render History",
     description: "Job feed with mini thumbnails and status chips.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["feed", "history", "activity", "render", "jobs", "status", "aurora"],
     code: `<style>
   .afd6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -910,7 +910,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Creator Stacks",
     description: "Overlapping gradient-initial avatars with overflow count.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["avatars", "stack", "team", "initials", "presence", "aurora"],
     code: `<style>
   .aav6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -954,7 +954,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Render Telemetry",
     description: "Gradient area chart of render times with a glowing peak.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["chart", "telemetry", "render", "time", "area", "graph", "aurora"],
     code: `<style>
   .ach6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -1004,7 +1004,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Jobs Table",
     description: "Render queue table with model chips and status pills.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["table", "jobs", "queue", "render", "rows", "aurora"],
     code: `<style>
   .atb6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -1055,7 +1055,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Settings Accordion",
     description: "Native details accordion with rotating chevrons.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["accordion", "settings", "disclosure", "details", "faq", "aurora"],
     code: `<style>
   .aac6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -1103,7 +1103,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Library Sidebar",
     description: "Vertical rail with glyph nav and a credit chip.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["sidebar", "rail", "nav", "library", "menu", "aurora"],
     code: `<style>
   .asb6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -1157,7 +1157,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Render Tooltip",
     description: "Hover tooltip above a render action button.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["tooltip", "tip", "hover", "hint", "render", "aurora"],
     code: `<style>
   .att10{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -1197,7 +1197,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Render Calendar",
     description: "Month grid with job dots and a glowing today ring.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["calendar", "month", "schedule", "jobs", "grid", "aurora"],
     code: `<style>
   .acl6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -1291,7 +1291,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Drift",
     description: "Slow blurred ribbon drift like the borealis across glass.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["animation", "aurora", "drift", "ribbon", "borealis", "aurora"],
     code: `<style>
   .aan24{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
@@ -1333,7 +1333,7 @@ window.DESIGN_LAB.items.push(
     set: "aurora",
     name: "Aurora Hero Band",
     description: "Landing hero with gradient headline and CTAs.",
-    creator: "codebuff",
+    creator: "deepseek",
     tags: ["hero", "landing", "page", "cta", "headline", "aurora"],
     code: `<style>
   .aps6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
