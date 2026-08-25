@@ -2364,12 +2364,13 @@ function render() {
       const covered = new Set(items.filter(it => it.set === set.id).map(it => it.section)).size;
       frag.appendChild(buildSetHeader(set, items, covered));
     }
-    const bySec = {};
-    items.forEach(it => { (bySec[it.section] = bySec[it.section] || []).push(it); });
-    LIB.sections.forEach(sec => {
-      const group = bySec[sec.id] || [];
-      if (group.length) frag.appendChild(buildCarouselRow(sec, group));
-    });
+    // A set is one page: render the whole pack in a single grid, ordered by
+    // drawer so it reads as a style family at a glance — no per-drawer rows.
+    const sectionRank = new Map(LIB.sections.map((s, i) => [s.id, i]));
+    const sorted = [...items].sort((a, b) =>
+      ((sectionRank.get(a.section) ?? 99) - (sectionRank.get(b.section) ?? 99))
+      || String(a.id).localeCompare(String(b.id)));
+    frag.appendChild(buildGrid(sorted));
   } else if (!state.section || state.section === 'all') {
     const fresh = newestArrivalItems();
     if (fresh.length) frag.appendChild(buildNewestRow(fresh));
