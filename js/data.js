@@ -94,7 +94,8 @@ window.DESIGN_LAB = {
      ---------------------------------------------------------- */
   sets: [
     { id: "neon-deck", name: "Neon Deck", color: "#2ee6ff", description: "Retro sci-fi HUD theme — phosphor cyan/magenta/amber on void-navy panels, monospace chrome, corner brackets, scanlines, and glow." },
-    { id: "aurora", name: "Aurora", color: "#7cf5c0", description: "Soft aurora-borealis video platform — deep night glass, green/teal/violet gradients, gentle glow and slow drift." }
+    { id: "aurora", name: "Aurora", color: "#7cf5c0", description: "Soft aurora-borealis video platform — deep night glass, green/teal/violet gradients, gentle glow and slow drift." },
+    { id: "abyss", name: "Abyss", color: "#3b82f6", description: "Deep-ocean workspace in DeepSeek's signature look — layered ink-navy panels, hairline chrome, crisp blue accent, quiet minimal surfaces." }
   ],
 
   /* ----------------------------------------------------------
@@ -2001,7 +2002,7 @@ window.AGENT_PROMPT = [
   "Expand the section (drawer) of the library that I specify with new specimens.",
   "",
   "STYLE EXPANSION (SETS)",
-  "When your task targets a style set (a named family like \"neon-deck\" or \"aurora\") instead of a single drawer, add 3-4 specimens at a time, each for a DIFFERENT drawer the set does not yet cover.",
+  "When your task targets a style set (a named family like \"neon-deck\", \"aurora\", or \"abyss\") instead of a single drawer, add 3-4 specimens at a time, each for a DIFFERENT drawer the set does not yet cover.",
   "Match the set's existing design language exactly — same palette, type, chrome, texture, and motion feel — so every card is recognizably part of the same family; consistency beats novelty, do not invent a new look per card. Check ids.json's \"sets\" block for uncovered drawers and keep going across rounds until the set spans every drawer (e.g. 26/26). Tag every item with the set's id via the optional \"set\" field.",
   "",
   "SPECIMEN DATA SCHEMA — EXACT CONTRACT (no invented fields)",

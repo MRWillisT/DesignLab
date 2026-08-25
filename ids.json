@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-25T21:43:07.311Z",
-  "count": 307,
+  "generated": "2026-08-25T21:57:46.224Z",
+  "count": 333,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -21,6 +21,7 @@
         "AN22",
         "AN23",
         "AN24",
+        "AN25",
         "AN3",
         "AN4",
         "AN5",
@@ -51,6 +52,7 @@
         "LO21",
         "LO22",
         "LO23",
+        "LO24",
         "LO3",
         "LO4",
         "LO5",
@@ -59,7 +61,7 @@
         "LO8",
         "LO9"
       ],
-      "next": "LO24"
+      "next": "LO25"
     },
     "badges": {
       "code": "BA",
@@ -70,6 +72,7 @@
         "BA13",
         "BA14",
         "BA15",
+        "BA16",
         "BA9"
       ],
       "next": "BA1"
@@ -85,7 +88,8 @@
         "BU31",
         "BU32",
         "BU33",
-        "BU34"
+        "BU34",
+        "BU35"
       ],
       "next": "BU1"
     },
@@ -107,6 +111,7 @@
         "FO2",
         "FO20",
         "FO21",
+        "FO22",
         "FO3",
         "FO4",
         "FO5",
@@ -115,7 +120,7 @@
         "FO8",
         "FO9"
       ],
-      "next": "FO22"
+      "next": "FO23"
     },
     "toggles": {
       "code": "TO",
@@ -133,6 +138,7 @@
         "TO18",
         "TO19",
         "TO2",
+        "TO20",
         "TO3",
         "TO4",
         "TO5",
@@ -141,7 +147,7 @@
         "TO8",
         "TO9"
       ],
-      "next": "TO20"
+      "next": "TO21"
     },
     "sliders": {
       "code": "SL",
@@ -154,6 +160,7 @@
         "SL13",
         "SL14",
         "SL15",
+        "SL16",
         "SL2",
         "SL3",
         "SL4",
@@ -163,7 +170,7 @@
         "SL8",
         "SL9"
       ],
-      "next": "SL16"
+      "next": "SL17"
     },
     "cards": {
       "code": "CA",
@@ -179,6 +186,7 @@
         "CA16",
         "CA17",
         "CA18",
+        "CA19",
         "CA2",
         "CA3",
         "CA4",
@@ -188,7 +196,7 @@
         "CA8",
         "CA9"
       ],
-      "next": "CA19"
+      "next": "CA20"
     },
     "navigation": {
       "code": "NA",
@@ -204,6 +212,7 @@
         "NA16",
         "NA17",
         "NA18",
+        "NA19",
         "NA2",
         "NA3",
         "NA4",
@@ -213,7 +222,7 @@
         "NA8",
         "NA9"
       ],
-      "next": "NA19"
+      "next": "NA20"
     },
     "alerts": {
       "code": "AL",
@@ -226,6 +235,7 @@
         "AL16",
         "AL17",
         "AL18",
+        "AL19",
         "AL3",
         "AL4",
         "AL5",
@@ -252,6 +262,7 @@
         "IC20",
         "IC21",
         "IC22",
+        "IC23",
         "IC4",
         "IC7",
         "IC9"
@@ -272,6 +283,7 @@
         "PL16",
         "PL17",
         "PL18",
+        "PL19",
         "PL2",
         "PL3",
         "PL7",
@@ -293,6 +305,7 @@
         "MO15",
         "MO16",
         "MO17",
+        "MO18",
         "MO2",
         "MO3",
         "MO4",
@@ -302,7 +315,7 @@
         "MO8",
         "MO9"
       ],
-      "next": "MO18"
+      "next": "MO19"
     },
     "effects": {
       "code": "EF",
@@ -317,6 +330,7 @@
         "EF16",
         "EF17",
         "EF18",
+        "EF19",
         "EF2",
         "EF3",
         "EF4",
@@ -334,6 +348,7 @@
       "taken": [
         "DD1",
         "DD10",
+        "DD11",
         "DD2",
         "DD3",
         "DD6",
@@ -349,6 +364,7 @@
       "taken": [
         "TT1",
         "TT10",
+        "TT11",
         "TT2",
         "TT3",
         "TT4",
@@ -368,9 +384,10 @@
         "SB3",
         "SB4",
         "SB5",
-        "SB6"
+        "SB6",
+        "SB7"
       ],
-      "next": "SB7"
+      "next": "SB8"
     },
     "charts": {
       "code": "CH",
@@ -381,9 +398,10 @@
         "CH3",
         "CH4",
         "CH5",
-        "CH6"
+        "CH6",
+        "CH7"
       ],
-      "next": "CH7"
+      "next": "CH8"
     },
     "tables": {
       "code": "TB",
@@ -394,9 +412,10 @@
         "TB3",
         "TB4",
         "TB5",
-        "TB6"
+        "TB6",
+        "TB7"
       ],
-      "next": "TB7"
+      "next": "TB8"
     },
     "accordions": {
       "code": "AC",
@@ -407,9 +426,10 @@
         "AC3",
         "AC4",
         "AC5",
-        "AC6"
+        "AC6",
+        "AC7"
       ],
-      "next": "AC7"
+      "next": "AC8"
     },
     "pages": {
       "code": "PS",
@@ -420,9 +440,10 @@
         "PS3",
         "PS4",
         "PS5",
-        "PS6"
+        "PS6",
+        "PS7"
       ],
-      "next": "PS7"
+      "next": "PS8"
     },
     "avatars": {
       "code": "AV",
@@ -433,9 +454,10 @@
         "AV3",
         "AV4",
         "AV5",
-        "AV6"
+        "AV6",
+        "AV7"
       ],
-      "next": "AV7"
+      "next": "AV8"
     },
     "feeds": {
       "code": "FD",
@@ -446,9 +468,10 @@
         "FD3",
         "FD4",
         "FD5",
-        "FD6"
+        "FD6",
+        "FD7"
       ],
-      "next": "FD7"
+      "next": "FD8"
     },
     "calendars": {
       "code": "CL",
@@ -459,9 +482,10 @@
         "CL3",
         "CL4",
         "CL5",
-        "CL6"
+        "CL6",
+        "CL7"
       ],
-      "next": "CL7"
+      "next": "CL8"
     },
     "steps": {
       "code": "ST",
@@ -472,9 +496,10 @@
         "ST3",
         "ST4",
         "ST5",
-        "ST6"
+        "ST6",
+        "ST7"
       ],
-      "next": "ST7"
+      "next": "ST8"
     },
     "empty": {
       "code": "EM",
@@ -487,9 +512,10 @@
         "EM5",
         "EM6",
         "EM7",
-        "EM8"
+        "EM8",
+        "EM9"
       ],
-      "next": "EM9"
+      "next": "EM10"
     }
   },
   "taken": [
@@ -499,6 +525,7 @@
     "AC4",
     "AC5",
     "AC6",
+    "AC7",
     "AL10",
     "AL11",
     "AL12",
@@ -506,6 +533,7 @@
     "AL16",
     "AL17",
     "AL18",
+    "AL19",
     "AL3",
     "AL4",
     "AL5",
@@ -528,6 +556,7 @@
     "AN22",
     "AN23",
     "AN24",
+    "AN25",
     "AN3",
     "AN4",
     "AN5",
@@ -541,11 +570,13 @@
     "AV4",
     "AV5",
     "AV6",
+    "AV7",
     "BA10",
     "BA11",
     "BA13",
     "BA14",
     "BA15",
+    "BA16",
     "BA9",
     "BU22",
     "BU27",
@@ -555,6 +586,7 @@
     "BU32",
     "BU33",
     "BU34",
+    "BU35",
     "CA1",
     "CA10",
     "CA11",
@@ -565,6 +597,7 @@
     "CA16",
     "CA17",
     "CA18",
+    "CA19",
     "CA2",
     "CA3",
     "CA4",
@@ -579,14 +612,17 @@
     "CH4",
     "CH5",
     "CH6",
+    "CH7",
     "CL1",
     "CL2",
     "CL3",
     "CL4",
     "CL5",
     "CL6",
+    "CL7",
     "DD1",
     "DD10",
+    "DD11",
     "DD2",
     "DD3",
     "DD6",
@@ -602,6 +638,7 @@
     "EF16",
     "EF17",
     "EF18",
+    "EF19",
     "EF2",
     "EF3",
     "EF4",
@@ -618,12 +655,14 @@
     "EM6",
     "EM7",
     "EM8",
+    "EM9",
     "FD1",
     "FD2",
     "FD3",
     "FD4",
     "FD5",
     "FD6",
+    "FD7",
     "FO1",
     "FO10",
     "FO11",
@@ -638,6 +677,7 @@
     "FO2",
     "FO20",
     "FO21",
+    "FO22",
     "FO3",
     "FO4",
     "FO5",
@@ -657,6 +697,7 @@
     "IC20",
     "IC21",
     "IC22",
+    "IC23",
     "IC4",
     "IC7",
     "IC9",
@@ -676,6 +717,7 @@
     "LO21",
     "LO22",
     "LO23",
+    "LO24",
     "LO3",
     "LO4",
     "LO5",
@@ -692,6 +734,7 @@
     "MO15",
     "MO16",
     "MO17",
+    "MO18",
     "MO2",
     "MO3",
     "MO4",
@@ -710,6 +753,7 @@
     "NA16",
     "NA17",
     "NA18",
+    "NA19",
     "NA2",
     "NA3",
     "NA4",
@@ -728,6 +772,7 @@
     "PL16",
     "PL17",
     "PL18",
+    "PL19",
     "PL2",
     "PL3",
     "PL7",
@@ -739,12 +784,14 @@
     "PS4",
     "PS5",
     "PS6",
+    "PS7",
     "SB1",
     "SB2",
     "SB3",
     "SB4",
     "SB5",
     "SB6",
+    "SB7",
     "SL1",
     "SL10",
     "SL11",
@@ -752,6 +799,7 @@
     "SL13",
     "SL14",
     "SL15",
+    "SL16",
     "SL2",
     "SL3",
     "SL4",
@@ -766,12 +814,14 @@
     "ST4",
     "ST5",
     "ST6",
+    "ST7",
     "TB1",
     "TB2",
     "TB3",
     "TB4",
     "TB5",
     "TB6",
+    "TB7",
     "TO1",
     "TO10",
     "TO11",
@@ -784,6 +834,7 @@
     "TO18",
     "TO19",
     "TO2",
+    "TO20",
     "TO3",
     "TO4",
     "TO5",
@@ -793,6 +844,7 @@
     "TO9",
     "TT1",
     "TT10",
+    "TT11",
     "TT2",
     "TT3",
     "TT4",
@@ -839,6 +891,40 @@
     "aurora": {
       "name": "Aurora",
       "color": "#7cf5c0",
+      "count": 26,
+      "totalDrawers": 26,
+      "drawers": [
+        "accordions",
+        "alerts",
+        "animations",
+        "avatars",
+        "badges",
+        "buttons",
+        "calendars",
+        "cards",
+        "charts",
+        "dragdrop",
+        "effects",
+        "empty",
+        "feeds",
+        "forms",
+        "icons",
+        "loaders",
+        "modals",
+        "navigation",
+        "pages",
+        "players",
+        "sidebars",
+        "sliders",
+        "steps",
+        "tables",
+        "toggles",
+        "tooltips"
+      ]
+    },
+    "abyss": {
+      "name": "Abyss",
+      "color": "#3b82f6",
       "count": 26,
       "totalDrawers": 26,
       "drawers": [
