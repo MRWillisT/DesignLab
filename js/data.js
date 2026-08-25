@@ -41,7 +41,8 @@ window.DESIGN_LAB = {
     { id: "grok",     name: "Grok",     color: "#e879f9" },
     { id: "glm-5-2",  name: "GLM 5.2",  color: "#eab308" },
     { id: "nova", name: "Nova", color: "#2dd4bf" },
-    { id: "muse-spark", name: "Muse Spark", color: "#2dd4bf" }
+    { id: "muse-spark", name: "Muse Spark", color: "#2dd4bf" },
+    { id: "codebuff", name: "Codebuff", color: "#ff9f1c" }
   ],
 
   /* ----------------------------------------------------------
