@@ -917,5 +917,403 @@ window.DESIGN_LAB.items.push(
   <p class="kab-em9-p">Your first descent starts here — plan a dive and it will show up in this log.</p>
   <button type="button" class="kab-em9-btn">Log first dive</button>
 </div>`
+  },
+
+  {
+    id: "BU36",
+    section: "buttons",
+    set: "abyss",
+    name: "Hatch Button",
+    description: "A chamfered-corner plate that presses down under the finger — a bulkhead CTA with a lamp, not another pill.",
+    creator: "deepseek",
+    tags: ["button", "hatch", "chamfer", "plate", "bulkhead", "cta", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-bu36-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-bu36{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;display:inline-flex;align-items:center;gap:10px;padding:11px 22px;border:none;background:linear-gradient(180deg,#13203c,#0e1830);color:var(--txt);font:800 11px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.14em;cursor:pointer;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);filter:drop-shadow(0 8px 16px rgba(2,6,14,.5));transition:transform .15s ease,opacity .15s ease}
+  .kab-bu36:hover{opacity:.94}
+  .kab-bu36:active{transform:translateY(2px)}
+  .kab-bu36-lamp{width:8px;height:8px;border-radius:50%;background:var(--kab-bu36-accent,#3b82f6);box-shadow:0 0 9px var(--kab-bu36-accent,#3b82f6)}
+  .kab-bu36:focus-visible{outline:2px solid var(--kab-bu36-accent,#3b82f6);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){.kab-bu36{transition:none}}
+</style>
+<button type="button" class="kab-bu36"><i class="kab-bu36-lamp"></i>OPEN HATCH</button>`
+  },
+
+  {
+    id: "FO23",
+    section: "forms",
+    set: "abyss",
+    name: "Sonde Select",
+    description: "A custom station dropdown with a blue focus halo and caret — instrument-panel selection, not a plain menu field.",
+    creator: "deepseek",
+    tags: ["form", "select", "dropdown", "station", "channel", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-fo23-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-fo23{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;width:190px;display:flex;flex-direction:column;gap:6px}
+  .kab-fo23-label{font:800 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em;color:var(--dim)}
+  .kab-fo23-wrap{position:relative}
+  .kab-fo23-select{width:100%;appearance:none;padding:10px 32px 10px 11px;background:var(--bg);border:1px solid var(--line);border-radius:9px;color:var(--txt);font:600 11.5px/1 ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:border-color .15s ease,box-shadow .15s ease}
+  .kab-fo23-select:focus{outline:none;border-color:var(--kab-fo23-accent,#3b82f6);box-shadow:0 0 0 3px color-mix(in srgb,var(--kab-fo23-accent,#3b82f6) 18%,transparent)}
+  .kab-fo23-caret{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:9px;pointer-events:none}
+  @media (prefers-reduced-motion:reduce){.kab-fo23-select{transition:none}}
+</style>
+<div class="kab-fo23">
+  <span class="kab-fo23-label">SONDE CHANNEL</span>
+  <label class="kab-fo23-wrap">
+    <select class="kab-fo23-select">
+      <option>STN-04 · Deep current</option>
+      <option>STN-07 · Thermocline</option>
+      <option>STN-09 · Reef survey</option>
+    </select>
+    <span class="kab-fo23-caret">▾</span>
+  </label>
+</div>`
+  },
+
+  {
+    id: "TO21",
+    section: "toggles",
+    set: "abyss",
+    name: "Tide Gate",
+    description: "A two-state gate whose blue plate slides beneath the active label — a radio-hack segmented control, not a switch.",
+    creator: "deepseek",
+    tags: ["toggle", "segmented", "gate", "radio", "two-state", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-to21-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-to21{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;--ice:#93c5fd;width:200px;display:flex;flex-direction:column;gap:8px}
+  .kab-to21-cap{display:flex;justify-content:space-between;font:700 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em;color:var(--dim)}
+  .kab-to21-cap b{color:var(--ice);font-weight:800}
+  .kab-to21-gate{position:relative;display:flex;align-items:center;padding:4px;background:var(--bg);border:1px solid var(--line);border-radius:10px;height:36px}
+  .kab-to21-in{position:absolute;top:0;bottom:0;width:50%;opacity:0;cursor:pointer;margin:0;z-index:2}
+  .kab-to21-in.a{left:0}
+  .kab-to21-in.b{right:0}
+  .kab-to21-slide{position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);border-radius:7px;background:rgba(59,130,246,.14);border:1px solid var(--kab-to21-accent,#3b82f6);transition:transform .22s ease;z-index:1}
+  .kab-to21-opt{position:relative;z-index:1;flex:1;text-align:center;font:800 8.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;color:var(--dim);cursor:pointer;transition:color .15s ease}
+  .kab-to21-in.b:checked ~ .kab-to21-slide{transform:translateX(100%)}
+  .kab-to21-in.a:checked ~ .kab-to21-opt.a{color:var(--ice)}
+  .kab-to21-in.b:checked ~ .kab-to21-opt.b{color:var(--ice)}
+  @media (prefers-reduced-motion:reduce){.kab-to21-slide,.kab-to21-opt{transition:none}}
+</style>
+<div class="kab-to21">
+  <div class="kab-to21-cap"><span>TIDE GATE</span><b>HARBOR 3</b></div>
+  <div class="kab-to21-gate">
+    <input type="radio" name="kab-to21-g" id="kab-to21-a" class="kab-to21-in a" checked aria-label="Docked">
+    <input type="radio" name="kab-to21-g" id="kab-to21-b" class="kab-to21-in b" aria-label="Underway">
+    <span class="kab-to21-slide"></span>
+    <label class="kab-to21-opt a" for="kab-to21-a">DOCKED</label>
+    <label class="kab-to21-opt b" for="kab-to21-b">UNDERWAY</label>
+  </div>
+</div>`
+  },
+
+  {
+    id: "SL17",
+    section: "sliders",
+    set: "abyss",
+    name: "Swell Meter",
+    description: "A segmented sea-state meter with a buoy marker that rocks on the fill — a gauge bar, not a scrubber or dial.",
+    creator: "deepseek",
+    tags: ["slider", "meter", "swell", "sea", "buoy", "marker", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-sl17-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-sl17{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;--ice:#93c5fd;width:196px;padding:13px 14px;background:var(--bg);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;gap:10px}
+  .kab-sl17-cap{display:flex;justify-content:space-between;font:700 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em;color:var(--dim)}
+  .kab-sl17-cap b{color:var(--ice);font-weight:800}
+  .kab-sl17-meter{position:relative;height:14px;border-radius:999px;background:linear-gradient(90deg,#0a1426,#101b30);border:1px solid var(--line);overflow:hidden}
+  .kab-sl17-fill{position:absolute;left:0;top:0;bottom:0;width:64%;background:linear-gradient(90deg,color-mix(in srgb,var(--kab-sl17-accent,#3b82f6) 50%,transparent),var(--kab-sl17-accent,#3b82f6));border-radius:999px 0 0 999px}
+  .kab-sl17-float{position:absolute;top:50%;left:64%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#e7eefb;border:2px solid var(--kab-sl17-accent,#3b82f6);box-shadow:0 0 8px rgba(59,130,246,.5);transform-origin:center;animation:kab-sl17-rock 2.6s ease-in-out infinite}
+  .kab-sl17-val{display:flex;justify-content:space-between;font:700 9px/1 ui-monospace,Consolas,monospace;color:var(--dim);letter-spacing:.08em}
+  @keyframes kab-sl17-rock{0%,100%{transform:translateY(-1px) rotate(-6deg)}50%{transform:translateY(1px) rotate(6deg)}}
+  @media (prefers-reduced-motion:reduce){.kab-sl17-float{animation:none}}
+</style>
+<div class="kab-sl17">
+  <div class="kab-sl17-cap"><span>SWELL METER</span><b>2.4 M</b></div>
+  <div class="kab-sl17-meter"><span class="kab-sl17-fill"></span><i class="kab-sl17-float"></i></div>
+  <div class="kab-sl17-val"><span>CALM</span><span>HEAVY</span></div>
+</div>`
+  },
+
+  {
+    id: "LO25",
+    section: "loaders",
+    set: "abyss",
+    name: "Sonar Sweep",
+    description: "A rotating conic sweep over range rings with lamp blips surfacing on each pass — an instrument ping, not a spinner.",
+    creator: "deepseek",
+    tags: ["loader", "sonar", "sweep", "ping", "range", "rings", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-lo25-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-lo25{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;--ice:#93c5fd;width:170px;padding:14px;background:var(--bg);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:10px}
+  .kab-lo25-cap{width:100%;display:flex;justify-content:space-between;font:700 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em;color:var(--dim)}
+  .kab-lo25-cap b{color:var(--ice);font-weight:800}
+  .kab-lo25-dish{position:relative;width:96px;height:96px;border-radius:50%;background:radial-gradient(circle,#0e1a30,#0a1222 70%);border:1px solid var(--line);overflow:hidden}
+  .kab-lo25-ring{position:absolute;border-radius:50%;border:1px solid rgba(126,157,207,.25)}
+  .kab-lo25-ring.r1{inset:14px}
+  .kab-lo25-ring.r2{inset:28px}
+  .kab-lo25-ring.r3{inset:42px}
+  .kab-lo25-sweep{position:absolute;inset:0;background:conic-gradient(from 0deg,rgba(59,130,246,.35),transparent 70deg);animation:kab-lo25-spin 2.2s linear infinite;border-radius:50%}
+  .kab-lo25-blip{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--kab-lo25-accent,#3b82f6);box-shadow:0 0 8px var(--kab-lo25-accent,#3b82f6);opacity:0;animation:kab-lo25-blink 2.2s linear infinite}
+  .kab-lo25-blip.b1{left:60%;top:26%}
+  .kab-lo25-blip.b2{left:34%;top:58%;animation-delay:.8s}
+  .kab-lo25-blip.b3{left:66%;top:62%;animation-delay:1.5s}
+  @keyframes kab-lo25-spin{to{transform:rotate(360deg)}}
+  @keyframes kab-lo25-blink{0%,70%{opacity:0}80%,100%{opacity:.9}}
+  @media (prefers-reduced-motion:reduce){.kab-lo25-sweep,.kab-lo25-blip{animation:none}}
+</style>
+<div class="kab-lo25">
+  <div class="kab-lo25-cap"><span>SONAR</span><b>SWEEP</b></div>
+  <div class="kab-lo25-dish">
+    <i class="kab-lo25-sweep"></i>
+    <i class="kab-lo25-ring r1"></i><i class="kab-lo25-ring r2"></i><i class="kab-lo25-ring r3"></i>
+    <i class="kab-lo25-blip b1"></i><i class="kab-lo25-blip b2"></i><i class="kab-lo25-blip b3"></i>
+  </div>
+</div>`
+  },
+
+  {
+    id: "BA17",
+    section: "badges",
+    set: "abyss",
+    name: "Station Seal",
+    description: "A slowly rotating dashed ring around a numbered core — an embossed station seal, not a pill or tag.",
+    creator: "deepseek",
+    tags: ["badge", "seal", "ring", "station", "emblem", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-ba17-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-ba17{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;--ice:#93c5fd;display:flex;flex-direction:column;align-items:center;gap:7px}
+  .kab-ba17-ring{width:64px;height:64px;border-radius:50%;border:2px dashed var(--kab-ba17-accent,#3b82f6);display:flex;align-items:center;justify-content:center;animation:kab-ba17-turn 16s linear infinite}
+  .kab-ba17-core{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#16233f,#0d1830 70%);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font:800 13px/1 ui-monospace,Consolas,monospace;color:var(--ice)}
+  .kab-ba17-cap{font:700 7.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.18em;color:var(--dim)}
+  @keyframes kab-ba17-turn{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){.kab-ba17-ring{animation:none}}
+</style>
+<div class="kab-ba17">
+  <div class="kab-ba17-ring"><span class="kab-ba17-core">07</span></div>
+  <span class="kab-ba17-cap">STN SEAL</span>
+</div>`
+  },
+
+  {
+    id: "NA20",
+    section: "navigation",
+    set: "abyss",
+    name: "Sounding Trail",
+    description: "A pill breadcrumb whose lamp separators light as you go deeper — a path trail, not underline tabs.",
+    creator: "deepseek",
+    tags: ["navigation", "breadcrumb", "trail", "lamps", "path", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-na20-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-na20{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;display:inline-flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);border-radius:999px}
+  .kab-na20-crumb{font:700 9px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.06em;color:var(--dim);cursor:pointer;transition:color .15s ease}
+  .kab-na20-crumb:hover{color:var(--txt)}
+  .kab-na20-crumb.cur{color:var(--txt)}
+  .kab-na20-lamp{width:5px;height:5px;border-radius:50%;background:rgba(126,157,207,.4);flex:none;transition:background .15s ease,box-shadow .15s ease}
+  .kab-na20-lamp.on{background:var(--kab-na20-accent,#3b82f6);box-shadow:0 0 7px var(--kab-na20-accent,#3b82f6)}
+  @media (prefers-reduced-motion:reduce){.kab-na20-crumb,.kab-na20-lamp{transition:none}}
+</style>
+<nav class="kab-na20" aria-label="Breadcrumb">
+  <span class="kab-na20-crumb">Fleet</span><i class="kab-na20-lamp"></i>
+  <span class="kab-na20-crumb">Stations</span><i class="kab-na20-lamp on"></i>
+  <span class="kab-na20-crumb cur">STN-07</span>
+</nav>`
+  },
+
+  {
+    id: "CA20",
+    section: "cards",
+    set: "abyss",
+    name: "Watch Card",
+    description: "A dive-computer card with a huge depth readout and gas stats — instrument panel, not media or profile.",
+    creator: "deepseek",
+    tags: ["card", "watch", "dive", "depth", "gas", "computer", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-ca20-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-ca20{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;--ice:#93c5fd;width:186px;background:var(--bg);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .kab-ca20-head{padding:9px 11px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line)}
+  .kab-ca20-name{font:800 10px/1 ui-sans-serif,system-ui,sans-serif;color:var(--txt)}
+  .kab-ca20-st{font:700 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em;color:var(--kab-ca20-accent,#3b82f6)}
+  .kab-ca20-big{padding:12px 11px 10px;display:flex;flex-direction:column;gap:4px;border-bottom:1px solid var(--line)}
+  .kab-ca20-depth{font:800 22px/1 ui-sans-serif,system-ui,sans-serif;color:var(--txt);font-variant-numeric:tabular-nums}
+  .kab-ca20-depth small{font:700 9px/1 ui-monospace,Consolas,monospace;color:var(--dim)}
+  .kab-ca20-sub{font:600 8.5px/1.4 ui-monospace,Consolas,monospace;color:var(--dim);letter-spacing:.08em}
+  .kab-ca20-stats{display:flex}
+  .kab-ca20-stat{flex:1;padding:8px 11px;border-right:1px solid var(--line)}
+  .kab-ca20-stat:last-child{border-right:none}
+  .kab-ca20-stat b{display:block;font:700 10.5px/1 ui-sans-serif,system-ui,sans-serif;color:var(--txt);font-variant-numeric:tabular-nums}
+  .kab-ca20-stat span{display:block;margin-top:3px;font:700 7px/1 ui-monospace,Consolas,monospace;letter-spacing:.14em;color:var(--dim)}
+</style>
+<div class="kab-ca20">
+  <div class="kab-ca20-head"><span class="kab-ca20-name">DIVE WATCH</span><span class="kab-ca20-st">LIVE</span></div>
+  <div class="kab-ca20-big">
+    <div class="kab-ca20-depth">24.6 <small>m</small></div>
+    <div class="kab-ca20-sub">ELAPSED 18:42 · NDL 41 MIN</div>
+  </div>
+  <div class="kab-ca20-stats">
+    <div class="kab-ca20-stat"><b>120</b><span>BAR IN</span></div>
+    <div class="kab-ca20-stat"><b>44</b><span>BAR OUT</span></div>
+    <div class="kab-ca20-stat"><b>12°</b><span>WATER</span></div>
+  </div>
+</div>`
+  },
+
+  {
+    id: "AL20",
+    section: "alerts",
+    set: "abyss",
+    name: "Trim Warning",
+    description: "A left-rail banner callout with lamp, message, and an Adjust action — an inline corrective alert, not an alarm.",
+    creator: "deepseek",
+    tags: ["alert", "banner", "warning", "trim", "inline", "action", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-al20-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-al20{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;--ice:#93c5fd;position:relative;width:230px;padding:11px 12px 11px 16px;background:var(--bg);border:1px solid var(--line);border-left:3px solid var(--kab-al20-accent,#3b82f6);border-radius:10px;display:flex;align-items:center;gap:10px}
+  .kab-al20-lamp{width:9px;height:9px;border-radius:50%;background:var(--kab-al20-accent,#3b82f6);box-shadow:0 0 9px var(--kab-al20-accent,#3b82f6);flex:none;animation:kab-al20-blink 1.8s ease-in-out infinite}
+  .kab-al20-body{flex:1;min-width:0}
+  .kab-al20-title{font:800 9.5px/1 ui-sans-serif,system-ui,sans-serif;color:var(--txt)}
+  .kab-al20-msg{font:600 9px/1.45 ui-sans-serif,system-ui,sans-serif;color:var(--dim);margin-top:2px}
+  .kab-al20-btn{border:1px solid var(--line);background:none;color:var(--ice);font:700 9px/1 ui-sans-serif,system-ui,sans-serif;padding:6px 10px;border-radius:7px;cursor:pointer;transition:opacity .15s ease,border-color .15s ease}
+  .kab-al20-btn:hover{border-color:var(--kab-al20-accent,#3b82f6)}
+  @keyframes kab-al20-blink{0%,100%{opacity:1}50%{opacity:.4}}
+  @media (prefers-reduced-motion:reduce){.kab-al20-lamp{animation:none}.kab-al20-btn{transition:none}}
+</style>
+<div class="kab-al20" role="alert">
+  <i class="kab-al20-lamp"></i>
+  <div class="kab-al20-body"><div class="kab-al20-title">Trim is off by 4°</div><div class="kab-al20-msg">Shift 12 L to the bow before descent.</div></div>
+  <button type="button" class="kab-al20-btn">Adjust</button>
+</div>`
+  },
+
+  {
+    id: "PL20",
+    section: "players",
+    set: "abyss",
+    name: "Bridge Radio",
+    description: "A marine radio with a big frequency readout, a scanning marker, and a transmit lamp — VHF, not a music deck.",
+    creator: "deepseek",
+    tags: ["player", "radio", "vhf", "frequency", "bridge", "transmit", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-pl20-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-pl20{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;--ice:#93c5fd;width:210px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;gap:10px}
+  .kab-pl20-cap{display:flex;justify-content:space-between;font:700 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em;color:var(--dim)}
+  .kab-pl20-cap b{color:var(--ice);font-weight:800}
+  .kab-pl20-freq{display:flex;align-items:baseline;gap:6px}
+  .kab-pl20-freq b{font:800 24px/1 ui-sans-serif,system-ui,sans-serif;color:var(--txt);font-variant-numeric:tabular-nums}
+  .kab-pl20-freq span{font:700 9px/1 ui-monospace,Consolas,monospace;color:var(--dim)}
+  .kab-pl20-dial{position:relative;height:26px;border-radius:999px;background:#0a1222;border:1px solid var(--line);overflow:hidden}
+  .kab-pl20-tick{position:absolute;top:50%;width:1px;height:8px;margin-top:-4px;background:rgba(126,157,207,.35)}
+  .kab-pl20-marker{position:absolute;top:0;bottom:0;left:62%;width:2px;background:var(--kab-pl20-accent,#3b82f6);box-shadow:0 0 8px var(--kab-pl20-accent,#3b82f6);animation:kab-pl20-scan 3.4s ease-in-out infinite}
+  .kab-pl20-row{display:flex;align-items:center;justify-content:space-between}
+  .kab-pl20-play{width:30px;height:30px;border-radius:50%;border:1px solid rgba(126,157,207,.35);background:linear-gradient(180deg,#13203c,#0e1830);color:var(--kab-pl20-accent,#3b82f6);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .15s ease,opacity .15s ease}
+  .kab-pl20-play:hover{transform:scale(1.06)}
+  .kab-pl20-play:active{transform:scale(.94)}
+  .kab-pl20-ch{font:700 9px/1 ui-monospace,Consolas,monospace;letter-spacing:.12em;color:var(--dim)}
+  @keyframes kab-pl20-scan{0%,100%{transform:translateX(-4px)}50%{transform:translateX(4px)}}
+  @media (prefers-reduced-motion:reduce){.kab-pl20-marker{animation:none}.kab-pl20-play{transition:none}}
+</style>
+<div class="kab-pl20">
+  <div class="kab-pl20-cap"><span>BRIDGE RADIO</span><b>CH 16</b></div>
+  <div class="kab-pl20-freq"><b>156.8</b><span>MHz</span></div>
+  <div class="kab-pl20-dial"><span class="kab-pl20-tick" style="left:10%"></span><span class="kab-pl20-tick" style="left:22%"></span><span class="kab-pl20-tick" style="left:34%"></span><span class="kab-pl20-tick" style="left:46%"></span><span class="kab-pl20-tick" style="left:58%"></span><span class="kab-pl20-marker"></span><span class="kab-pl20-tick" style="left:70%"></span><span class="kab-pl20-tick" style="left:82%"></span><span class="kab-pl20-tick" style="left:94%"></span></div>
+  <div class="kab-pl20-row">
+    <span class="kab-pl20-ch">DISTRESS · CALL</span>
+    <button type="button" class="kab-pl20-play" aria-label="Transmit" onclick="this.textContent=this.textContent==='▶'?'❚❚':'▶'">▶</button>
+  </div>
+</div>`
+  },
+
+  {
+    id: "MO19",
+    section: "modals",
+    set: "abyss",
+    name: "Dive Briefing",
+    description: "A pre-dive dialog with lamp checklist and twin CTAs — a go/no-go briefing, not a log or prompt sheet.",
+    creator: "deepseek",
+    tags: ["modal", "briefing", "checklist", "dive", "dialog", "go", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-mo19-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-mo19{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;--ice:#93c5fd;width:232px;background:var(--bg);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 40px rgba(2,6,14,.6);overflow:hidden}
+  .kab-mo19-head{padding:12px 14px;border-bottom:1px solid var(--line)}
+  .kab-mo19-title{font:800 12px/1 ui-sans-serif,system-ui,sans-serif;color:var(--txt)}
+  .kab-mo19-sub{font:600 8.5px/1.4 ui-monospace,Consolas,monospace;color:var(--dim);margin-top:4px;letter-spacing:.08em}
+  .kab-mo19-body{padding:6px 14px;display:flex;flex-direction:column}
+  .kab-mo19-item{display:flex;align-items:center;gap:9px;padding:9px 0;border-bottom:1px solid rgba(126,157,207,.1)}
+  .kab-mo19-item:last-child{border-bottom:none}
+  .kab-mo19-lamp{width:6px;height:6px;border-radius:50%;background:var(--kab-mo19-accent,#3b82f6);box-shadow:0 0 6px var(--kab-mo19-accent,#3b82f6);flex:none}
+  .kab-mo19-lamp.g{background:#4ade80;box-shadow:none}
+  .kab-mo19-item span{font:600 10px/1 ui-sans-serif,system-ui,sans-serif;color:var(--txt)}
+  .kab-mo19-foot{padding:11px 14px;border-top:1px solid var(--line);display:flex;gap:8px}
+  .kab-mo19-primary{flex:1;padding:9px 0;border:none;border-radius:8px;background:var(--kab-mo19-accent,#3b82f6);color:#04101f;font:800 10.5px/1 ui-sans-serif,system-ui,sans-serif;letter-spacing:.05em;cursor:pointer;transition:transform .15s ease,opacity .15s ease}
+  .kab-mo19-primary:hover{opacity:.92}
+  .kab-mo19-primary:active{transform:scale(.97)}
+  .kab-mo19-ghost{flex:1;padding:9px 0;border:1px solid var(--line);border-radius:8px;background:none;color:var(--txt);font:700 10.5px/1 ui-sans-serif,system-ui,sans-serif;cursor:pointer;transition:opacity .15s ease}
+  .kab-mo19-ghost:hover{opacity:.8}
+  @media (prefers-reduced-motion:reduce){.kab-mo19-primary,.kab-mo19-ghost{transition:none}}
+</style>
+<div class="kab-mo19" role="dialog" aria-label="Dive briefing">
+  <div class="kab-mo19-head"><div class="kab-mo19-title">DIVE BRIEFING</div><div class="kab-mo19-sub">REEF WALL · 38 M · 09:30</div></div>
+  <div class="kab-mo19-body">
+    <div class="kab-mo19-item"><i class="kab-mo19-lamp g"></i><span>Buddy check complete</span></div>
+    <div class="kab-mo19-item"><i class="kab-mo19-lamp g"></i><span>Gas mix verified · EAN32</span></div>
+    <div class="kab-mo19-item"><i class="kab-mo19-lamp"></i><span>Entry point — stern line</span></div>
+  </div>
+  <div class="kab-mo19-foot"><button type="button" class="kab-mo19-ghost">Replay</button><button type="button" class="kab-mo19-primary">Start dive</button></div>
+</div>`
+  },
+
+  {
+    id: "CH8",
+    section: "charts",
+    set: "abyss",
+    name: "Swell Chart",
+    description: "A rounded weekly bar chart of wave heights with the peak day lit — bars, not a trace or donut.",
+    creator: "deepseek",
+    tags: ["chart", "swell", "bars", "weekly", "heights", "svg", "abyss"],
+    tweaks: [
+      { type: "color", label: "Accent", varName: "--kab-ch8-accent", default: "#3b82f6" }
+    ],
+    code: `<style>
+  .kab-ch8{--bg:#0b1220;--line:rgba(126,157,207,.22);--txt:#e7eefb;--dim:#8ea0bd;--ice:#93c5fd;width:210px;padding:12px;background:var(--bg);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;gap:9px}
+  .kab-ch8-cap{display:flex;justify-content:space-between;font:700 8px/1 ui-monospace,Consolas,monospace;letter-spacing:.16em;color:var(--dim)}
+  .kab-ch8-cap b{color:var(--ice);font-weight:800}
+  .kab-ch8-svg{display:block;width:100%}
+  .kab-ch8-leg{display:flex;justify-content:space-between;font:600 7.5px/1 ui-monospace,Consolas,monospace;letter-spacing:.1em;color:var(--dim)}
+</style>
+<div class="kab-ch8">
+  <div class="kab-ch8-cap"><span>SWELL HEIGHT</span><b>WEEK 32</b></div>
+  <svg class="kab-ch8-svg" viewBox="0 0 186 56" width="186" height="56" role="img" aria-label="Weekly swell height bar chart">
+    <g stroke="rgba(126,157,207,.14)" stroke-width="1"><line x1="0" y1="12" x2="186" y2="12"/><line x1="0" y1="26" x2="186" y2="26"/><line x1="0" y1="40" x2="186" y2="40"/></g>
+    <line x1="0" y1="54" x2="186" y2="54" stroke="rgba(126,157,207,.3)"/>
+    <rect x="8"  y="40" width="14" height="14" rx="3" fill="rgba(59,130,246,.35)"/>
+    <rect x="32" y="32" width="14" height="22" rx="3" fill="rgba(59,130,246,.5)"/>
+    <rect x="56" y="20" width="14" height="34" rx="3" fill="var(--kab-ch8-accent,#3b82f6)"/>
+    <rect x="80" y="28" width="14" height="26" rx="3" fill="rgba(59,130,246,.55)"/>
+    <rect x="104" y="44" width="14" height="10" rx="3" fill="rgba(59,130,246,.3)"/>
+    <rect x="128" y="36" width="14" height="18" rx="3" fill="rgba(59,130,246,.45)"/>
+    <rect x="152" y="24" width="14" height="30" rx="3" fill="rgba(59,130,246,.6)"/>
+  </svg>
+  <div class="kab-ch8-leg"><span>MON</span><span>WED</span><span>SUN</span></div>
+</div>`
   }
 );
