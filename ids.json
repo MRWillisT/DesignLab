@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-25T21:25:58.092Z",
-  "count": 299,
+  "generated": "2026-08-25T21:43:07.311Z",
+  "count": 307,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -20,6 +20,7 @@
         "AN21",
         "AN22",
         "AN23",
+        "AN24",
         "AN3",
         "AN4",
         "AN5",
@@ -347,6 +348,7 @@
       "name": "Tooltips & Popovers",
       "taken": [
         "TT1",
+        "TT10",
         "TT2",
         "TT3",
         "TT4",
@@ -365,9 +367,10 @@
         "SB2",
         "SB3",
         "SB4",
-        "SB5"
+        "SB5",
+        "SB6"
       ],
-      "next": "SB6"
+      "next": "SB7"
     },
     "charts": {
       "code": "CH",
@@ -377,9 +380,10 @@
         "CH2",
         "CH3",
         "CH4",
-        "CH5"
+        "CH5",
+        "CH6"
       ],
-      "next": "CH6"
+      "next": "CH7"
     },
     "tables": {
       "code": "TB",
@@ -389,9 +393,10 @@
         "TB2",
         "TB3",
         "TB4",
-        "TB5"
+        "TB5",
+        "TB6"
       ],
-      "next": "TB6"
+      "next": "TB7"
     },
     "accordions": {
       "code": "AC",
@@ -401,9 +406,10 @@
         "AC2",
         "AC3",
         "AC4",
-        "AC5"
+        "AC5",
+        "AC6"
       ],
-      "next": "AC6"
+      "next": "AC7"
     },
     "pages": {
       "code": "PS",
@@ -413,9 +419,10 @@
         "PS2",
         "PS3",
         "PS4",
-        "PS5"
+        "PS5",
+        "PS6"
       ],
-      "next": "PS6"
+      "next": "PS7"
     },
     "avatars": {
       "code": "AV",
@@ -451,9 +458,10 @@
         "CL2",
         "CL3",
         "CL4",
-        "CL5"
+        "CL5",
+        "CL6"
       ],
-      "next": "CL6"
+      "next": "CL7"
     },
     "steps": {
       "code": "ST",
@@ -490,6 +498,7 @@
     "AC3",
     "AC4",
     "AC5",
+    "AC6",
     "AL10",
     "AL11",
     "AL12",
@@ -518,6 +527,7 @@
     "AN21",
     "AN22",
     "AN23",
+    "AN24",
     "AN3",
     "AN4",
     "AN5",
@@ -568,11 +578,13 @@
     "CH3",
     "CH4",
     "CH5",
+    "CH6",
     "CL1",
     "CL2",
     "CL3",
     "CL4",
     "CL5",
+    "CL6",
     "DD1",
     "DD10",
     "DD2",
@@ -726,11 +738,13 @@
     "PS3",
     "PS4",
     "PS5",
+    "PS6",
     "SB1",
     "SB2",
     "SB3",
     "SB4",
     "SB5",
+    "SB6",
     "SL1",
     "SL10",
     "SL11",
@@ -757,6 +771,7 @@
     "TB3",
     "TB4",
     "TB5",
+    "TB6",
     "TO1",
     "TO10",
     "TO11",
@@ -777,6 +792,7 @@
     "TO8",
     "TO9",
     "TT1",
+    "TT10",
     "TT2",
     "TT3",
     "TT4",
@@ -823,14 +839,18 @@
     "aurora": {
       "name": "Aurora",
       "color": "#7cf5c0",
-      "count": 18,
+      "count": 26,
       "totalDrawers": 26,
       "drawers": [
+        "accordions",
         "alerts",
+        "animations",
         "avatars",
         "badges",
         "buttons",
+        "calendars",
         "cards",
+        "charts",
         "dragdrop",
         "effects",
         "empty",
@@ -840,10 +860,14 @@
         "loaders",
         "modals",
         "navigation",
+        "pages",
         "players",
+        "sidebars",
         "sliders",
         "steps",
-        "toggles"
+        "tables",
+        "toggles",
+        "tooltips"
       ]
     }
   }

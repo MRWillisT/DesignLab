@@ -1,6 +1,6 @@
 'use strict';
 
-/* Codebuff — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion (rounds 1-4).
+/* Codebuff — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion (rounds 1-5, complete 26/26).
    Every snippet shares the same design tokens so the set reads as one product:
      --aur-g   #7cf5c0   aurora green   (primary)
      --aur-t   #4fd8d4   borealis teal  (secondary)
@@ -945,6 +945,441 @@ window.DESIGN_LAB.items.push(
     <span class="aav6-more">+3</span>
   </div>
   <div class="aav6-cap">Rendered by <b>your team</b> · 4 active creators</div>
+</div>`
+  },
+
+  {
+    id: "CH6",
+    section: "charts",
+    set: "aurora",
+    name: "Aurora Render Telemetry",
+    description: "Gradient area chart of render times with a glowing peak.",
+    creator: "codebuff",
+    tags: ["chart", "telemetry", "render", "time", "area", "graph", "aurora"],
+    code: `<style>
+  .ach6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:340px;padding:15px 16px 11px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .ach6::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:ach6-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 88% 0%,rgba(168,155,247,.14),transparent 70%)}
+  @keyframes ach6-wash{from{opacity:.3}to{opacity:.65}}
+  .ach6-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+  .ach6-title{font-size:11.5px;font-weight:700}
+  .ach6-stat{font-size:10px;color:#bfffe3;font-variant-numeric:tabular-nums}
+  .ach6-chart{position:relative;z-index:1}
+  .ach6-chart svg{display:block;width:100%;height:auto}
+  .ach6-grid{stroke:rgba(165,214,200,.12);stroke-width:1}
+  .ach6-line{fill:none;stroke:url(#ach6-grad);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+  .ach6-area{fill:url(#ach6-fill)}
+  .ach6-peak{fill:#eafff6;stroke:rgba(124,245,192,.8);stroke-width:2;animation:ach6-blink 2.6s ease-in-out infinite}
+  @keyframes ach6-blink{50%{opacity:.45}}
+  .ach6-x{position:relative;z-index:1;display:flex;justify-content:space-between;margin-top:7px;font-size:8.5px;color:var(--aur-dim);font-variant-numeric:tabular-nums}
+  @media (prefers-reduced-motion:reduce){.ach6::before,.ach6-peak{animation:none}}
+</style>
+<div class="ach6">
+  <div class="ach6-head"><span class="ach6-title">Render time</span><span class="ach6-stat">42s avg</span></div>
+  <div class="ach6-chart">
+    <svg viewBox="0 0 308 108">
+      <defs>
+        <linearGradient id="ach6-grad" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7cf5c0"/><stop offset=".55" stop-color="#4fd8d4"/><stop offset="1" stop-color="#a89bf7"/></linearGradient>
+        <linearGradient id="ach6-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4fd8d4" stop-opacity=".28"/><stop offset="1" stop-color="#4fd8d4" stop-opacity="0"/></linearGradient>
+      </defs>
+      <line class="ach6-grid" x1="0" y1="20" x2="308" y2="20"/>
+      <line class="ach6-grid" x1="0" y1="50" x2="308" y2="50"/>
+      <line class="ach6-grid" x1="0" y1="80" x2="308" y2="80"/>
+      <path class="ach6-area" d="M0 84 C22 80 32 54 54 56 S84 32 106 36 S138 62 158 57 S190 22 212 26 S244 42 264 38 S296 14 308 18 L308 108 L0 108 Z"/>
+      <path class="ach6-line" d="M0 84 C22 80 32 54 54 56 S84 32 106 36 S138 62 158 57 S190 22 212 26 S244 42 264 38 S296 14 308 18"/>
+      <circle class="ach6-peak" cx="308" cy="18" r="3.4"/>
+    </svg>
+  </div>
+  <div class="ach6-x"><span>00:00</span><span>00:30</span><span>01:00</span><span>01:30</span></div>
+</div>`
+  },
+
+  {
+    id: "TB6",
+    section: "tables",
+    set: "aurora",
+    name: "Aurora Jobs Table",
+    description: "Render queue table with model chips and status pills.",
+    creator: "codebuff",
+    tags: ["table", "jobs", "queue", "render", "rows", "aurora"],
+    code: `<style>
+  .atb6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:430px;padding:14px 16px 10px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .atb6::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:atb6-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 90% 0%,rgba(79,216,212,.13),transparent 70%)}
+  @keyframes atb6-wash{from{opacity:.3}to{opacity:.65}}
+  .atb6-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .atb6-title{font-size:11.5px;font-weight:700}
+  .atb6-count{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--aur-dim)}
+  .atb6-table{position:relative;z-index:1;width:100%;border-collapse:collapse;font-size:10.5px}
+  .atb6-table th{font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--aur-dim);font-weight:600;text-align:left;padding:7px 8px;border-bottom:1px solid rgba(165,214,200,.16)}
+  .atb6-table td{padding:9px 8px;border-bottom:1px solid rgba(165,214,200,.08);color:#cfe9e0}
+  .atb6-table tr:last-child td{border-bottom:0}
+  .atb6-table tbody tr:hover td{background:rgba(124,245,192,.04)}
+  .atb6-clip{font-weight:600;color:var(--aur-txt)}
+  .atb6-model{padding:2px 7px;border-radius:6px;font-size:8.5px;font-weight:700;letter-spacing:.1em;color:#bfffe3;
+    background:linear-gradient(135deg,rgba(124,245,192,.14),rgba(79,216,212,.08));border:1px solid rgba(124,245,192,.28)}
+  .atb6-model--v{color:#e2d9ff;background:linear-gradient(135deg,rgba(168,155,247,.14),rgba(79,216,212,.08));border-color:rgba(168,155,247,.32)}
+  .atb6-status{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:999px;font-size:8.5px;font-weight:700;letter-spacing:.06em;color:#bfffe3;
+    background:rgba(124,245,192,.1);border:1px solid rgba(124,245,192,.28)}
+  .atb6-status i{width:5px;height:5px;border-radius:50%;background:currentColor}
+  .atb6-status--bad{color:#f0c9c9;background:rgba(245,170,170,.07);border-color:rgba(245,170,170,.3)}
+  .atb6-status--dim{color:#8fa8a2;border-style:dashed}
+  .atb6-size{color:var(--aur-dim);font-variant-numeric:tabular-nums}
+  @media (prefers-reduced-motion:reduce){.atb6::before{animation:none}}
+</style>
+<div class="atb6">
+  <div class="atb6-head"><span class="atb6-title">Render queue</span><span class="atb6-count">5 jobs</span></div>
+  <table class="atb6-table">
+    <thead><tr><th>Clip</th><th>Model</th><th>Res</th><th>Status</th><th>Size</th></tr></thead>
+    <tbody>
+      <tr><td class="atb6-clip">Aurora Bloom — 042</td><td><span class="atb6-model">LTX</span></td><td class="atb6-size">2K</td><td><span class="atb6-status"><i></i>Done</span></td><td class="atb6-size">42 MB</td></tr>
+      <tr><td class="atb6-clip">Night Drive — 041</td><td><span class="atb6-model">WAN</span></td><td class="atb6-size">4K</td><td><span class="atb6-status"><i></i>Done</span></td><td class="atb6-size">118 MB</td></tr>
+      <tr><td class="atb6-clip">Ember Tides — 040</td><td><span class="atb6-model atb6-model--v">H3</span></td><td class="atb6-size">2K</td><td><span class="atb6-status atb6-status--bad"><i></i>Failed</span></td><td class="atb6-size">—</td></tr>
+      <tr><td class="atb6-clip">Glass City — 039</td><td><span class="atb6-model">LTX</span></td><td class="atb6-size">2K</td><td><span class="atb6-status atb6-status--dim"><i></i>Queued</span></td><td class="atb6-size">—</td></tr>
+    </tbody>
+  </table>
+</div>`
+  },
+
+  {
+    id: "AC6",
+    section: "accordions",
+    set: "aurora",
+    name: "Aurora Settings Accordion",
+    description: "Native details accordion with rotating chevrons.",
+    creator: "codebuff",
+    tags: ["accordion", "settings", "disclosure", "details", "faq", "aurora"],
+    code: `<style>
+  .aac6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:360px;padding:13px 14px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .aac6::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:aac6-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 88% 0%,rgba(124,245,192,.13),transparent 70%)}
+  @keyframes aac6-wash{from{opacity:.3}to{opacity:.65}}
+  .aac6-item{position:relative;z-index:1;border-bottom:1px solid rgba(165,214,200,.12)}
+  .aac6-item:last-child{border-bottom:0}
+  .aac6-item summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 4px;cursor:pointer}
+  .aac6-item summary::-webkit-details-marker{display:none}
+  .aac6-name{display:flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600}
+  .aac6-name i{width:6px;height:6px;border-radius:50%;background:var(--aur-g);box-shadow:0 0 6px rgba(124,245,192,.8)}
+  .aac6-item:nth-child(2) .aac6-name i{background:var(--aur-t);box-shadow:0 0 6px rgba(79,216,212,.8)}
+  .aac6-item:nth-child(3) .aac6-name i{background:var(--aur-v);box-shadow:0 0 6px rgba(168,155,247,.8)}
+  .aac6-chev{color:var(--aur-dim);transition:transform .16s ease;display:grid}
+  .aac6-chev svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .aac6-item[open] .aac6-chev{transform:rotate(180deg)}
+  .aac6-body{padding:0 4px 13px;font-size:10.5px;line-height:1.65;color:var(--aur-dim)}
+  .aac6-body b{color:#bfffe3;font-weight:600}
+  @media (prefers-reduced-motion:reduce){.aac6::before{animation:none}.aac6-chev{transition:none}}
+</style>
+<div class="aac6">
+  <details class="aac6-item" open>
+    <summary><span class="aac6-name"><i></i>Output format</span><span class="aac6-chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+    <div class="aac6-body"><b>MP4 · H.264 · 2K · 24fps</b> — clips are encoded with a fast-start flag so playback begins instantly.</div>
+  </details>
+  <details class="aac6-item">
+    <summary><span class="aac6-name"><i></i>Motion strength</span><span class="aac6-chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+    <div class="aac6-body">Default <b>3</b> — higher values add more camera drift to the generated scene.</div>
+  </details>
+  <details class="aac6-item">
+    <summary><span class="aac6-name"><i></i>Aspect ratio</span><span class="aac6-chev"><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></summary>
+    <div class="aac6-body"><b>16:9</b> is the default; 9:16 and 1:1 exports are available at 2K.</div>
+  </details>
+</div>`
+  },
+
+  {
+    id: "SB6",
+    section: "sidebars",
+    set: "aurora",
+    name: "Aurora Library Sidebar",
+    description: "Vertical rail with glyph nav and a credit chip.",
+    creator: "codebuff",
+    tags: ["sidebar", "rail", "nav", "library", "menu", "aurora"],
+    code: `<style>
+  .asb6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:196px;padding:14px 12px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.9),rgba(10,19,26,.95));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt);display:flex;flex-direction:column;gap:16px}
+  .asb6::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:asb6-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 90% 0%,rgba(79,216,212,.13),transparent 70%)}
+  @keyframes asb6-wash{from{opacity:.3}to{opacity:.65}}
+  .asb6-logo{position:relative;z-index:1;display:flex;align-items:center;gap:8px;padding:2px 6px}
+  .asb6-mark{width:22px;height:22px;border-radius:8px;display:grid;place-items:center;color:#07150f;
+    background:linear-gradient(135deg,#7cf5c0,#4fd8d4 55%,#a89bf7)}
+  .asb6-mark svg{width:11px;height:11px}
+  .asb6-brand{font-size:12.5px;font-weight:700}
+  .asb6-nav{position:relative;z-index:1;display:flex;flex-direction:column;gap:3px}
+  .asb6-link{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:9px;font-size:11px;font-weight:600;color:var(--aur-dim);position:relative;cursor:pointer}
+  .asb6-link svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .asb6-link--on{color:var(--aur-txt);background:rgba(124,245,192,.06)}
+  .asb6-link--on::after{content:"";position:absolute;left:0;top:7px;bottom:7px;width:2.5px;border-radius:3px;background:linear-gradient(180deg,#7cf5c0,#4fd8d4 60%,#a89bf7);box-shadow:0 0 8px rgba(124,245,192,.7)}
+  .asb6-foot{position:relative;z-index:1;display:flex;flex-direction:column;gap:9px;padding:2px 6px}
+  .asb6-user{display:flex;align-items:center;gap:8px}
+  .asb6-av{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:8.5px;font-weight:700;color:#07150f;
+    background:linear-gradient(135deg,#4fd8d4,#a89bf7);border:2px solid #0e1921;box-shadow:0 0 0 1px rgba(124,245,192,.25)}
+  .asb6-who{display:flex;flex-direction:column;gap:1px}
+  .asb6-who b{font-size:10.5px;font-weight:600}
+  .asb6-who span{font-size:8.5px;color:var(--aur-dim)}
+  .asb6-credit{display:flex;align-items:center;justify-content:space-between;padding:7px 9px;border-radius:9px;font-size:9.5px;color:#bfffe3;
+    background:linear-gradient(135deg,rgba(124,245,192,.1),rgba(168,155,247,.08));border:1px solid rgba(124,245,192,.25)}
+  @media (prefers-reduced-motion:reduce){.asb6::before{animation:none}}
+</style>
+<div class="asb6">
+  <div class="asb6-logo"><span class="asb6-mark"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.4c.6 4.4 2.4 6.2 6.8 6.8-4.4.6-6.2 2.4-6.8 6.8-.6-4.4-2.4-6.2-6.8-6.8 4.4-.6 6.2-2.4 6.8-6.8z"/></svg></span><span class="asb6-brand">Aurora</span></div>
+  <nav class="asb6-nav">
+    <a class="asb6-link"><svg viewBox="0 0 24 24"><path d="M12 3.2c.6 5 2.8 7.2 7.8 7.8-5 .6-7.2 2.8-7.8 7.8-.6-5-2.8-7.2-7.8-7.8 5-.6 7.2-2.8 7.8-7.8z"/></svg>Generate</a>
+    <a class="asb6-link"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 8.5h18M3 15.5h18M8.5 4v4.5M15.5 4v4.5M8.5 15.5V20M15.5 15.5V20"/></svg>Library</a>
+    <a class="asb6-link asb6-link--on"><svg viewBox="0 0 24 24"><path d="M4 6.5h16M4 12h16M4 17.5h9"/></svg>Queue</a>
+    <a class="asb6-link"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>History</a>
+    <a class="asb6-link"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.5M12 18v2.5M3.5 12H6M18 12h2.5M5.8 5.8l1.8 1.8M16.4 16.4l1.8 1.8M18.2 5.8l-1.8 1.8M7.6 16.4l-1.8 1.8"/></svg>Settings</a>
+  </nav>
+  <div class="asb6-foot">
+    <div class="asb6-user"><span class="asb6-av">YN</span><div class="asb6-who"><b>You</b><span>Creator</span></div></div>
+    <div class="asb6-credit"><span>Credits</span><b>124</b></div>
+  </div>
+</div>`
+  },
+
+  {
+    id: "TT10",
+    section: "tooltips",
+    set: "aurora",
+    name: "Aurora Render Tooltip",
+    description: "Hover tooltip above a render action button.",
+    creator: "codebuff",
+    tags: ["tooltip", "tip", "hover", "hint", "render", "aurora"],
+    code: `<style>
+  .att10{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    display:inline-flex;flex-direction:column;align-items:center;padding:16px 20px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .att10::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:att10-wash 5.5s ease-in-out infinite alternate;
+    background:radial-gradient(110px 80px at 88% 0%,rgba(79,216,212,.15),transparent 70%)}
+  @keyframes att10-wash{from{opacity:.3}to{opacity:.65}}
+  .att10-wrap{position:relative;z-index:1;padding-top:46px}
+  .att10-tip{position:absolute;bottom:calc(100% + 12px);left:50%;transform:translate(-50%,4px);width:190px;padding:9px 11px;border-radius:10px;
+    background:linear-gradient(180deg,rgba(23,38,48,.98),rgba(12,22,30,.98));border:1px solid rgba(124,245,192,.3);color:var(--aur-txt);
+    font-size:10px;line-height:1.55;opacity:0;pointer-events:none;transition:opacity .16s ease,transform .16s ease;
+    box-shadow:0 10px 26px rgba(0,0,0,.45)}
+  .att10-tip::after{content:"";position:absolute;left:50%;bottom:-5px;width:9px;height:9px;transform:translateX(-50%) rotate(45deg);
+    background:linear-gradient(180deg,rgba(23,38,48,.98),rgba(12,22,30,.98));border-right:1px solid rgba(124,245,192,.3);border-bottom:1px solid rgba(124,245,192,.3)}
+  .att10-tip b{color:#bfffe3;font-weight:600}
+  .att10-btn{display:inline-flex;align-items:center;gap:7px;padding:10px 17px;border-radius:11px;font-size:11.5px;font-weight:700;cursor:pointer;color:#07150f;
+    background:linear-gradient(115deg,#7cf5c0,#4fd8d4 55%,#a89bf7);border:0;box-shadow:0 6px 16px rgba(79,216,212,.26);transition:transform .16s ease}
+  .att10-btn:hover{transform:translateY(-1px)}
+  .att10-btn svg{width:12px;height:12px}
+  .att10-wrap:hover .att10-tip{opacity:1;transform:translate(-50%,0)}
+  @media (prefers-reduced-motion:reduce){.att10::before{animation:none}.att10-tip,.att10-btn{transition:none}}
+</style>
+<div class="att10">
+  <div class="att10-wrap">
+    <span class="att10-tip">Renders this clip with <b>LTX</b> at 2K — about <b>42s</b>.</span>
+    <button class="att10-btn"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13l11-6.5z"/></svg>Render clip</button>
+  </div>
+</div>`
+  },
+
+  {
+    id: "CL6",
+    section: "calendars",
+    set: "aurora",
+    name: "Aurora Render Calendar",
+    description: "Month grid with job dots and a glowing today ring.",
+    creator: "codebuff",
+    tags: ["calendar", "month", "schedule", "jobs", "grid", "aurora"],
+    code: `<style>
+  .acl6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:356px;padding:14px 15px 12px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .acl6::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:acl6-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 90% 0%,rgba(168,155,247,.13),transparent 70%)}
+  @keyframes acl6-wash{from{opacity:.3}to{opacity:.65}}
+  .acl6-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .acl6-month{font-size:12.5px;font-weight:700}
+  .acl6-nav{display:flex;gap:5px}
+  .acl6-nav button{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;cursor:pointer;color:var(--aur-dim);
+    background:rgba(255,255,255,.03);border:1px solid rgba(165,214,200,.16);transition:transform .15s ease}
+  .acl6-nav button:hover{transform:translateY(-1px)}
+  .acl6-nav svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .acl6-week{position:relative;z-index:1;display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:7px}
+  .acl6-week span{text-align:center;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--aur-dim)}
+  .acl6-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .acl6-day{position:relative;height:38px;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+    font-size:10px;font-variant-numeric:tabular-nums;color:#cfe9e0;background:rgba(255,255,255,.02);border:1px solid rgba(165,214,200,.1)}
+  .acl6-day--blank{background:transparent;border-color:transparent}
+  .acl6-day--today{border-color:rgba(124,245,192,.65);box-shadow:0 0 0 1px rgba(124,245,192,.25),0 0 12px rgba(124,245,192,.15);color:#eafff6}
+  .acl6-dots{display:flex;gap:2.5px}
+  .acl6-dots i{width:4px;height:4px;border-radius:50%}
+  .acl6-dots .g{background:#7cf5c0;box-shadow:0 0 4px rgba(124,245,192,.9)}
+  .acl6-dots .t{background:#4fd8d4;box-shadow:0 0 4px rgba(79,216,212,.9)}
+  .acl6-dots .v{background:#a89bf7;box-shadow:0 0 4px rgba(168,155,247,.9)}
+  @media (prefers-reduced-motion:reduce){.acl6::before{animation:none}.acl6-nav button{transition:none}}
+</style>
+<div class="acl6">
+  <div class="acl6-head">
+    <span class="acl6-month">August 2026</span>
+    <div class="acl6-nav">
+      <button aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button aria-label="Next month"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+  </div>
+  <div class="acl6-week"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+  <div class="acl6-grid">
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day">1</span>
+    <span class="acl6-day">2</span>
+    <span class="acl6-day">3</span>
+    <span class="acl6-day">4<span class="acl6-dots"><i class="g"></i><i class="t"></i></span></span>
+    <span class="acl6-day">5</span>
+    <span class="acl6-day">6</span>
+    <span class="acl6-day">7</span>
+    <span class="acl6-day">8<span class="acl6-dots"><i class="v"></i></span></span>
+    <span class="acl6-day">9</span>
+    <span class="acl6-day">10</span>
+    <span class="acl6-day">11</span>
+    <span class="acl6-day acl6-day--today">12<span class="acl6-dots"><i class="g"></i></span></span>
+    <span class="acl6-day">13</span>
+    <span class="acl6-day">14</span>
+    <span class="acl6-day">15</span>
+    <span class="acl6-day">16</span>
+    <span class="acl6-day">17</span>
+    <span class="acl6-day">18</span>
+    <span class="acl6-day">19<span class="acl6-dots"><i class="t"></i><i class="v"></i></span></span>
+    <span class="acl6-day">20</span>
+    <span class="acl6-day">21</span>
+    <span class="acl6-day">22</span>
+    <span class="acl6-day">23</span>
+    <span class="acl6-day">24<span class="acl6-dots"><i class="g"></i></span></span>
+    <span class="acl6-day">25</span>
+    <span class="acl6-day">26</span>
+    <span class="acl6-day">27<span class="acl6-dots"><i class="t"></i><i class="g"></i></span></span>
+    <span class="acl6-day">28</span>
+    <span class="acl6-day">29</span>
+    <span class="acl6-day">30</span>
+    <span class="acl6-day">31</span>
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day acl6-day--blank"></span>
+    <span class="acl6-day acl6-day--blank"></span>
+  </div>
+</div>`
+  },
+
+  {
+    id: "AN24",
+    section: "animations",
+    set: "aurora",
+    name: "Aurora Drift",
+    description: "Slow blurred ribbon drift like the borealis across glass.",
+    creator: "codebuff",
+    tags: ["animation", "aurora", "drift", "ribbon", "borealis", "aurora"],
+    code: `<style>
+  .aan24{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:280px;padding:13px 15px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .aan24-stage{position:relative;height:150px;border-radius:11px;overflow:hidden;
+    background:radial-gradient(120px 70px at 30% 20%,rgba(124,245,192,.12),transparent 70%),
+               radial-gradient(120px 70px at 75% 85%,rgba(168,155,247,.12),transparent 70%),
+               linear-gradient(180deg,#0b1620,#0a141d)}
+  .aan24-ribbon{position:absolute;top:-30%;bottom:-30%;width:120%;left:-10%;filter:blur(26px);opacity:.75}
+  .aan24-r1{background:linear-gradient(180deg,transparent,rgba(124,245,192,.55),transparent);animation:aan24-drift1 11s ease-in-out infinite alternate}
+  .aan24-r2{background:linear-gradient(180deg,transparent,rgba(79,216,212,.45),transparent);animation:aan24-drift2 14s ease-in-out infinite alternate}
+  .aan24-r3{background:linear-gradient(180deg,transparent,rgba(168,155,247,.5),transparent);animation:aan24-drift3 17s ease-in-out infinite alternate}
+  @keyframes aan24-drift1{from{transform:translateX(-6%)}to{transform:translateX(8%)}}
+  @keyframes aan24-drift2{from{transform:translateX(10%)}to{transform:translateX(-10%)}}
+  @keyframes aan24-drift3{from{transform:translateX(-12%)}to{transform:translateX(4%)}}
+  .aan24-cap{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-top:10px}
+  .aan24-name{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--aur-dim)}
+  .aan24-live{display:inline-flex;align-items:center;gap:6px;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:#bfffe3}
+  .aan24-live i{width:5px;height:5px;border-radius:50%;background:var(--aur-g);box-shadow:0 0 6px rgba(124,245,192,.9);animation:aan24-blink 1.6s ease-in-out infinite}
+  @keyframes aan24-blink{50%{opacity:.35}}
+  @media (prefers-reduced-motion:reduce){.aan24-r1,.aan24-r2,.aan24-r3,.aan24-live i{animation:none}}
+</style>
+<div class="aan24">
+  <div class="aan24-stage">
+    <span class="aan24-ribbon aan24-r1"></span>
+    <span class="aan24-ribbon aan24-r2"></span>
+    <span class="aan24-ribbon aan24-r3"></span>
+  </div>
+  <div class="aan24-cap"><span class="aan24-name">Aurora drift</span><span class="aan24-live"><i></i>Live</span></div>
+</div>`
+  },
+
+  {
+    id: "PS6",
+    section: "pages",
+    set: "aurora",
+    name: "Aurora Hero Band",
+    description: "Landing hero with gradient headline and CTAs.",
+    creator: "codebuff",
+    tags: ["hero", "landing", "page", "cta", "headline", "aurora"],
+    code: `<style>
+  .aps6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:470px;padding:42px 36px 34px;border-radius:20px;position:relative;overflow:hidden;text-align:center;
+    background:linear-gradient(180deg,rgba(21,35,44,.9),rgba(10,19,26,.95));
+    border:1px solid rgba(124,245,192,.22);color:var(--aur-txt)}
+  .aps6::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.55;animation:aps6-wash 7s ease-in-out infinite alternate;
+    background:radial-gradient(220px 120px at 20% 0%,rgba(124,245,192,.16),transparent 70%),
+               radial-gradient(240px 130px at 80% 0%,rgba(79,216,212,.14),transparent 70%),
+               radial-gradient(260px 140px at 50% 110%,rgba(168,155,247,.16),transparent 70%)}
+  @keyframes aps6-wash{from{opacity:.35}to{opacity:.75}}
+  .aps6-badge{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#bfffe3;
+    background:linear-gradient(135deg,rgba(124,245,192,.12),rgba(168,155,247,.1));border:1px solid rgba(124,245,192,.3)}
+  .aps6-h1{position:relative;z-index:1;margin:14px auto 8px;font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.15;
+    background:linear-gradient(115deg,#eafff6 0%,#b9f7dc 40%,#7cf5c0 60%,#a89bf7 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .aps6-sub{position:relative;z-index:1;margin:0 auto 22px;font-size:12px;line-height:1.7;color:var(--aur-dim);max-width:340px}
+  .aps6-cta{position:relative;z-index:1;display:flex;gap:10px;justify-content:center;margin-bottom:26px}
+  .aps6-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:13px;font-size:12.5px;font-weight:700;cursor:pointer;color:#07150f;
+    background:linear-gradient(115deg,#7cf5c0,#4fd8d4 55%,#a89bf7);border:0;box-shadow:0 8px 22px rgba(79,216,212,.28);transition:transform .16s ease}
+  .aps6-btn:hover{transform:translateY(-2px)}
+  .aps6-ghost{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:13px;font-size:12.5px;font-weight:600;cursor:pointer;color:#cfe9e0;
+    background:rgba(255,255,255,.03);border:1px solid rgba(165,214,200,.22);transition:transform .16s ease}
+  .aps6-ghost:hover{transform:translateY(-1px)}
+  .aps6-btn svg,.aps6-ghost svg{width:14px;height:14px}
+  .aps6-stats{position:relative;z-index:1;display:flex;justify-content:center;gap:26px}
+  .aps6-stat{display:flex;flex-direction:column;gap:2px}
+  .aps6-stat b{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;background:linear-gradient(115deg,#8ff9cd,#5fe3d8 55%,#b3a6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .aps6-stat span{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--aur-dim)}
+  @media (prefers-reduced-motion:reduce){.aps6::before{animation:none}.aps6-btn,.aps6-ghost{transition:none}}
+</style>
+<div class="aps6">
+  <span class="aps6-badge">✦ Now with H3</span>
+  <h1 class="aps6-h1">Create with the aurora.</h1>
+  <p class="aps6-sub">Turn a sentence into cinematic video. LTX, WAN, and H3 — one quiet, beautiful place to generate.</p>
+  <div class="aps6-cta">
+    <button class="aps6-btn"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.6c.7 5.2 2.9 7.4 8 8.1-5.1.7-7.3 2.9-8 8.1-.7-5.2-2.9-7.4-8-8.1 5.1-.7 7.3-2.9 8-8.1z"/></svg>Start creating</button>
+    <button class="aps6-ghost"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>Watch showreel</button>
+  </div>
+  <div class="aps6-stats">
+    <div class="aps6-stat"><b>4K</b><span>Resolution</span></div>
+    <div class="aps6-stat"><b>12s</b><span>Clip length</span></div>
+    <div class="aps6-stat"><b>3</b><span>Models</span></div>
+    <div class="aps6-stat"><b>42s</b><span>Avg render</span></div>
+  </div>
 </div>`
   }
 );
