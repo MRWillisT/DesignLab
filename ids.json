@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-25T21:19:30.937Z",
-  "count": 291,
+  "generated": "2026-08-25T21:23:02.480Z",
+  "count": 295,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -105,6 +105,7 @@
         "FO19",
         "FO2",
         "FO20",
+        "FO21",
         "FO3",
         "FO4",
         "FO5",
@@ -113,7 +114,7 @@
         "FO8",
         "FO9"
       ],
-      "next": "FO21"
+      "next": "FO22"
     },
     "toggles": {
       "code": "TO",
@@ -129,6 +130,7 @@
         "TO16",
         "TO17",
         "TO18",
+        "TO19",
         "TO2",
         "TO3",
         "TO4",
@@ -138,7 +140,7 @@
         "TO8",
         "TO9"
       ],
-      "next": "TO19"
+      "next": "TO20"
     },
     "sliders": {
       "code": "SL",
@@ -200,6 +202,7 @@
         "NA15",
         "NA16",
         "NA17",
+        "NA18",
         "NA2",
         "NA3",
         "NA4",
@@ -209,7 +212,7 @@
         "NA8",
         "NA9"
       ],
-      "next": "NA18"
+      "next": "NA19"
     },
     "alerts": {
       "code": "AL",
@@ -288,6 +291,7 @@
         "MO14",
         "MO15",
         "MO16",
+        "MO17",
         "MO2",
         "MO3",
         "MO4",
@@ -297,7 +301,7 @@
         "MO8",
         "MO9"
       ],
-      "next": "MO17"
+      "next": "MO18"
     },
     "effects": {
       "code": "EF",
@@ -614,6 +618,7 @@
     "FO19",
     "FO2",
     "FO20",
+    "FO21",
     "FO3",
     "FO4",
     "FO5",
@@ -667,6 +672,7 @@
     "MO14",
     "MO15",
     "MO16",
+    "MO17",
     "MO2",
     "MO3",
     "MO4",
@@ -684,6 +690,7 @@
     "NA15",
     "NA16",
     "NA17",
+    "NA18",
     "NA2",
     "NA3",
     "NA4",
@@ -752,6 +759,7 @@
     "TO16",
     "TO17",
     "TO18",
+    "TO19",
     "TO2",
     "TO3",
     "TO4",
@@ -807,7 +815,7 @@
     "aurora": {
       "name": "Aurora",
       "color": "#7cf5c0",
-      "count": 10,
+      "count": 14,
       "totalDrawers": 26,
       "drawers": [
         "alerts",
@@ -816,10 +824,14 @@
         "cards",
         "dragdrop",
         "effects",
+        "forms",
         "icons",
         "loaders",
+        "modals",
+        "navigation",
         "players",
-        "sliders"
+        "sliders",
+        "toggles"
       ]
     }
   }

@@ -1,6 +1,6 @@
 'use strict';
 
-/* Codebuff — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion (rounds 1-2).
+/* Codebuff — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion (rounds 1-3).
    Every snippet shares the same design tokens so the set reads as one product:
      --aur-g   #7cf5c0   aurora green   (primary)
      --aur-t   #4fd8d4   borealis teal  (secondary)
@@ -535,6 +535,211 @@ window.DESIGN_LAB.items.push(
     <div class="aca18-act">
       <button class="aca18-btn"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>Preview</button>
       <button class="aca18-btn aca18-btn--go"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7.5 8.5L12 4l4.5 4.5"/><path d="M4 16v3a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 19v-3"/></svg>Export</button>
+    </div>
+  </div>
+</div>`
+  },
+
+  {
+    id: "FO21",
+    section: "forms",
+    set: "aurora",
+    name: "Aurora Prompt Field",
+    description: "Generation textarea with aurora glow ring and sparkle enhance chip.",
+    creator: "codebuff",
+    tags: ["prompt", "textarea", "field", "form", "input", "generate", "aurora"],
+    code: `<style>
+  .afo21{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:330px;padding:15px 16px 12px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .afo21::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:afo21-wash 5.5s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 88% 0%,rgba(79,216,212,.15),transparent 70%),
+               radial-gradient(100px 70px at 5% 100%,rgba(168,155,247,.12),transparent 70%)}
+  @keyframes afo21-wash{from{opacity:.3}to{opacity:.65}}
+  .afo21-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+  .afo21-label{font-size:11px;font-weight:700;letter-spacing:.02em}
+  .afo21-count{font-size:9.5px;color:var(--aur-dim);font-variant-numeric:tabular-nums}
+  .afo21-field{position:relative;z-index:1}
+  .afo21-field::after{content:"";position:absolute;inset:-1px;border-radius:11px;opacity:0;transition:opacity .16s ease;pointer-events:none;
+    box-shadow:0 0 0 2px rgba(124,245,192,.35),0 0 18px rgba(124,245,192,.18)}
+  .afo21-field:focus-within::after{opacity:1}
+  .afo21-input{width:100%;box-sizing:border-box;min-height:74px;resize:none;padding:10px 12px;border-radius:10px;font-family:inherit;font-size:12px;line-height:1.5;color:var(--aur-txt);
+    background:rgba(6,13,18,.55);border:1px solid rgba(165,214,200,.2);outline:none}
+  .afo21-input::placeholder{color:#5f7a72}
+  .afo21-foot{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-top:9px}
+  .afo21-hint{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--aur-dim)}
+  .afo21-enh{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:9px;font-size:10px;font-weight:600;cursor:pointer;color:#07150f;
+    background:linear-gradient(115deg,#7cf5c0,#4fd8d4 60%,#a89bf7);border:0;transition:transform .15s ease}
+  .afo21-enh:hover{transform:translateY(-1px)}
+  .afo21-enh svg{width:11px;height:11px}
+  @media (prefers-reduced-motion:reduce){.afo21::before{animation:none}.afo21-field::after,.afo21-enh{transition:none}}
+</style>
+<div class="afo21">
+  <div class="afo21-head"><span class="afo21-label">Prompt</span><span class="afo21-count">0 / 240</span></div>
+  <div class="afo21-field">
+    <textarea class="afo21-input" rows="3" placeholder="A lone skater drifting under the aurora…" aria-label="Generation prompt"></textarea>
+  </div>
+  <div class="afo21-foot">
+    <span class="afo21-hint">Enter to queue</span>
+    <button class="afo21-enh"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.2c.6 4.4 2.5 6.3 6.8 6.9-4.3.6-6.2 2.5-6.8 6.9-.6-4.4-2.5-6.3-6.8-6.9 4.3-.6 6.2-2.5 6.8-6.9z"/></svg>Enhance</button>
+  </div>
+</div>`
+  },
+
+  {
+    id: "TO19",
+    section: "toggles",
+    set: "aurora",
+    name: "Aurora Quality Toggles",
+    description: "Slider switches with gradient fill for upscale and loop options.",
+    creator: "codebuff",
+    tags: ["toggle", "switch", "upscale", "quality", "settings", "aurora"],
+    code: `<style>
+  .ato19{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    display:inline-flex;flex-direction:column;gap:2px;padding:7px 16px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .ato19::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:ato19-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(110px 70px at 90% 0%,rgba(124,245,192,.13),transparent 70%),
+               radial-gradient(100px 70px at 5% 100%,rgba(168,155,247,.12),transparent 70%)}
+  @keyframes ato19-wash{from{opacity:.3}to{opacity:.65}}
+  .ato19-row{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(165,214,200,.12)}
+  .ato19-row:last-child{border-bottom:0}
+  .ato19-txt{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .ato19-name{font-size:11.5px;font-weight:600}
+  .ato19-cap{font-size:9.5px;color:var(--aur-dim)}
+  .ato19-sw{position:relative;width:38px;height:22px;flex:none;cursor:pointer}
+  .ato19-sw input{position:absolute;opacity:0;pointer-events:none}
+  .ato19-track{position:absolute;inset:0;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(165,214,200,.25)}
+  .ato19-track::before{content:"";position:absolute;inset:0;border-radius:999px;opacity:0;transition:opacity .16s ease;
+    background:linear-gradient(115deg,#7cf5c0,#4fd8d4 55%,#a89bf7)}
+  .ato19-knob{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#cfe9e0;box-shadow:0 1px 4px rgba(0,0,0,.4);transition:transform .16s ease}
+  .ato19-sw input:checked ~ .ato19-track::before{opacity:1}
+  .ato19-sw input:checked ~ .ato19-knob{transform:translateX(18px);background:#07150f}
+  @media (prefers-reduced-motion:reduce){.ato19::before{animation:none}.ato19-track::before,.ato19-knob{transition:none}}
+</style>
+<div class="ato19">
+  <div class="ato19-row">
+    <div class="ato19-txt"><span class="ato19-name">Upscale 2×</span><span class="ato19-cap">Enhance detail</span></div>
+    <label class="ato19-sw"><input type="checkbox" checked aria-label="Upscale 2x"><span class="ato19-track"></span><span class="ato19-knob"></span></label>
+  </div>
+  <div class="ato19-row">
+    <div class="ato19-txt"><span class="ato19-name">Loop output</span><span class="ato19-cap">Seamless playback</span></div>
+    <label class="ato19-sw"><input type="checkbox" aria-label="Loop output"><span class="ato19-track"></span><span class="ato19-knob"></span></label>
+  </div>
+</div>`
+  },
+
+  {
+    id: "NA18",
+    section: "navigation",
+    set: "aurora",
+    name: "Aurora Queue Tabs",
+    description: "Render-queue tab bar with gradient counts and a new-job button.",
+    creator: "codebuff",
+    tags: ["tabs", "navigation", "queue", "rendering", "count", "aurora"],
+    code: `<style>
+  .ana18{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    display:inline-flex;align-items:center;gap:4px;padding:8px;border-radius:14px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .ana18::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:ana18-wash 5.5s ease-in-out infinite alternate;
+    background:radial-gradient(120px 70px at 88% 0%,rgba(79,216,212,.14),transparent 70%)}
+  @keyframes ana18-wash{from{opacity:.3}to{opacity:.65}}
+  .ana18-tab{position:relative;z-index:1;cursor:pointer;padding:8px 13px;border-radius:9px;font-size:11px;font-weight:600;color:var(--aur-dim)}
+  .ana18-tab input{position:absolute;opacity:0;pointer-events:none}
+  .ana18-tab span{display:inline-flex;align-items:center;gap:7px;pointer-events:none}
+  .ana18-n{min-width:16px;height:16px;padding:0 4px;box-sizing:border-box;border-radius:6px;display:grid;place-items:center;font-size:8.5px;font-weight:700;color:var(--aur-dim);
+    background:rgba(255,255,255,.05);border:1px solid rgba(165,214,200,.18)}
+  .ana18-tab::after{content:"";position:absolute;left:11px;right:11px;bottom:2px;height:2px;border-radius:2px;opacity:0;
+    background:linear-gradient(90deg,#7cf5c0,#4fd8d4 55%,#a89bf7);box-shadow:0 0 8px rgba(124,245,192,.6)}
+  .ana18-tab:has(input:checked){color:var(--aur-txt);background:rgba(124,245,192,.05)}
+  .ana18-tab:has(input:checked)::after{opacity:1}
+  .ana18-tab:has(input:checked) .ana18-n{color:#07150f;background:linear-gradient(115deg,#7cf5c0,#4fd8d4 60%,#a89bf7);border-color:transparent}
+  .ana18-new{position:relative;z-index:1;display:inline-flex;align-items:center;gap:5px;margin-left:4px;padding:8px 13px;border-radius:9px;font-size:11px;font-weight:700;cursor:pointer;color:#07150f;
+    background:linear-gradient(115deg,#7cf5c0,#4fd8d4 60%,#a89bf7);border:0;transition:transform .15s ease}
+  .ana18-new:hover{transform:translateY(-1px)}
+  @media (prefers-reduced-motion:reduce){.ana18::before{animation:none}.ana18-new{transition:none}}
+</style>
+<div class="ana18">
+  <label class="ana18-tab"><input type="radio" name="ana18tab" checked><span>Queue <b class="ana18-n">3</b></span></label>
+  <label class="ana18-tab"><input type="radio" name="ana18tab"><span>Rendering <b class="ana18-n">2</b></span></label>
+  <label class="ana18-tab"><input type="radio" name="ana18tab"><span>Done <b class="ana18-n">14</b></span></label>
+  <button class="ana18-new">+ New</button>
+</div>`
+  },
+
+  {
+    id: "MO17",
+    section: "modals",
+    set: "aurora",
+    name: "Aurora Job Modal",
+    description: "Backdrop dialog with model and resolution pickers, cancel and start render.",
+    creator: "codebuff",
+    tags: ["modal", "dialog", "settings", "job", "render", "model", "resolution", "aurora"],
+    code: `<style>
+  .amo17{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    position:fixed;inset:0;display:grid;place-items:center;color:var(--aur-txt);
+    background:radial-gradient(400px 260px at 50% 0%,rgba(79,216,212,.08),transparent 60%),rgba(4,9,13,.74);
+    animation:amo17-in .3s ease both}
+  @keyframes amo17-in{from{opacity:0}to{opacity:1}}
+  .amo17-dlg{width:340px;border-radius:18px;padding:18px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(23,38,48,.98),rgba(12,22,30,.98));
+    border:1px solid rgba(124,245,192,.25);
+    box-shadow:0 24px 60px rgba(0,0,0,.55),0 0 40px rgba(79,216,212,.08);animation:amo17-up .32s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes amo17-up{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .amo17-dlg::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background:radial-gradient(140px 90px at 90% 0%,rgba(168,155,247,.16),transparent 70%)}
+  .amo17-head{position:relative;display:flex;align-items:center;justify-content:space-between;margin-bottom:15px}
+  .amo17-title{font-size:13px;font-weight:700}
+  .amo17-x{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;cursor:pointer;color:var(--aur-dim);
+    background:rgba(255,255,255,.03);border:1px solid rgba(165,214,200,.16);transition:transform .15s ease}
+  .amo17-x:hover{transform:rotate(90deg);color:#eafff6}
+  .amo17-x svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+  .amo17-sec{position:relative;margin-bottom:13px}
+  .amo17-cap{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--aur-dim);margin-bottom:7px}
+  .amo17-row{display:flex;gap:7px}
+  .amo17-opt{position:relative;flex:1;cursor:pointer}
+  .amo17-opt input{position:absolute;opacity:0;pointer-events:none}
+  .amo17-opt span{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 0;border-radius:9px;font-size:10.5px;font-weight:600;color:var(--aur-dim);
+    background:rgba(255,255,255,.03);border:1px solid rgba(165,214,200,.16)}
+  .amo17-opt span i{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:0}
+  .amo17-opt input:checked ~ span{color:#eafff6;border-color:rgba(124,245,192,.5);background:linear-gradient(180deg,rgba(124,245,192,.1),rgba(79,216,212,.04))}
+  .amo17-opt input:checked ~ span i{opacity:1}
+  .amo17-foot{position:relative;display:flex;gap:9px;margin-top:17px}
+  .amo17-btn{flex:1;padding:10px 0;border-radius:11px;font-size:11.5px;font-weight:700;cursor:pointer;color:#cfe9e0;
+    background:rgba(255,255,255,.03);border:1px solid rgba(165,214,200,.2);transition:transform .15s ease}
+  .amo17-btn:hover{transform:translateY(-1px)}
+  .amo17-btn--go{color:#07150f;background:linear-gradient(115deg,#7cf5c0,#4fd8d4 55%,#a89bf7);border-color:transparent}
+  @media (prefers-reduced-motion:reduce){.amo17,.amo17-dlg{animation:none}.amo17-x,.amo17-btn{transition:none}}
+</style>
+<div class="amo17">
+  <div class="amo17-dlg">
+    <div class="amo17-head"><span class="amo17-title">Job settings</span><button class="amo17-x" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="amo17-sec">
+      <div class="amo17-cap">Model</div>
+      <div class="amo17-row">
+        <label class="amo17-opt"><input type="radio" name="amo17model" checked><span>LTX<i></i></span></label>
+        <label class="amo17-opt"><input type="radio" name="amo17model"><span>WAN<i></i></span></label>
+        <label class="amo17-opt"><input type="radio" name="amo17model"><span>H3<i></i></span></label>
+      </div>
+    </div>
+    <div class="amo17-sec">
+      <div class="amo17-cap">Resolution</div>
+      <div class="amo17-row">
+        <label class="amo17-opt"><input type="radio" name="amo17res"><span>2K<i></i></span></label>
+        <label class="amo17-opt"><input type="radio" name="amo17res" checked><span>4K<i></i></span></label>
+        <label class="amo17-opt"><input type="radio" name="amo17res"><span>8K<i></i></span></label>
+      </div>
+    </div>
+    <div class="amo17-foot">
+      <button class="amo17-btn">Cancel</button>
+      <button class="amo17-btn amo17-btn--go">Start render</button>
     </div>
   </div>
 </div>`
