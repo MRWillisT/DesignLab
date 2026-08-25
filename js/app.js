@@ -1512,16 +1512,16 @@ function pushVars(frame, vars) {
 }
 
 /* ---------- lazy stage frames ----------
-   Stage iframes start empty and only receive their srcdoc document when they
-   near the viewport. srcdoc iframes ignore loading="lazy" (there is no
-   network request to defer), so without this every specimen document would
-   initialize at once and first paint crawls. A rect sweep runs a beat after
-   scrolling settles (never during scroll, so no layout-thrash jank) and loads
-   every frame within a 400px margin. Docs are cached per item + canvas +
-   tweak state, and built with the CURRENT canvas at load time so a canvas
-   switch is never stale for frames that load later. */
+   Stage iframes are created and given their srcdoc document only when they
+   near the viewport. Browsing contexts are expensive — with hundreds of
+   specimens, creating every iframe up front crawls first paint even when the
+   documents stay empty. A rect sweep runs a beat after scrolling settles
+   (never during scroll, so no layout-thrash jank) and mounts every frame
+   within a 400px margin. Docs are cached per item + canvas + tweak state,
+   and built with the CURRENT canvas at load time so a canvas switch is never
+   stale for frames that load later. */
 const stageDocCache = new Map();
-const pendingStageFrames = new Map(); // frame element -> item
+const pendingStageFrames = new Map(); // card element -> item (frame mounts on demand)
 let stageCheckTimer = 0;
 let stageCheckQueued = false;
 
@@ -1538,19 +1538,36 @@ function stageDocFor(item) {
   return doc;
 }
 
+function ensureStageFrame(el, item) {
+  let frame = $('.stage-frame', el);
+  if (!frame) {
+    const stage = $('.stage', el);
+    if (!stage) return null;
+    frame = document.createElement('iframe');
+    frame.className = 'stage-frame';
+    frame.setAttribute('loading', 'lazy');
+    frame.setAttribute('sandbox', 'allow-scripts');
+    frame.setAttribute('title', escapeHtml(item.name) + ' live preview');
+    stage.appendChild(frame);
+  }
+  return frame;
+}
+
 function loadNearbyStages() {
   const vh = window.innerHeight || document.documentElement.clientHeight || 0;
   const margin = 400;
   let loaded = 0;
-  for (const [frame, item] of pendingStageFrames) {
-    if (!frame.isConnected) {
-      pendingStageFrames.delete(frame);
+  for (const [el, item] of pendingStageFrames) {
+    if (!el.isConnected) {
+      pendingStageFrames.delete(el);
       continue;
     }
-    const r = frame.getBoundingClientRect();
+    const r = el.getBoundingClientRect();
     if (r.top < vh + margin && r.bottom > -margin) {
+      const frame = ensureStageFrame(el, item);
+      if (!frame) { pendingStageFrames.delete(el); continue; }
       frame.srcdoc = stageDocFor(item);
-      pendingStageFrames.delete(frame);
+      pendingStageFrames.delete(el);
       // Hand the main thread back every N frames so hundreds of srcdoc
       // documents don't all parse in one uninterruptible burst on first
       // paint; the rest load on the next settle sweep.
@@ -1858,7 +1875,6 @@ function buildCard(item) {
     + '<span class="mod-tag" ' + (dirty ? '' : 'hidden') + '>MOD</span>'
     + '</div>'
     + '</div>'
-    + '<iframe class="stage-frame" loading="lazy" sandbox="allow-scripts" title="' + escapeHtml(item.name) + ' live preview"></iframe>'
     + '<button type="button" class="stage-hit" aria-label="Inspect ' + escapeHtml(item.name) + '" title="Click to inspect"></button>'
     + '</div>'
     + '<div class="card-body">'
@@ -1895,8 +1911,7 @@ function buildCard(item) {
     + '</span>'
     + '</footer>';
 
-  const frame = $('.stage-frame', card);
-  deferStageLoad(frame, item);
+  deferStageLoad(card, item);
 
   $('.stage-hit', card).addEventListener('click', () => openInspectModal(item));
   $('.star-btn', card).addEventListener('click', () => toggleFavorite(item.id, card));
@@ -1935,7 +1950,7 @@ function buildCard(item) {
         draft[t.varName] = formatVal(t, input.value);
         draftVars.set(item.id, draft);
         if (out) out.textContent = t.type === 'range' ? input.value + (t.unit || '') : input.value;
-        pushVars(frame, currentValues(item));
+        pushVars($('.stage-frame', card), currentValues(item));
         refreshTweakUi(card, item);
       });
     });
@@ -1948,7 +1963,7 @@ function buildCard(item) {
         const out = input.closest('.tweak-row').querySelector('output');
         if (out) out.textContent = t.type === 'range' ? t.default + (t.unit || '') : t.default;
       });
-      pushVars(frame, currentValues(item));
+      pushVars($('.stage-frame', card), currentValues(item));
       refreshTweakUi(card, item);
     });
 
