@@ -1,6 +1,6 @@
 'use strict';
 
-/* Codebuff — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion round 1.
+/* Codebuff — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion (rounds 1-2).
    Every snippet shares the same design tokens so the set reads as one product:
      --aur-g   #7cf5c0   aurora green   (primary)
      --aur-t   #4fd8d4   borealis teal  (secondary)
@@ -258,6 +258,285 @@ window.DESIGN_LAB.items.push(
     <label class="aef18-tile"><input type="radio" name="aef18fx"><span class="aef18-fx"><span class="aef18-ico"><svg viewBox="0 0 24 24"><defs><radialGradient id="aef18-vg" cx="50%" cy="50%" r="70%"><stop offset="52%" stop-color="currentColor" stop-opacity="0"/><stop offset="100%" stop-color="currentColor" stop-opacity=".85"/></radialGradient></defs><rect x="3.5" y="3.8" width="17" height="16.4" rx="3" fill="url(#aef18-vg)" stroke="none"/></svg></span><span class="aef18-name">Vignette</span></span></label>
   </div>
   <div class="aef18-hint"><span>Select effect</span><span>applies to selected clip</span></div>
+</div>`
+  },
+
+  {
+    id: "BU34",
+    section: "buttons",
+    set: "aurora",
+    name: "Aurora Generate",
+    description: "Gradient CTA with sparkle mark and a ghost Queue twin.",
+    creator: "codebuff",
+    tags: ["generate", "cta", "primary", "sparkle", "queue", "video", "aurora"],
+    code: `<style>
+  .abu34{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    display:inline-flex;flex-direction:column;align-items:center;gap:12px;padding:16px 18px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .abu34::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:abu34-wash 5.5s ease-in-out infinite alternate;
+    background:radial-gradient(110px 80px at 12% 0%,rgba(124,245,192,.16),transparent 70%),
+               radial-gradient(120px 80px at 90% 100%,rgba(168,155,247,.14),transparent 70%)}
+  @keyframes abu34-wash{from{opacity:.3}to{opacity:.65}}
+  .abu34-row{position:relative;z-index:1;display:flex;align-items:center;gap:10px}
+  .abu34-btn{position:relative;display:inline-flex;align-items:center;gap:9px;padding:13px 26px;border:0;border-radius:14px;cursor:pointer;
+    font-family:inherit;font-size:14px;font-weight:700;letter-spacing:.01em;color:#07150f;
+    background:linear-gradient(115deg,#7cf5c0,#4fd8d4 55%,#a89bf7);box-shadow:0 8px 22px rgba(79,216,212,.28);
+    transition:transform .16s ease}
+  .abu34-btn svg{width:16px;height:16px}
+  .abu34-btn::after{content:"";position:absolute;inset:0;border-radius:14px;opacity:0;transition:opacity .16s ease;
+    background:linear-gradient(115deg,rgba(255,255,255,.35),rgba(255,255,255,.05) 55%,rgba(255,255,255,.28))}
+  .abu34-btn:hover{transform:translateY(-2px)}
+  .abu34-btn:hover::after{opacity:1}
+  .abu34-btn:active{transform:translateY(0)}
+  .abu34-ghost{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:14px;cursor:pointer;
+    font-family:inherit;font-size:13px;font-weight:600;color:#cfe9e0;background:rgba(255,255,255,.03);
+    border:1px solid rgba(165,214,200,.22);transition:transform .16s ease}
+  .abu34-ghost svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .abu34-ghost:hover{transform:translateY(-1px)}
+  .abu34-cap{position:relative;z-index:1;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--aur-dim)}
+  @media (prefers-reduced-motion:reduce){.abu34::before{animation:none}.abu34-btn,.abu34-ghost{transition:none}}
+</style>
+<div class="abu34">
+  <div class="abu34-row">
+    <button class="abu34-btn"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.6c.7 5.2 2.9 7.4 8 8.1-5.1.7-7.3 2.9-8 8.1-.7-5.2-2.9-7.4-8-8.1 5.1-.7 7.3-2.9 8-8.1z"/><path d="M18.8 16.2c.3 2.2 1.2 3.1 3.4 3.4-2.2.3-3.1 1.2-3.4 3.4-.3-2.2-1.2-3.1-3.4-3.4 2.2-.3 3.1-1.2 3.4-3.4z"/></svg>Generate</button>
+    <button class="abu34-ghost"><svg viewBox="0 0 24 24"><path d="M5 6.5h14M5 12h14M5 17.5h8"/></svg>Queue</button>
+  </div>
+  <span class="abu34-cap">LTX · 2K · 12 sec</span>
+</div>`
+  },
+
+  {
+    id: "LO23",
+    section: "loaders",
+    set: "aurora",
+    name: "Aurora Render Ring",
+    description: "Gradient arc spinner orbiting a breathing percentage.",
+    creator: "codebuff",
+    tags: ["render", "spinner", "ring", "progress", "loading", "percentage", "aurora"],
+    code: `<style>
+  .alo23{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    display:inline-flex;flex-direction:column;align-items:center;gap:13px;padding:18px 22px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .alo23::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:alo23-wash 5.5s ease-in-out infinite alternate;
+    background:radial-gradient(110px 80px at 88% 0%,rgba(79,216,212,.15),transparent 70%),
+               radial-gradient(110px 80px at 10% 100%,rgba(168,155,247,.13),transparent 70%)}
+  @keyframes alo23-wash{from{opacity:.3}to{opacity:.65}}
+  .alo23-ring{position:relative;width:92px;height:92px}
+  .alo23-ring svg{width:92px;height:92px;animation:alo23-spin 1.5s linear infinite}
+  @keyframes alo23-spin{to{transform:rotate(360deg)}}
+  .alo23-track{fill:none;stroke:rgba(159,215,200,.14);stroke-width:5}
+  .alo23-arc{fill:none;stroke:url(#alo23-grad);stroke-width:5;stroke-linecap:round;stroke-dasharray:118 121}
+  .alo23-pct{position:absolute;inset:0;display:grid;place-items:center;font-size:19px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--aur-txt)}
+  .alo23-pct small{font-size:10px;font-weight:500;color:var(--aur-dim)}
+  .alo23-pct em{font-style:normal;animation:alo23-breathe 2s ease-in-out infinite}
+  @keyframes alo23-breathe{50%{opacity:.45}}
+  .alo23-cap{display:flex;align-items:center;gap:7px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--aur-dim)}
+  .alo23-dot{width:6px;height:6px;border-radius:50%;background:var(--aur-g);box-shadow:0 0 7px rgba(124,245,192,.9);animation:alo23-breathe 1.4s ease-in-out infinite}
+  @media (prefers-reduced-motion:reduce){.alo23::before,.alo23-ring svg,.alo23-pct em,.alo23-dot{animation:none}}
+</style>
+<div class="alo23">
+  <div class="alo23-ring">
+    <svg viewBox="0 0 92 92">
+      <defs><linearGradient id="alo23-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7cf5c0"/><stop offset=".55" stop-color="#4fd8d4"/><stop offset="1" stop-color="#a89bf7"/></linearGradient></defs>
+      <circle class="alo23-track" cx="46" cy="46" r="38"/>
+      <circle class="alo23-arc" cx="46" cy="46" r="38" transform="rotate(-90 46 46)"/>
+    </svg>
+    <div class="alo23-pct"><em>42<small>%</small></em></div>
+  </div>
+  <div class="alo23-cap"><span class="alo23-dot"></span>Rendering · pass 6 of 14</div>
+</div>`
+  },
+
+  {
+    id: "BA15",
+    section: "badges",
+    set: "aurora",
+    name: "Aurora Model Badges",
+    description: "Pill cluster of model tags and live status with glow dots.",
+    creator: "codebuff",
+    tags: ["badges", "model", "ltx", "wan", "h3", "status", "pill", "aurora"],
+    code: `<style>
+  .aba15{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    display:inline-flex;align-items:center;gap:8px;flex-wrap:wrap;padding:16px 18px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .aba15::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:aba15-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 90% 0%,rgba(124,245,192,.14),transparent 70%),
+               radial-gradient(110px 70px at 5% 100%,rgba(168,155,247,.13),transparent 70%)}
+  @keyframes aba15-wash{from{opacity:.3}to{opacity:.65}}
+  .aba15-pill{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:10.5px;font-weight:600;letter-spacing:.09em;
+    background:rgba(255,255,255,.03);border:1px solid rgba(165,214,200,.18);color:#cfe9e0}
+  .aba15-pill i{width:6px;height:6px;border-radius:50%;background:var(--aur-g);box-shadow:0 0 6px rgba(124,245,192,.8)}
+  .aba15-pill--t i{background:var(--aur-t);box-shadow:0 0 6px rgba(79,216,212,.8)}
+  .aba15-pill--v i{background:var(--aur-v);box-shadow:0 0 6px rgba(168,155,247,.8)}
+  .aba15-pill--live{border-color:rgba(124,245,192,.45);color:#eafff6}
+  .aba15-pill--live i{animation:aba15-pulse 1.4s ease-in-out infinite}
+  @keyframes aba15-pulse{50%{opacity:.3;transform:scale(.7)}}
+  .aba15-pill--dim{color:#8fa8a2;border-style:dashed}
+  @media (prefers-reduced-motion:reduce){.aba15::before,.aba15-pill--live i{animation:none}}
+</style>
+<div class="aba15">
+  <span class="aba15-pill aba15-pill--live"><i></i>Rendering</span>
+  <span class="aba15-pill"><i></i>LTX</span>
+  <span class="aba15-pill aba15-pill--t"><i></i>WAN</span>
+  <span class="aba15-pill aba15-pill--v"><i></i>H3</span>
+  <span class="aba15-pill aba15-pill--dim"><i></i>Queued</span>
+</div>`
+  },
+
+  {
+    id: "AL18",
+    section: "alerts",
+    set: "aurora",
+    name: "Aurora Render Toast",
+    description: "Slide-in render-complete toast with gradient check badge.",
+    creator: "codebuff",
+    tags: ["toast", "alert", "complete", "render", "notification", "aurora"],
+    code: `<style>
+  .aal18{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    display:inline-flex;align-items:center;gap:13px;padding:13px 15px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.92),rgba(10,19,26,.96));
+    border:1px solid rgba(124,245,192,.28);color:var(--aur-txt);
+    box-shadow:0 14px 34px rgba(0,0,0,.45);animation:aal18-in .5s cubic-bezier(.2,.7,.3,1) both}
+  @keyframes aal18-in{from{transform:translateY(10px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .aal18::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+    background:radial-gradient(120px 80px at 0% 0%,rgba(124,245,192,.14),transparent 70%)}
+  .aal18-ico{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#07150f;flex:none;
+    background:linear-gradient(135deg,#7cf5c0,#4fd8d4 60%,#a89bf7);box-shadow:0 4px 14px rgba(79,216,212,.3)}
+  .aal18-ico svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+  .aal18-body{display:flex;flex-direction:column;gap:3px;min-width:0}
+  .aal18-title{font-size:12.5px;font-weight:700}
+  .aal18-meta{font-size:10px;color:var(--aur-dim);font-variant-numeric:tabular-nums;letter-spacing:.02em}
+  .aal18-act{display:flex;align-items:center;gap:6px;margin-left:4px}
+  .aal18-btn{padding:7px 13px;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;color:#cfe9e0;
+    background:rgba(255,255,255,.04);border:1px solid rgba(165,214,200,.22);transition:transform .15s ease}
+  .aal18-btn:hover{transform:translateY(-1px)}
+  .aal18-x{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;cursor:pointer;color:var(--aur-dim);
+    background:transparent;border:0;transition:transform .15s ease}
+  .aal18-x:hover{transform:rotate(90deg);color:#eafff6}
+  .aal18-x svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+  @media (prefers-reduced-motion:reduce){.aal18{animation:none}.aal18-btn,.aal18-x{transition:none}}
+</style>
+<div class="aal18" role="status">
+  <span class="aal18-ico"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+  <div class="aal18-body">
+    <span class="aal18-title">Render complete</span>
+    <span class="aal18-meta">LTX · 2K · 12 sec · 42 MB</span>
+  </div>
+  <div class="aal18-act">
+    <button class="aal18-btn">View</button>
+    <button class="aal18-x" aria-label="Dismiss"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+</div>`
+  },
+
+  {
+    id: "DD10",
+    section: "dragdrop",
+    set: "aurora",
+    name: "Aurora Dropzone",
+    description: "Dashed upload zone with real file input and browse pill.",
+    creator: "codebuff",
+    tags: ["dropzone", "upload", "drag", "drop", "footage", "file", "aurora"],
+    code: `<style>
+  .add10{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:320px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .add10::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:add10-wash 5.5s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 90% 0%,rgba(79,216,212,.15),transparent 70%),
+               radial-gradient(110px 70px at 5% 100%,rgba(124,245,192,.13),transparent 70%)}
+  @keyframes add10-wash{from{opacity:.3}to{opacity:.65}}
+  .add10-drop{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:9px;padding:30px 20px;border-radius:12px;cursor:pointer;
+    border:1.5px dashed rgba(124,245,192,.35);background:rgba(124,245,192,.03);transition:border-color .16s ease,background .16s ease}
+  .add10-drop:hover{border-color:rgba(124,245,192,.65);background:rgba(124,245,192,.06)}
+  .add10-ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#d9fff0;
+    background:linear-gradient(135deg,rgba(124,245,192,.16),rgba(79,216,212,.09));border:1px solid rgba(124,245,192,.3)}
+  .add10-ico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .add10-title{font-size:12.5px;font-weight:700}
+  .add10-sub{font-size:10px;color:var(--aur-dim);text-align:center;line-height:1.5}
+  .add10-sub b{color:#bfffe3;font-weight:600}
+  .add10-btn{margin-top:4px;padding:8px 16px;border-radius:10px;font-size:11px;font-weight:600;color:#07150f;
+    background:linear-gradient(115deg,#7cf5c0,#4fd8d4 60%,#a89bf7);transition:transform .15s ease}
+  .add10-drop:hover .add10-btn{transform:translateY(-1px)}
+  .add10-file{position:absolute;opacity:0;pointer-events:none}
+  @media (prefers-reduced-motion:reduce){.add10::before{animation:none}.add10-drop,.add10-btn{transition:none}}
+</style>
+<div class="add10">
+  <label class="add10-drop">
+    <input type="file" class="add10-file" multiple>
+    <span class="add10-ico"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7.5 8.5L12 4l4.5 4.5"/><path d="M4 16v3a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 19v-3"/></svg></span>
+    <span class="add10-title">Drop your footage</span>
+    <span class="add10-sub">MP4, MOV, WAV · <b>up to 2GB</b></span>
+    <span class="add10-btn">Browse files</span>
+  </label>
+</div>`
+  },
+
+  {
+    id: "CA18",
+    section: "cards",
+    set: "aurora",
+    name: "Aurora Output Card",
+    description: "Rendered-clip card: aurora thumbnail, play overlay, export row.",
+    creator: "codebuff",
+    tags: ["card", "gallery", "output", "thumbnail", "render", "clip", "aurora"],
+    code: `<style>
+  .aca18{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:280px;border-radius:16px;padding:10px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .aca18::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:aca18-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(120px 70px at 90% 0%,rgba(168,155,247,.14),transparent 70%)}
+  @keyframes aca18-wash{from{opacity:.3}to{opacity:.6}}
+  .aca18-thumb{position:relative;z-index:1;height:132px;border-radius:11px;overflow:hidden;
+    background:radial-gradient(60px 40px at 72% 26%,rgba(124,245,192,.9),rgba(124,245,192,0) 70%),
+               radial-gradient(120px 60px at 30% 0%,rgba(79,216,212,.35),transparent 70%),
+               radial-gradient(90px 50px at 88% 100%,rgba(168,155,247,.4),transparent 70%),
+               linear-gradient(180deg,#0a1620,#101f2c 55%,#0d1722)}
+  .aca18-thumb::after{content:"";position:absolute;left:0;right:0;bottom:0;height:52%;border-radius:0 0 11px 11px;
+    background:linear-gradient(180deg,rgba(10,22,32,0),rgba(7,14,20,.85))}
+  .aca18-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;z-index:2;
+    display:grid;place-items:center;color:#07150f;background:linear-gradient(135deg,#7cf5c0,#4fd8d4 60%,#a89bf7);
+    box-shadow:0 6px 18px rgba(79,216,212,.4);transition:transform .16s ease}
+  .aca18-thumb:hover .aca18-play{transform:translate(-50%,-50%) scale(1.07)}
+  .aca18-play svg{width:15px;height:15px;margin-left:2px}
+  .aca18-dur{position:absolute;right:9px;bottom:9px;z-index:2;padding:3px 7px;border-radius:6px;font-size:9px;font-weight:600;font-variant-numeric:tabular-nums;
+    color:#eafff6;background:rgba(7,14,20,.72);border:1px solid rgba(165,214,200,.2)}
+  .aca18-body{position:relative;z-index:1;display:flex;flex-direction:column;gap:8px;padding:11px 8px 7px}
+  .aca18-title{font-size:12px;font-weight:700}
+  .aca18-meta{display:flex;align-items:center;gap:6px;font-size:9.5px;color:var(--aur-dim);font-variant-numeric:tabular-nums}
+  .aca18-tag{padding:2px 7px;border-radius:5px;font-size:8.5px;font-weight:700;letter-spacing:.1em;color:#bfffe3;
+    background:linear-gradient(135deg,rgba(124,245,192,.16),rgba(168,155,247,.12));border:1px solid rgba(124,245,192,.3)}
+  .aca18-act{display:flex;gap:7px;margin-top:2px}
+  .aca18-btn{flex:1;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 0;border-radius:10px;font-size:10.5px;font-weight:600;cursor:pointer;
+    color:#cfe9e0;background:rgba(255,255,255,.03);border:1px solid rgba(165,214,200,.2);transition:transform .15s ease}
+  .aca18-btn:hover{transform:translateY(-1px)}
+  .aca18-btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .aca18-btn--go{color:#07150f;background:linear-gradient(115deg,#7cf5c0,#4fd8d4 60%,#a89bf7);border-color:transparent}
+  @media (prefers-reduced-motion:reduce){.aca18::before{animation:none}.aca18-play,.aca18-btn{transition:none}}
+</style>
+<div class="aca18">
+  <div class="aca18-thumb">
+    <span class="aca18-play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/></svg></span>
+    <span class="aca18-dur">00:12</span>
+  </div>
+  <div class="aca18-body">
+    <span class="aca18-title">Aurora Bloom — 042</span>
+    <div class="aca18-meta"><span class="aca18-tag">LTX</span>2K · 12 sec · 42 MB</div>
+    <div class="aca18-act">
+      <button class="aca18-btn"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg>Preview</button>
+      <button class="aca18-btn aca18-btn--go"><svg viewBox="0 0 24 24"><path d="M12 16V4"/><path d="M7.5 8.5L12 4l4.5 4.5"/><path d="M4 16v3a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 19v-3"/></svg>Export</button>
+    </div>
+  </div>
 </div>`
   }
 );

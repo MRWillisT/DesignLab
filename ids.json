@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-25T21:01:26.878Z",
-  "count": 285,
+  "generated": "2026-08-25T21:19:30.937Z",
+  "count": 291,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -49,6 +49,7 @@
         "LO20",
         "LO21",
         "LO22",
+        "LO23",
         "LO3",
         "LO4",
         "LO5",
@@ -57,7 +58,7 @@
         "LO8",
         "LO9"
       ],
-      "next": "LO23"
+      "next": "LO24"
     },
     "badges": {
       "code": "BA",
@@ -67,6 +68,7 @@
         "BA11",
         "BA13",
         "BA14",
+        "BA15",
         "BA9"
       ],
       "next": "BA1"
@@ -81,7 +83,8 @@
         "BU30",
         "BU31",
         "BU32",
-        "BU33"
+        "BU33",
+        "BU34"
       ],
       "next": "BU1"
     },
@@ -172,6 +175,7 @@
         "CA15",
         "CA16",
         "CA17",
+        "CA18",
         "CA2",
         "CA3",
         "CA4",
@@ -181,7 +185,7 @@
         "CA8",
         "CA9"
       ],
-      "next": "CA18"
+      "next": "CA19"
     },
     "navigation": {
       "code": "NA",
@@ -217,6 +221,7 @@
         "AL13",
         "AL16",
         "AL17",
+        "AL18",
         "AL3",
         "AL4",
         "AL5",
@@ -323,6 +328,7 @@
       "name": "Drag & Drop",
       "taken": [
         "DD1",
+        "DD10",
         "DD2",
         "DD3",
         "DD6",
@@ -482,6 +488,7 @@
     "AL13",
     "AL16",
     "AL17",
+    "AL18",
     "AL3",
     "AL4",
     "AL5",
@@ -519,6 +526,7 @@
     "BA11",
     "BA13",
     "BA14",
+    "BA15",
     "BA9",
     "BU22",
     "BU27",
@@ -527,6 +535,7 @@
     "BU31",
     "BU32",
     "BU33",
+    "BU34",
     "CA1",
     "CA10",
     "CA11",
@@ -536,6 +545,7 @@
     "CA15",
     "CA16",
     "CA17",
+    "CA18",
     "CA2",
     "CA3",
     "CA4",
@@ -555,6 +565,7 @@
     "CL4",
     "CL5",
     "DD1",
+    "DD10",
     "DD2",
     "DD3",
     "DD6",
@@ -640,6 +651,7 @@
     "LO20",
     "LO21",
     "LO22",
+    "LO23",
     "LO3",
     "LO4",
     "LO5",
@@ -795,11 +807,17 @@
     "aurora": {
       "name": "Aurora",
       "color": "#7cf5c0",
-      "count": 4,
+      "count": 10,
       "totalDrawers": 26,
       "drawers": [
+        "alerts",
+        "badges",
+        "buttons",
+        "cards",
+        "dragdrop",
         "effects",
         "icons",
+        "loaders",
         "players",
         "sliders"
       ]
