@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-25T19:11:34.085Z",
-  "count": 281,
+  "generated": "2026-08-25T21:01:26.878Z",
+  "count": 285,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -147,6 +147,7 @@
         "SL12",
         "SL13",
         "SL14",
+        "SL15",
         "SL2",
         "SL3",
         "SL4",
@@ -156,7 +157,7 @@
         "SL8",
         "SL9"
       ],
-      "next": "SL15"
+      "next": "SL16"
     },
     "cards": {
       "code": "CA",
@@ -241,6 +242,7 @@
         "IC19",
         "IC20",
         "IC21",
+        "IC22",
         "IC4",
         "IC7",
         "IC9"
@@ -260,6 +262,7 @@
         "PL15",
         "PL16",
         "PL17",
+        "PL18",
         "PL2",
         "PL3",
         "PL7",
@@ -303,6 +306,7 @@
         "EF15",
         "EF16",
         "EF17",
+        "EF18",
         "EF2",
         "EF3",
         "EF4",
@@ -565,6 +569,7 @@
     "EF15",
     "EF16",
     "EF17",
+    "EF18",
     "EF2",
     "EF3",
     "EF4",
@@ -616,6 +621,7 @@
     "IC19",
     "IC20",
     "IC21",
+    "IC22",
     "IC4",
     "IC7",
     "IC9",
@@ -683,6 +689,7 @@
     "PL15",
     "PL16",
     "PL17",
+    "PL18",
     "PL2",
     "PL3",
     "PL7",
@@ -704,6 +711,7 @@
     "SL12",
     "SL13",
     "SL14",
+    "SL15",
     "SL2",
     "SL3",
     "SL4",
@@ -782,6 +790,18 @@
         "tables",
         "toggles",
         "tooltips"
+      ]
+    },
+    "aurora": {
+      "name": "Aurora",
+      "color": "#7cf5c0",
+      "count": 4,
+      "totalDrawers": 26,
+      "drawers": [
+        "effects",
+        "icons",
+        "players",
+        "sliders"
       ]
     }
   }
