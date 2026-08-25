@@ -74,6 +74,7 @@ if (LIB) {
   } else {
     const creators = Array.isArray(LIB.creators) ? LIB.creators : [];
     const sections = Array.isArray(LIB.sections) ? LIB.sections : [];
+    const sets = Array.isArray(LIB.sets) ? LIB.sets : [];
     const items = Array.isArray(LIB.items) ? LIB.items : [];
 
     const creatorIds = new Set();
@@ -113,6 +114,16 @@ if (LIB) {
       sectionById.set(s.id, s);
     }
 
+    // Style sets: unique kebab-case ids with names; items reference them below.
+    const setById = new Map();
+    for (const s of sets) {
+      if (!s || !s.id) { fail('A set entry is missing an id.'); continue; }
+      if (setById.has(s.id)) fail(`Duplicate set id "${s.id}".`);
+      setById.set(s.id, s);
+      if (!/^[a-z0-9-]+$/.test(s.id)) fail(`Set id "${s.id}" must be lowercase letters, numbers, hyphens only.`);
+      if (typeof s.name !== 'string' || !s.name.trim()) fail(`Set "${s.id}": missing name.`);
+    }
+
     // Chip colors must be unique per creator so credit chips stay unambiguous.
     const chipByCreator = new Map();
     for (const c of creators) {
@@ -144,6 +155,7 @@ if (LIB) {
       else if (creatorIds.size && !creatorIds.has(item.creator)) fail(`${label}: unknown creator "${item.creator}"`);
 
       if (!sectionById.has(item.section)) fail(`${label}: unknown section "${item.section}"`);
+      if (item.set != null && !setById.has(item.set)) fail(`${label}: unknown set "${item.set}"`);
       else {
         const sec = sectionById.get(item.section);
         if (sec.code && typeof item.id === 'string' && !item.id.startsWith(sec.code)) {
@@ -190,6 +202,12 @@ if (LIB) {
       const token = s.id + ' ' + s.code;
       if (!prompt.includes(token)) {
         fail(`window.AGENT_PROMPT is missing drawer token "${token}" — keep DRAWER IDS in sync with sections[] in js/data.js.`);
+      }
+    }
+    for (const s of (Array.isArray(LIB.sets) ? LIB.sets : [])) {
+      if (!s || !s.id) continue;
+      if (!prompt.includes(s.id)) {
+        fail(`window.AGENT_PROMPT is missing set token "${s.id}" — keep SET IDS in sync with sets[] in js/data.js.`);
       }
     }
   }

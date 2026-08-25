@@ -1002,6 +1002,16 @@ input, select { font: inherit; }
   padding: 2px 5px;
 }
 
+[data-density="XXS"] .set-chip {
+  font-size: 7px;
+  padding: 1px 5px;
+}
+
+[data-density="XXS"] .set-banner {
+  margin-top: 12px;
+  padding: 12px 14px;
+}
+
 [data-density="XXS"] .card {
   --stage-h: 92px !important;
 }
@@ -1307,6 +1317,104 @@ input, select { font: inherit; }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.set-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  max-width: 40%;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid color-mix(in srgb, var(--chip) 35%, transparent);
+  background: color-mix(in srgb, var(--chip) 10%, transparent);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--chip);
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.set-chip::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--chip);
+  box-shadow: 0 0 6px var(--chip);
+  flex: none;
+}
+
+.set-chip:hover {
+  background: color-mix(in srgb, var(--chip) 22%, transparent);
+}
+
+.set-banner {
+  margin: 30px 2px 6px;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+
+.set-banner-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.set-banner-tag {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--chip);
+}
+
+.set-banner-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+}
+
+.set-banner-desc {
+  margin: 8px 0 12px;
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  max-width: 620px;
+}
+
+.set-banner-track {
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--line) 55%, transparent);
+  overflow: hidden;
+}
+
+.set-banner-track i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-bright));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.set-banner-hint {
+  margin: 8px 0 0;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
 }
 
 .copy-btn {

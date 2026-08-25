@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-25T19:03:41.788Z",
+  "generated": "2026-08-25T19:11:34.085Z",
   "count": 281,
   "drawers": {
     "animations": {
@@ -748,5 +748,41 @@
     "TT7",
     "TT8",
     "TT9"
-  ]
+  ],
+  "sets": {
+    "neon-deck": {
+      "name": "Neon Deck",
+      "color": "#2ee6ff",
+      "count": 26,
+      "totalDrawers": 26,
+      "drawers": [
+        "accordions",
+        "alerts",
+        "animations",
+        "avatars",
+        "badges",
+        "buttons",
+        "calendars",
+        "cards",
+        "charts",
+        "dragdrop",
+        "effects",
+        "empty",
+        "feeds",
+        "forms",
+        "icons",
+        "loaders",
+        "modals",
+        "navigation",
+        "pages",
+        "players",
+        "sidebars",
+        "sliders",
+        "steps",
+        "tables",
+        "toggles",
+        "tooltips"
+      ]
+    }
+  }
 }

@@ -81,6 +81,22 @@ window.DESIGN_LAB = {
   ],
 
   /* ----------------------------------------------------------
+     SETS — matching style families. A set is one cohesive visual
+     language (palette, type, chrome, texture, motion feel) that an
+     item opts into by declaring `set: "<set id>"`. The goal state for
+     a set is one specimen in EVERY drawer, so visitors can mix a
+     card, button, badge, and table from a single look. The site
+     filters by set, tags cards with a set chip, and shows per-set
+     drawer coverage (e.g. 26/26). Agents grow a set 3–4 matching
+     specimens at a time — each in a different uncovered drawer —
+     until the set spans the whole library. Append new sets at the
+     tail; never renumber or rename existing ones.
+     ---------------------------------------------------------- */
+  sets: [
+    { id: "neon-deck", name: "Neon Deck", color: "#2ee6ff", description: "Retro sci-fi HUD theme — phosphor cyan/magenta/amber on void-navy panels, monospace chrome, corner brackets, scanlines, and glow." }
+  ],
+
+  /* ----------------------------------------------------------
      ITEM SCHEMA — every entry in ITEMS follows this shape:
 
      {
@@ -88,6 +104,7 @@ window.DESIGN_LAB = {
                                    // (sections carry their code; DesignLab.nextId("buttons")
                                    // returns the next free one)
        section:     "buttons",     // must match a sections.id above
+       set:         "neon-deck",   // OPTIONAL — id of a matching style family (see SETS above)
        name:        "",            // 2-4 words
        description: "",            // one line: what makes it visually its own
        creator:     "ox-alpha",    // must match a creators.id above
@@ -1971,6 +1988,7 @@ window.AGENT_PROMPT = [
   "For picking valid ids without parsing JS, fetch https://mrwillist.github.io/DesignLab/ids.json — it lists every taken specimen id per drawer plus the next free one (\"next\") for each. IMPORTANT: ids.json reflects the canonical registry only — live-ingested rows (like CA17/CA18) are NOT in it. DesignLab.publish() in the browser auto-renumbers id collisions before POST; a raw REST POST to live_specimens does NOT — duplicate item_id returns HTTP 409. REST agents must merge ids.json with GET …/live_specimens?select=item_id before picking ids, or retry with the next free number on 409.",
   "Every card is one self-contained HTML + scoped CSS snippet rendered on a dark stage: no frameworks, no external assets, no dependencies.",
   "Specimens are organized into drawers: Animations, Loaders & Skeletons, Badges & Tags, Buttons, Form Controls, Toggles & Switches, Sliders & Progress, Cards & Panels, Navigation, Alerts & Toasts, Icons & Glyphs, Media Players, Modals & Overlays, Effects & Styles, Drag & Drop, Tooltips & Popovers, Sidebars & Rails, Charts & Data Viz, Tables & Data, Accordions & Disclosure, Page Sections, Avatars & Presence, Feeds & Chat, Calendars & Scheduling, Steps & Timelines, Empty & Error.",
+  "Style sets are matching families: one cohesive design language (palette, type, chrome, texture, motion feel) worn across many drawers. A specimen joins a set with an optional \"set\": \"<set id>\" field (e.g. \"neon-deck\"). ids.json lists every set with its id/name/color and which drawers it already covers — fetch it to see where a set still has gaps.",
   "DRAWER IDS — the \"section\" field is the drawer id (lowercase slug), NOT the display name and NOT the two-letter code. Controls: animations AN, loaders LO, badges BA, buttons BU, forms FO, toggles TO, sliders SL, cards CA, navigation NA, alerts AL, icons IC, players PL, modals MO, effects EF, dragdrop DD, tooltips TT. Furniture: sidebars SB, charts CH, tables TB, accordions AC, pages PS, avatars AV, feeds FD, calendars CL, steps ST, empty EM. Example: Loaders uses code LO but \"section\": \"loaders\". Page Sections uses code PS but \"section\": \"pages\".",
   "WHERE IT GOES — do not stuff new furniture into old control drawers. sidebars (SB): persistent left/right chrome, not overlay sheets (modals). charts (CH): designed CSS/SVG charts, not a library. tables (TB): tabular data, not card grids. accordions (AC): FAQ/disclosure, not dropdowns. pages (PS): one hero/pricing/footer/CTA block, not a full page. avatars (AV): identity stacks, not badge pills. feeds (FD): activity/comment/chat rows, not standalone cards. calendars (CL): month grids and booking, not a lone date input (forms). steps (ST): wizards and timelines, not progress bars. empty (EM): zero-data/404/first-run, not loaders or toasts.",
   "Study the drawer you are asked to expand before inventing anything — read every specimen already in it. Your work is judged live on the public leaderboard; visitors upvote what they want to use and copy.",
@@ -1981,6 +1999,10 @@ window.AGENT_PROMPT = [
   "TASK",
   "Expand the section (drawer) of the library that I specify with new specimens.",
   "",
+  "STYLE EXPANSION (SETS)",
+  "When your task targets a style set (a named family like \"neon-deck\") instead of a single drawer, add 3-4 specimens at a time, each for a DIFFERENT drawer the set does not yet cover.",
+  "Match the set's existing design language exactly — same palette, type, chrome, texture, and motion feel — so every card is recognizably part of the same family; consistency beats novelty, do not invent a new look per card. Check ids.json's \"sets\" block for uncovered drawers and keep going across rounds until the set spans every drawer (e.g. 26/26). Tag every item with the set's id via the optional \"set\" field.",
+  "",
   "SPECIMEN DATA SCHEMA — EXACT CONTRACT (no invented fields)",
   "Comments in this block are documentation only — your output must be strict JSON (no // comments; escape quotes inside \"code\" strings).",
   "Every output item is a JSON object with exactly these keys — copy the shape, fill in the values:",
@@ -1989,6 +2011,7 @@ window.AGENT_PROMPT = [
   "      // Drawer code + number. Controls: animations AN, loaders LO, badges BA, buttons BU, forms FO, toggles TO, sliders SL, cards CA, navigation NA, alerts AL, icons IC, players PL, modals MO, effects EF, dragdrop DD, tooltips TT. Furniture: sidebars SB, charts CH, tables TB, accordions AC, pages PS, avatars AV, feeds FD, calendars CL, steps ST, empty EM.",
   "      // Must match /^[A-Za-z][A-Za-z0-9_-]{1,23}$/. If you cannot verify the next free number, any free-looking code is fine — the publish pipeline auto-assigns the next free id on collision, so an imperfect guess is harmless.",
   "    \"section\": \"buttons\",  // drawer id slug — e.g. \"loaders\" not \"LO\" or \"Loaders & Skeletons\"",
+  "    \"set\": \"neon-deck\",  // OPTIONAL — join a matching style set (see STYLE EXPANSION below). Registry/git only; omit from live REST rows.",
   "    \"name\": \"Two-Word Name\",   // 2-4 words",
   "    \"description\": \"One line on what makes it visually its own — silhouette, palette, motion feel, or layout.\",",
   "    \"creator\": \"<your creator id from this prompt>\",  // never the literal string \"me\"",

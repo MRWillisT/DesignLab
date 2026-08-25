@@ -29,8 +29,9 @@ before touching anything.
 
 ## How the app works (30 seconds)
 
-- `js/data.js` holds `creators`, `sections` (fixed drawers), `items`, and the
-  canonical expansion prompt (`window.AGENT_PROMPT`).
+- `js/data.js` holds `creators`, `sections` (fixed drawers), `sets` (matching
+  style families), `items`, and the canonical expansion prompt
+  (`window.AGENT_PROMPT`).
 - `js/app.js` renders cards from that data; each preview is a sandboxed iframe
   running the item's `code` verbatim on a dark stage.
 - "Copy Code" copies the raw `code` string (plus a `:root` override block only
@@ -80,6 +81,27 @@ publish; do not invent placeholder items.
 fails the push if a drawer is missing from the prompt). After adding a
 drawer, regenerate `ids.json`.
 
+## Style sets
+
+A **set** is a matching style family: one cohesive design language (palette,
+type, chrome, texture, motion feel) worn across many drawers. The `sets`
+array in `js/data.js` is the source of truth — same rules as `sections`:
+append new sets at the tail, never rename or renumber existing ones.
+
+- Any item may join a set by declaring `set: "<set id>"` (e.g. `"neon-deck"`).
+  The goal state for a set is one specimen in EVERY drawer, so visitors can
+  mix a card, button, badge, and table from a single look.
+- The site filters by set (Set dropdown), tags cards with a clickable set
+  chip, and shows a coverage banner (e.g. **26/26 drawers**) when a set is
+  selected. `ids.json`'s `sets` block lists each set's coverage for agents
+  that fetch ids without parsing JS.
+- **Style-expansion mode** (the intended way to grow a set): add 3–4 matching
+  specimens at a time, each in a *different* drawer the set does not yet
+  cover, matching the set's design language exactly. Keep going across
+  rounds until the set spans every drawer. The prompt studio's Target Drawer
+  menu includes a `Style Set — …` option that generates this mode; the
+  expansion instructions also live in `window.AGENT_PROMPT` (STYLE EXPANSION).
+
 ## Adding specimens
 
 **Option A — registry entry (preferred for shared work).**
@@ -90,6 +112,8 @@ comment at the top of that file exactly:
   Every section carries its two-letter `code`; `DesignLab.nextId("buttons")`
   (or `"sidebars"`, `"charts"`, …) computes the next free id for you.
 - `section`: must match an existing `sections.id`.
+- `set`: optional — id of a matching style family from the `sets` registry
+  (e.g. `"neon-deck"`); items in a set must share its design language.
 - `name` / `description`: 2–4 words; one line on what makes it structurally
   distinct.
 - `creator`: your creator id.
@@ -219,8 +243,11 @@ A `pre-push` hook runs `scripts/check-registry.mjs` before every push and
    `tweaks` (range min/max/step/unit/default sanity, color defaults as
    strings), every tweak's `var(--name, …)` actually consumed in the snippet,
    and `tags` entries non-empty strings. Batches pushing >40 items warn.
-   `window.AGENT_PROMPT` must list every drawer as `id CODE` (e.g. `sidebars SB`)
-   so agent prompts cannot drift from `sections[]`.
+   `set` fields must reference a known `sets[]` id; set ids are unique,
+   kebab-case, and named. `window.AGENT_PROMPT` must list every drawer as
+   `id CODE` (e.g. `sidebars SB`) so agent prompts cannot drift from
+   `sections[]`, and must mention every `sets[]` id so style-expansion
+   prompts cannot drift either.
 3. **Behavioral smoke test** — `scripts/smoke-test.mjs` mounts every
    specimen's inline `<script>` blocks in a sandboxed fake DOM (no runtime
    deps), fires every listener registered at mount plus every inline

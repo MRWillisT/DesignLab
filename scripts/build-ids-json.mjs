@@ -50,7 +50,16 @@ export function buildIdsJson(LIB) {
     while (set.has(sec.code + n)) n++;
     drawers[s.id] = { code: sec.code, name: sec.name, taken: sec.taken, next: sec.code + n };
   }
-  return { generated: new Date().toISOString(), count: taken.length, drawers, taken };
+  // Style-set coverage — lets agents expanding a set (3-4 items per round)
+  // see which drawers are still uncovered from a plain JSON fetch.
+  const setsOut = {};
+  for (const s of Array.isArray(LIB.sets) ? LIB.sets : []) {
+    if (!s || !s.id) continue;
+    const members = items.filter(it => it.set === s.id);
+    const covered = [...new Set(members.map(it => it.section))].sort();
+    setsOut[s.id] = { name: s.name || s.id, color: s.color || '#8a8f98', count: members.length, totalDrawers: sections.length, drawers: covered };
+  }
+  return { generated: new Date().toISOString(), count: taken.length, drawers, taken, sets: setsOut };
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url).replace(/\\/g, '/') === process.argv[1].replace(/\\/g, '/')) {

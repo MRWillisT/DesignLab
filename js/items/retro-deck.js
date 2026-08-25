@@ -19,6 +19,7 @@ window.DESIGN_LAB.items.push(
     name: "Radar Sweep",
     description: "Rotating radar scope with range rings and pulsing contact blips.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["radar", "sweep", "hud", "scan", "sci-fi"],
     code: `<style>
   .kan23{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;display:inline-flex;flex-direction:column;align-items:center;gap:10px;padding:18px 22px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.22);border-radius:6px}
@@ -63,6 +64,7 @@ window.DESIGN_LAB.items.push(
     name: "Orbital Core",
     description: "Three satellites orbit a pulsing reactor core on dashed tracks.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["orbit", "spinner", "core", "loading", "sci-fi"],
     code: `<style>
   .klo22{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;display:inline-flex;flex-direction:column;align-items:center;gap:10px;padding:18px 22px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.22);border-radius:6px}
@@ -97,6 +99,7 @@ window.DESIGN_LAB.items.push(
     name: "Status Pills",
     description: "LED telemetry pills with corner brackets and blink rates per state.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["status", "pill", "led", "system", "sci-fi"],
     code: `<style>
   .kba14{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;display:flex;flex-wrap:wrap;gap:8px;max-width:340px;padding:14px 16px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px}
@@ -134,6 +137,7 @@ window.DESIGN_LAB.items.push(
     name: "Laser Slab",
     description: "Armored button with glowing light slits and a traveling energy sweep on hover.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["button", "laser", "glow", "sci-fi", "cta"],
     tweaks: [
       { type: "color", label: "Accent", varName: "--bu33-accent", default: "#2ee6ff" }
@@ -163,6 +167,7 @@ window.DESIGN_LAB.items.push(
     name: "Terminal Command",
     description: "Command-line field with prompt arrow, block caret, and an expanding focus beam.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["input", "terminal", "command", "mono", "sci-fi"],
     code: `<style>
   .kfo20{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;width:280px;padding:16px 18px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px}
@@ -199,6 +204,7 @@ window.DESIGN_LAB.items.push(
     name: "Reactor Breaker",
     description: "Vertical breaker switch that slides between ON and OFF with glowing captions.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["toggle", "switch", "breaker", "power", "sci-fi"],
     code: `<style>
   .kto18{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;display:inline-flex;flex-direction:column;align-items:center;gap:7px;padding:16px 20px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px}
@@ -242,6 +248,7 @@ window.DESIGN_LAB.items.push(
     name: "Segment Fuel Gauge",
     description: "Twelve-cell power meter that pops in segment by segment with a frontier pulse.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["slider", "gauge", "fuel", "energy", "progress"],
     code: `<style>
   .ksl14{font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;display:inline-flex;flex-direction:column;gap:10px;width:290px;padding:16px 18px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px}
@@ -291,6 +298,7 @@ window.DESIGN_LAB.items.push(
     name: "HUD Panel",
     description: "Bracketed telemetry card with LED header, spec rows, and a bar sparkline.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["card", "hud", "telemetry", "panel", "sci-fi"],
     tweaks: [
       { type: "color", label: "Accent", varName: "--ca17-accent", default: "#2ee6ff" }
@@ -345,6 +353,7 @@ window.DESIGN_LAB.items.push(
     name: "Deck Tabs",
     description: "Radio-driven mission tabs with a glowing active beam and corner tick.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["tabs", "navigation", "radio", "mission", "sci-fi"],
     tweaks: [
       { type: "color", label: "Accent", varName: "--na17-accent", default: "#2ee6ff" }
@@ -378,6 +387,7 @@ window.DESIGN_LAB.items.push(
     name: "Hazard Callout",
     description: "Warning banner with hazard-stripe rail, blinking status dot, and ack action.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["alert", "warning", "hazard", "toast", "sci-fi"],
     tweaks: [
       { type: "color", label: "Warning", varName: "--al17-warn", default: "#ffb44a" }
@@ -412,6 +422,7 @@ window.DESIGN_LAB.items.push(
     name: "HUD Glyphs",
     description: "Five stroked line glyphs in bracket tiles with micro labels.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["icons", "glyph", "hud", "svg", "sci-fi"],
     code: `<style>
   .kic21{display:flex;gap:8px;padding:14px 16px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -437,6 +448,7 @@ window.DESIGN_LAB.items.push(
     name: "Cassette Deck",
     description: "Tape transport with spinning reels, transport keys, timecode, and a VU meter.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["player", "cassette", "tape", "retro", "audio"],
     code: `<style>
   .kpl17{display:flex;flex-direction:column;gap:10px;width:300px;padding:14px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.22);border-radius:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -491,6 +503,7 @@ window.DESIGN_LAB.items.push(
     name: "Uplink Dialog",
     description: "Terminal confirm dialog on a grid backdrop with a blinking block cursor.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["modal", "dialog", "terminal", "confirm", "sci-fi"],
     code: `<style>
   .kmo16{width:320px;padding:20px;background:linear-gradient(rgba(46,230,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(46,230,255,.05) 1px,transparent 1px),#04070d;background-size:22px 22px;border-radius:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -534,6 +547,7 @@ window.DESIGN_LAB.items.push(
     name: "CRT Phosphor",
     description: "Scanline screen treatment with chromatic glow, vignette, and phosphor type.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["effect", "crt", "phosphor", "scanline", "glow"],
     code: `<style>
   .kef17{position:relative;display:inline-block;padding:26px 30px;background:#03060b;border:1px solid rgba(46,230,255,.25);border-radius:6px;overflow:hidden;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -557,6 +571,7 @@ window.DESIGN_LAB.items.push(
     name: "Cargo Hold",
     description: "Grabbable cargo pods with grip handles and a pulsing drop zone.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["drag", "drop", "reorder", "cargo", "sci-fi"],
     code: `<style>
   .kdd9{display:flex;flex-direction:column;gap:9px;width:272px;padding:14px 16px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -587,6 +602,7 @@ window.DESIGN_LAB.items.push(
     name: "Datalink Tip",
     description: "Bracket-framed hover tooltip with a rotated caret and live telemetry rows.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["tooltip", "hover", "datalink", "popover", "sci-fi"],
     code: `<style>
   .ktt9{position:relative;display:inline-block;padding:26px 10px 10px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -622,6 +638,7 @@ window.DESIGN_LAB.items.push(
     name: "Station Rail",
     description: "Icon rail with active beam, hover caret markers, and a magenta power slot.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["sidebar", "rail", "icons", "nav", "sci-fi"],
     code: `<style>
   .ksb5{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;width:52px;padding:12px 0;background:linear-gradient(180deg,#0c1424,#060a14);border:1px solid rgba(46,230,255,.22);border-radius:5px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -653,6 +670,7 @@ window.DESIGN_LAB.items.push(
     name: "Telemetry Wave",
     description: "SVG signal chart with animated draw-in, gradient fill, and gridlines.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["chart", "signal", "waveform", "svg", "telemetry"],
     tweaks: [
       { type: "color", label: "Signal", varName: "--ch5-line", default: "#2ee6ff" }
@@ -698,6 +716,7 @@ window.DESIGN_LAB.items.push(
     name: "Manifest Table",
     description: "Cargo manifest with LED status cells, tabular masses, and row-hover glow.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["table", "manifest", "data", "cargo", "sci-fi"],
     code: `<style>
   .ktb5{width:320px;padding:14px;background:linear-gradient(180deg,#0c1424,#070b15);border:1px solid rgba(46,230,255,.22);border-radius:4px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -744,6 +763,7 @@ window.DESIGN_LAB.items.push(
     name: "Hull Systems",
     description: "Engineering disclosure panels with rotating markers and spec rows.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["accordion", "disclosure", "systems", "engineering", "sci-fi"],
     code: `<style>
   .kac5{display:flex;flex-direction:column;gap:8px;width:300px;padding:14px 16px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -787,6 +807,7 @@ window.DESIGN_LAB.items.push(
     name: "Hero Band",
     description: "Terminal hero with grid backdrop, glowing headline, blinking cursor, and CTA pair.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["hero", "page", "landing", "cta", "terminal"],
     tweaks: [
       { type: "color", label: "Accent", varName: "--ps5-accent", default: "#2ee6ff" }
@@ -825,6 +846,7 @@ window.DESIGN_LAB.items.push(
     name: "Crew Tags",
     description: "Hexagonal crew roster tags with initials, rank, and presence LEDs.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["avatar", "hex", "crew", "presence", "initials"],
     code: `<style>
   .kav5{display:flex;gap:18px;padding:16px 20px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -873,6 +895,7 @@ window.DESIGN_LAB.items.push(
     name: "Comms Log",
     description: "Monospace comms transcript with timestamps, tagged senders, and a typing indicator.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["feed", "chat", "comms", "log", "messages"],
     code: `<style>
   .kfd5{display:flex;flex-direction:column;gap:11px;width:300px;padding:14px 16px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -909,6 +932,7 @@ window.DESIGN_LAB.items.push(
     name: "Stardate Grid",
     description: "Month grid with duty-shift markers, weekend tint, and a glowing today cell.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["calendar", "grid", "schedule", "stardate", "sci-fi"],
     code: `<style>
   .kcl5{position:relative;width:302px;padding:14px;background:linear-gradient(180deg,#0c1424,#070b15);border:1px solid rgba(46,230,255,.22);border-radius:4px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -977,6 +1001,7 @@ window.DESIGN_LAB.items.push(
     name: "Launch Sequence",
     description: "Vertical launch checklist with lit rail segments and a pulsing current step.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["steps", "launch", "checklist", "timeline", "sci-fi"],
     code: `<style>
   .kst5{display:flex;flex-direction:column;padding:16px 18px;background:linear-gradient(180deg,#0b1322,#060a14);border:1px solid rgba(46,230,255,.18);border-radius:6px;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
@@ -1022,6 +1047,7 @@ window.DESIGN_LAB.items.push(
     name: "Signal Lost",
     description: "No-signal screen with flickering static, a broken-link glyph, and a retry action.",
     creator: "codebuff",
+    set: "neon-deck",
     tags: ["empty", "error", "signal", "static", "retry"],
     code: `<style>
   .kem7{position:relative;width:300px;padding:30px 20px;background:#04070d;border:1px solid rgba(46,230,255,.2);border-radius:6px;text-align:center;overflow:hidden;font-family:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}

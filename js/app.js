@@ -67,6 +67,7 @@ const state = {
   query: '',
   section: 'all',
   creator: null,
+  set: null,
   favoritesOnly: false,
   newOnly: false,
   canvas: 'dark',
@@ -107,6 +108,11 @@ function creatorOf(id) {
   return LIB.creators.find(c => c.id === id)
     || (window.DesignLabLive && DesignLabLive.creatorOf(id))
     || null;
+}
+
+function setOf(id) {
+  if (!LIB.sets) return null;
+  return LIB.sets.find(s => s.id === id) || null;
 }
 
 /* A live submission claiming one of the immutable registry creators — that
@@ -186,6 +192,8 @@ function loadFilters() {
       if (saved.section && sectionOf(saved.section)) state.section = saved.section;
       else state.section = 'all';
       if (!saved.creator || creatorOf(saved.creator)) state.creator = saved.creator || null;
+      if (!saved.set || !setOf(saved.set)) state.set = null;
+      else state.set = saved.set;
       state.favoritesOnly = !!saved.favoritesOnly;
       if (saved.sort === 'creator') state.sort = 'creator';
       else if (saved.sort === 'top') state.sort = 'top';
@@ -207,6 +215,7 @@ function saveFilters() {
       query: state.query,
       section: state.section,
       creator: state.creator,
+      set: state.set,
       favoritesOnly: state.favoritesOnly,
       sort: state.sort
     }));
@@ -1026,6 +1035,13 @@ function openPromptStudio(opts = {}) {
       : `Drawer ${drawerNumber(sec.id)} — ${sec.name} (Next ID: #${nextId})`;
     dSel.appendChild(opt);
   });
+  (LIB.sets || []).forEach(set => {
+    const covered = new Set(allItems().filter(it => it.set === set.id).map(it => it.section)).size;
+    const opt = document.createElement('option');
+    opt.value = 'set:' + set.id;
+    opt.textContent = `Style Set — ${set.name} (${covered}/${LIB.sections.length} drawers)`;
+    dSel.appendChild(opt);
+  });
 
   try {
     const lastDr = localStorage.getItem(LS_PROMPT_DRAWER);
@@ -1092,7 +1108,25 @@ function updatePromptStudio(opts = {}) {
       + emptySecs.map(s => `- ${s.name}  section: "${s.id}"  code: ${s.code}  — ${s.brief}`).join('\n');
   }
 
-  if (targetDrawer !== 'all') {
+  if (targetDrawer.indexOf('set:') === 0) {
+    const set = setOf(targetDrawer.slice(4));
+    if (set) {
+      const coveredSet = new Set(allItems().filter(it => it.set === set.id).map(it => it.section));
+      const covered = coveredSet.size;
+      const uncovered = LIB.sections.filter(s => !coveredSet.has(s.id));
+      badgeText = `${set.name} · ${covered}/${LIB.sections.length} drawers`;
+      taskText = `STYLE SET:\nSet id: "${set.id}" — ${set.name}\n`
+        + `Description: "${set.description || ''}"\n`
+        + `Drawer coverage: ${covered} of ${LIB.sections.length}\n\n`
+        + (uncovered.length
+          ? `UNCOVERED DRAWERS (pick 3-4 of these for this round — one specimen each, all wearing the ${set.name} style):\n`
+            + uncovered.map(s => `- ${s.name}  section: "${s.id}"  code: ${s.code}`).join('\n') + '\n\n'
+          : 'This set already spans every drawer — expand it further or propose a new set.\n\n')
+        + `TASK:\nWork in style-expansion mode (see STYLE EXPANSION (SETS) below) — add 3-4 matching specimens, each for a different uncovered drawer, matching the set's existing design language exactly (palette, type, chrome, texture, motion feel). Tag every item with "set": "${set.id}".`;
+    }
+  }
+
+  if (targetDrawer !== 'all' && targetDrawer.indexOf('set:') !== 0) {
     const sec = sectionOf(targetDrawer);
     if (sec) {
       const nextId = nextIdFor(sec.id);
@@ -1692,12 +1726,14 @@ function currentPool() {
   let items = allItems().filter(it => {
     if (state.section && state.section !== 'all' && it.section !== state.section) return false;
     if (state.creator && it.creator !== state.creator) return false;
+    if (state.set && it.set !== state.set) return false;
     if (state.favoritesOnly && !favorites.has(it.id)) return false;
     if (state.newOnly && !newSet.has(it.id)) return false;
     if (q) {
       const sec = sectionOf(it.section);
       const hay = [
         it.id, it.name, it.description, it.creator,
+        it.set ? ((setOf(it.set) || {}).name || it.set) : '',
         (it.tags || []).join(' '),
         (it.tweaks || []).map(t => t.label).join(' '),
         sec ? sec.name : ''
@@ -1831,6 +1867,11 @@ function buildCard(item) {
     + '<span class="credit-chip" style="--chip:' + (cr ? escapeHtml(cr.color) : '#8a8f98')
     + '" title="Created by ' + escapeHtml(cr ? cr.name : item.creator) + '">'
     + escapeHtml(cr ? cr.name : item.creator) + '</span>'
+    + (item.set
+      ? '<span class="set-chip" style="--chip:' + escapeHtml((setOf(item.set) || {}).color || '#8a8f98')
+        + '" data-set="' + escapeHtml(item.set) + '" title="' + escapeHtml((setOf(item.set) || {}).name || item.set)
+        + ' style set — click to filter by it">' + escapeHtml((setOf(item.set) || {}).name || item.set) + '</span>'
+      : '')
     + '</div>'
     + '</div>'
     + (hasTweaks
@@ -1859,6 +1900,12 @@ function buildCard(item) {
 
   $('.stage-hit', card).addEventListener('click', () => openInspectModal(item));
   $('.star-btn', card).addEventListener('click', () => toggleFavorite(item.id, card));
+  const setChip = $('.set-chip', card);
+  if (setChip) setChip.addEventListener('click', () => {
+    state.set = setChip.dataset.set;
+    saveFilters();
+    render();
+  });
   const voteBtn = $('.vote-btn', card);
   if (voteBtn) voteBtn.addEventListener('click', () => toggleVote(item, voteBtn));
   $('.copy-btn', card).addEventListener('click', ev => copyItemCode(item, ev.currentTarget));
@@ -1917,6 +1964,23 @@ function buildGrid(items) {
   grid.className = 'grid';
   items.forEach(it => grid.appendChild(buildCard(it)));
   return grid;
+}
+
+function buildSetHeader(set, items, covered) {
+  const pct = Math.min(100, Math.round((covered / LIB.sections.length) * 100));
+  const wrap = document.createElement('div');
+  wrap.className = 'set-banner';
+  wrap.innerHTML =
+    '<div class="set-banner-head">'
+    + '<span class="set-banner-tag" style="--chip:' + escapeHtml(set.color || '#8a8f98') + '">' + escapeHtml(set.name) + '</span>'
+    + '<span class="set-banner-count">' + items.length + ' specimen' + (items.length === 1 ? '' : 's') + ' · ' + covered + '/' + LIB.sections.length + ' drawers</span>'
+    + '</div>'
+    + (set.description ? '<p class="set-banner-desc">' + escapeHtml(set.description) + '</p>' : '')
+    + '<div class="set-banner-track" role="progressbar" aria-valuenow="' + covered + '" aria-valuemin="0" aria-valuemax="' + LIB.sections.length + '"><i style="width:' + pct + '%"></i></div>'
+    + '<p class="set-banner-hint">' + (covered >= LIB.sections.length
+      ? 'Complete — every drawer wears this style.'
+      : 'In progress — ' + (LIB.sections.length - covered) + ' drawer' + (LIB.sections.length - covered === 1 ? '' : 's') + ' left to style.') + '</p>';
+  return wrap;
 }
 
 function buildGroupHeader(sec, count) {
@@ -2006,7 +2070,8 @@ function filtersHideEmptyDrawers() {
   return !!(state.query && state.query.trim())
     || !!state.favoritesOnly
     || !!state.newOnly
-    || !!state.creator;
+    || !!state.creator
+    || !!state.set;
 }
 
 function bindFillDrawer(btn, sectionId) {
@@ -2129,10 +2194,34 @@ function populateCreatorDropdown() {
   sel.value = state.creator || 'all';
 }
 
+function populateSetDropdown() {
+  const sel = $('#setSelect');
+  if (!sel || !LIB.sets) return;
+  const items = allItems();
+  sel.innerHTML = '';
+  const optAll = document.createElement('option');
+  optAll.value = 'all';
+  const tagged = items.filter(it => it.set && setOf(it.set)).length;
+  optAll.textContent = `All sets (${tagged})`;
+  sel.appendChild(optAll);
+  LIB.sets.forEach(set => {
+    const members = items.filter(it => it.set === set.id);
+    if (!members.length) return;
+    const covered = new Set(members.map(it => it.section)).size;
+    const opt = document.createElement('option');
+    opt.value = set.id;
+    opt.textContent = `${set.name} (${members.length})`;
+    opt.title = `${set.name} — ${covered} of ${LIB.sections.length} drawers`;
+    sel.appendChild(opt);
+  });
+  sel.value = state.set || 'all';
+}
+
 function syncControlStates() {
   $('#searchInput').value = state.query;
   if ($('#sectionSelect')) $('#sectionSelect').value = state.section;
   if ($('#creatorSelect')) $('#creatorSelect').value = state.creator || 'all';
+  if ($('#setSelect')) $('#setSelect').value = state.set || 'all';
   if ($('#favToggle')) {
     $('#favToggle').setAttribute('aria-pressed', String(state.favoritesOnly));
     $('#favToggle').classList.toggle('is-active', state.favoritesOnly);
@@ -2226,6 +2315,7 @@ function render() {
 
   populateSectionDropdown();
   populateCreatorDropdown();
+  populateSetDropdown();
   syncControlStates();
 
   const main = $('#library');
@@ -2253,6 +2343,18 @@ function render() {
     head.innerHTML = '<span class="group-index">FRESH ADDITIONS</span><h2>Newest Arrivals</h2><span class="group-rule"></span><span class="group-count">' + items.length + ' specimen' + (items.length === 1 ? '' : 's') + '</span>';
     frag.appendChild(head);
     frag.appendChild(buildGrid(items));
+  } else if (state.set && (!state.section || state.section === 'all')) {
+    const set = setOf(state.set);
+    if (set) {
+      const covered = new Set(items.filter(it => it.set === set.id).map(it => it.section)).size;
+      frag.appendChild(buildSetHeader(set, items, covered));
+    }
+    const bySec = {};
+    items.forEach(it => { (bySec[it.section] = bySec[it.section] || []).push(it); });
+    LIB.sections.forEach(sec => {
+      const group = bySec[sec.id] || [];
+      if (group.length) frag.appendChild(buildCarouselRow(sec, group));
+    });
   } else if (!state.section || state.section === 'all') {
     const fresh = newestArrivalItems();
     if (fresh.length) frag.appendChild(buildNewestRow(fresh));
@@ -3496,6 +3598,12 @@ function init() {
   });
   $('#creatorSelect').addEventListener('change', ev => {
     state.creator = ev.target.value === 'all' ? null : ev.target.value;
+    saveFilters();
+    render();
+  });
+  const setSel = $('#setSelect');
+  if (setSel) setSel.addEventListener('change', ev => {
+    state.set = ev.target.value === 'all' ? null : ev.target.value;
     saveFilters();
     render();
   });
