@@ -1,6 +1,6 @@
 {
-  "generated": "2026-08-25T21:23:02.480Z",
-  "count": 295,
+  "generated": "2026-08-25T21:25:58.092Z",
+  "count": 299,
   "drawers": {
     "animations": {
       "code": "AN",
@@ -425,9 +425,10 @@
         "AV2",
         "AV3",
         "AV4",
-        "AV5"
+        "AV5",
+        "AV6"
       ],
-      "next": "AV6"
+      "next": "AV7"
     },
     "feeds": {
       "code": "FD",
@@ -437,9 +438,10 @@
         "FD2",
         "FD3",
         "FD4",
-        "FD5"
+        "FD5",
+        "FD6"
       ],
-      "next": "FD6"
+      "next": "FD7"
     },
     "calendars": {
       "code": "CL",
@@ -461,9 +463,10 @@
         "ST2",
         "ST3",
         "ST4",
-        "ST5"
+        "ST5",
+        "ST6"
       ],
-      "next": "ST6"
+      "next": "ST7"
     },
     "empty": {
       "code": "EM",
@@ -475,9 +478,10 @@
         "EM4",
         "EM5",
         "EM6",
-        "EM7"
+        "EM7",
+        "EM8"
       ],
-      "next": "EM8"
+      "next": "EM9"
     }
   },
   "taken": [
@@ -526,6 +530,7 @@
     "AV3",
     "AV4",
     "AV5",
+    "AV6",
     "BA10",
     "BA11",
     "BA13",
@@ -600,11 +605,13 @@
     "EM5",
     "EM6",
     "EM7",
+    "EM8",
     "FD1",
     "FD2",
     "FD3",
     "FD4",
     "FD5",
+    "FD6",
     "FO1",
     "FO10",
     "FO11",
@@ -744,6 +751,7 @@
     "ST3",
     "ST4",
     "ST5",
+    "ST6",
     "TB1",
     "TB2",
     "TB3",
@@ -815,15 +823,18 @@
     "aurora": {
       "name": "Aurora",
       "color": "#7cf5c0",
-      "count": 14,
+      "count": 18,
       "totalDrawers": 26,
       "drawers": [
         "alerts",
+        "avatars",
         "badges",
         "buttons",
         "cards",
         "dragdrop",
         "effects",
+        "empty",
+        "feeds",
         "forms",
         "icons",
         "loaders",
@@ -831,6 +842,7 @@
         "navigation",
         "players",
         "sliders",
+        "steps",
         "toggles"
       ]
     }

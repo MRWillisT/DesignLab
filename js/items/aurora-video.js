@@ -1,6 +1,6 @@
 'use strict';
 
-/* Codebuff — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion (rounds 1-3).
+/* Codebuff — "Aurora": a soft aurora-borealis video-platform theme, style-set expansion (rounds 1-4).
    Every snippet shares the same design tokens so the set reads as one product:
      --aur-g   #7cf5c0   aurora green   (primary)
      --aur-t   #4fd8d4   borealis teal  (secondary)
@@ -742,6 +742,209 @@ window.DESIGN_LAB.items.push(
       <button class="amo17-btn amo17-btn--go">Start render</button>
     </div>
   </div>
+</div>`
+  },
+
+  {
+    id: "ST6",
+    section: "steps",
+    set: "aurora",
+    name: "Aurora Pipeline Steps",
+    description: "Four-stage render tracker with pulsing active ring.",
+    creator: "codebuff",
+    tags: ["steps", "pipeline", "tracker", "wizard", "render", "progress", "aurora"],
+    code: `<style>
+  .ast6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    display:inline-flex;flex-direction:column;gap:14px;padding:18px 20px 15px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .ast6::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:ast6-wash 5.5s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 88% 0%,rgba(79,216,212,.15),transparent 70%)}
+  @keyframes ast6-wash{from{opacity:.3}to{opacity:.65}}
+  .ast6-steps{position:relative;z-index:1;display:flex;align-items:flex-start}
+  .ast6-step{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px;flex:1}
+  .ast6-step + .ast6-step::before{content:"";position:absolute;top:14px;left:-50%;width:100%;height:2px;background:rgba(165,214,200,.16)}
+  .ast6-step--done + .ast6-step::before{background:linear-gradient(90deg,#7cf5c0,#4fd8d4)}
+  .ast6-dot{position:relative;z-index:1;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+    background:linear-gradient(180deg,rgba(26,44,56,.98),rgba(15,27,36,.98));border:1px solid rgba(165,214,200,.25)}
+  .ast6-dot svg{width:12px;height:12px}
+  .ast6-step--done .ast6-dot{background:linear-gradient(135deg,#7cf5c0,#4fd8d4 60%,#a89bf7);border-color:transparent;color:#07150f}
+  .ast6-step--active .ast6-dot{border-color:rgba(124,245,192,.65)}
+  .ast6-step--active .ast6-dot::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(124,245,192,.55);animation:ast6-ping 1.8s ease-out infinite}
+  @keyframes ast6-ping{from{transform:scale(.8);opacity:.8}to{transform:scale(1.4);opacity:0}}
+  .ast6-step--active .ast6-dot i{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,#7cf5c0,#4fd8d4 60%,#a89bf7);box-shadow:0 0 8px rgba(124,245,192,.8)}
+  .ast6-lbl{font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--aur-dim)}
+  .ast6-step--active .ast6-lbl{color:var(--aur-txt)}
+  .ast6-step--done .ast6-lbl{color:#bfffe3}
+  .ast6-cap{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:7px;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--aur-dim)}
+  .ast6-cap i{width:5px;height:5px;border-radius:50%;background:var(--aur-g);box-shadow:0 0 6px rgba(124,245,192,.9)}
+  @media (prefers-reduced-motion:reduce){.ast6::before,.ast6-step--active .ast6-dot::after{animation:none}}
+</style>
+<div class="ast6">
+  <div class="ast6-steps">
+    <div class="ast6-step ast6-step--done">
+      <span class="ast6-dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+      <span class="ast6-lbl">Prompt</span>
+    </div>
+    <div class="ast6-step ast6-step--active">
+      <span class="ast6-dot"><i></i></span>
+      <span class="ast6-lbl">Generate</span>
+    </div>
+    <div class="ast6-step">
+      <span class="ast6-dot"></span>
+      <span class="ast6-lbl">Review</span>
+    </div>
+    <div class="ast6-step">
+      <span class="ast6-dot"></span>
+      <span class="ast6-lbl">Export</span>
+    </div>
+  </div>
+  <div class="ast6-cap"><i></i>Step 2 of 4 · Rendering</div>
+</div>`
+  },
+
+  {
+    id: "EM8",
+    section: "empty",
+    set: "aurora",
+    name: "Aurora Empty State",
+    description: "No-renders-yet panel with film glyph and start CTA.",
+    creator: "codebuff",
+    tags: ["empty", "state", "no-renders", "first-run", "placeholder", "zero-data", "aurora"],
+    code: `<style>
+  .aem8{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:330px;padding:34px 24px 30px;border-radius:18px;position:relative;overflow:hidden;text-align:center;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .aem8::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:aem8-wash 5.5s ease-in-out infinite alternate;
+    background:radial-gradient(130px 90px at 85% 0%,rgba(168,155,247,.14),transparent 70%),
+               radial-gradient(110px 70px at 10% 100%,rgba(124,245,192,.13),transparent 70%)}
+  @keyframes aem8-wash{from{opacity:.3}to{opacity:.65}}
+  .aem8-ico{position:relative;z-index:1;width:58px;height:58px;margin:0 auto 15px;border-radius:19px;display:grid;place-items:center;color:#d9fff0;
+    background:linear-gradient(135deg,rgba(124,245,192,.16),rgba(79,216,212,.09));border:1px solid rgba(124,245,192,.32);
+    box-shadow:0 0 24px rgba(124,245,192,.12)}
+  .aem8-ico svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+  .aem8-title{position:relative;z-index:1;font-size:13.5px;font-weight:700}
+  .aem8-sub{position:relative;z-index:1;font-size:10.5px;line-height:1.6;color:var(--aur-dim);margin:6px auto 16px;max-width:230px}
+  .aem8-btn{position:relative;z-index:1;display:inline-flex;align-items:center;gap:7px;padding:10px 18px;border-radius:12px;font-size:11.5px;font-weight:700;cursor:pointer;color:#07150f;
+    background:linear-gradient(115deg,#7cf5c0,#4fd8d4 55%,#a89bf7);border:0;box-shadow:0 6px 18px rgba(79,216,212,.26);transition:transform .16s ease}
+  .aem8-btn:hover{transform:translateY(-1px)}
+  .aem8-btn svg{width:12px;height:12px}
+  @media (prefers-reduced-motion:reduce){.aem8::before{animation:none}.aem8-btn{transition:none}}
+</style>
+<div class="aem8">
+  <span class="aem8-ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 8.5h18M3 15.5h18M8.5 4v4.5M15.5 4v4.5M8.5 15.5V20M15.5 15.5V20"/></svg></span>
+  <div class="aem8-title">No renders yet</div>
+  <p class="aem8-sub">Your generated clips will appear here. Describe a scene and start your first render.</p>
+  <button class="aem8-btn"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2.6c.7 5.2 2.9 7.4 8 8.1-5.1.7-7.3 2.9-8 8.1-.7-5.2-2.9-7.4-8-8.1 5.1-.7 7.3-2.9 8-8.1z"/></svg>Start your first render</button>
+</div>`
+  },
+
+  {
+    id: "FD6",
+    section: "feeds",
+    set: "aurora",
+    name: "Aurora Render History",
+    description: "Job feed with mini thumbnails and status chips.",
+    creator: "codebuff",
+    tags: ["feed", "history", "activity", "render", "jobs", "status", "aurora"],
+    code: `<style>
+  .afd6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    width:360px;padding:14px 16px 10px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .afd6::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:afd6-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(120px 80px at 90% 0%,rgba(79,216,212,.14),transparent 70%)}
+  @keyframes afd6-wash{from{opacity:.3}to{opacity:.65}}
+  .afd6-head{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+  .afd6-title{font-size:11.5px;font-weight:700}
+  .afd6-link{font-size:9.5px;font-weight:600;color:#bfffe3;cursor:pointer;background:none;border:0;padding:0;font-family:inherit}
+  .afd6-row{position:relative;z-index:1;display:flex;align-items:center;gap:11px;padding:9px 0;border-bottom:1px solid rgba(165,214,200,.1)}
+  .afd6-row:last-child{border-bottom:0}
+  .afd6-thumb{width:38px;height:38px;border-radius:10px;flex:none;display:grid;place-items:center;color:#eafff6;overflow:hidden;
+    background:radial-gradient(24px 16px at 70% 30%,rgba(124,245,192,.85),transparent 70%),
+               radial-gradient(30px 18px at 20% 0%,rgba(79,216,212,.4),transparent 70%),
+               linear-gradient(180deg,#14252f,#0d1a24)}
+  .afd6-thumb svg{width:11px;height:11px}
+  .afd6-thumb--fail{filter:grayscale(.5) brightness(.85);color:#f0c9c9}
+  .afd6-txt{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}
+  .afd6-name{font-size:11px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .afd6-meta{font-size:9.5px;color:var(--aur-dim);font-variant-numeric:tabular-nums}
+  .afd6-chip{padding:3px 8px;border-radius:999px;font-size:8.5px;font-weight:700;letter-spacing:.08em;flex:none;color:#bfffe3;
+    background:linear-gradient(135deg,rgba(124,245,192,.14),rgba(79,216,212,.08));border:1px solid rgba(124,245,192,.3)}
+  .afd6-chip--bad{color:#f0c9c9;background:rgba(245,170,170,.08);border-color:rgba(245,170,170,.3)}
+  .afd6-chip--dim{color:#8fa8a2;border-style:dashed}
+  @media (prefers-reduced-motion:reduce){.afd6::before{animation:none}}
+</style>
+<div class="afd6">
+  <div class="afd6-head"><span class="afd6-title">History</span><button class="afd6-link">View all</button></div>
+  <div class="afd6-row">
+    <span class="afd6-thumb"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+    <div class="afd6-txt"><span class="afd6-name">Aurora Bloom — 042</span><span class="afd6-meta">LTX · 2K · done · 2h ago</span></div>
+    <span class="afd6-chip">Done</span>
+  </div>
+  <div class="afd6-row">
+    <span class="afd6-thumb"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+    <div class="afd6-txt"><span class="afd6-name">Night Drive — 041</span><span class="afd6-meta">WAN · 4K · done · yesterday</span></div>
+    <span class="afd6-chip">Done</span>
+  </div>
+  <div class="afd6-row">
+    <span class="afd6-thumb afd6-thumb--fail"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+    <div class="afd6-txt"><span class="afd6-name">Ember Tides — 040</span><span class="afd6-meta">H3 · 2K · failed · 2d ago</span></div>
+    <span class="afd6-chip afd6-chip--bad">Failed</span>
+  </div>
+  <div class="afd6-row">
+    <span class="afd6-thumb"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5v13l11-6.5z"/></svg></span>
+    <div class="afd6-txt"><span class="afd6-name">Glass City — 039</span><span class="afd6-meta">LTX · 2K · queued</span></div>
+    <span class="afd6-chip afd6-chip--dim">Queued</span>
+  </div>
+</div>`
+  },
+
+  {
+    id: "AV6",
+    section: "avatars",
+    set: "aurora",
+    name: "Aurora Creator Stacks",
+    description: "Overlapping gradient-initial avatars with overflow count.",
+    creator: "codebuff",
+    tags: ["avatars", "stack", "team", "initials", "presence", "aurora"],
+    code: `<style>
+  .aav6{--aur-g:#7cf5c0;--aur-t:#4fd8d4;--aur-v:#a89bf7;--aur-txt:#e6f5ef;--aur-dim:#9db8b0;
+    font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+    display:inline-flex;flex-direction:column;gap:11px;padding:17px 19px;border-radius:16px;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,rgba(21,35,44,.88),rgba(10,19,26,.94));
+    border:1px solid rgba(124,245,192,.2);color:var(--aur-txt)}
+  .aav6::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.45;animation:aav6-wash 6s ease-in-out infinite alternate;
+    background:radial-gradient(110px 70px at 88% 0%,rgba(168,155,247,.14),transparent 70%),
+               radial-gradient(100px 70px at 8% 100%,rgba(124,245,192,.12),transparent 70%)}
+  @keyframes aav6-wash{from{opacity:.3}to{opacity:.65}}
+  .aav6-stack{position:relative;z-index:1;display:flex;align-items:center}
+  .aav6-av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:700;letter-spacing:.02em;
+    color:#07150f;border:2px solid #0e1921;box-shadow:0 0 0 1px rgba(124,245,192,.25)}
+  .aav6-av + .aav6-av{margin-left:-9px}
+  .aav6-av--g{background:linear-gradient(135deg,#7cf5c0,#4fd8d4)}
+  .aav6-av--t{background:linear-gradient(135deg,#4fd8d4,#a89bf7)}
+  .aav6-av--v{background:linear-gradient(135deg,#a89bf7,#7cf5c0)}
+  .aav6-av--dim{background:linear-gradient(135deg,#2a3f4c,#1b2c38);color:#cfe9e0;border-color:rgba(124,245,192,.35)}
+  .aav6-more{width:34px;height:34px;margin-left:-9px;border-radius:50%;display:grid;place-items:center;font-size:9.5px;font-weight:700;color:#bfffe3;
+    background:rgba(124,245,192,.08);border:2px solid #0e1921;box-shadow:0 0 0 1px rgba(124,245,192,.25)}
+  .aav6-cap{position:relative;z-index:1;font-size:10px;color:var(--aur-dim)}
+  .aav6-cap b{color:#bfffe3;font-weight:600}
+  @media (prefers-reduced-motion:reduce){.aav6::before{animation:none}}
+</style>
+<div class="aav6">
+  <div class="aav6-stack">
+    <span class="aav6-av aav6-av--g">AV</span>
+    <span class="aav6-av aav6-av--t">MK</span>
+    <span class="aav6-av aav6-av--v">LN</span>
+    <span class="aav6-av aav6-av--dim">SO</span>
+    <span class="aav6-more">+3</span>
+  </div>
+  <div class="aav6-cap">Rendered by <b>your team</b> · 4 active creators</div>
 </div>`
   }
 );
